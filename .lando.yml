@@ -1,0 +1,45 @@
+name: me-mudei-api
+proxy:
+  api:
+    - memudei-api.lndo.site:80
+
+services:
+  api:
+    type: node:14
+    app_mount: false
+    scanner: false
+    ssl: true
+    port: 80
+    build_as_root:
+      - apt-get update -y
+      - apt-get install -y jq
+    build:
+      - npm i -g nodemon
+      - npm i -g yarn
+    run:
+      - yarn deploy:prisma
+    command:
+      - yarn dev
+    overrides:
+      environment:
+        DATABASE_URL: postgres://postgres@pg:5432/database
+        BASE_URL: https://memudei-api.lndo.site
+        PORT: 80
+      ports:
+        - 9230:9230
+      depends_on:
+        - pg
+      volumes:
+        - ./:/app/
+
+  # pg service is a  PostrgresSQL database
+  pg:
+    build_as_root:
+      - chmod -R 777 /tmp
+    type: postgres:13
+    # can be accessed through the host at http://localhost:11996
+    portforward: 7892
+
+events:
+  pre-start:
+    - pg: rm -f /tmp/.s.PGSQL.5432.lock || true
