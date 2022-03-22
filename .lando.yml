@@ -14,7 +14,6 @@ services:
       - apt-get update -y
       - apt-get install -y jq
     build:
-      - npm i -g nodemon
       - npm i -g yarn
     run:
       - yarn deploy:prisma
@@ -30,7 +29,7 @@ services:
       depends_on:
         - pg
       volumes:
-        - ./:/app/
+        - ./:/app
 
   # pg service is a  PostrgresSQL database
   pg:

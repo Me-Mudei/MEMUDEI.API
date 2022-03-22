@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient();
-
-export type Context = {
+export default class Context {
   prisma: PrismaClient;
-};
 
-export const createContext = () => ({ prisma });
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
+}

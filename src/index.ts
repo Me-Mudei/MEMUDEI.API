@@ -1,11 +1,7 @@
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { ApolloServer } from 'apollo-server';
-import schema from './infra/graphql/schema';
-import { createContext } from './infra/graphql/context';
+import NexusSchemaAdapter from './infra/schema/NexusSchemaAdapter';
+import ApolloServerAdapter from './infra/graphql/ApolloServerAdapter';
+import Context from './infra/graphql/Context';
 
-const server = new ApolloServer({
-  schema,
-  context: createContext,
-});
-
-server.listen({ port: process.env.PORT || 4000 });
+const schema = new NexusSchemaAdapter();
+const server = new ApolloServerAdapter(schema.getSchema(), new Context());
+server.listen(process.env.PORT || 4000);
