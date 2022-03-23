@@ -4,18 +4,15 @@ export const User = objectType({
   name: 'User',
   definition(t) {
     t.nonNull.string('id');
-    t.nonNull.string('name');
-    t.nonNull.string('email');
-    t.nonNull.string('id');
-    t.nonNull.string('email');
-    t.nonNull.string('phone');
     t.nonNull.string('cpf');
     t.nonNull.string('name');
-    t.nonNull.string('password');
-    t.boolean('email_is_confirmed');
-    t.nonNull.string('gender');
-    t.string('description');
+    t.nonNull.string('email');
+    t.nonNull.string('phone');
     t.nonNull.date('born');
+    t.nonNull.string('gender');
+    t.nonNull.string('password');
+    t.string('description');
+    t.boolean('email_is_confirmed');
     t.nonNull.string('role_id');
     t.field('Role', { type: 'Role' });
     t.date('disabled_at');

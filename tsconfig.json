@@ -3,6 +3,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "esModuleInterop": true,
+    "downlevelIteration": true,
     "lib": ["esnext"],
     "strict": true
   },
