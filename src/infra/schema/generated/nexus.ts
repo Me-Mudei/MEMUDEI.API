@@ -65,6 +65,24 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  FindUserOutput: { // root type
+    born?: string | null; // String
+    cpf: string; // String!
+    createdAt?: string | null; // String
+    deletedAt?: string | null; // String
+    description?: string | null; // String
+    disabledAt?: string | null; // String
+    email: string; // String!
+    emailIsConfirmed: boolean; // Boolean!
+    gender: NexusGenEnums['GenderType']; // GenderType!
+    id: string; // String!
+    name: string; // String!
+    password: string; // String!
+    permissionId?: string | null; // String
+    phone: string; // String!
+    roleId?: string | null; // String
+    updatedAt?: string | null; // String
+  }
   Mutation: {};
   MutationOutput: { // root type
     message?: string | null; // String
@@ -84,6 +102,24 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  FindUserOutput: { // field return type
+    born: string | null; // String
+    cpf: string; // String!
+    createdAt: string | null; // String
+    deletedAt: string | null; // String
+    description: string | null; // String
+    disabledAt: string | null; // String
+    email: string; // String!
+    emailIsConfirmed: boolean; // Boolean!
+    gender: NexusGenEnums['GenderType']; // GenderType!
+    id: string; // String!
+    name: string; // String!
+    password: string; // String!
+    permissionId: string | null; // String
+    phone: string; // String!
+    roleId: string | null; // String
+    updatedAt: string | null; // String
+  }
   Mutation: { // field return type
     createUser: NexusGenRootTypes['MutationOutput'] | null; // MutationOutput
   }
@@ -92,11 +128,29 @@ export interface NexusGenFieldTypes {
     status: string | null; // String
   }
   Query: { // field return type
-    ok: boolean; // Boolean!
+    findUser: NexusGenRootTypes['FindUserOutput'] | null; // FindUserOutput
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  FindUserOutput: { // field return type name
+    born: 'String'
+    cpf: 'String'
+    createdAt: 'String'
+    deletedAt: 'String'
+    description: 'String'
+    disabledAt: 'String'
+    email: 'String'
+    emailIsConfirmed: 'Boolean'
+    gender: 'GenderType'
+    id: 'String'
+    name: 'String'
+    password: 'String'
+    permissionId: 'String'
+    phone: 'String'
+    roleId: 'String'
+    updatedAt: 'String'
+  }
   Mutation: { // field return type name
     createUser: 'MutationOutput'
   }
@@ -105,7 +159,7 @@ export interface NexusGenFieldTypeNames {
     status: 'String'
   }
   Query: { // field return type name
-    ok: 'Boolean'
+    findUser: 'FindUserOutput'
   }
 }
 
@@ -113,6 +167,11 @@ export interface NexusGenArgTypes {
   Mutation: {
     createUser: { // args
       input: NexusGenInputs['CreateUserInput']; // CreateUserInput!
+    }
+  }
+  Query: {
+    findUser: { // args
+      id: string; // String!
     }
   }
 }

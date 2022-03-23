@@ -1,6 +1,6 @@
 import { mutationType, nonNull } from 'nexus';
 import CreateUser from '../../../app/usecase/create_user/CreateUser';
-import UserPrismaRepository from '../../repository/UserPrismaRepository';
+import PrismaRepositoryFactory from '../../factory/PrismaRepositoryFactory';
 
 export default mutationType({
   definition(t) {
@@ -10,7 +10,7 @@ export default mutationType({
         input: nonNull('CreateUserInput'),
       },
       resolve: (_, { input }, ctx) => {
-        const createUser = new CreateUser(new UserPrismaRepository(ctx.db));
+        const createUser = new CreateUser(new PrismaRepositoryFactory(ctx.db));
         return createUser.execute(input);
       },
     });

@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import CreateUser from '../../../src/app/usecase/create_user/CreateUser';
 import { CreateUserInput } from '../../../src/app/usecase/create_user/ICreateUser';
+import FindUser from '../../../src/app/query/find_user/FindUser';
 import PrismaRepositoryFactory from '../../../src/infra/factory/PrismaRepositoryFactory';
+import PrismaDAOFactory from '../../../src/infra/factory/PrismaDAOFactory';
 import PrismaTestContext from '../../__helpers';
 
 let db: PrismaClient;
@@ -11,17 +13,17 @@ beforeEach(async () => {
   db = await prismaCtx.before();
 });
 
-test('Should be able to create a user', async () => {
-  const user = new CreateUser(new PrismaRepositoryFactory(db));
+test('Should find user by unique constraint', async () => {
+  const userCreated = new CreateUser(new PrismaRepositoryFactory(db));
   const input: CreateUserInput = {
     name: 'John Doe',
-    email: 'jhon.doe@mail.com',
-    phone: '+5511999999999',
+    email: 'jhon.doe@mail.co',
+    phone: '+5511999999998',
     born: '2020-01-01',
-    cpf: '04513038578',
+    cpf: '53392035653',
     gender: 'M',
     password: '123455',
-    roleName: 'LESSEE',
+    roleName: 'LESSOR',
     address: {
       street: 'Rua dos bobos',
       number: '123',
@@ -31,8 +33,11 @@ test('Should be able to create a user', async () => {
       complement: 'Complemento',
     },
   };
-  const result = await user.execute(input);
-  expect(result.status).toBe('USER_CREATED');
+  await userCreated.execute(input);
+
+  const user = new FindUser(new PrismaDAOFactory(db));
+  const output = await user.execute({ email: 'jhon.doe@mail.co' });
+  expect(!!output.id).toBeTruthy();
 });
 
 afterEach(async () => {

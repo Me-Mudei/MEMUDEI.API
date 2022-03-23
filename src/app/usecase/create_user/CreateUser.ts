@@ -1,11 +1,15 @@
 import Address from '../../../domain/entity/Address';
 import User from '../../../domain/entity/User';
+import RepositoryFactory from '../../../domain/factory/RepositoryFactory';
 import UserRepository from '../../../domain/repository/UserRepository';
 import BrasilApiValidateCepAdapter from '../../../infra/service/validate_cep/BrasilApiValidateCepAdapter';
 import { CreateUserInput, CreateUserOutput } from './ICreateUser';
 
 export default class CreateUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  userRepository: UserRepository;
+  constructor(readonly repositoryFactory: RepositoryFactory) {
+    this.userRepository = repositoryFactory.createUserRepository();
+  }
 
   async execute(input: CreateUserInput): Promise<CreateUserOutput> {
     const address = new Address(
