@@ -1,13 +1,18 @@
 import Address from '../../../domain/entity/Address';
 import User from '../../../domain/entity/User';
+import UserCreated from '../../../domain/event/UserCreated';
 import RepositoryFactory from '../../../domain/factory/RepositoryFactory';
 import UserRepository from '../../../domain/repository/UserRepository';
+import Broker from '../../../infra/broker/Broker';
 import BrasilApiValidateCepAdapter from '../../../infra/service/validate_cep/BrasilApiValidateCepAdapter';
 import { CreateUserInput, CreateUserOutput } from './ICreateUser';
 
 export default class CreateUser {
   userRepository: UserRepository;
-  constructor(readonly repositoryFactory: RepositoryFactory) {
+  constructor(
+    readonly repositoryFactory: RepositoryFactory,
+    readonly broker: Broker
+  ) {
     this.userRepository = repositoryFactory.createUserRepository();
   }
 
@@ -38,6 +43,7 @@ export default class CreateUser {
       status: 'USER_CREATED',
       message: 'User created successfully',
     };
+    await this.broker.publish(new UserCreated(user));
     return output;
   }
 }

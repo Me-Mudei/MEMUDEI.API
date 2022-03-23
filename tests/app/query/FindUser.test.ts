@@ -5,16 +5,24 @@ import FindUser from '../../../src/app/query/find_user/FindUser';
 import PrismaRepositoryFactory from '../../../src/infra/factory/PrismaRepositoryFactory';
 import PrismaDAOFactory from '../../../src/infra/factory/PrismaDAOFactory';
 import PrismaTestContext from '../../__helpers';
+import NodeMailerMailClientAdapter from '../../../src/infra/mail_client/NodeMailerMailClientAdapter';
+import Broker from '../../../src/infra/broker/Broker';
+import UserCreatedSendConfirmationHandler from '../../../src/app/handler/UserCreatedSendConfirmationHandler';
 
 let db: PrismaClient;
 const prismaCtx = new PrismaTestContext();
+let userCreated: CreateUser;
 
 beforeEach(async () => {
   db = await prismaCtx.before();
+  const repositoryFactory = new PrismaRepositoryFactory(db);
+  const mailClient = new NodeMailerMailClientAdapter();
+  const broker = new Broker();
+  broker.register(new UserCreatedSendConfirmationHandler(mailClient));
+  userCreated = new CreateUser(repositoryFactory, broker);
 });
 
 test('Should find user by unique constraint', async () => {
-  const userCreated = new CreateUser(new PrismaRepositoryFactory(db));
   const input: CreateUserInput = {
     name: 'John Doe',
     email: 'jhon.doe@mail.co',
