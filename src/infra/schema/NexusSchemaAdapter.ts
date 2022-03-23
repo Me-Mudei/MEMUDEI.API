@@ -1,7 +1,7 @@
 import { makeSchema } from 'nexus';
 import Schema from './Schema';
-import * as types from './nexusTypes';
 import { GraphQLSchema } from 'graphql';
+import * as types from './types';
 
 export default class NexusSchemaAdapter implements Schema {
   schema: GraphQLSchema;
@@ -13,7 +13,7 @@ export default class NexusSchemaAdapter implements Schema {
   }
   private makeSchema() {
     return makeSchema({
-      types: types,
+      types,
       outputs: {
         schema: __dirname + '/../../../../schema.graphql',
         typegen: __dirname + '/generated/nexus.ts',

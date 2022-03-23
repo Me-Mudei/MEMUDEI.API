@@ -3,17 +3,15 @@
  * Do not make changes to this file directly
  */
 
-import type { Context } from './../../graphql/context';
-import type { core } from 'nexus';
+
+import type { Context } from "./../../graphql/context"
+import type { core } from "nexus"
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
     /**
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
-    date<FieldName extends string>(
-      fieldName: FieldName,
-      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
-    ): void; // "DateTime";
+    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
   }
 }
 declare global {
@@ -21,228 +19,115 @@ declare global {
     /**
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
-    date<FieldName extends string>(
-      fieldName: FieldName,
-      ...opts: core.ScalarOutSpread<TypeName, FieldName>
-    ): void; // "DateTime";
+    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
   }
 }
+
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
 }
 
-export interface NexusGenInputs {}
+export interface NexusGenInputs {
+  AddressInput: { // input type
+    complement?: string | null; // String
+    country: string; // String!
+    neighborhood?: string | null; // String
+    number: string; // String!
+    street: string; // String!
+    zipCode: string; // String!
+  }
+  CreateUserInput: { // input type
+    address: NexusGenInputs['AddressInput']; // AddressInput!
+    born: string; // String!
+    cpf: string; // String!
+    description?: string | null; // String
+    email: string; // String!
+    gender: NexusGenEnums['GenderType']; // GenderType!
+    name: string; // String!
+    password: string; // String!
+    phone: string; // String!
+    roleName: string; // String!
+  }
+}
 
-export interface NexusGenEnums {}
+export interface NexusGenEnums {
+  GenderType: "F" | "M"
+}
 
 export interface NexusGenScalars {
-  String: string;
-  Int: number;
-  Float: number;
-  Boolean: boolean;
-  ID: string;
-  DateTime: any;
+  String: string
+  Int: number
+  Float: number
+  Boolean: boolean
+  ID: string
+  DateTime: any
 }
 
 export interface NexusGenObjects {
-  Address: {
-    // root type
-    city: string; // String!
-    complement?: string | null; // String
-    id: string; // String!
-    location: NexusGenRootTypes['Location']; // Location!
-    neighborhood?: string | null; // String
-    number: string; // String!
-    state: string; // String!
-    street: string; // String!
-    zip_code: string; // String!
-  };
-  Location: {
-    // root type
-    id: string; // String!
-    latitude: string; // String!
-    longitude: string; // String!
-  };
   Mutation: {};
+  MutationOutput: { // root type
+    message?: string | null; // String
+    status?: string | null; // String
+  }
   Query: {};
-  Role: {
-    // root type
-    description?: string | null; // String
-    id: string; // String!
-    name: string; // String!
-  };
-  User: {
-    // root type
-    Address: string; // String!
-    Role?: NexusGenRootTypes['Role'] | null; // Role
-    born: NexusGenScalars['DateTime']; // DateTime!
-    cpf: string; // String!
-    created_at: NexusGenScalars['DateTime']; // DateTime!
-    deleted_at?: NexusGenScalars['DateTime'] | null; // DateTime
-    description?: string | null; // String
-    disabled_at?: NexusGenScalars['DateTime'] | null; // DateTime
-    email: string; // String!
-    email_is_confirmed?: boolean | null; // Boolean
-    gender: string; // String!
-    id: string; // String!
-    name: string; // String!
-    password: string; // String!
-    phone: string; // String!
-    role_id: string; // String!
-    updated_at?: NexusGenScalars['DateTime'] | null; // DateTime
-  };
 }
 
-export interface NexusGenInterfaces {}
+export interface NexusGenInterfaces {
+}
 
-export interface NexusGenUnions {}
+export interface NexusGenUnions {
+}
 
-export type NexusGenRootTypes = NexusGenObjects;
+export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars;
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  Address: {
-    // field return type
-    city: string; // String!
-    complement: string | null; // String
-    id: string; // String!
-    location: NexusGenRootTypes['Location']; // Location!
-    neighborhood: string | null; // String
-    number: string; // String!
-    state: string; // String!
-    street: string; // String!
-    zip_code: string; // String!
-  };
-  Location: {
-    // field return type
-    id: string; // String!
-    latitude: string; // String!
-    longitude: string; // String!
-  };
-  Mutation: {
-    // field return type
-    createUser: NexusGenRootTypes['User'] | null; // User
-  };
-  Query: {
-    // field return type
-    findUserById: Array<NexusGenRootTypes['User'] | null> | null; // [User]
-  };
-  Role: {
-    // field return type
-    description: string | null; // String
-    id: string; // String!
-    name: string; // String!
-  };
-  User: {
-    // field return type
-    Address: string; // String!
-    Role: NexusGenRootTypes['Role'] | null; // Role
-    born: NexusGenScalars['DateTime']; // DateTime!
-    cpf: string; // String!
-    created_at: NexusGenScalars['DateTime']; // DateTime!
-    deleted_at: NexusGenScalars['DateTime'] | null; // DateTime
-    description: string | null; // String
-    disabled_at: NexusGenScalars['DateTime'] | null; // DateTime
-    email: string; // String!
-    email_is_confirmed: boolean | null; // Boolean
-    gender: string; // String!
-    id: string; // String!
-    name: string; // String!
-    password: string; // String!
-    phone: string; // String!
-    role_id: string; // String!
-    updated_at: NexusGenScalars['DateTime'] | null; // DateTime
-  };
+  Mutation: { // field return type
+    createUser: NexusGenRootTypes['MutationOutput'] | null; // MutationOutput
+  }
+  MutationOutput: { // field return type
+    message: string | null; // String
+    status: string | null; // String
+  }
+  Query: { // field return type
+    ok: boolean; // Boolean!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
-  Address: {
-    // field return type name
-    city: 'String';
-    complement: 'String';
-    id: 'String';
-    location: 'Location';
-    neighborhood: 'String';
-    number: 'String';
-    state: 'String';
-    street: 'String';
-    zip_code: 'String';
-  };
-  Location: {
-    // field return type name
-    id: 'String';
-    latitude: 'String';
-    longitude: 'String';
-  };
-  Mutation: {
-    // field return type name
-    createUser: 'User';
-  };
-  Query: {
-    // field return type name
-    findUserById: 'User';
-  };
-  Role: {
-    // field return type name
-    description: 'String';
-    id: 'String';
-    name: 'String';
-  };
-  User: {
-    // field return type name
-    Address: 'String';
-    Role: 'Role';
-    born: 'DateTime';
-    cpf: 'String';
-    created_at: 'DateTime';
-    deleted_at: 'DateTime';
-    description: 'String';
-    disabled_at: 'DateTime';
-    email: 'String';
-    email_is_confirmed: 'Boolean';
-    gender: 'String';
-    id: 'String';
-    name: 'String';
-    password: 'String';
-    phone: 'String';
-    role_id: 'String';
-    updated_at: 'DateTime';
-  };
+  Mutation: { // field return type name
+    createUser: 'MutationOutput'
+  }
+  MutationOutput: { // field return type name
+    message: 'String'
+    status: 'String'
+  }
+  Query: { // field return type name
+    ok: 'Boolean'
+  }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createUser: {
-      // args
-      born: string; // String!
-      cpf: string; // String!
-      description?: string | null; // String
-      email: string; // String!
-      gender: string; // String!
-      name: string; // String!
-      password: string; // String!
-      phone: string; // String!
-    };
-  };
-  Query: {
-    findUserById: {
-      // args
-      id?: string | null; // String
-    };
-  };
+    createUser: { // args
+      input: NexusGenInputs['CreateUserInput']; // CreateUserInput!
+    }
+  }
 }
 
-export interface NexusGenAbstractTypeMembers {}
+export interface NexusGenAbstractTypeMembers {
+}
 
-export interface NexusGenTypeInterfaces {}
+export interface NexusGenTypeInterfaces {
+}
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 
@@ -256,11 +141,11 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
-    isTypeOf: false;
-    resolveType: true;
-    __typename: false;
-  };
-};
+    isTypeOf: false
+    resolveType: true
+    __typename: false
+  }
+}
 
 export interface NexusGenTypes {
   context: Context;
@@ -278,19 +163,9 @@ export interface NexusGenTypes {
   interfaceNames: NexusGenInterfaceNames;
   scalarNames: NexusGenScalarNames;
   unionNames: NexusGenUnionNames;
-  allInputTypes:
-    | NexusGenTypes['inputNames']
-    | NexusGenTypes['enumNames']
-    | NexusGenTypes['scalarNames'];
-  allOutputTypes:
-    | NexusGenTypes['objectNames']
-    | NexusGenTypes['enumNames']
-    | NexusGenTypes['unionNames']
-    | NexusGenTypes['interfaceNames']
-    | NexusGenTypes['scalarNames'];
-  allNamedTypes:
-    | NexusGenTypes['allInputTypes']
-    | NexusGenTypes['allOutputTypes'];
+  allInputTypes: NexusGenTypes['inputNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['scalarNames'];
+  allOutputTypes: NexusGenTypes['objectNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['unionNames'] | NexusGenTypes['interfaceNames'] | NexusGenTypes['scalarNames'];
+  allNamedTypes: NexusGenTypes['allInputTypes'] | NexusGenTypes['allOutputTypes']
   abstractTypes: NexusGenTypes['interfaceNames'] | NexusGenTypes['unionNames'];
   abstractTypeMembers: NexusGenAbstractTypeMembers;
   objectsUsingAbstractStrategyIsTypeOf: NexusGenObjectsUsingAbstractStrategyIsTypeOf;
@@ -298,17 +173,18 @@ export interface NexusGenTypes {
   features: NexusGenFeaturesConfig;
 }
 
+
 declare global {
-  interface NexusGenPluginTypeConfig<TypeName extends string> {}
-  interface NexusGenPluginInputTypeConfig<TypeName extends string> {}
-  interface NexusGenPluginFieldConfig<
-    TypeName extends string,
-    FieldName extends string
-  > {}
-  interface NexusGenPluginInputFieldConfig<
-    TypeName extends string,
-    FieldName extends string
-  > {}
-  interface NexusGenPluginSchemaConfig {}
-  interface NexusGenPluginArgConfig {}
+  interface NexusGenPluginTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginInputTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+  }
+  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
+  }
+  interface NexusGenPluginSchemaConfig {
+  }
+  interface NexusGenPluginArgConfig {
+  }
 }

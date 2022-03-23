@@ -8,51 +8,51 @@ generator prisma_client {
 }
 
 model User {
-  id                 String     @id @default(dbgenerated("nanoid()")) @db.Char(21)
-  email              String     @unique
-  phone              String     @unique
-  cpf                String     @unique
-  name               String
-  password           String
-  email_is_confirmed Boolean    @default(false)
-  gender             String?
-  description        String?
-  born               DateTime?
-  role_id            String     @db.Char(21)
-  Role               Role       @relation(fields: [role_id], references: [id])
-  permission_id      String     @db.Char(21)
-  Permission         Permission @relation(fields: [permission_id], references: [id])
-  disabled_at        DateTime?
-  deleted_at         DateTime?
-  created_at         DateTime   @default(now())
-  updated_at         DateTime   @updatedAt
-  Address            Address[]
+  id               String      @id @default(dbgenerated("nanoid()")) @db.Char(21)
+  email            String      @unique
+  phone            String      @unique
+  cpf              String      @unique
+  name             String
+  password         String
+  emailIsConfirmed Boolean     @default(false)
+  gender           String?
+  description      String?
+  born             DateTime?
+  roleId           String      @db.Char(21)
+  Role             Role        @relation(fields: [roleId], references: [id])
+  disabledAt       DateTime?
+  deletedAt        DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  Address          Address?
+  Permission       Permission? @relation(fields: [permissionId], references: [id])
+  permissionId     String?     @db.Char(21)
 }
 
 model Address {
   id           String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-  user_id      String   @db.Char(21)
-  User         User     @relation(fields: [user_id], references: [id])
+  userId       String   @db.Char(21)@unique
+  User         User     @relation(fields: [userId], references: [id])
   street       String
   number       String?
   complement   String?
   neighborhood String?
   city         String
   state        String
-  zip_code     String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  location_id  String   @unique @db.Char(21)
-  Location     Location @relation(fields: [location_id], references: [id])
+  zipCode      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  locationId   String   @unique @db.Char(21)
+  Location     Location @relation(fields: [locationId], references: [id])
 }
 
 model Location {
-  id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-  latitude   String
-  longitude  String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  Address    Address?
+  id        String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+  latitude  String
+  longitude String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Address   Address?
 }
 
 model Role {
@@ -70,11 +70,11 @@ model Permission {
 }
 
 model File {
-  id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-  name       String
-  path       String
-  size       Int
-  mime_type  String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id        String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+  name      String
+  path      String
+  size      Int
+  mimeType  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

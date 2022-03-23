@@ -1,16 +1,13 @@
 import Address from './Address';
 import Cpf from './Cpf';
-import Permission from './Permission';
-import Role from './Role';
 
 export default class User {
-  createdAt: string;
-  updatedAt: string;
   disabledAt?: string;
   deletedAt?: string;
   emailIsConfirmed: boolean;
-  password?: string;
+  password: string;
   born: string;
+  cpf: string;
 
   constructor(
     readonly name: string,
@@ -19,17 +16,16 @@ export default class User {
     born: Date,
     readonly gender: 'M' | 'F',
     readonly address: Address,
-    readonly cpf: Cpf,
-    readonly role: Role,
+    cpf: string,
+    readonly roleName: string,
+    password: string,
     readonly externalId?: string,
-    password?: string,
-    readonly description?: string
+    readonly description?: string | null
   ) {
-    this.createdAt = new Date().toISOString();
-    this.updatedAt = new Date().toISOString();
     this.emailIsConfirmed = false;
     this.password = this.encryptPassword(password);
     this.born = born.toISOString();
+    this.cpf = new Cpf(cpf).value;
   }
 
   deleteUser() {
@@ -40,7 +36,7 @@ export default class User {
     this.disabledAt = new Date().toISOString();
   }
 
-  encryptPassword(password?: string) {
+  encryptPassword(password: string) {
     return password;
   }
 

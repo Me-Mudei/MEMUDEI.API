@@ -36,7 +36,7 @@ services:
     build_as_root:
       - chmod -R 777 /tmp
     type: postgres:13
-    # can be accessed through the host at http://localhost:11996
+    # can be accessed through the host at http://localhost:7892
     portforward: 7892
 
 events:

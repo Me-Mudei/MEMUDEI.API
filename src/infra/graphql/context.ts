@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
 export default class Context {
-  prisma: PrismaClient;
+  db: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.db = new PrismaClient();
   }
 }

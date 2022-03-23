@@ -1,9 +1,9 @@
 import Address from '../../../src/domain/entity/Address';
-import BrasilApiCep from '../../../src/infra/service/validate_cep/BrasilApiCep';
+import BrasilApiValidateCepAdapter from '../../../src/infra/service/validate_cep/BrasilApiValidateCepAdapter';
 
 test('Should be able to create an Address', () => {
   const address = new Address(
-    new BrasilApiCep(),
+    new BrasilApiValidateCepAdapter(),
     'Rua dos bobos',
     '123',
     'Brasil',
@@ -19,9 +19,9 @@ test('Should be able to create an Address', () => {
   expect(address.complement).toBe('Complemento');
 });
 
-test('Should be able to create an Address and validate zipcode', async () => {
+test('Should be able to create an Address and validate zipCode', async () => {
   const address = new Address(
-    new BrasilApiCep(),
+    new BrasilApiValidateCepAdapter(),
     'Rua dos bobos',
     '123',
     'Brasil',
@@ -29,7 +29,7 @@ test('Should be able to create an Address and validate zipcode', async () => {
     'Bairro',
     'Complemento'
   );
-  await address.validateZipCode();
+  await address.validatezipCode();
   expect(address.city).toBe('Seabra');
   expect(address.state).toBe('BA');
   expect(address.location).toMatchObject({

@@ -12,11 +12,11 @@ export default class Address {
     readonly number: string,
     readonly country: string,
     readonly zipCode: string,
-    readonly neighborhood?: string,
-    readonly complement?: string
+    readonly neighborhood?: string | null,
+    readonly complement?: string | null
   ) {}
 
-  async validateZipCode() {
+  async validatezipCode() {
     const res = await this.validateCep.validateByCep(this.zipCode);
     this.city = res.city;
     this.state = res.state;
