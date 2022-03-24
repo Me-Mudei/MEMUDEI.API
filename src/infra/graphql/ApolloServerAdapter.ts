@@ -12,7 +12,7 @@ export default class ApolloServerAdapter implements Graphql {
     this.schema = schema.getSchema();
     this.server = new ApolloServer({
       schema: this.schema,
-      context,
+      context: ({ req }) => context.getContext(req),
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     });
   }
