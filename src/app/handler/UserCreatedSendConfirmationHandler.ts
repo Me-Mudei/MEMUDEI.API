@@ -1,5 +1,4 @@
 import UserCreated from '../../domain/event/UserCreated';
-import SendMail from '../../domain/service/send_mail/SendMail';
 import MailClient from '../../infra/mail_client/MailClient';
 
 export default class UserCreatedSendConfirmationHandler {
@@ -7,8 +6,8 @@ export default class UserCreatedSendConfirmationHandler {
 
   constructor(readonly mailClient: MailClient) {}
 
-  handle(event: UserCreated): void {
-    const mail = new SendMail(
+  async handle(event: UserCreated): Promise<void> {
+    await this.mailClient.sendMail(
       {
         mail: '',
         name: '',
@@ -20,6 +19,5 @@ export default class UserCreatedSendConfirmationHandler {
       'Confirm your email',
       ''
     );
-    this.mailClient.sendMail(mail);
   }
 }

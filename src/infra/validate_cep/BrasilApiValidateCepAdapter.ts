@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { CepSuccessResponse } from '../../../domain/service/validate_cep/IValidateCep';
-import ValidateCep from '../../../domain/service/validate_cep/ValidateCep';
-import HttpClient from '../../http_client/HttpClient.';
+import HttpClient from '../http_client/HttpClient.';
+import { CepSuccessResponse } from './IValidateCep';
+import ValidateCep from './ValidateCep';
 
 export default class BrasilApiValidateCepAdapter implements ValidateCep {
   readonly httpClient = new HttpClient(

@@ -1,6 +1,6 @@
 import Address from '../../../src/domain/entity/Address';
 import User from '../../../src/domain/entity/User';
-import BrasilApiValidateCepAdapter from '../../../src/infra/service/validate_cep/BrasilApiValidateCepAdapter';
+import BrasilApiValidateCepAdapter from '../../../src/infra/validate_cep/BrasilApiValidateCepAdapter';
 
 test('Should be able to create an User', () => {
   const user = new User(
@@ -35,7 +35,7 @@ test('Should be able to create an User and validate zipCode', async () => {
     'Bairro',
     'Complemento'
   );
-  await address.validatezipCode();
+  await address.validateZipCode();
   const user = new User(
     'John Doe',
     'jhon.doe@mail.com',

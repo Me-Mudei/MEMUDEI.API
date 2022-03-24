@@ -15,7 +15,7 @@ export default class Broker {
   async publish(event: DomainEvent) {
     for (const handler of this.handlers) {
       if (handler.name === event.name) {
-        handler.handle(event);
+        await handler.handle(event);
       }
     }
   }

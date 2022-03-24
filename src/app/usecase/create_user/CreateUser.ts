@@ -4,7 +4,7 @@ import UserCreated from '../../../domain/event/UserCreated';
 import RepositoryFactory from '../../../domain/factory/RepositoryFactory';
 import UserRepository from '../../../domain/repository/UserRepository';
 import Broker from '../../../infra/broker/Broker';
-import BrasilApiValidateCepAdapter from '../../../infra/service/validate_cep/BrasilApiValidateCepAdapter';
+import BrasilApiValidateCepAdapter from '../../../infra/validate_cep/BrasilApiValidateCepAdapter';
 import { CreateUserInput, CreateUserOutput } from './ICreateUser';
 
 export default class CreateUser {
@@ -26,7 +26,7 @@ export default class CreateUser {
       input.address.neighborhood,
       input.address.complement
     );
-    await address.validatezipCode();
+    await address.validateZipCode();
     const user = new User(
       input.name,
       input.email,

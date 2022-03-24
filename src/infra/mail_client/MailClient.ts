@@ -1,5 +1,18 @@
-import SendMail from '../../domain/service/send_mail/SendMail';
-
 export default interface MailClient {
-  sendMail(mail: SendMail): Promise<void>;
+  sendMail(
+    from: {
+      mail: string;
+      name: string;
+    },
+    to: {
+      mail: string;
+      name: string;
+    },
+    subject: string,
+    message: string,
+    variables?: {
+      [key: string]: string;
+    },
+    template?: string
+  ): Promise<void>;
 }

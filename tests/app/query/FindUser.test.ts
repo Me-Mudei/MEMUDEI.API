@@ -47,7 +47,3 @@ test('Should find user by unique constraint', async () => {
   const output = await user.execute({ email: 'jhon.doe@mail.co' });
   expect(!!output.id).toBeTruthy();
 });
-
-afterEach(async () => {
-  await prismaCtx.after();
-});

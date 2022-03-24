@@ -42,7 +42,3 @@ test('Should be able to create a user', async () => {
   const result = await user.execute(input);
   expect(result.status).toBe('USER_CREATED');
 });
-
-afterEach(async () => {
-  await prismaCtx.after();
-});

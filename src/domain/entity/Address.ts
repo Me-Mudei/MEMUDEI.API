@@ -1,4 +1,4 @@
-import ValidateCep from '../service/validate_cep/ValidateCep';
+import ValidateCep from '../../infra/validate_cep/ValidateCep';
 import Location from './Location';
 
 export default class Address {
@@ -16,7 +16,7 @@ export default class Address {
     readonly complement?: string | null
   ) {}
 
-  async validatezipCode() {
+  async validateZipCode() {
     const res = await this.validateCep.validateByCep(this.zipCode);
     this.city = res.city;
     this.state = res.state;
