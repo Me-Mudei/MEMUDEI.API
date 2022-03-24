@@ -1,6 +1,7 @@
 import { mutationType, nonNull } from 'nexus';
+import UserCreatedSendConfirmationHandler from '../../../app/handler/UserCreatedSendConfirmationHandler';
 import CreateUser from '../../../app/usecase/create_user/CreateUser';
-import PrismaRepositoryFactory from '../../factory/PrismaRepositoryFactory';
+import NodeMailerMailClientAdapter from '../../mail_client/NodeMailerMailClientAdapter';
 
 export default mutationType({
   definition(t) {
@@ -10,7 +11,9 @@ export default mutationType({
         input: nonNull('CreateUserInput'),
       },
       resolve: (_, { input }, ctx) => {
-        const createUser = new CreateUser(new PrismaRepositoryFactory(ctx.db));
+        const mailClient = new NodeMailerMailClientAdapter();
+        ctx.broker.register(new UserCreatedSendConfirmationHandler(mailClient));
+        const createUser = new CreateUser(ctx.repositoryFactory, ctx.broker);
         return createUser.execute(input);
       },
     });

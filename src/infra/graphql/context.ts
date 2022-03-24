@@ -1,9 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import RepositoryFactory from '../../domain/factory/RepositoryFactory';
+import Broker from '../broker/Broker';
+import PrismaDAOFactory from '../factory/PrismaDAOFactory';
 
 export default class Context {
-  db: PrismaClient;
-
-  constructor() {
-    this.db = new PrismaClient();
-  }
+  constructor(
+    readonly repositoryFactory: RepositoryFactory,
+    readonly DAOFactory: PrismaDAOFactory,
+    readonly broker: Broker
+  ) {}
 }
