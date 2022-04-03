@@ -1,4 +1,4 @@
 node_modules/
 dist/
-src/infra/graphql/schema/generated/
+src/infra/schema/generated/
 *.env*
