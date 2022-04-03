@@ -2,7 +2,7 @@ import NexusSchemaAdapter from './infra/schema/NexusSchemaAdapter';
 //import ApolloServerAdapter from './infra/graphql/ApolloServerAdapter';
 import ApolloServerLambdaAdapter from './infra/graphql/ApolloServerLambdaAdapter';
 import { APIGatewayEvent, Callback, Context as AwsContext } from 'aws-lambda';
-import Context from './infra/graphql/Context';
+import Context from './infra/graphql/context';
 import { PrismaClient } from '@prisma/client';
 import PrismaRepositoryFactory from './infra/factory/PrismaRepositoryFactory';
 import PrismaDAOFactory from './infra/factory/PrismaDAOFactory';

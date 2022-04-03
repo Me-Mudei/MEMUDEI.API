@@ -1,5 +1,5 @@
 import { GraphQLSchema } from 'graphql';
-import Context from './Context';
+import Context from './context';
 
 export default interface Graphql {
   schema: GraphQLSchema;

@@ -19,7 +19,7 @@ export default class NexusSchemaAdapter implements Schema {
         typegen: __dirname + '../../../../generated/nexus.ts',
       },
       contextType: {
-        module: require.resolve('../graphql/Context'),
+        module: require.resolve('../graphql/context'),
         export: 'Context',
       },
       sourceTypes: {

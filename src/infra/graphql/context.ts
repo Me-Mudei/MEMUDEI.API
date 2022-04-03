@@ -1,5 +1,5 @@
 import RepositoryFactory from '../../domain/factory/RepositoryFactory';
-import Auth0 from '../auth/Auth0';
+//import Auth0 from '../auth/Auth0';
 import Broker from '../broker/Broker';
 import PrismaDAOFactory from '../factory/PrismaDAOFactory';
 
