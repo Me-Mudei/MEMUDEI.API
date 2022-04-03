@@ -9,7 +9,6 @@ export default objectType({
     t.nonNull.string('phone');
     t.nonNull.string('cpf');
     t.nonNull.string('password');
-    t.nonNull.field('gender', { type: 'GenderType' });
     t.nonNull.string('born');
     t.nonNull.boolean('emailIsConfirmed');
     t.nullable.string('description');

@@ -11,11 +11,11 @@ export default class Context {
     readonly broker: Broker
   ) {}
 
-  async getContext(req: any): Promise<Context> {
-    const token = req.headers.authorization;
-    const auth0 = new Auth0(token);
-    const decode = await auth0.validToken();
-    this.email = decode.email;
+  getContext(_req: any): Context {
+    //const token = req.headers.authorization;
+    //const auth0 = new Auth0(token);
+    //const decode = await auth0.validToken();
+    //this.email = decode.email;
     return this;
   }
 }

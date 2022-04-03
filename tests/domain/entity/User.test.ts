@@ -4,11 +4,11 @@ import BrasilApiValidateCepAdapter from '../../../src/infra/validate_cep/BrasilA
 
 test('Should be able to create an User', () => {
   const user = new User(
-    'John Doe',
     'jhon.doe@mail.com',
+    'John Doe',
+    'LESSEE',
     '011923456789',
     new Date('2000-01-01'),
-    'M',
     new Address(
       new BrasilApiValidateCepAdapter(),
       'Rua dos bobos',
@@ -19,7 +19,6 @@ test('Should be able to create an User', () => {
       'Complemento'
     ),
     '04513038578',
-    'LESSEE',
     '123456'
   );
   expect(user.name).toBe('John Doe');
@@ -37,15 +36,14 @@ test('Should be able to create an User and validate zipCode', async () => {
   );
   await address.validateZipCode();
   const user = new User(
-    'John Doe',
     'jhon.doe@mail.com',
+    'John Doe',
+    'LESSEE',
     '011923456789',
     new Date('2000-01-01'),
-    'M',
     address,
     '04513038578',
-    'LESSEE',
     '123456'
   );
-  expect(user.address.city).toBe('Seabra');
+  expect(user.address?.city).toBe('Seabra');
 });

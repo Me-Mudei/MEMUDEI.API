@@ -20,7 +20,6 @@ export default class PrismaTestContext {
     const deleteRoles = this.prismaClient!.role.deleteMany();
     const deletePermissions = this.prismaClient!.permission.deleteMany();
     const deleteLocations = this.prismaClient!.location.deleteMany();
-    const deleteFiles = this.prismaClient!.file.deleteMany();
 
     await this.prismaClient!.$transaction([
       deleteUsers,
@@ -28,7 +27,6 @@ export default class PrismaTestContext {
       deleteRoles,
       deletePermissions,
       deleteLocations,
-      deleteFiles,
     ]);
     await this.prismaClient?.$disconnect();
   }

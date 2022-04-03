@@ -32,8 +32,4 @@ test('Should be able to create an Address and validate zipCode', async () => {
   await address.validateZipCode();
   expect(address.city).toBe('Seabra');
   expect(address.state).toBe('BA');
-  expect(address.location).toMatchObject({
-    longitude: '-41.772051',
-    latitude: '-12.4172071',
-  });
 });

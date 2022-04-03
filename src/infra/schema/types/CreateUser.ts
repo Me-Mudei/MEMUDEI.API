@@ -1,9 +1,10 @@
-import { mutationType, nonNull } from 'nexus';
+import { extendType, nonNull } from 'nexus';
 import UserCreatedSendConfirmationHandler from '../../../app/handler/UserCreatedSendConfirmationHandler';
 import CreateUser from '../../../app/usecase/create_user/CreateUser';
 import NodeMailerMailClientAdapter from '../../mail_client/NodeMailerMailClientAdapter';
 
-export default mutationType({
+export default extendType({
+  type: 'Mutation',
   definition(t) {
     t.field('createUser', {
       type: 'MutationOutput',

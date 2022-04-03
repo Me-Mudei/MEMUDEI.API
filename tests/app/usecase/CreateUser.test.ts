@@ -22,22 +22,9 @@ beforeEach(async () => {
 
 test('Should be able to create a user', async () => {
   const input: CreateUserInput = {
-    name: 'John Doe',
     email: 'jhon.doe@mail.com',
-    phone: '+5511999999999',
-    born: '2020-01-01',
-    cpf: '04513038578',
-    gender: 'M',
-    password: '123455',
-    roleName: 'LESSEE',
-    address: {
-      street: 'Rua dos bobos',
-      number: '123',
-      country: 'Brasil',
-      zipCode: '46900000',
-      neighborhood: 'Bairro',
-      complement: 'Complemento',
-    },
+    name: 'John Doe',
+    roleName: 'VISITOR',
   };
   const result = await user.execute(input);
   expect(result.status).toBe('USER_CREATED');

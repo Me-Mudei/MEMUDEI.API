@@ -24,22 +24,9 @@ beforeEach(async () => {
 
 test('Should find user by unique constraint', async () => {
   const input: CreateUserInput = {
-    name: 'John Doe',
     email: 'jhon.doe@mail.co',
-    phone: '+5511999999998',
-    born: '2020-01-01',
-    cpf: '53392035653',
-    gender: 'M',
-    password: '123455',
+    name: 'John Doe',
     roleName: 'LESSOR',
-    address: {
-      street: 'Rua dos bobos',
-      number: '123',
-      country: 'Brasil',
-      zipCode: '46900000',
-      neighborhood: 'Bairro',
-      complement: 'Complemento',
-    },
   };
   await userCreated.execute(input);
 

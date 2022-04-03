@@ -6,19 +6,17 @@ import Context from './Context';
 import Graphql from './Graphql';
 
 export default class ApolloServerAdapter implements Graphql {
-  server: ApolloServer;
   schema: GraphQLSchema;
   constructor(schema: Schema, readonly context: Context) {
     this.schema = schema.getSchema();
-    this.server = new ApolloServer({
+  }
+  async listen(port: any): Promise<void> {
+    const server = new ApolloServer({
       schema: this.schema,
-      context: ({ req }) => context.getContext(req),
+      context: ({ req }) => this.context.getContext(req),
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     });
-  }
-  listen(port: any): void {
-    this.server.listen({ port }).then(({ url }) => {
-      console.log(`🚀  Server ready at ${url}`);
-    });
+    await server.listen({ port });
+    console.log(`🚀  Server ready at http://memudei-api.lndo.site/graphql`);
   }
 }

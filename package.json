@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src",
     "start": "node dist/index",
-    "test": "dotenv -e prisma/.env.test -- yarn deploy:prisma && dotenv -e prisma/.env.test jest -i",
+    "test": "dotenv -e prisma/.env.test -- npx prisma migrate reset -f && dotenv -e prisma/.env.test -- yarn deploy:prisma && dotenv -e prisma/.env.test jest -i",
     "clean": "rm -rf dist",
     "build": "yarn -s run clean && yarn -s run generate && tsc",
     "deploy": "yarn build && yarn deploy:prisma",

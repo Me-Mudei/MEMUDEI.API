@@ -37,22 +37,25 @@ export interface NexusGenInputs {
     street: string; // String!
     zipCode: string; // String!
   }
-  CreateUserInput: { // input type
+  CompleteUserInput: { // input type
     address: NexusGenInputs['AddressInput']; // AddressInput!
     born: string; // String!
     cpf: string; // String!
     description?: string | null; // String
     email: string; // String!
-    gender: NexusGenEnums['GenderType']; // GenderType!
     name: string; // String!
     password: string; // String!
     phone: string; // String!
     roleName: string; // String!
   }
+  CreateUserInput: { // input type
+    email: string; // String!
+    name: string; // String!
+    roleName: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
-  GenderType: "F" | "M"
 }
 
 export interface NexusGenScalars {
@@ -74,7 +77,6 @@ export interface NexusGenObjects {
     disabledAt?: string | null; // String
     email: string; // String!
     emailIsConfirmed: boolean; // Boolean!
-    gender: NexusGenEnums['GenderType']; // GenderType!
     id: string; // String!
     name: string; // String!
     password: string; // String!
@@ -99,7 +101,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   FindUserOutput: { // field return type
@@ -111,7 +113,6 @@ export interface NexusGenFieldTypes {
     disabledAt: string | null; // String
     email: string; // String!
     emailIsConfirmed: boolean; // Boolean!
-    gender: NexusGenEnums['GenderType']; // GenderType!
     id: string; // String!
     name: string; // String!
     password: string; // String!
@@ -121,6 +122,7 @@ export interface NexusGenFieldTypes {
     updatedAt: string | null; // String
   }
   Mutation: { // field return type
+    completeUser: NexusGenRootTypes['MutationOutput'] | null; // MutationOutput
     createUser: NexusGenRootTypes['MutationOutput'] | null; // MutationOutput
   }
   MutationOutput: { // field return type
@@ -142,7 +144,6 @@ export interface NexusGenFieldTypeNames {
     disabledAt: 'String'
     email: 'String'
     emailIsConfirmed: 'Boolean'
-    gender: 'GenderType'
     id: 'String'
     name: 'String'
     password: 'String'
@@ -152,6 +153,7 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'String'
   }
   Mutation: { // field return type name
+    completeUser: 'MutationOutput'
     createUser: 'MutationOutput'
   }
   MutationOutput: { // field return type name
@@ -165,6 +167,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    completeUser: { // args
+      input: NexusGenInputs['CompleteUserInput']; // CompleteUserInput!
+    }
     createUser: { // args
       input: NexusGenInputs['CreateUserInput']; // CreateUserInput!
     }
@@ -186,7 +191,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = keyof NexusGenEnums;
+export type NexusGenEnumNames = never;
 
 export type NexusGenInterfaceNames = never;
 

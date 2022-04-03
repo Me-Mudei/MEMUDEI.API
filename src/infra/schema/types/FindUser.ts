@@ -1,8 +1,9 @@
-import { nonNull, queryType, stringArg } from 'nexus';
+import { nonNull, extendType, stringArg } from 'nexus';
 import FindUser from '../../../app/query/find_user/FindUser';
 import PrismaDAOFactory from '../../factory/PrismaDAOFactory';
 
-export default queryType({
+export default extendType({
+  type: 'Query',
   definition(t) {
     t.field('findUser', {
       type: 'FindUserOutput',
