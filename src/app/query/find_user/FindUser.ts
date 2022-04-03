@@ -1,5 +1,5 @@
 import DAOFactory from '../../../domain/factory/DAOFactory';
-import userDAO from '../../../app/dao/userDAO';
+import userDAO from '../../dao/UserDAO';
 
 export default class FindUser {
   userDAO: userDAO;
