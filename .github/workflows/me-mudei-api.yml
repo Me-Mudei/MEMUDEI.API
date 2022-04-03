@@ -23,16 +23,12 @@ jobs:
         with:
           cmd: build # will run `yarn build` command
 
-      - uses: noliran/branch-based-secrets@v1
-        with:
-          secrets: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,TARGET_ENV
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME]}}
-          aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME]}}
-          aws-region: ${{ secrets[env.AWS_REGION_NAME]}}
+          aws-access-key-id: ${{ secrets[env.AWS_ACCESS_KEY_ID]}}
+          aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY]}}
+          aws-region: ${{ secrets[env.AWS_REGION]}}
 
       - name: deploy me-mudei api
-        run: npx serverless deploy --stage ${{ secrets[env.TARGET_ENV_NAME] }} --region ${{ secrets[env.AWS_REGION_NAME] }}
+        run: npx serverless deploy --stage ${{ secrets[env.TARGET_ENV] }} --region ${{ secrets[env.AWS_REGION] }}
