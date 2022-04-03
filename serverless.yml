@@ -1,0 +1,49 @@
+service: me-mudei
+plugins:
+  - serverless-offline
+package:
+  individually: true
+custom:
+  baseUrl:
+    local: http://memudei-api.lndo.site
+    dev: https://api-dev.memudei.me
+    prod: https://api.memudei.me
+  domains:
+    prod: api.memudei.me
+    local: memudei-api.lndo.site
+    dev: api-dev.memudei.me
+  customDomain:
+    basePath: ''
+    domainName: ${self:custom.domains.${self:provider.stage, 'dev'}}
+    stage: "${opt:stage, 'dev'}"
+    createRoute53Record: true
+    certificateName: api.memudei.me
+  nodeEnv:
+    prod: 'production'
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    NODE_ENV: ${self:custom.nodeEnv.${opt:stage}, 'development'}
+    DATABASE_URL: ${ssm:/PG_URL}
+    SLS_DEBUG: '*'
+    AUTH0_SECRET: ${ssm:/AUTH0_SECRET}
+    AUTH0_BASE_URL: ${ssm:/AUTH0_BASE_URL}
+    AUTH0_ISSUER_BASE_URL: ${ssm:/AUTH0_ISSUER_BASE_URL}
+    AUTH0_DOMAIN: ${ssm:/AUTH0_DOMAIN}
+    AUTH0_CLIENT_ID: ${ssm:/AUTH0_CLIENT_ID}
+    AUTH0_CLIENT_SECRET: ${ssm:/AUTH0_CLIENT_SECRET}
+functions:
+  api:
+    handler: src/index.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
