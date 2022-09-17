@@ -1,4 +1,4 @@
-node_modules
-dist
-generated
-*.env*
+.history/
+node_modules/
+tsconfig.tsbuildinfo
+.docker/zsh/history/.zsh_history
