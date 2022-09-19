@@ -1,6 +1,5 @@
 import { extendType, inputObjectType, nonNull, objectType } from "nexus";
-import UserCreatedSendConfirmationHandler from "../../../../@core/user/app/handlers/user-created-send-confirmation.handler";
-import CreateUser from "../../../../@core/user/app/use-cases/create-user.use-case";
+import User from "../../../../../@core/src/user";
 
 export const CreateUserInput = inputObjectType({
   name: "create_user_input",
@@ -27,10 +26,9 @@ export const UserMutations = extendType({
       args: {
         input: nonNull("create_user_input"),
       },
-      resolve: (_, { input }, ctx) => {
-        ctx.broker.register(new UserCreatedSendConfirmationHandler());
-        const createUser = new CreateUser(ctx.repositoryFactory, ctx.broker);
-        return createUser.execute(input);
+      resolve: (_, { input }, _ctx) => {
+        const user = User.create();
+        return user.create_user(input);
       },
     });
   },

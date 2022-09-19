@@ -1,5 +1,5 @@
-import Entity from "@core/@shared/domain/entity/entity";
-import UniqueEntityId from "@core/@shared/domain/value-objects/unique-entity-id.vo";
+import Entity from "@core/src/@shared/domain/entity/entity";
+import UniqueEntityId from "@core/src/@shared/domain/value-objects/unique-entity-id.vo";
 import Location from "./location.entity";
 
 export type AddressProps = {

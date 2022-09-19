@@ -1,7 +1,7 @@
 export type CreateUserInput = {
   name: string;
   email: string;
-  roleName: string;
+  role_name: string;
 };
 
 export type CreateUserOutput = {

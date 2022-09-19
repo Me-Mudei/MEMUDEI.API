@@ -1,7 +1,7 @@
 import User from "../../domain/entities/user.entity";
 import UserRepository from "../../domain/repository/user.repository";
 import PrismaConnection from "../../../@shared/infra/database/prisma";
-import UniqueEntityId from "@core/@shared/domain/value-objects/unique-entity-id.vo";
+import UniqueEntityId from "@core/src/@shared/domain/value-objects/unique-entity-id.vo";
 
 export default class UserPrismaRepository implements UserRepository.Repository {
   sortableFields: string[] = ["createdAt"];

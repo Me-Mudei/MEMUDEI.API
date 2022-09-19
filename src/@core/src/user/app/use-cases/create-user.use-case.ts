@@ -3,8 +3,11 @@ import UserCreated from "../../domain/events/user-created.event";
 import UserRepository from "../../domain/repository/user.repository";
 import Broker from "../../../@shared/infra/broker/broker";
 import { CreateUserInput, CreateUserOutput } from "../dto/create-user.dto";
+import UseCase from "@core/src/@shared/app/use-case/use-case";
 
-export default class CreateUser {
+export default class CreateUser
+  implements UseCase<CreateUserInput, CreateUserOutput>
+{
   constructor(
     readonly userRepository: UserRepository.Repository,
     readonly broker: Broker
@@ -14,7 +17,7 @@ export default class CreateUser {
     const user = new User({
       email: input.email,
       name: input.name,
-      role_name: input.roleName,
+      role_name: input.role_name,
     });
     await this.userRepository.insert(user);
     const output: CreateUserOutput = {

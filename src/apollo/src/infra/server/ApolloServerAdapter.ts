@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { GraphQLSchema } from "graphql";
 import Schema from "../schema/Schema";
-import Context from "../context";
+import Context from "../../context";
 import Server from "./Server";
 
 export default class ApolloServerAdapter implements Server {
