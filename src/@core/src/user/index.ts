@@ -1,8 +1,8 @@
 import Broker from "../@shared/infra/broker/broker";
-import PrismaRepositoryFactory from "./infra/factory/PrismaRepositoryFactory";
+import PrismaRepositoryFactory from "./infra/factory/prisma-repository.factory";
 import UserFacade from "./app/facade/user.facade";
 import UserCreatedSendConfirmationHandler from "./app/handlers/user-created-send-confirmation.handler";
-import CreateUser from "./app/use-cases/create-user.use-case";
+import CreateUserUseCase from "./app/use-cases/create-user.use-case";
 
 export default class main {
   static create() {
@@ -10,7 +10,7 @@ export default class main {
     const broker = new Broker();
 
     broker.register(new UserCreatedSendConfirmationHandler());
-    const createUserUseCase = new CreateUser(
+    const createUserUseCase = new CreateUserUseCase(
       repositoryFactory.createUserRepository(),
       broker
     );

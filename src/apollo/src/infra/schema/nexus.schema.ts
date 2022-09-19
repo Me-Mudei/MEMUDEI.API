@@ -1,8 +1,8 @@
 import { makeSchema } from "nexus";
-import Schema from "./Schema";
+import Schema from "./schema.interface";
 import * as types from "./types";
 
-export default class NexusSchemaAdapter implements Schema {
+export default class NexusSchema implements Schema {
   constructor() {}
   makeSchema() {
     return makeSchema({

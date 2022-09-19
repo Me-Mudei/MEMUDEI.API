@@ -11,7 +11,7 @@ export default class UserFacade {
   constructor(readonly props: UserFacadeProps) {
     this._createUseCase = props.createUseCase;
   }
-  async create_user(input: CreateUserFacadeInput): Promise<void> {
+  async createUser(input: CreateUserFacadeInput): Promise<void> {
     await this._createUseCase.execute(input);
   }
 }

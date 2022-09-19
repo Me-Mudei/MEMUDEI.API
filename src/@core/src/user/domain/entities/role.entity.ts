@@ -14,11 +14,11 @@ export default class Role extends Entity<RoleProps> {
     this.props.permissions = [];
   }
 
-  add_permission(permission: Permission) {
+  addPermission(permission: Permission) {
     this.props.permissions.push(permission);
   }
 
-  remove_permission(permission: string) {
+  removePermission(permission: string) {
     const perm_index = this.props.permissions.find(
       (perm) => perm.props.name === permission
     );
@@ -31,7 +31,7 @@ export default class Role extends Entity<RoleProps> {
     );
   }
 
-  has_permission(permission: string) {
+  hasPermission(permission: string) {
     return !!this.props.permissions.find(
       (perm) => perm.props.name === permission
     );

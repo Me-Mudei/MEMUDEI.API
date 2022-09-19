@@ -1,7 +1,7 @@
 import { extendType, inputObjectType, nonNull, objectType } from "nexus";
-import User from "../../../../../../../..//user";
+import User from "../../../../../@core/src/user";
 
-export const CreateUserInput = inputObjectType({
+export const createUserInput = inputObjectType({
   name: "create_user_input",
   definition(t) {
     t.nonNull.string("email");
@@ -10,7 +10,7 @@ export const CreateUserInput = inputObjectType({
   },
 });
 
-export const CreateUserOutput = objectType({
+export const createUserOutput = objectType({
   name: "MutationOutput",
   definition(t) {
     t.string("status");
@@ -18,7 +18,7 @@ export const CreateUserOutput = objectType({
   },
 });
 
-export const UserMutations = extendType({
+export const userMutations = extendType({
   type: "Mutation",
   definition(t) {
     t.field("create_user", {
@@ -28,7 +28,7 @@ export const UserMutations = extendType({
       },
       resolve: (_, { input }, _ctx) => {
         const user = User.create();
-        return user.create_user(input);
+        return user.createUser(input);
       },
     });
   },
