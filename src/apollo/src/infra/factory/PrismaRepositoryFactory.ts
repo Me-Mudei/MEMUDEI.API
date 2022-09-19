@@ -1,9 +1,9 @@
-import RepositoryFactory from '../../domain/factory/RepositoryFactory';
-import UserPrismaRepository from '../repository/UserPrismaRepository';
-import PrismaConnection from '../database/prisma';
+import RepositoryFactory from "../../domain/factory/RepositoryFactory";
+import UserPrismaRepository from "../../../../@core/user/infra/repository/user-prisma.repository";
+import PrismaConnection from "../../../../@core/@shared/infra/database/prisma";
 
 export default class PrismaRepositoryFactory implements RepositoryFactory {
-  private prisma: PrismaConnection
+  private prisma: PrismaConnection;
   constructor() {
     this.prisma = new PrismaConnection();
   }

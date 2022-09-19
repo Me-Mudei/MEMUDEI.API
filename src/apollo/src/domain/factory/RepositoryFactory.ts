@@ -1,5 +1,5 @@
-import UserRepository from '../repository/UserRepository';
+import UserRepository from "../../../../@core/user/domain/repository/user.repository";
 
 export default interface RepositoryFactory {
-  createUserRepository(): UserRepository;
+  createUserRepository(): UserRepository.Repository;
 }

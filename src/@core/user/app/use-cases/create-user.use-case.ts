@@ -1,18 +1,22 @@
-import User from "../../domain/entity/user.entity";
-import UserCreated from "../../domain/event/user-created.event";
+import User from "../../domain/entities/user.entity";
+import UserCreated from "../../domain/events/user-created.event";
 import UserRepository from "../../domain/repository/user.repository";
-import Broker from "../../../@shared/infra/broker";
-import { CreateUserInput, CreateUserOutput } from "../dto/ICreateUser";
+import Broker from "../../../@shared/infra/broker/broker";
+import { CreateUserInput, CreateUserOutput } from "../dto/create-user.dto";
 
 export default class CreateUser {
   constructor(
-    readonly userRepository: UserRepository,
+    readonly userRepository: UserRepository.Repository,
     readonly broker: Broker
   ) {}
 
   async execute(input: CreateUserInput): Promise<CreateUserOutput> {
-    const user = new User(input.email, input.name, input.roleName);
-    await this.userRepository.create(user);
+    const user = new User({
+      email: input.email,
+      name: input.name,
+      role_name: input.roleName,
+    });
+    await this.userRepository.insert(user);
     const output: CreateUserOutput = {
       status: "USER_CREATED",
       message: "User created successfully",

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",
+    "nanoid": "^4.0.0",
     "prisma": "^3.10.0"
   },
   "author": "Uriel Guy <urielsateles@gmail.com>"
