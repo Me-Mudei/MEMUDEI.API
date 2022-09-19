@@ -3,7 +3,7 @@ import UserCreated from "../../domain/events/user-created.event";
 import UserRepository from "../../domain/repository/user.repository";
 import Broker from "../../../@shared/infra/broker/broker";
 import { CreateUserInput, CreateUserOutput } from "../dto/create-user.dto";
-import UseCase from "@core/src/@shared/app/use-case/use-case";
+import UseCase from "../../../@shared/app/use-case/use-case";
 
 export default class CreateUser
   implements UseCase<CreateUserInput, CreateUserOutput>
