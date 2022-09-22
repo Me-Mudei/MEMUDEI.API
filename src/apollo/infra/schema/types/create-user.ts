@@ -1,5 +1,5 @@
 import { extendType, inputObjectType, nonNull, objectType } from "nexus";
-import User from "../../../../../core/src/user";
+import User from "../../../../core/user";
 
 export const createUserInput = inputObjectType({
   name: "create_user_input",

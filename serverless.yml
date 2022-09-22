@@ -28,7 +28,7 @@ provider:
   ecr:
     images:
       migrator:
-        path: ./src/core/src/shared/database/prisma
+        path: ./src/core/shared/database/prisma
   vpc:
     securityGroupIds:
       - ${ssm:/me-mudei/infra/vpc/security-group-ids}
@@ -42,6 +42,15 @@ provider:
 functions:
   app:
     handler: src/index.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
   prisma-migrator:
     image:
       name: migrator
