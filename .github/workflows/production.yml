@@ -1,0 +1,31 @@
+name: PROD
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_SECRET_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.PROD_REGION }}
+
+      - name: Serverless Install
+        run: npm install -g serverless@^3
+
+      - name: Serverless Deploy
+        run: npx serverless
+        env: 
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}

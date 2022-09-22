@@ -1,0 +1,51 @@
+service: me-mudei-api
+
+package:
+  individually: true
+
+plugins:
+    - serverless-plugin-typescript
+    - serverless-offline
+
+custom:
+  node-env:
+    prod: "production"
+    dev: "development"
+    local: "local"
+  serverless-offline:
+    port: 4000
+    stage: local
+  serverlessPluginTypescript:
+    tsConfigFileLocation: './tsconfig.build.json'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  timeout: 30
+  memorySize: 512
+  stage: ${opt:stage, 'local'}
+  region: ${opt:region, 'us-east-1'}
+  ecr:
+    images:
+      migrator:
+        path: ./src/core/src/shared/database/prisma
+  vpc:
+    securityGroupIds:
+      - ${ssm:/me-mudei/infra/vpc/security-group-ids}
+    subnetIds:
+      - ${ssm:/me-mudei/infra/vpc/subnet-ids~split}
+  environment:
+    NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
+    SLS_DEBUG: "*"
+    DATABASE_URL: ${env.DATABASE_URL}
+
+functions:
+  app:
+    handler: src/index.handler
+  prisma-migrator:
+    image:
+      name: migrator
+      command:
+        - index.handler
+    events:
+      - httpApi: '*'

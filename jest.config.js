@@ -4,5 +4,5 @@
  */
 
 export default {
-  projects: ["<rootDir>/src/@core", "<rootDir>/src/apollo"],
+  projects: ["<rootDir>/src/core", "<rootDir>/src/apollo"],
 };

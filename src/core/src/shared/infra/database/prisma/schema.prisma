@@ -1,0 +1,38 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator prisma_client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["darwin-arm64", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
+}
+
+model User {
+    id          String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    email       String    @unique
+    name        String
+    role_id     String    @db.Char(21)
+    role        Role      @relation(fields: [role_id], references: [id])
+    disabled_at DateTime?
+    deleted_at  DateTime?
+    created_at  DateTime  @default(now())
+    updated_at  DateTime  @updatedAt
+}
+
+model Role {
+    id          String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name        String   @unique
+    description String?
+    user        User[]
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+}
+
+model Permission {
+    id          String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name        String   @unique
+    description String?
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+}
