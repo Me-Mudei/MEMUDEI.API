@@ -1,12 +1,17 @@
-import UseCase from "../../../@shared/app/use-case/use-case";
-import { CreateUserFacadeInput } from "../dto/create-user-facade.dto";
+import { CreateUserUseCase } from "../use-cases";
 
 export interface UserFacadeProps {
-  createUseCase: UseCase;
+  createUseCase: CreateUserUseCase;
 }
 
+export type CreateUserFacadeInput = {
+  name: string;
+  email: string;
+  role_name: string;
+};
+
 export default class UserFacade {
-  private _createUseCase: UseCase;
+  private _createUseCase: CreateUserUseCase;
 
   constructor(readonly props: UserFacadeProps) {
     this._createUseCase = props.createUseCase;

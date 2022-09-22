@@ -12,7 +12,7 @@ export default class UserPrismaRepository implements UserRepository.Repository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
-        Role: {
+        role: {
           connectOrCreate: {
             where: {
               name: entity.props.role_name,
@@ -30,27 +30,20 @@ export default class UserPrismaRepository implements UserRepository.Repository {
     const user = await this.prisma.user.findFirst({
       where: { id: id.toString() },
       include: {
-        Role: true,
-        Address: true,
+        role: true,
       },
     });
     return new User({
       email: user.email,
       name: user.name,
-      role_name: user.roleId,
-      phone: user.phone,
-      born: user.born,
-      description: user.description,
-      disabled_at: user.disabledAt,
-      deleted_at: user.deletedAt,
+      role_name: user.role.name,
     });
   }
 
   async findAll(): Promise<User[]> {
     const users = await this.prisma.user.findMany({
       include: {
-        Role: true,
-        Address: true,
+        role: true,
       },
     });
     return users.map(
@@ -58,12 +51,7 @@ export default class UserPrismaRepository implements UserRepository.Repository {
         new User({
           email: user.email,
           name: user.name,
-          role_name: user?.Role.name,
-          phone: user.phone,
-          born: user.born,
-          description: user.description,
-          disabled_at: user.disabledAt,
-          deleted_at: user.deletedAt,
+          role_name: user?.role.name,
         })
     );
   }
@@ -74,11 +62,6 @@ export default class UserPrismaRepository implements UserRepository.Repository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
-        phone: entity.props.phone,
-        born: entity.props.born,
-        description: entity.props.description,
-        disabledAt: entity.props.disabled_at,
-        deletedAt: entity.props.deleted_at,
       },
     });
   }
@@ -101,7 +84,7 @@ export default class UserPrismaRepository implements UserRepository.Repository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { createdAt: "asc" }),
+          : { created_at: "asc" }),
       },
       where: {
         ...(props.filter && {
@@ -111,8 +94,7 @@ export default class UserPrismaRepository implements UserRepository.Repository {
         }),
       },
       include: {
-        Address: true,
-        Role: true,
+        role: true,
       },
     });
 
@@ -122,12 +104,7 @@ export default class UserPrismaRepository implements UserRepository.Repository {
           new User({
             email: user.email,
             name: user.name,
-            role_name: user?.Role.name,
-            phone: user.phone,
-            born: user.born,
-            description: user.description,
-            disabled_at: user.disabledAt,
-            deleted_at: user.deletedAt,
+            role_name: user?.role.name,
           })
       ),
       current_page: props.page,

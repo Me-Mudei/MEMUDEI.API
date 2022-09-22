@@ -3,8 +3,3 @@ export type CreateUserInput = {
   email: string;
   role_name: string;
 };
-
-export type CreateUserOutput = {
-  status: string;
-  message: string;
-};
