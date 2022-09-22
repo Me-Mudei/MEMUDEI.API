@@ -11,7 +11,7 @@ export const createUserInput = inputObjectType({
 });
 
 export const createUserOutput = objectType({
-  name: "MutationOutput",
+  name: "user_output",
   definition(t) {
     t.string("status");
     t.string("message");
@@ -26,9 +26,13 @@ export const userMutations = extendType({
       args: {
         input: nonNull("create_user_input"),
       },
-      resolve: (_, { input }, _ctx) => {
+      resolve: async (_, { input }, _ctx) => {
         const user = User.create();
-        return user.createUser(input);
+        await user.createUser(input);
+        return {
+          status: 200,
+          message: "User created",
+        };
       },
     });
   },

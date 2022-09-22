@@ -8,11 +8,11 @@ export default class NexusSchema implements Schema {
     return makeSchema({
       types,
       outputs: {
-        schema: __dirname + "../../../../generated/schema.graphql",
-        typegen: __dirname + "../../../../generated/nexus.ts",
+        schema: __dirname + "../../../../../generated/schema.graphql",
+        typegen: __dirname + "../../../../../generated/nexus.ts",
       },
       contextType: {
-        module: require.resolve("../graphql/context"),
+        module: require.resolve("../../context"),
         export: "Context",
       },
       sourceTypes: {

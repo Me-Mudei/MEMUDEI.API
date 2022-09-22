@@ -1,4 +1,4 @@
-export default class Context {
+export class Context {
   constructor() {}
 
   getContext(): Context {

@@ -1,11 +1,11 @@
 import RepositoryFactory from "../../../domain/factory/repository.factory";
 import UserPrismaRepository from "../../repository/user-prisma.repository";
-import PrismaConnection from "../../../../shared/infra/database/prisma";
+import Prisma, { PrismaClient } from "../../../../shared/infra/database/prisma";
 
 export default class PrismaRepositoryFactory implements RepositoryFactory {
-  private prisma: PrismaConnection;
+  private prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaConnection();
+    this.prisma = Prisma.getInstance();
   }
   createUserRepository() {
     return new UserPrismaRepository(this.prisma);

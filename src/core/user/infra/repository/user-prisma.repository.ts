@@ -1,12 +1,12 @@
 import User from "../../domain/entities/user.entity";
 import UserRepository from "../../domain/repository/user.repository";
-import PrismaConnection from "../../../shared/infra/database/prisma";
+import { PrismaClient } from "../../../shared/infra/database/prisma";
 import UniqueEntityId from "../../../shared/domain/value-objects/unique-entity-id.vo";
 
 export default class UserPrismaRepository implements UserRepository.Repository {
   sortableFields: string[] = ["createdAt"];
 
-  constructor(readonly prisma: PrismaConnection) {}
+  constructor(readonly prisma: PrismaClient) {}
   async insert(entity: User): Promise<void> {
     await this.prisma.user.create({
       data: {
