@@ -6,3 +6,4 @@ __coverage
 .build/
 /dist
 /generated
+.DS_Store

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
+    "paths": {
+      "#shared/*": ["./core/shared/*"],
+      "#user/*": ["./core/user/*"]
+    }
+  },
+  "include": ["src/"]
+}
