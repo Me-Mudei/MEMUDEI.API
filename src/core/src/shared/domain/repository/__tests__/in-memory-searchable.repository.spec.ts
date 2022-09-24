@@ -1,10 +1,14 @@
-import Entity from "../../entities/entity";
+import { UniqueEntityId } from "shared/domain/value-objects";
+import { Entity } from "../../entity";
 import { InMemorySearchableRepository } from "../in-memory.repository";
 import { SearchParams, SearchResult } from "../repository-contracts";
 
 type StubEntityProps = {
   name: string;
   price: number;
+  id?: UniqueEntityId;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 class StubEntity extends Entity<StubEntityProps> {}

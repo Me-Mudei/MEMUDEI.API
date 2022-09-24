@@ -1,5 +1,5 @@
-import InvalidUuidError from "../../errors/invalid-nanoid.error";
-import UniqueEntityId from "../unique-entity-id.vo";
+import { InvalidNanoidError } from "../../errors/invalid-nanoid.error";
+import { UniqueEntityId } from "../unique-entity-id.vo";
 
 // function spyValidateMethod() {
 //   return jest.spyOn(UniqueEntityId.prototype as any, "validate");
@@ -14,17 +14,19 @@ describe("UniqueEntityId Unit Tests", () => {
 
   // beforeEach(() => validateSpy.mockClear());
 
-  it("should throw error when uuid is invalid", () => {
+  it("should throw error when nanoid is invalid", () => {
     //const validateSpy = spyValidateMethod();
-    expect(() => new UniqueEntityId("fake id")).toThrow(new InvalidUuidError());
+    expect(() => new UniqueEntityId("fake id")).toThrow(
+      new InvalidNanoidError()
+    );
     expect(validateSpy).toHaveBeenCalled();
   });
 
-  it("should accept a uuid passed in constructor", () => {
+  it("should accept a nanoid passed in constructor", () => {
     //const validateSpy = spyValidateMethod();
-    const uuid = "9366b7dc-2d71-4799-b91c-c64adb205104";
-    const vo = new UniqueEntityId(uuid);
-    expect(vo.value).toBe(uuid);
+    const nanoid = "eftOYF0ie93F_yVhkOBcM";
+    const vo = new UniqueEntityId(nanoid);
+    expect(vo.value).toBe(nanoid);
     expect(validateSpy).toHaveBeenCalled();
   });
 });

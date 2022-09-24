@@ -3,7 +3,6 @@ import { rule } from "graphql-shield";
 
 export const isAdmin = rule()(async (_, { input }, _ctx) => {
   const auth = new Auth();
-  console.log(input);
   return auth.isAdmin(input);
 });
 

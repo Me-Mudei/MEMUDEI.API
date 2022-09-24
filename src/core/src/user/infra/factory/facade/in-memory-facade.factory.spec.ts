@@ -9,7 +9,6 @@ describe("InMemoryFacadeFactory Unit tests", () => {
       email: "tes@test.com",
       role_name: "TEST",
     });
-    console.log(createUser);
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);
   });
 });

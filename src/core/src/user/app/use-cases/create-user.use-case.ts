@@ -1,9 +1,7 @@
-import User from "../../domain/entities/user.entity";
-import UserCreated from "../../domain/events/user-created.event";
-import UserRepository from "../../domain/repository/user.repository";
-import Broker from "../../../shared/infra/broker/broker";
-import { CreateUserInput } from "../dto/create-user.dto";
-import UseCase from "../../../shared/app/use-case/use-case";
+import { User, UserCreated, UserRepository } from "../../domain";
+import { Broker } from "../../../shared/infra/";
+import { CreateUserInput } from "../dto";
+import { UseCase } from "../../../shared/app";
 
 export class CreateUserUseCase implements UseCase<CreateUserInput, void> {
   constructor(

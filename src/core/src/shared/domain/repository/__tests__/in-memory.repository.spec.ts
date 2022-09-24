@@ -1,11 +1,14 @@
-import Entity from "../../entities/entity";
-import NotFoundError from "../../errors/not-found.error";
-import UniqueEntityId from "../../value-objects/unique-entity-id.vo";
+import { Entity } from "../../entity";
+import { NotFoundError } from "../../errors";
+import { UniqueEntityId } from "../../value-objects";
 import { InMemoryRepository } from "../in-memory.repository";
 
 type StubEntityProps = {
   name: string;
   price: number;
+  id?: UniqueEntityId;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 class StubEntity extends Entity<StubEntityProps> {}
@@ -27,13 +30,9 @@ describe("InMemoryRepository Unit Tests", () => {
     );
 
     expect(
-      repository.findById(
-        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
-      )
+      repository.findById(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM"))
     ).rejects.toThrow(
-      new NotFoundError(
-        `Entity Not Found using ID 9366b7dc-2d71-4799-b91c-c64adb205104`
-      )
+      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`)
     );
   });
 
@@ -44,7 +43,7 @@ describe("InMemoryRepository Unit Tests", () => {
     let entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
 
-    entityFound = await repository.findById(entity.uniqueEntityId);
+    entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
   });
 
@@ -68,10 +67,11 @@ describe("InMemoryRepository Unit Tests", () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     await repository.insert(entity);
 
-    const entityUpdated = new StubEntity(
-      { name: "updated", price: 1 },
-      entity.uniqueEntityId
-    );
+    const entityUpdated = new StubEntity({
+      name: "updated",
+      price: 1,
+      id: new UniqueEntityId(entity.id),
+    });
     await repository.update(entityUpdated);
     expect(entityUpdated.toJSON()).toStrictEqual(repository.items[0].toJSON());
   });
@@ -82,13 +82,9 @@ describe("InMemoryRepository Unit Tests", () => {
     );
 
     expect(
-      repository.delete(
-        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
-      )
+      repository.delete(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM"))
     ).rejects.toThrow(
-      new NotFoundError(
-        `Entity Not Found using ID 9366b7dc-2d71-4799-b91c-c64adb205104`
-      )
+      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`)
     );
   });
 
@@ -101,7 +97,7 @@ describe("InMemoryRepository Unit Tests", () => {
 
     await repository.insert(entity);
 
-    await repository.delete(entity.uniqueEntityId);
+    await repository.delete(entity.id);
     expect(repository.items).toHaveLength(0);
   });
 });

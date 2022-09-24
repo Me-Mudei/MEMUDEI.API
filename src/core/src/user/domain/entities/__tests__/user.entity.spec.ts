@@ -1,5 +1,5 @@
-import UniqueEntityId from "../../../../shared/domain/value-objects/unique-entity-id.vo";
-import User from "../user.entity";
+import { UniqueEntityId } from "../../../../shared/domain";
+import { User } from "../user.entity";
 
 describe("User Unit Tests", () => {
   test("constructor of user", () => {

@@ -1,7 +1,7 @@
-import Broker from "../../../shared/infra/broker/broker";
-import UserInMemoryRepository from "../../infra/repository/user-in-memory.repository";
+import { Broker } from "../../../shared/infra";
+import { UserInMemoryRepository } from "../../infra";
 import { CreateUserUseCase } from "../use-cases";
-import UserFacade from "./user.facade";
+import { UserFacade } from "./user.facade";
 
 describe("UserFacade Unit tests", () => {
   let useCase: CreateUserUseCase;

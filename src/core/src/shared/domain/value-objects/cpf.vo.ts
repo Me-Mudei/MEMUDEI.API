@@ -1,4 +1,4 @@
-import ValueObject from "../../../shared/domain/value-objects/value-object";
+import { ValueObject } from "./value-object";
 
 export class Cpf extends ValueObject<string> {
   constructor(value: string) {

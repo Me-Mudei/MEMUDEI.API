@@ -1,5 +1,6 @@
 import { validateSync } from "class-validator";
-import ValidatorFieldsInterface, {
+import {
+  ValidatorFieldsInterface,
   FieldsErrors,
 } from "./validator-fields-interface";
 
