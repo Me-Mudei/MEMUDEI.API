@@ -1,2 +1,2 @@
-import { PrismaFacadeFactory } from "./infra/factory/facade/prisma-facade.factory";
-export default PrismaFacadeFactory;
+import { InMemoryFacadeFactory } from "./infra/factory/facade/in-memory-facade.factory";
+export default InMemoryFacadeFactory;
