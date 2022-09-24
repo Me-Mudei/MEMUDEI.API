@@ -12,7 +12,8 @@
     "./shared/infra": "./dist/shared/infra/index.js",
     "./user/application": "./dist/user/application/index.js",
     "./user/domain": "./dist/user/domain/index.js",
-    "./user/infra": "./dist/user/infra/index.js"
+    "./user/infra": "./dist/user/infra/index.js",
+    "./user": "./dist/user/index.js"
   },
   "typesVersions": {
     ">=4.0": {
@@ -33,6 +34,9 @@
       ],
       "user/infra": [
         "./dist/user/infra/index.d.ts"
+      ],
+      "user": [
+        "./dist/user/index.d.ts"
       ]
     }
   },
