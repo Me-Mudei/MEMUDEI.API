@@ -1,7 +1,7 @@
 import { CreateUserUseCase } from "../../create-user.use-case";
-import UserInMemoryRepository from "../../../../infra/repository/user-in-memory.repository";
-import Broker from "../../../../../shared/infra/broker/broker";
-import UserCreatedSendConfirmationHandler from "../../../handlers/user-created-send-confirmation.handler";
+import { UserInMemoryRepository } from "../../../../infra/repository/user-in-memory.repository";
+import { Broker } from "../../../../../shared/infra/broker/broker";
+import { UserCreatedSendConfirmationHandler } from "../../../handlers/user-created-send-confirmation.handler";
 
 describe("CreateUserUseCase Unit Tests", () => {
   let useCase: CreateUserUseCase;

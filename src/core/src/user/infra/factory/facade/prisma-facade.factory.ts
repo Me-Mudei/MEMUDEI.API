@@ -1,8 +1,8 @@
-import UserFacade from "../../../app/facade/user.facade";
-import Broker from "../../../../shared/infra/broker/broker";
+import { UserFacade } from "../../../app/facade";
+import { Broker } from "../../../../shared/infra/broker";
 import { CreateUserUseCase } from "../../../app/use-cases";
-import PrismaRepositoryFactory from "../repository/prisma-repository.factory";
-import UserCreatedSendConfirmationHandler from "../../../app/handlers/user-created-send-confirmation.handler";
+import { PrismaRepositoryFactory } from "../repository";
+import { UserCreatedSendConfirmationHandler } from "../../../app/handlers";
 
 export class PrismaFacadeFactory {
   static create() {

@@ -1,6 +1,6 @@
 import ValueObject from "../../../shared/domain/value-objects/value-object";
 
-export default class Cpf extends ValueObject<string> {
+export class Cpf extends ValueObject<string> {
   constructor(value: string) {
     super(value);
     this.validate();

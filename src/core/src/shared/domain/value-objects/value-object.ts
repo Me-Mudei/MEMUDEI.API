@@ -1,4 +1,4 @@
-export default abstract class ValueObject<Value = any> {
+export abstract class ValueObject<Value = any> {
   protected _value: Value;
 
   constructor(value: Value) {

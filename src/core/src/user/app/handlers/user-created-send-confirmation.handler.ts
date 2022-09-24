@@ -1,6 +1,6 @@
-import UserCreated from "../../domain/events/user-created.event";
+import { UserCreated } from "../../domain/events";
 
-export default class UserCreatedSendConfirmationHandler {
+export class UserCreatedSendConfirmationHandler {
   name = "UserCreated";
 
   constructor() {}

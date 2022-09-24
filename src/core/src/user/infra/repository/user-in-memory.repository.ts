@@ -1,7 +1,7 @@
-import { InMemorySearchableRepository } from "../../../shared/domain/repository/in-memory.repository";
-import { SortDirection } from "../../../shared/domain/repository/repository-contracts";
-import User from "../../domain/entities/user.entity";
-import UserRepository from "../../domain/repository/user.repository";
+import { InMemorySearchableRepository } from "../../../shared/domain/repository";
+import { SortDirection } from "../../../shared/domain/repository";
+import { User } from "../../domain/entities";
+import { UserRepository } from "../../domain/repository";
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<User>

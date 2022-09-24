@@ -1,9 +1,9 @@
-import User from "../../domain/entities/user.entity";
-import UserRepository from "../../domain/repository/user.repository";
-import { PrismaClient } from "../../../shared/infra/database/prisma";
-import UniqueEntityId from "../../../shared/domain/value-objects/unique-entity-id.vo";
+import { User } from "../../domain/entities";
+import { UserRepository } from "../../domain/repository";
+import { PrismaClient } from "../../../shared/infra/database";
+import { UniqueEntityId } from "../../../shared/domain/value-objects";
 
-export default class UserPrismaRepository implements UserRepository.Repository {
+export class UserPrismaRepository implements UserRepository.Repository {
   sortableFields: string[] = ["createdAt"];
 
   constructor(readonly prisma: PrismaClient) {}

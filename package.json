@@ -11,7 +11,10 @@
     "./src/apollo"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart:dev": "npm run build -w @fc/micro-videos",
+    "start:dev": "npm run build:w -w @fc/micro-videos & npm run start:dev -w nestjs",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -23,5 +26,10 @@
   "bugs": {
     "url": "https://github.com/urieloliveira/MeMudeiBackend/issues"
   },
-  "homepage": "https://github.com/urieloliveira/MeMudeiBackend#readme"
+  "homepage": "https://github.com/urieloliveira/MeMudeiBackend#readme",
+  "devDependencies": {
+    "serverless": "^3.22.0",
+    "serverless-offline": "^10.2.1",
+    "serverless-plugin-typescript": "^2.1.2"
+  }
 }

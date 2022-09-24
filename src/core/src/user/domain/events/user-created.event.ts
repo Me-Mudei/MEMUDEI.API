@@ -1,7 +1,7 @@
-import { DomainEvent } from "../../../shared/infra/broker/broker";
-import User from "../entities/user.entity";
+import { DomainEvent } from "../../../shared/infra/broker";
+import { User } from "../entities";
 
-export default class UserCreated implements DomainEvent {
+export class UserCreated implements DomainEvent {
   name = "UserCreated";
 
   constructor(readonly user: User) {}

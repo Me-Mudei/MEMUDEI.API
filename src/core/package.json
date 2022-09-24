@@ -6,6 +6,36 @@
     "#shared/*": "./dist/core/shared/*.js",
     "#user/*": "./dist/core/user/*.js"
   },
+  "exports": {
+    "./shared/application": "./dist/shared/application/index.js",
+    "./shared/domain": "./dist/shared/domain/index.js",
+    "./shared/infra": "./dist/shared/infra/index.js",
+    "./user/application": "./dist/user/application/index.js",
+    "./user/domain": "./dist/user/domain/index.js",
+    "./user/infra": "./dist/user/infra/index.js"
+  },
+  "typesVersions": {
+    ">=4.0": {
+      "shared/application": [
+        "./dist/shared/application/index.d.ts"
+      ],
+      "shared/domain": [
+        "./dist/shared/domain/index.d.ts"
+      ],
+      "shared/infra": [
+        "./dist/shared/infra/index.d.ts"
+      ],
+      "user/application": [
+        "./dist/user/application/index.d.ts"
+      ],
+      "user/domain": [
+        "./dist/user/domain/index.d.ts"
+      ],
+      "user/infra": [
+        "./dist/user/infra/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/apollo",
     "ts-node": "ts-node",

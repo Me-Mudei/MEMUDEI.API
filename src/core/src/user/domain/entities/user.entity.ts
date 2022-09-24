@@ -1,5 +1,4 @@
-import Entity from "../../../shared/domain/entity/entity";
-import UniqueEntityId from "../../../shared/domain/value-objects/unique-entity-id.vo";
+import { Entity, UniqueEntityId } from "../../../shared/domain";
 
 export type UserProps = {
   email: string;
@@ -10,7 +9,7 @@ export type UserProps = {
   updated_at?: Date;
 };
 
-export default class User extends Entity<UserProps> {
+export class User extends Entity<UserProps> {
   constructor(props: UserProps) {
     super(props);
   }

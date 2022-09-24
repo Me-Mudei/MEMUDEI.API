@@ -10,7 +10,7 @@ export type CreateUserFacadeInput = {
   role_name: string;
 };
 
-export default class UserFacade {
+export class UserFacade {
   private _createUseCase: CreateUserUseCase;
 
   constructor(readonly props: UserFacadeProps) {

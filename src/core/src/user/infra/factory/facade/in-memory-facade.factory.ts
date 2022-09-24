@@ -1,8 +1,8 @@
-import UserFacade from "../../../app/facade/user.facade";
-import Broker from "../../../../shared/infra/broker/broker";
+import { UserFacade } from "../../../app/facade";
+import { Broker } from "../../../../shared/infra";
 import { CreateUserUseCase } from "../../../app/use-cases";
-import InMemoryRepositoryFactory from "../repository/in-memory-repository.factory";
-import UserCreatedSendConfirmationHandler from "../../../app/handlers/user-created-send-confirmation.handler";
+import { InMemoryRepositoryFactory } from "../repository";
+import { UserCreatedSendConfirmationHandler } from "../../../app/handlers";
 
 export class InMemoryFacadeFactory {
   static create() {

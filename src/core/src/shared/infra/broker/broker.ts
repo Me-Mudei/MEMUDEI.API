@@ -7,7 +7,7 @@ export interface Handler {
   handle(event: DomainEvent): Promise<void>;
 }
 
-export default class Broker {
+export class Broker {
   handlers: Handler[];
 
   constructor() {

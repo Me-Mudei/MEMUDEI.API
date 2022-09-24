@@ -1,5 +1,5 @@
 import { extendType, inputObjectType, nonNull, objectType } from "nexus";
-import User from "../../../../core/user";
+//import User from "@me-mudei/core/src/user";
 
 export const createUserInput = inputObjectType({
   name: "create_user_input",
@@ -26,9 +26,9 @@ export const userMutations = extendType({
       args: {
         input: nonNull("create_user_input"),
       },
-      resolve: async (_, { input }, _ctx) => {
-        const user = User.create();
-        await user.createUser(input);
+      resolve: async (_, _args, _ctx) => {
+        //const user = User.create();
+        //await user.createUser(input);
         return {
           status: 200,
           message: "User created",
