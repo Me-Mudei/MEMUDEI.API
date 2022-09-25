@@ -5,6 +5,7 @@ package:
 
 plugins:
     - serverless-plugin-typescript
+    - serverless-plugin-monorepo
     - serverless-offline
 
 custom:
@@ -16,7 +17,7 @@ custom:
     port: 4000
     stage: local
   serverlessPluginTypescript:
-    tsConfigFileLocation: './tsconfig.build.json'
+    tsConfigFileLocation: 'tsconfig.build.json'
 
 provider:
   name: aws

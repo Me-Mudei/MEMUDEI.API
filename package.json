@@ -11,10 +11,12 @@
     "./src/apollo"
   ],
   "scripts": {
-    "prestart:dev": "npm run build -w @fc/micro-videos",
-    "start:dev": "npm run build:w -w @fc/micro-videos & npm run start:dev -w nestjs",
+    "prestart:dev": "npm run build -w @me-mudei/core",
+    "start:dev": "npm run build:w -w @me-mudei/core & npx sls offline --stage local",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "lint": "npm run lint -w @me-mudei/core & npm run lint -w @me-mudei/apollo",
+    "format": "npm run format -w @me-mudei/core & npm run format -w @me-mudei/apollo"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "serverless": "^3.22.0",
     "serverless-offline": "^10.2.1",
+    "serverless-plugin-monorepo": "^0.11.0",
     "serverless-plugin-typescript": "^2.1.2"
   }
 }

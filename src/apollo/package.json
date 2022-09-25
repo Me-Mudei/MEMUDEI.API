@@ -2,10 +2,6 @@
   "name": "@me-mudei/apollo",
   "version": "0.0.1",
   "main": "index.js",
-  "imports": {
-    "#shared/*": "./dist/core/shared/*.js",
-    "#user/*": "./dist/core/user/*.js"
-  },
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/apollo",
     "ts-node": "ts-node",
@@ -16,14 +12,22 @@
     "clean:tsc": "rm tsconfig.tsbuildinfo",
     "test": "jest",
     "test:cov": "npm run test -- --coverage",
-    "cti": "cti",
-    "cti:make": "sh ./cti.sh"
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "devDependencies": {
+    "@swc/core": "^1",
+    "@swc/jest": "^0",
     "@types/aws-lambda": "^8",
     "@types/jest": "^28.1.8",
     "@types/node": "^16",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "jest": "^28.1.3",
+    "prettier": "^2.7.1",
     "ts-node": "^10",
     "ts-node-dev": "^2",
     "typescript": "^4"
