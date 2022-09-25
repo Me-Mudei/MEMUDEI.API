@@ -16,7 +16,8 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "lint": "npm run lint --workspaces",
-    "format": "npm run format --workspaces"
+    "format": "npm run format --workspaces",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,9 @@
   },
   "homepage": "https://github.com/urieloliveira/MeMudeiBackend#readme",
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "husky": "^8.0.0",
     "serverless": "^3.22.0",
     "serverless-offline": "^10.2.1",
     "serverless-plugin-monorepo": "^0.11.0",
