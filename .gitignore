@@ -5,5 +5,5 @@ tsconfig.tsbuildinfo
 coverage
 .build/
 **/*/dist
-/generated
+**/*/generated
 .DS_Store

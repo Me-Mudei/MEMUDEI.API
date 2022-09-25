@@ -1,11 +1,9 @@
 import { APIGatewayEvent, Callback, Context as AwsContext } from 'aws-lambda';
 import NexusSchema from './infra/schema/nexus.schema';
 import ApolloLambdaServer from './infra/server/apollo-lambda.server';
-import Permission from './infra/permission/graphql-shield.permission';
 import { Context } from './context';
 
-const permissions = new Permission();
-const schema = new NexusSchema([permissions.getPermissions()]);
+const schema = new NexusSchema();
 const context = new Context();
 
 /*

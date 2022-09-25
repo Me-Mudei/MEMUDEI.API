@@ -1,5 +1,6 @@
 import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
 import { InMemoryFacadeFactory as User } from '@me-mudei/core/user';
+import { isAdmin } from '../rules';
 
 export const createUserInput = inputObjectType({
   name: 'create_user_input',
@@ -13,7 +14,7 @@ export const createUserInput = inputObjectType({
 export const createUserOutput = objectType({
   name: 'user_output',
   definition(t) {
-    t.string('status');
+    t.int('status');
     t.string('message');
   },
 });
@@ -23,6 +24,7 @@ export const userMutations = extendType({
   definition(t) {
     t.field('create_user', {
       type: 'user_output',
+      shield: isAdmin(),
       args: {
         input: nonNull('create_user_input'),
       },

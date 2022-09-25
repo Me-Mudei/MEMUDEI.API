@@ -1,14 +1,14 @@
 import { makeSchema } from 'nexus';
-import { applyMiddleware, IMiddlewareGenerator } from 'graphql-middleware';
+import { nexusShield, allow } from 'nexus-shield';
+import { ForbiddenError } from 'apollo-server';
 import Schema from './schema.interface';
 import * as types from './types';
 import { GraphQLSchema } from 'graphql';
 
 export default class NexusSchema implements Schema {
   private _schema: GraphQLSchema;
-  constructor(readonly middlewares?: IMiddlewareGenerator<any, any, any>[]) {
+  constructor() {
     this._schema = this.makeSchema();
-    this.applyMiddleware(middlewares);
   }
   getSchema() {
     return this._schema;
@@ -16,9 +16,15 @@ export default class NexusSchema implements Schema {
   private makeSchema() {
     return makeSchema({
       types,
+      plugins: [
+        nexusShield({
+          defaultError: new ForbiddenError('Not allowed'),
+          defaultRule: allow,
+        }),
+      ],
       outputs: {
         schema: __dirname + '../../../generated/schema.graphql',
-        typegen: __dirname + '../../../generated/nexus.ts',
+        typegen: __dirname + '../../../generated/nexus.d.ts',
       },
       contextType: {
         module: require.resolve('../../context'),
@@ -33,8 +39,5 @@ export default class NexusSchema implements Schema {
         ],
       },
     });
-  }
-  private applyMiddleware(middlewares: IMiddlewareGenerator<any, any, any>[]) {
-    return applyMiddleware(this._schema, ...middlewares);
   }
 }
