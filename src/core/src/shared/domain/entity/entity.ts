@@ -1,4 +1,4 @@
-import { UniqueEntityId } from "../value-objects";
+import { UniqueEntityId } from '../value-objects';
 
 export interface DefaultProps {
   id?: UniqueEntityId;

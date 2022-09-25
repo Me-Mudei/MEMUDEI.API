@@ -1,4 +1,4 @@
-import { ValueObject } from "./value-object";
+import { ValueObject } from './value-object';
 
 export class Cpf extends ValueObject<string> {
   constructor(value: string) {
@@ -14,18 +14,18 @@ export class Cpf extends ValueObject<string> {
     const verifier_digit = this.value.slice(9);
     const calculated_verified_digit = `${first_check_digit}${second_check_digit}`;
     if (verifier_digit != calculated_verified_digit) {
-      throw new Error("Invalid CPF");
+      throw new Error('Invalid CPF');
     }
   }
 
   normalize() {
-    this.value.replace(/\D/g, "");
+    this.value.replace(/\D/g, '');
   }
 
   verify(cpf: string) {
     const [first_digit] = cpf;
     if (cpf.length !== 11 || [...cpf].every((c) => c === first_digit))
-      throw new Error("Invalid CPF");
+      throw new Error('Invalid CPF');
   }
 
   calculate_digit(cpf: string, factor: number) {

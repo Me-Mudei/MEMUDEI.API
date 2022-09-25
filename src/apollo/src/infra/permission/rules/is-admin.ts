@@ -1,4 +1,4 @@
-import { rule } from "graphql-shield";
+import { rule } from 'graphql-shield';
 //import Auth from "../../../../core/auth";
 
 export const isAdmin = rule()(async (_, { input }, _ctx) => {

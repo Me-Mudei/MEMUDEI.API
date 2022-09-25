@@ -1,6 +1,6 @@
-import { shield, deny } from "graphql-shield";
+import { shield, deny } from 'graphql-shield';
 //import { isAdmin } from "./rules";
-import Permission from "./permission.interface";
+import Permission from './permission.interface';
 
 export default class GraphqlShieldPermission implements Permission {
   constructor() {}
@@ -8,7 +8,7 @@ export default class GraphqlShieldPermission implements Permission {
   getPermissions() {
     return shield({
       Mutation: {
-        "*": deny,
+        '*': deny,
       },
     });
   }

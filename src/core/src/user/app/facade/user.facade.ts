@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from "../use-cases";
+import { CreateUserUseCase } from '../use-cases';
 
 export interface UserFacadeProps {
   createUseCase: CreateUserUseCase;

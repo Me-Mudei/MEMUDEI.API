@@ -1,10 +1,10 @@
-import { User } from "../../domain/entities";
-import { UserRepository } from "../../domain/repository";
-import { PrismaClient } from "../../../shared/infra/database";
-import { UniqueEntityId } from "../../../shared/domain/value-objects";
+import { User } from '../../domain/entities';
+import { UserRepository } from '../../domain/repository';
+import { PrismaClient } from '../../../shared/infra/database';
+import { UniqueEntityId } from '../../../shared/domain/value-objects';
 
 export class UserPrismaRepository implements UserRepository.Repository {
-  sortableFields: string[] = ["createdAt"];
+  sortableFields: string[] = ['createdAt'];
 
   constructor(readonly prisma: PrismaClient) {}
   async insert(entity: User): Promise<void> {
@@ -52,7 +52,7 @@ export class UserPrismaRepository implements UserRepository.Repository {
           email: user.email,
           name: user.name,
           role_name: user?.role.name,
-        })
+        }),
     );
   }
 
@@ -73,7 +73,7 @@ export class UserPrismaRepository implements UserRepository.Repository {
   }
 
   async search(
-    props: UserRepository.SearchParams
+    props: UserRepository.SearchParams,
   ): Promise<UserRepository.SearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
@@ -84,7 +84,7 @@ export class UserPrismaRepository implements UserRepository.Repository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: "asc" }),
+          : { created_at: 'asc' }),
       },
       where: {
         ...(props.filter && {
@@ -105,7 +105,7 @@ export class UserPrismaRepository implements UserRepository.Repository {
             email: user.email,
             name: user.name,
             role_name: user?.role.name,
-          })
+          }),
       ),
       current_page: props.page,
       per_page: props.per_page,

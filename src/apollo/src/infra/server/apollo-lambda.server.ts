@@ -1,9 +1,9 @@
-import { ApolloServer } from "apollo-server-lambda";
-import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import { GraphQLSchema } from "graphql";
-import Schema from "../schema/schema.interface";
-import { Context } from "../../context";
-import Server from "./server.interface";
+import { ApolloServer } from 'apollo-server-lambda';
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { GraphQLSchema } from 'graphql';
+import Schema from '../schema/schema.interface';
+import { Context } from '../../context';
+import Server from './server.interface';
 
 export default class ApolloLambdaServer implements Server {
   private _schema: GraphQLSchema;

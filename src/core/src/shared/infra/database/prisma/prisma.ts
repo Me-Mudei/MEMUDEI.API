@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 export class Prisma {
   static getInstance() {
     const prisma = new PrismaClient();
@@ -6,4 +6,4 @@ export class Prisma {
   }
 }
 
-export * from "@prisma/client";
+export * from '@prisma/client';

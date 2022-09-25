@@ -51,8 +51,8 @@
     "test:cov": "npm run test -- --coverage",
     "cti": "cti",
     "cti:make": "sh ./cti.sh",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint \"src/**/*.ts\" --fix"
+    "format": "npx prettier --write \"src/**/*.ts\"",
+    "lint": "npx eslint \"src/**/*.ts\" --fix"
   },
   "devDependencies": {
     "@swc/core": "^1",

@@ -1,8 +1,8 @@
-import { makeSchema } from "nexus";
-import { applyMiddleware, IMiddlewareGenerator } from "graphql-middleware";
-import Schema from "./schema.interface";
-import * as types from "./types";
-import { GraphQLSchema } from "graphql";
+import { makeSchema } from 'nexus';
+import { applyMiddleware, IMiddlewareGenerator } from 'graphql-middleware';
+import Schema from './schema.interface';
+import * as types from './types';
+import { GraphQLSchema } from 'graphql';
 
 export default class NexusSchema implements Schema {
   private _schema: GraphQLSchema;
@@ -18,18 +18,18 @@ export default class NexusSchema implements Schema {
     return makeSchema({
       types,
       outputs: {
-        schema: __dirname + "../../../generated/schema.graphql",
-        typegen: __dirname + "../../../generated/nexus.ts",
+        schema: __dirname + '../../../generated/schema.graphql',
+        typegen: __dirname + '../../../generated/nexus.ts',
       },
       contextType: {
-        module: require.resolve("../../context"),
-        export: "Context",
+        module: require.resolve('../../context'),
+        export: 'Context',
       },
       sourceTypes: {
         modules: [
           {
-            module: "@prisma/client",
-            alias: "prisma",
+            module: '@prisma/client',
+            alias: 'prisma',
           },
         ],
       },

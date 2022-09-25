@@ -9,15 +9,15 @@ export abstract class ValueObject<Value = any> {
   }
 
   toString = (): string => {
-    if (typeof this._value !== "object" || this._value === null) {
+    if (typeof this._value !== 'object' || this._value === null) {
       try {
         return this.value.toString();
       } catch (error) {
-        return this.value + "";
+        return this.value + '';
       }
     }
     const valueStr = this.value.toString();
-    return valueStr === "[object Object]"
+    return valueStr === '[object Object]'
       ? JSON.stringify(this.value)
       : valueStr;
   };

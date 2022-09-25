@@ -1,8 +1,8 @@
-import { UserFacade } from "../../../app/facade";
-import { Broker } from "../../../../shared/infra";
-import { CreateUserUseCase } from "../../../app/use-cases";
-import { InMemoryRepositoryFactory } from "../repository";
-import { UserCreatedSendConfirmationHandler } from "../../../app/handlers";
+import { UserFacade } from '../../../app/facade';
+import { Broker } from '../../../../shared/infra';
+import { CreateUserUseCase } from '../../../app/use-cases';
+import { InMemoryRepositoryFactory } from '../repository';
+import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
 
 export class InMemoryFacadeFactory {
   static create() {
@@ -12,7 +12,7 @@ export class InMemoryFacadeFactory {
     broker.register(new UserCreatedSendConfirmationHandler());
     const createUserUseCase = new CreateUserUseCase(
       repositoryFactory.createUserRepository(),
-      broker
+      broker,
     );
 
     return new UserFacade({
