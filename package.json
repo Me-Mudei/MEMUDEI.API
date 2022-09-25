@@ -11,10 +11,12 @@
     "./src/apollo"
   ],
   "scripts": {
-    "prestart:dev": "npm run build -w @me-mudei/core",
+    "prestart:dev": "npm run build -w -w @me-mudei/core",
     "start:dev": "npm run build:w -w @me-mudei/core & npx sls offline --stage local",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces"
   },
   "repository": {
     "type": "git",
@@ -28,8 +30,6 @@
   },
   "homepage": "https://github.com/urieloliveira/MeMudeiBackend#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.38.0",
-    "eslint": "^8.24.0",
     "serverless": "^3.22.0",
     "serverless-offline": "^10.2.1",
     "serverless-plugin-monorepo": "^0.11.0",

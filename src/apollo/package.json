@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/apollo",
     "ts-node": "ts-node",
     "tsc": "tsc",
     "tsc:check": "npm run tsc -- --noEmit",
@@ -29,8 +28,7 @@
     "jest": "^28.1.3",
     "prettier": "^2.7.1",
     "ts-node": "^10",
-    "ts-node-dev": "^2",
-    "typescript": "^4"
+    "typescript": "^4.8.3"
   },
   "dependencies": {
     "apollo-server": "^3",

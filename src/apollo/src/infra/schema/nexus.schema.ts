@@ -8,7 +8,6 @@ export default class NexusSchema implements Schema {
   private _schema: GraphQLSchema;
   constructor(readonly middlewares?: IMiddlewareGenerator<any, any, any>[]) {
     this._schema = this.makeSchema();
-    //@ts-ignore
     this.applyMiddleware(middlewares);
   }
   getSchema() {

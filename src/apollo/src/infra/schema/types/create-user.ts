@@ -1,5 +1,4 @@
 import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
-//@ts-ignore
 import { InMemoryFacadeFactory as User } from '@me-mudei/core/user';
 
 export const createUserInput = inputObjectType({
