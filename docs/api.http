@@ -1,0 +1,21 @@
+#Enviroments
+@local_url = http://localhost:3000/local/graphql
+
+POST {{local_url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation Create_user($input: create_user_input!) {
+  create_user(input: $input) {
+    message
+    status
+  }
+}
+
+{
+  "input": {
+    "name": "Urle",
+    "email": "urielsateles@gmail.com",
+    "role_name": "TEST"
+  }
+}
