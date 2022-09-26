@@ -11,8 +11,9 @@
     "./src/apollo"
   ],
   "scripts": {
-    "prestart:dev": "npm run build -w @me-mudei/core",
-    "start:dev": "npm run build:w -w @me-mudei/core & npx sls offline --stage local",
+    "prestart:dev": "npm run build --workspaces && npm run clean",
+    "start:dev": "npm run build:w -workspaces & npx sls offline --stage local",
+    "clean": "rm -rf .build",
     "test": "jest",
     "test:cov": "jest --coverage",
     "lint": "npm run lint --workspaces",
