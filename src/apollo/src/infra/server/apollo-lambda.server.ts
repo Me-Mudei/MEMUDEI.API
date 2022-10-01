@@ -15,7 +15,8 @@ export default class ApolloLambdaServer implements Server {
   async listen(): Promise<any> {
     return new ApolloServer({
       schema: this._schema,
-      context: () => this._context.getContext(),
+      context: async ({ event }) =>
+        this._context.getContext(event.requestContext),
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     }).createHandler();
   }

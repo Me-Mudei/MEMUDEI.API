@@ -1,8 +1,16 @@
-export type LoggerProps = { app: string; svc: string; req: any };
+export type ReqLoggerProps = {
+  req_id: string;
+  req_path: string;
+  req_method: string;
+  req_ua: string;
+};
+export type LoggerProps = {
+  svc: string;
+  req: ReqLoggerProps;
+};
 
 export interface DefaultInput {
   message: string;
-  res_st_code: number;
 }
 
 export interface ErrorInput extends DefaultInput {
@@ -28,7 +36,6 @@ export const logLevels = {
   critical: 6,
 };
 export interface LoggerInterface {
-  app: string;
   svc: string;
   req_id: string;
   req_path: string;

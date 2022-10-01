@@ -1,5 +1,4 @@
 import { extendType, inputObjectType, nonNull, objectType } from 'nexus';
-import { InMemoryFacadeFactory as User } from '@me-mudei/core/user';
 import { isAdmin } from '../rules';
 
 export const createUserInput = inputObjectType({
@@ -28,9 +27,8 @@ export const userMutations = extendType({
       args: {
         input: nonNull('create_user_input'),
       },
-      resolve: async (_, { input }, _ctx) => {
-        const user = User.create();
-        await user.createUser(input);
+      resolve: async (_, { input }, ctx) => {
+        await ctx.user.createUser(input);
         return {
           status: 200,
           message: 'User created',

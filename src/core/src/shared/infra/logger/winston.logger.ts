@@ -8,9 +8,8 @@ import {
 } from './logger.interface';
 import { createLogger, format, transports, Logger } from 'winston';
 
-export class WinstonLoggerAdapter implements LoggerInterface {
+export class WinstonLogger implements LoggerInterface {
   private logger: Logger;
-  app: string;
   svc: string;
   req_id: string;
   req_path: string;
@@ -25,7 +24,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
   err_category?: string;
 
   constructor(readonly props: LoggerProps) {
-    this.app = props.app;
     this.svc = props.svc;
     this.req_id = props.req.req_id;
     this.req_path = props.req.req_path;
@@ -36,7 +34,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.logger = createLogger({
       levels: logLevels,
       defaultMeta: {
-        app: this.app,
         svc: this.svc,
         req_id: this.req_id,
         req_path: this.req_path,
@@ -47,7 +44,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
       format: format.combine(format.json(), format.timestamp()),
       transports: [new transports.Console({ level: 'critical' })],
     });
-    this.logger.log('info', 'test message %s', 'my string');
   }
 
   private setCaller() {
@@ -60,7 +56,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.setCaller();
     this.ts = new Date();
     this.message = input.message;
-    this.res_st_code = input.res_st_code;
     this.logger.info({ ...input, caller: this.caller });
   }
 
@@ -68,7 +63,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.setCaller();
     this.ts = new Date();
     this.message = input.message;
-    this.res_st_code = input.res_st_code;
     this.logger.warn({ ...input, caller: this.caller });
   }
 
@@ -76,7 +70,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.setCaller();
     this.ts = new Date();
     this.message = input.message;
-    this.res_st_code = input.res_st_code;
     this.imp = input.imp;
     this.err_code = input.err_code;
     this.err_category = input.err_category;
@@ -87,7 +80,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.setCaller();
     this.ts = new Date();
     this.message = input.message;
-    this.res_st_code = input.res_st_code;
     this.logger.debug({ ...input, caller: this.caller });
   }
 
@@ -95,7 +87,6 @@ export class WinstonLoggerAdapter implements LoggerInterface {
     this.setCaller();
     this.ts = new Date();
     this.message = input.message;
-    this.res_st_code = input.res_st_code;
     this.imp = input.imp;
     this.err_code = input.err_code;
     this.err_category = input.err_category;

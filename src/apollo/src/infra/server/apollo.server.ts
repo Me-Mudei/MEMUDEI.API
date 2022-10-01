@@ -15,7 +15,7 @@ export default class ApolloServer implements Server {
   async listen(port: number): Promise<void> {
     const server = new Apollo({
       schema: this._schema,
-      context: () => this._context.getContext(),
+      context: ({ req }) => this._context.getContext(req as any),
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     });
     const { url } = await server.listen({ port });

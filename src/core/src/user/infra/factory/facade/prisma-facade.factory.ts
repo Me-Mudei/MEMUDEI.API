@@ -3,9 +3,21 @@ import { Broker } from '../../../../shared/infra/broker';
 import { CreateUserUseCase } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
 import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
+import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
 
 export class PrismaFacadeFactory {
-  static create() {
+  constructor(readonly req: any) {}
+  create() {
+    const logger = new WinstonLogger({
+      svc: 'testSvc',
+      req: {
+        req_id: this.req.req_id,
+        req_path: this.req.req_path,
+        req_method: this.req.req_method,
+        req_ua: this.req.req_ua,
+      },
+    });
+    logger.info({ message: 'Start User Service' });
     const repositoryFactory = new PrismaRepositoryFactory();
     const broker = new Broker();
 
