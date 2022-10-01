@@ -1,21 +1,13 @@
 import { makeSchema } from 'nexus';
 import { nexusShield, allow } from 'nexus-shield';
 import { ForbiddenError } from 'apollo-server';
-import Schema from './schema.interface';
-import * as types from './types';
-import { GraphQLSchema } from 'graphql';
+import * as UserModule from './user';
+import * as SharedModule from './shared';
 
-export default class NexusSchema implements Schema {
-  private _schema: GraphQLSchema;
-  constructor() {
-    this._schema = this.makeSchema();
-  }
-  getSchema() {
-    return this._schema;
-  }
-  private makeSchema() {
+export default class NexusSchema {
+  static makeSchema() {
     return makeSchema({
-      types,
+      types: [UserModule, SharedModule],
       plugins: [
         nexusShield({
           defaultError: new ForbiddenError('Not allowed'),
@@ -23,11 +15,11 @@ export default class NexusSchema implements Schema {
         }),
       ],
       outputs: {
-        schema: __dirname + '../../../generated/schema.graphql',
-        typegen: __dirname + '../../../generated/nexus.d.ts',
+        schema: __dirname + '/generated/schema.graphql',
+        typegen: __dirname + '/generated/nexus.d.ts',
       },
       contextType: {
-        module: require.resolve('../../context'),
+        module: require.resolve('./context'),
         export: 'Context',
       },
       sourceTypes: {

@@ -1,4 +1,4 @@
 export default {
-  projects: ["<rootDir>/src/core", "<rootDir>/src/apollo"],
-  coverageDirectory: "<rootDir>/coverage",
+  projects: ['<rootDir>/src/core', '<rootDir>/src/apollo'],
+  coverageDirectory: '<rootDir>/coverage',
 };

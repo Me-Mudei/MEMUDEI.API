@@ -1,5 +1,5 @@
 #Enviroments
-@local_url = http://localhost:3000/local/graphql
+@local_url = http://localhost:4000/graphql
 
 POST {{local_url}}
 Content-Type: application/json
