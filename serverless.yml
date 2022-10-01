@@ -42,7 +42,7 @@ provider:
 
 functions:
   app:
-    handler: src/apollo/src/index.handler
+    handler: src/apollo/src/index-lambda.handler
     events:
       - http:
           path: /
