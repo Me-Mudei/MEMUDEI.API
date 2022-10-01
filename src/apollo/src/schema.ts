@@ -22,14 +22,6 @@ export default class NexusSchema {
         module: require.resolve('./context'),
         export: 'Context',
       },
-      sourceTypes: {
-        modules: [
-          {
-            module: '@prisma/client',
-            alias: 'prisma',
-          },
-        ],
-      },
     });
   }
 }

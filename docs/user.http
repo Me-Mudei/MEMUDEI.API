@@ -7,8 +7,12 @@ X-REQUEST-TYPE: GraphQL
 
 mutation Create_user($input: create_user_input!) {
   create_user(input: $input) {
-    message
-    status
+    id
+    name
+    role_name
+    email
+    created_at
+    updated_at
   }
 }
 

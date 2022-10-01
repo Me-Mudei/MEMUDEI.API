@@ -33,8 +33,18 @@ export abstract class Entity<Props extends DefaultProps = any> {
     this._updated_at = updated_at;
   }
 
-  toJSON(): Required<Props> {
-    return { ...this.props } as Required<Props>;
+  toJSON(): Required<
+    { id: string; created_at: Date; updated_at: Date } & Omit<Props, 'id'>
+  > {
+    const { id, created_at, updated_at, ...args } = this.props;
+    return {
+      id: this.id,
+      created_at: this.created_at,
+      updated_at: this.updated_at,
+      ...args,
+    } as unknown as Required<
+      { id: string; created_at: Date; updated_at: Date } & Omit<Props, 'id'>
+    >;
   }
 }
 

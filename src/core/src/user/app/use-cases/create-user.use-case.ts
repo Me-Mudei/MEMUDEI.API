@@ -1,11 +1,11 @@
 import { User, UserCreated, UserRepository } from '../../domain';
 import { Broker } from '../../../shared/infra/';
-import { CreateUserInput } from '../dto';
+import { CreateUserInput, UserOutput } from '../dto';
 import { UseCase } from '../../../shared/app';
 import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
 import { WinstonLogger } from '../../../shared/infra/logger/winston.logger';
 
-export class CreateUserUseCase implements UseCase<CreateUserInput, void> {
+export class CreateUserUseCase implements UseCase<CreateUserInput, UserOutput> {
   logger: LoggerInterface;
   constructor(
     readonly userRepository: UserRepository.Repository,
@@ -25,7 +25,7 @@ export class CreateUserUseCase implements UseCase<CreateUserInput, void> {
         }));
   }
 
-  async execute(input: CreateUserInput): Promise<void> {
+  async execute(input: CreateUserInput): Promise<UserOutput> {
     this.logger.info({ message: 'Start User Use Case' });
     const user = new User({
       email: input.email,
@@ -34,5 +34,6 @@ export class CreateUserUseCase implements UseCase<CreateUserInput, void> {
     });
     await this.userRepository.insert(user);
     await this.broker.publish(new UserCreated(user));
+    return user.toJSON();
   }
 }
