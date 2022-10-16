@@ -1,0 +1,39 @@
+import { InMemorySearchableRepository } from '../../../shared/domain/repository';
+import { SortDirection } from '../../../shared/domain/repository';
+import { Property } from '../../domain/entities';
+import { PropertyRepository } from '../../domain/repository';
+
+export class PropertyInMemoryRepository
+  extends InMemorySearchableRepository<Property>
+  implements PropertyRepository.Repository
+{
+  sortableFields: string[] = ['name', 'created_at'];
+
+  protected async applyFilter(
+    items: Property[],
+    filter: PropertyRepository.Filter,
+  ): Promise<Property[]> {
+    if (!filter) {
+      return items;
+    }
+
+    return items.filter((i) => {
+      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+    });
+  }
+
+  protected async applySort(
+    items: Property[],
+    sort: string | null,
+    sort_dir: SortDirection | null,
+  ): Promise<Property[]> {
+    return !sort
+      ? super.applySort(items, 'created_at', 'desc')
+      : super.applySort(items, sort, sort_dir);
+  }
+}
+
+export default PropertyInMemoryRepository;
+//validação
+//implementar uma ordenação, ordenar por created_at
+//testar filtro + ordenação

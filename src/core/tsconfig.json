@@ -5,7 +5,8 @@
     "outDir": "./dist",
     "paths": {
       "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"]
+      "#user/*": ["./user/*"],
+      "#property/*": ["./property/*"]
     }
   },
   "include": ["src/"]

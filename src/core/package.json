@@ -4,6 +4,7 @@
   "main": "index.js",
   "imports": {
     "#shared/*": "./dist/core/shared/*.js",
+    "#property/*": "./dist/core/property/*.js",
     "#user/*": "./dist/core/user/*.js"
   },
   "exports": {
@@ -13,7 +14,11 @@
     "./user/application": "./dist/user/application/index.js",
     "./user/domain": "./dist/user/domain/index.js",
     "./user/infra": "./dist/user/infra/index.js",
-    "./user": "./dist/user/index.js"
+    "./user": "./dist/user/index.js",
+    "./property/application": "./dist/property/application/index.js",
+    "./property/domain": "./dist/property/domain/index.js",
+    "./property/infra": "./dist/property/infra/index.js",
+    "./property": "./dist/property/index.js"
   },
   "typesVersions": {
     ">=4.0": {
@@ -37,6 +42,18 @@
       ],
       "user": [
         "./dist/user/index.d.ts"
+      ],
+      "property/application": [
+        "./dist/property/application/index.d.ts"
+      ],
+      "property/domain": [
+        "./dist/property/domain/index.d.ts"
+      ],
+      "property/infra": [
+        "./dist/property/infra/index.d.ts"
+      ],
+      "property": [
+        "./dist/property/index.d.ts"
       ]
     }
   },
