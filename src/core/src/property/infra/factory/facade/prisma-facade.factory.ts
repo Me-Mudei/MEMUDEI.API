@@ -23,8 +23,9 @@ export class PrismaFacadeFactory {
 
     broker.register(new PropertyCreatedSendConfirmationHandler());
     const createPropertyUseCase = new CreatePropertyUseCase(
-      repositoryFactory.createPropertyRepository(),
+      repositoryFactory,
       broker,
+      logger,
     );
 
     return new PropertyFacade({

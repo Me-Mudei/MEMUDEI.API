@@ -1,13 +1,13 @@
-import { InMemorySearchableRepository } from '../../../shared/domain/repository';
-import { SortDirection } from '../../../shared/domain/repository';
-import { Property } from '../../domain/entities';
-import { PropertyRepository } from '../../domain/repository';
+import { InMemorySearchableRepository } from '../../../../shared/domain/repository';
+import { SortDirection } from '../../../../shared/domain/repository';
+import { Property } from '../../../domain/entities';
+import { PropertyRepository } from '../../../domain/repository';
 
 export class PropertyInMemoryRepository
   extends InMemorySearchableRepository<Property>
   implements PropertyRepository.Repository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ['title', 'created_at'];
 
   protected async applyFilter(
     items: Property[],
@@ -18,7 +18,7 @@ export class PropertyInMemoryRepository
     }
 
     return items.filter((i) => {
-      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+      return i.props.title.toLowerCase().includes(filter.toLowerCase());
     });
   }
 

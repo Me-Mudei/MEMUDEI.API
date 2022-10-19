@@ -1,7 +1,7 @@
-import { Property } from '../../domain/entities';
-import { PropertyRepository } from '../../domain/repository';
-import { PrismaClient } from '../../../shared/infra/database';
-import { UniqueEntityId } from '../../../shared/domain/value-objects';
+import { Property } from '../../../domain/entities';
+import { PropertyRepository } from '../../../domain/repository';
+import { PrismaClient } from '../../../../shared/infra/database';
+import { UniqueEntityId } from '../../../../shared/domain/value-objects';
 
 export class PropertyPrismaRepository implements PropertyRepository.Repository {
   sortableFields: string[] = ['createdAt'];

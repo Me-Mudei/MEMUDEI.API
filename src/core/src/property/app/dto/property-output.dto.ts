@@ -2,8 +2,6 @@ import { PropertyStatus } from '../../domain/entities';
 
 export type PropertyOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
   title: string;
   description: string;
   status: PropertyStatus;
@@ -11,86 +9,93 @@ export type PropertyOutput = {
   property_type: PropertyTypeOutput;
   property_relationship: PropertyRelationshipOutput;
   privacy_type: PrivacyTypeOutput;
-  floor_plan: FloorPlanOutput;
-  schedule: ScheduleOutput;
+  //schedule: ScheduleOutput;
+  floor_plans: FloorPlanOutput[];
   property_details: PropertyDetailOutput[];
   condominium_details: CondominiumDetailOutput[];
   rules: RuleOutput[];
   photos: PhotoOutput[];
   charges: ChargeOutput[];
-  reports?: ReportOutput[];
-  disabled_at?: Date;
-  deleted_at?: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type AddressOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  zip_code: string;
+  city: string;
+  state: string;
+  street: string;
+  district: string;
+  complement?: string;
 };
 
 export type PropertyTypeOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
 };
 
 export type PropertyRelationshipOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
 };
 
 export type PrivacyTypeOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
 };
 
 export type FloorPlanOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  quantity: number;
+  unit?: string;
 };
 
 export type ScheduleOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
 };
 
 export type PropertyDetailOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
+  available: boolean;
 };
 
 export type CondominiumDetailOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
+  available: boolean;
 };
 
 export type RuleOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  description?: string;
+  allowed: boolean;
 };
 
 export type PhotoOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  url: string;
+  file: string;
+  name: string;
+  type: string;
+  subtype: string;
+  description?: string;
 };
 
 export type ChargeOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  amount: number;
 };
 
 export type ReportOutput = {
   id: string;
-  created_at: string;
-  updated_at: string;
 };

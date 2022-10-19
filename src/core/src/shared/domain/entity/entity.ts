@@ -37,6 +37,19 @@ export abstract class Entity<Props extends DefaultProps = any> {
     { id: string; created_at: Date; updated_at: Date } & Omit<Props, 'id'>
   > {
     const { id, created_at, updated_at, ...args } = this.props;
+    Object.keys(args).forEach((key) => {
+      if (args[key] instanceof Entity) {
+        args[key] = args[key].toJSON();
+      }
+      if (Array.isArray(args[key])) {
+        args[key] = args[key].map((item) => {
+          if (item instanceof Entity) {
+            return item.toJSON();
+          }
+          return item;
+        });
+      }
+    });
     return {
       id: this.id,
       created_at: this.created_at,
