@@ -84,7 +84,7 @@ describe('PropertyValidator Tests', () => {
     });
   });
 
-  test('valid cases for fields', () => {
+  /* test('valid cases for fields', () => {
     const arrange = [
       {
         title: 'some value',
@@ -97,5 +97,5 @@ describe('PropertyValidator Tests', () => {
       expect(isValid).toBeTruthy();
       expect(validator.validatedData).toStrictEqual(new PropertyRules(item));
     });
-  });
+  }); */
 });

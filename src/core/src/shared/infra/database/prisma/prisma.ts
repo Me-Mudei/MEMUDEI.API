@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-export class Prisma {
+export class Connection {
   static getInstance() {
     const prisma = new PrismaClient();
     return prisma;

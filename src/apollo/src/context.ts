@@ -1,7 +1,7 @@
 import { UserFacade } from '@me-mudei/core/dist/user/app/facade';
 import { PropertyFacade } from '@me-mudei/core/dist/property/app/facade';
 import { InMemoryFacadeFactory as User } from '@me-mudei/core/user';
-import { InMemoryFacadeFactory as Property } from '@me-mudei/core/property';
+import { PrismaFacadeFactory as Property } from '@me-mudei/core/property';
 
 export class Context {
   userService: UserFacade;

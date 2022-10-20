@@ -2,12 +2,13 @@ import { makeSchema } from 'nexus';
 import { nexusShield, allow } from 'nexus-shield';
 import { ForbiddenError } from 'apollo-server';
 import * as UserModule from './user';
+import * as PropertyModule from './property';
 import * as SharedModule from './shared';
 
 export default class NexusSchema {
   static makeSchema() {
     return makeSchema({
-      types: [UserModule, SharedModule],
+      types: [PropertyModule, UserModule, SharedModule],
       plugins: [
         nexusShield({
           defaultError: new ForbiddenError('Not allowed'),

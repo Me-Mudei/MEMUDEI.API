@@ -1,5 +1,9 @@
 import { Broker, LoggerInterface, WinstonLogger } from '../../../shared/infra';
-import { CreatePropertyUseCase } from '../use-cases';
+import {
+  CreatePropertyUseCase,
+  GetPropertyUseCase,
+  SearchPropertyUseCase,
+} from '../use-cases';
 import { PropertyFacade } from './property.facade';
 import {
   CondominiumDetailInMemoryRepository,
@@ -115,7 +119,21 @@ describe('PropertyFacade Unit tests', () => {
     repositoryFactory.createRuleRepository = createRuleRepository;
 
     useCase = new CreatePropertyUseCase(repositoryFactory, broker, logger);
-    facade = new PropertyFacade({ createUseCase: useCase });
+    const mockGetUseCase = new GetPropertyUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const mockSearchUseCase = new SearchPropertyUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    facade = new PropertyFacade({
+      createUseCase: useCase,
+      getUseCase: mockGetUseCase,
+      searchUseCase: mockSearchUseCase,
+    });
   });
   it('should create a property facade', async () => {
     const spyFacadeCreate = jest.spyOn(facade, 'createProperty');

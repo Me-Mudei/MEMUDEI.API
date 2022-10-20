@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
-import ClassValidatorFields from '../class-validator-fields';
+import { ClassValidatorFields } from '../class-validator-fields';
 
 class StubRules {
   @MaxLength(255)
@@ -19,12 +19,11 @@ class StubRules {
 class StubClassValidatorFields extends ClassValidatorFields<StubRules> {
   validate(data: any): boolean {
     const rules = new StubRules(data);
-    console.log(rules);
     return super.validate(rules);
   }
 }
 
-describe('ClassValidatorFields Integration Tests', () => {
+describe('{ ClassValidatorFields }Integration Tests', () => {
   it('should validate with errors', () => {
     const validator = new StubClassValidatorFields();
 

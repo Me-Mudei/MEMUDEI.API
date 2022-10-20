@@ -5,7 +5,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import ClassValidatorFields from '../../../shared/domain/validators/class-validator-fields';
+import { ClassValidatorFields } from '../../../shared/domain/validators/class-validator-fields';
 import { PrivacyTypeProps } from '../entities/privacy-type.entity';
 
 export class PrivacyTypeRules {

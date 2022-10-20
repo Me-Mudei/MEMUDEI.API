@@ -1,11 +1,11 @@
-import ClassValidatorFields from '../class-validator-fields';
+import { ClassValidatorFields } from '../class-validator-fields';
 import * as libClassValidator from 'class-validator';
 
 class StubClassValidatorFields extends ClassValidatorFields<{
   field: string;
 }> {}
 
-describe('ClassValidatorFields Unit Tests', () => {
+describe('{ ClassValidatorFields }Unit Tests', () => {
   it('should initialize erros and validatedData variables with null', () => {
     const validator = new StubClassValidatorFields();
     expect(validator.errors).toBeNull();
