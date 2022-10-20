@@ -1,7 +1,21 @@
-import { Property } from '../../../domain/entities';
+import {
+  Address,
+  Charge,
+  CondominiumDetail,
+  FloorPlan,
+  Photo,
+  PrivacyType,
+  Property,
+  PropertyDetail,
+  PropertyRelationship,
+  PropertyStatus,
+  PropertyType,
+  Rule,
+} from '../../../domain/entities';
 import { PropertyRepository } from '../../../domain/repository';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient, Prisma } from '../../../../shared/infra/database';
 import { UniqueEntityId } from '../../../../shared/domain/value-objects';
+import { NotFoundError } from '../../../../shared/domain';
 
 export class PropertyPrismaRepository implements PropertyRepository.Repository {
   sortableFields: string[] = ['createdAt'];
@@ -10,16 +24,106 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
   async insert(entity: Property): Promise<void> {
     await this.prisma.property.create({
       data: {
-        email: entity.props.email,
-        name: entity.props.name,
-        role: {
-          connectOrCreate: {
-            where: {
-              name: entity.props.role_name,
-            },
-            create: {
-              name: entity.props.role_name,
-            },
+        id: entity.id,
+        title: entity.title,
+        description: entity.description,
+        status: entity.status,
+        created_at: entity.created_at,
+        updated_at: entity.updated_at,
+        address: {
+          create: {
+            id: entity.address.id,
+            zip_code: entity.address.zip_code,
+            state: entity.address.state,
+            city: entity.address.city,
+            street: entity.address.street,
+            district: entity.address.district,
+            complement: entity.address.complement,
+            created_at: entity.address.created_at,
+            updated_at: entity.address.updated_at,
+          },
+        },
+        charges: {
+          createMany: {
+            data: entity.charges.map((charge) => ({
+              id: charge.id,
+              name: charge.name,
+              amount: charge.amount,
+              created_at: charge.created_at,
+              updated_at: charge.updated_at,
+            })),
+          },
+        },
+        photos: {
+          createMany: {
+            data: entity.photos.map((photo) => ({
+              id: photo.id,
+              url: photo.url,
+              file: photo.file,
+              name: photo.name,
+              subtype: photo.subtype,
+              type: photo.type,
+              description: photo.description,
+              created_at: photo.created_at,
+              updated_at: photo.updated_at,
+            })),
+          },
+        },
+        floor_plans: {
+          createMany: {
+            data: entity.floor_plans.map((floor_plan) => ({
+              id: floor_plan.id,
+              name: floor_plan.name,
+              quantity: floor_plan.quantity,
+              unit: floor_plan.unit,
+              created_at: floor_plan.created_at,
+              updated_at: floor_plan.updated_at,
+            })),
+          },
+        },
+        privacy_type: {
+          connect: {
+            id: entity.privacy_type.id,
+          },
+        },
+        property_type: {
+          connect: {
+            id: entity.property_type.id,
+          },
+        },
+        property_relationship: {
+          connect: {
+            id: entity.property_relationship.id,
+          },
+        },
+        condominium_details: {
+          createMany: {
+            data: entity.condominium_details.map((condominium_detail) => ({
+              condominium_detail_id: condominium_detail.id,
+              available: condominium_detail.available,
+              created_at: condominium_detail.created_at,
+              updated_at: condominium_detail.updated_at,
+            })),
+          },
+        },
+        property_details: {
+          createMany: {
+            data: entity.property_details.map((property_detail) => ({
+              property_detail_id: property_detail.id,
+              available: property_detail.available,
+              created_at: property_detail.created_at,
+              updated_at: property_detail.updated_at,
+            })),
+          },
+        },
+        rules: {
+          createMany: {
+            data: entity.rules.map((rule) => ({
+              rule_id: rule.id,
+              allowed: rule.allowed,
+              created_at: rule.created_at,
+              updated_at: rule.updated_at,
+            })),
           },
         },
       },
@@ -27,41 +131,31 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
   }
 
   async findById(id: string | UniqueEntityId): Promise<Property> {
-    const property = await this.prisma.property.findFirst({
-      where: { id: id.toString() },
-      include: {
-        role: true,
-      },
-    });
-    return new Property({
-      email: property.email,
-      name: property.name,
-      role_name: property.role.name,
-    });
+    const property = await this.prisma.property
+      .findFirstOrThrow({
+        where: { id: id.toString() },
+        include: this.includes(),
+      })
+      .catch((_err) => {
+        throw new NotFoundError(`Entity Not Found using ID ${id}`);
+      });
+
+    return this.toEntity(property);
   }
 
   async findAll(): Promise<Property[]> {
-    const propertys = await this.prisma.property.findMany({
-      include: {
-        role: true,
-      },
+    const properties = await this.prisma.property.findMany({
+      include: this.includes(),
     });
-    return propertys.map(
-      (property) =>
-        new Property({
-          email: property.email,
-          name: property.name,
-          role_name: property?.role.name,
-        }),
-    );
+    return properties.map((property) => this.toEntity(property));
   }
 
   async update(entity: Property): Promise<void> {
     await this.prisma.property.update({
       where: { id: entity.id },
       data: {
-        email: entity.props.email,
-        name: entity.props.name,
+        title: entity.title,
+        description: entity.description,
       },
     });
   }
@@ -78,7 +172,7 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
 
-    const propertys = await this.prisma.property.findMany({
+    const properties = await this.prisma.property.findMany({
       take: limit,
       skip: offset,
       orderBy: {
@@ -86,33 +180,164 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
           ? { [props.sort]: props.sort_dir }
           : { created_at: 'asc' }),
       },
-      where: {
-        ...(props.filter && {
-          name: {
-            contains: `${props.filter}`,
-          },
-        }),
-      },
-      include: {
-        role: true,
-      },
+      include: this.includes(),
     });
-
     return new PropertyRepository.SearchResult({
-      items: propertys.map(
-        (property) =>
-          new Property({
-            email: property.email,
-            name: property.name,
-            role_name: property?.role.name,
-          }),
-      ),
+      items: properties.map((property) => this.toEntity(property)),
       current_page: props.page,
       per_page: props.per_page,
-      total: propertys.length,
+      total: properties.length,
       filter: props.filter,
       sort: props.sort,
       sort_dir: props.sort_dir,
+    });
+  }
+
+  private includes(): Prisma.propertyInclude {
+    return {
+      address: true,
+      charges: true,
+      photos: true,
+      floor_plans: true,
+      privacy_type: true,
+      property_type: true,
+      property_relationship: true,
+      condominium_details: {
+        include: {
+          condominium_detail: true,
+        },
+      },
+      property_details: {
+        include: {
+          property_detail: true,
+        },
+      },
+      rules: {
+        include: {
+          rule: true,
+        },
+      },
+    };
+  }
+
+  private toEntity(property: any): Property {
+    const address = new Address({
+      id: new UniqueEntityId(property.address.id),
+      zip_code: property.address.zip_code,
+      state: property.address.state,
+      city: property.address.city,
+      street: property.address.street,
+      district: property.address.district,
+      complement: property.address.complement,
+      created_at: property.address.created_at,
+      updated_at: property.address.updated_at,
+    });
+    const privacy_type = new PrivacyType({
+      id: new UniqueEntityId(property.privacy_type.id),
+      name: property.privacy_type.name,
+      description: property.privacy_type.description,
+      created_at: property.privacy_type.created_at,
+      updated_at: property.privacy_type.updated_at,
+    });
+    const property_type = new PropertyType({
+      id: new UniqueEntityId(property.property_type.id),
+      name: property.property_type.name,
+      description: property.property_type.description,
+      created_at: property.property_type.created_at,
+      updated_at: property.property_type.updated_at,
+    });
+    const property_relationship = new PropertyRelationship({
+      id: new UniqueEntityId(property.property_relationship.id),
+      name: property.property_relationship.name,
+      description: property.property_relationship.description,
+      created_at: property.property_relationship.created_at,
+      updated_at: property.property_relationship.updated_at,
+    });
+    const charges = property.charges.map(
+      (charge) =>
+        new Charge({
+          id: new UniqueEntityId(charge.id),
+          name: charge.name,
+          amount: charge.amount,
+          created_at: charge.created_at,
+          updated_at: charge.updated_at,
+        }),
+    );
+    const photos = property.photos.map(
+      (photo) =>
+        new Photo({
+          id: new UniqueEntityId(photo.id),
+          url: photo.url,
+          file: photo.file,
+          name: photo.name,
+          subtype: photo.subtype,
+          type: photo.type,
+          description: photo.description,
+          created_at: photo.created_at,
+          updated_at: photo.updated_at,
+        }),
+    );
+    const floor_plans = property.floor_plans.map(
+      (floor_plan) =>
+        new FloorPlan({
+          id: new UniqueEntityId(floor_plan.id),
+          name: floor_plan.name,
+          quantity: floor_plan.quantity,
+          unit: floor_plan.unit,
+          created_at: floor_plan.created_at,
+          updated_at: floor_plan.updated_at,
+        }),
+    );
+    const condominium_details = property.condominium_details.map(
+      (condominium_detail) =>
+        new CondominiumDetail({
+          id: new UniqueEntityId(condominium_detail.condominium_detail_id),
+          name: condominium_detail.condominium_detail.name,
+          description: condominium_detail.condominium_detail.description,
+          available: condominium_detail.available,
+          created_at: condominium_detail.created_at,
+          updated_at: condominium_detail.updated_at,
+        }),
+    );
+    const property_details = property.property_details.map(
+      (property_detail) =>
+        new PropertyDetail({
+          id: new UniqueEntityId(property_detail.property_detail_id),
+          name: property_detail.property_detail.name,
+          description: property_detail.property_detail.description,
+          available: property_detail.available,
+          created_at: property_detail.created_at,
+          updated_at: property_detail.updated_at,
+        }),
+    );
+    const rules = property.rules.map(
+      (rule) =>
+        new Rule({
+          id: new UniqueEntityId(rule.rule_id),
+          name: rule.rule.name,
+          description: rule.rule.description,
+          allowed: rule.allowed,
+          created_at: rule.created_at,
+          updated_at: rule.updated_at,
+        }),
+    );
+    return new Property({
+      id: new UniqueEntityId(property.id),
+      title: property.title,
+      description: property.description,
+      address,
+      charges,
+      photos,
+      floor_plans,
+      privacy_type,
+      property_type,
+      property_relationship,
+      condominium_details,
+      property_details,
+      rules,
+      status: property.status as PropertyStatus,
+      created_at: property.created_at,
+      updated_at: property.updated_at,
     });
   }
 }

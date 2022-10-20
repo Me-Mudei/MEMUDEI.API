@@ -14,7 +14,11 @@ import {
   RepositoryFactory,
 } from '../../domain';
 import { Broker } from '../../../shared/infra/';
-import { CreatePropertyInput, PropertyOutput } from '../dto';
+import {
+  CreatePropertyInput,
+  PropertyOutput,
+  PropertyOutputMapper,
+} from '../dto';
 import { UseCase } from '../../../shared/app';
 import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
 
@@ -141,71 +145,6 @@ export class CreatePropertyUseCase
       charges: charges,
     });
     await this.propertyRepository.insert(property);
-    return {
-      id: property.id,
-      title: property.title,
-      description: property.description,
-      status: property.status,
-      created_at: property.created_at,
-      updated_at: property.updated_at,
-      address: {
-        id: property.address.id,
-        zip_code: property.address.zip_code,
-        city: property.address.city,
-        state: property.address.state,
-        street: property.address.street,
-        district: property.address.district,
-        complement: property.address.complement,
-      },
-      property_type: {
-        id: property.property_type.id,
-        name: property.property_type.name,
-      },
-      property_relationship: {
-        id: property.property_relationship.id,
-        name: property.property_relationship.name,
-      },
-      privacy_type: {
-        id: property.privacy_type.id,
-        name: property.privacy_type.name,
-      },
-      floor_plans: property.floor_plans.map((floorPlan) => ({
-        id: floorPlan.id,
-        name: floorPlan.name,
-        quantity: floorPlan.quantity,
-        unit: floorPlan.unit,
-      })),
-      property_details: property.property_details.map((propertyDetail) => ({
-        id: propertyDetail.id,
-        name: propertyDetail.name,
-        available: propertyDetail.available,
-      })),
-      condominium_details: property.condominium_details.map(
-        (condominiumDetail) => ({
-          id: condominiumDetail.id,
-          name: condominiumDetail.name,
-          available: condominiumDetail.available,
-        }),
-      ),
-      rules: property.rules.map((rule) => ({
-        id: rule.id,
-        name: rule.name,
-        allowed: rule.allowed,
-      })),
-      photos: property.photos.map((photo) => ({
-        id: photo.id,
-        description: photo.description,
-        file: photo.file,
-        name: photo.name,
-        type: photo.type,
-        subtype: photo.subtype,
-        url: photo.url,
-      })),
-      charges: property.charges.map((charge) => ({
-        id: charge.id,
-        name: charge.name,
-        amount: charge.amount,
-      })),
-    };
+    return PropertyOutputMapper.toOutput(property);
   }
 }

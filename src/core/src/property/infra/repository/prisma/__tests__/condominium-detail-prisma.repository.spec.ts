@@ -1,12 +1,12 @@
 import { UniqueEntityId } from '../../../../../shared/domain';
-import { Prisma, PrismaClient } from '../../../../../shared/infra/database';
+import { Connection, PrismaClient } from '../../../../../shared/infra/database';
 import { CondominiumDetailPrismaRepository } from '../condominium-detail-prisma.repository';
 
 describe('CondominiumDetailRepository Unit tests', () => {
   let prisma: PrismaClient;
 
   beforeEach(() => {
-    prisma = Prisma.getInstance();
+    prisma = Connection.getInstance();
   });
   it('should find by many ids a condominium detail', async () => {
     const condominiumDetailRepository = new CondominiumDetailPrismaRepository(

@@ -8,7 +8,7 @@ import { PropertyType } from './property-type.entity';
 import { PropertyRelationship } from './property-relationship.entity';
 import { PrivacyType } from './privacy-type.entity';
 import { FloorPlan } from './floor-plan.entity';
-import { Schedule } from './schedule.entity';
+//import { Schedule } from './schedule.entity';
 import { PropertyDetail } from './property-detail.entity';
 import { CondominiumDetail } from './condominium-detail.entity';
 import { Rule } from './rule.entity';

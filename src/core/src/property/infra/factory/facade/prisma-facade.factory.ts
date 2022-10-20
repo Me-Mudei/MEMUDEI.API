@@ -1,8 +1,11 @@
 import { PropertyFacade } from '../../../app/facade';
 import { Broker } from '../../../../shared/infra/broker';
-import { CreatePropertyUseCase } from '../../../app/use-cases';
+import {
+  CreatePropertyUseCase,
+  GetPropertyUseCase,
+  SearchPropertyUseCase,
+} from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
-import { PropertyCreatedSendConfirmationHandler } from '../../../app/handlers';
 import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
 
 export class PrismaFacadeFactory {
@@ -17,12 +20,20 @@ export class PrismaFacadeFactory {
         req_ua: this.req.req_ua,
       },
     });
-    logger.info({ message: 'Start Property Service' });
     const repositoryFactory = new PrismaRepositoryFactory();
     const broker = new Broker();
 
-    broker.register(new PropertyCreatedSendConfirmationHandler());
     const createPropertyUseCase = new CreatePropertyUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const getPropertyUseCase = new GetPropertyUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const searchPropertyUseCase = new SearchPropertyUseCase(
       repositoryFactory,
       broker,
       logger,
@@ -30,6 +41,8 @@ export class PrismaFacadeFactory {
 
     return new PropertyFacade({
       createUseCase: createPropertyUseCase,
+      getUseCase: getPropertyUseCase,
+      searchUseCase: searchPropertyUseCase,
     });
   }
 }

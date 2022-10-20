@@ -8,12 +8,12 @@ import {
   CondominiumDetailPrismaRepository,
   RulePrismaRepository,
 } from '../../repository';
-import { Prisma, PrismaClient } from '../../../../shared/infra/database';
+import { Connection, PrismaClient } from '../../../../shared/infra/database';
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   private prisma: PrismaClient;
   constructor() {
-    this.prisma = Prisma.getInstance();
+    this.prisma = Connection.getInstance();
   }
   createPropertyRepository() {
     return new PropertyPrismaRepository(this.prisma);

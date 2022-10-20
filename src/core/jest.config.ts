@@ -1,11 +1,11 @@
 export default {
   displayName: {
-    name: "core",
-    color: "blue",
+    name: 'core',
+    color: 'blue',
   },
   clearMocks: true,
-  coverageDirectory: "../coverage",
-  coverageProvider: "v8",
+  coverageDirectory: '../coverage',
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       statements: 80,
@@ -14,13 +14,14 @@ export default {
       lines: 80,
     },
   },
-  rootDir: "src",
+  rootDir: 'src',
   setupFilesAfterEnv: [
-    "./shared/domain/tests/validations.ts",
-    "./shared/domain/tests/jest.ts",
+    './shared/domain/tests/validations.ts',
+    './shared/domain/tests/jest.ts',
   ],
-  testRegex: ".*\\..*spec\\.ts$",
+  testRegex: '.*\\..*spec\\.ts$',
   transform: {
-    "^.+\\.ts?$": ["@swc/jest"],
+    '^.+\\.ts?$': ['@swc/jest'],
   },
+  testTimeout: 30000,
 };
