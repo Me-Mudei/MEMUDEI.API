@@ -18,6 +18,9 @@ USER node
 
 WORKDIR /home/node/app
 
+#RUN ["chmod", "+x", ".docker/start.sh"]
+
+
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
     -t https://github.com/romkatv/powerlevel10k \
     -p git \
@@ -30,4 +33,4 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> ~/.zshrc && \
     echo 'HISTFILE=/home/node/zsh/.zsh_history' >> ~/.zshrc 
 
-CMD [ "tail -f /dev/null" ]
+CMD [ "sh", "-c", "npm install && tail -f /dev/null" ]

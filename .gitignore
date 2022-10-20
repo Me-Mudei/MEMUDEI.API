@@ -7,3 +7,4 @@ coverage
 **/*/dist
 **/*/generated
 .DS_Store
+db
