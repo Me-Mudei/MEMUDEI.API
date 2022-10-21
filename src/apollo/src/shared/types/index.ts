@@ -1,1 +1,2 @@
-export * as Scalars from './scalars';
+export * from './scalars';
+export * from './search-input.dto';

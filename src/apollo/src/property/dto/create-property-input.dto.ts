@@ -23,6 +23,13 @@ export const CreatePropertyInput = inputObjectType({
   },
 });
 
+export const GetPropertyInput = inputObjectType({
+  name: 'get_property_input',
+  definition(t) {
+    t.nonNull.string('id');
+  },
+});
+
 export const AddressInput = inputObjectType({
   name: 'address_input',
   definition(t) {
