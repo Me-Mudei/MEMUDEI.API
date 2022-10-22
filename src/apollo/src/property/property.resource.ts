@@ -1,4 +1,4 @@
-import { createWriteStream } from 'fs';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import {
   mutationField,
   queryField,
@@ -7,7 +7,6 @@ import {
   objectType,
   inputObjectType,
 } from 'nexus';
-import { ReadStream } from 'tty';
 import { isAdmin } from '../shared/rules';
 
 export const CreateProperty = mutationField('create_property', {
@@ -45,10 +44,9 @@ export const PhotoUpload = mutationField('photo_upload', {
   args: { file: nonNull('photo_upload_input') },
   resolve: async (_, { file }, ctx) => {
     const fi = await file.file;
-
-    fi.createReadStream().pipe(
-      createWriteStream(`${__dirname}/${fi.filename}`),
-    );
+    const path = `${__dirname}/tmp`;
+    if (!existsSync(path)) mkdirSync(path, { recursive: true });
+    fi.createReadStream().pipe(createWriteStream(`${path}/${fi.filename}`));
     return { status: 'ok' };
   },
 });

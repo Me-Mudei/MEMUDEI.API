@@ -136,7 +136,6 @@ export class CreatePropertyUseCase
       charges: charges,
     });
     this.logger.info({ message: 'Property created' });
-    console.log(input.photos);
     const files = await this.driver.uploadMany(input.photos, `${property.id}`);
     this.logger.info({ message: 'Files uploaded' });
     const photos = files.map((file) => {
