@@ -1,6 +1,7 @@
-import { ApolloServer } from 'apollo-server-lambda';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { ApolloServer as Apollo } from '@apollo/server';
+import { startServerAndCreateLambdaHandler } from '@as-integrations/aws-lambda';
 import { GraphQLSchema } from 'graphql';
+import { nanoid } from 'nanoid';
 import { Context } from '../context';
 import Server from './server.interface';
 
@@ -12,11 +13,20 @@ export default class ApolloLambdaServer implements Server {
     this._context = context;
   }
   async listen(): Promise<any> {
-    return new ApolloServer({
+    const server = new Apollo<Context>({
       schema: this._schema,
-      context: async ({ event }) =>
-        this._context.getContext(event.requestContext),
-      plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    }).createHandler();
+    });
+
+    return startServerAndCreateLambdaHandler(server, {
+      context: async ({ event }) => {
+        console.log(event);
+        return this._context.getContext({
+          req_id: nanoid(),
+          req_path: '/graphql',
+          req_method: 'POST',
+          req_ua: event.headers['user-agent'],
+        });
+      },
+    });
   }
 }
