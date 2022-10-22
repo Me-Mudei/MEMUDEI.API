@@ -19,7 +19,6 @@ export default class ApolloLambdaServer implements Server {
 
     return startServerAndCreateLambdaHandler(server, {
       context: async ({ event }) => {
-        console.log(event);
         return this._context.getContext({
           req_id: nanoid(),
           req_path: '/graphql',

@@ -23,15 +23,21 @@ import {
   RepositoryFactory,
   Rule,
 } from '../../../../domain';
+import { InMemoryDriver } from '../../../../infra/driver/in-memory.driver';
+import { Driver } from '../../../../domain/driver/driver-contracts';
+import path from 'path';
+import { createReadStream, ReadStream } from 'fs';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
+  let driver: Driver;
   let broker: Broker;
   let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
+    driver = new InMemoryDriver();
     broker = new Broker();
     logger = new WinstonLogger({
       svc: 'CreateUserUseCase',
@@ -116,7 +122,12 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       createCondominiumDetailRepository;
     repositoryFactory.createRuleRepository = createRuleRepository;
 
-    useCase = new CreatePropertyUseCase(repositoryFactory, broker, logger);
+    useCase = new CreatePropertyUseCase(
+      repositoryFactory,
+      driver,
+      broker,
+      logger,
+    );
   });
 
   it('should create a property', async () => {
@@ -189,12 +200,11 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       ],
       photos: [
         {
-          url: 'string',
-          file: 'string',
-          name: 'string',
-          type: 'string',
-          subtype: 'string',
-          description: 'string',
+          filename: 'unit-use-case-upload-test.txt',
+          mimetype: 'text/plain',
+          encoding: '7bit',
+          createReadStream: () =>
+            createReadStream(`${__dirname}/unit-use-case-upload-test.txt`),
         },
       ],
       charges: [

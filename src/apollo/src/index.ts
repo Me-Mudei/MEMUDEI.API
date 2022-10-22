@@ -6,4 +6,4 @@ const schema = NexusSchema.makeSchema();
 const context = new Context();
 const server = new ApolloServer(schema, context);
 
-server.listen(parseInt(process.env.PORT || '4000'));
+server.listen(parseInt(process.env.PORT || '3000'));

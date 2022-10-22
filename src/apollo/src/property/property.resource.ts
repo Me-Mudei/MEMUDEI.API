@@ -1,3 +1,4 @@
+import { createWriteStream } from 'fs';
 import {
   mutationField,
   queryField,
@@ -6,6 +7,7 @@ import {
   objectType,
   inputObjectType,
 } from 'nexus';
+import { ReadStream } from 'tty';
 import { isAdmin } from '../shared/rules';
 
 export const CreateProperty = mutationField('create_property', {
@@ -13,8 +15,8 @@ export const CreateProperty = mutationField('create_property', {
   shield: isAdmin(),
   args: { input: nonNull('create_property_input') },
   resolve: async (_, { input }, ctx) => {
-    console.log(input.photos);
-    const res = ctx.propertyService.createProperty(input as any);
+    const photos = await Promise.all(input.photos.map((photo) => photo));
+    const res = ctx.propertyService.createProperty({ ...input, photos } as any);
     return res as any;
   },
 });
@@ -42,7 +44,11 @@ export const PhotoUpload = mutationField('photo_upload', {
   type: 'photo_upload_output',
   args: { file: nonNull('photo_upload_input') },
   resolve: async (_, { file }, ctx) => {
-    console.log(file);
+    const fi = await file.file;
+
+    fi.createReadStream().pipe(
+      createWriteStream(`${__dirname}/${fi.filename}`),
+    );
     return { status: 'ok' };
   },
 });

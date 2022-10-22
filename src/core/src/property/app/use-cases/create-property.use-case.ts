@@ -21,6 +21,7 @@ import {
 } from '../dto';
 import { UseCase } from '../../../shared/app';
 import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
+import { Driver } from '../../domain/driver/driver-contracts';
 
 export class CreatePropertyUseCase
   implements UseCase<CreatePropertyInput, PropertyOutput>
@@ -34,6 +35,7 @@ export class CreatePropertyUseCase
   propertyRepository: PropertyRepository.Repository;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
+    readonly driver: Driver,
     readonly broker: Broker,
     readonly logger: LoggerInterface,
   ) {
@@ -69,17 +71,7 @@ export class CreatePropertyUseCase
           unit: floorPlan.unit,
         }),
     );
-    const photos = input.photos.map(
-      (photo) =>
-        new Photo({
-          description: photo.description,
-          file: photo.file,
-          name: photo.name,
-          type: photo.type,
-          subtype: photo.subtype,
-          url: photo.url,
-        }),
-    );
+
     const charges = input.charges.map(
       (charge) =>
         new Charge({
@@ -141,9 +133,22 @@ export class CreatePropertyUseCase
       property_details: propertyDetails,
       condominium_details: condominiumDetails,
       rules: rules,
-      photos: photos,
       charges: charges,
     });
+    this.logger.info({ message: 'Property created' });
+    console.log(input.photos);
+    const files = await this.driver.uploadMany(input.photos, `${property.id}`);
+    this.logger.info({ message: 'Files uploaded' });
+    const photos = files.map((file) => {
+      return new Photo({
+        file: file.filename,
+        name: file.filename,
+        type: file.mimetype.split('/')[0],
+        subtype: file.mimetype.split('/')[1],
+        url: file.url,
+      });
+    });
+    property.photos = photos;
     await this.propertyRepository.insert(property);
     return PropertyOutputMapper.toOutput(property);
   }

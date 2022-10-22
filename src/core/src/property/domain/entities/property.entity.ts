@@ -34,7 +34,7 @@ export type PropertyProps = {
   property_details: PropertyDetail[];
   condominium_details: CondominiumDetail[];
   rules: Rule[];
-  photos: Photo[];
+  photos?: Photo[];
   charges: Charge[];
 };
 
@@ -51,7 +51,7 @@ export class Property extends Entity<PropertyProps> {
   private _property_details: PropertyDetail[];
   private _condominium_details: CondominiumDetail[];
   private _rules: Rule[];
-  private _photos: Photo[];
+  private _photos?: Photo[];
   private _charges: Charge[];
   private _disabled_at?: Date;
   private _deleted_at?: Date;

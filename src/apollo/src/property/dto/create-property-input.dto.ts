@@ -18,7 +18,7 @@ export const CreatePropertyInput = inputObjectType({
       type: 'condominium_detail_input',
     });
     t.nonNull.list.nonNull.field('rules', { type: 'rule_input' });
-    t.nonNull.list.nonNull.field('photos', { type: 'photo_input' });
+    t.nonNull.list.nonNull.upload('photos');
     t.nonNull.list.nonNull.field('charges', { type: 'charge_input' });
   },
 });
@@ -72,18 +72,6 @@ export const RuleInput = inputObjectType({
   definition(t) {
     t.nonNull.string('id');
     t.nonNull.boolean('allowed');
-  },
-});
-
-export const PhotoInput = inputObjectType({
-  name: 'photo_input',
-  definition(t) {
-    t.nonNull.string('url');
-    t.nonNull.string('file');
-    t.nonNull.string('name');
-    t.nonNull.string('type');
-    t.nonNull.string('subtype');
-    t.nullable.string('description');
   },
 });
 

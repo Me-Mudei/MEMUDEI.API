@@ -89,6 +89,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4",
+    "aws-sdk": "^2.1238.0",
     "class-validator": "^0.13.2",
     "nanoid": "^3.3.4",
     "nexus": "^1",

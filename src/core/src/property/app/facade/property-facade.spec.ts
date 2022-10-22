@@ -24,16 +24,21 @@ import {
   RepositoryFactory,
   Rule,
 } from '../../domain';
+import { Driver } from '../../domain/driver/driver-contracts';
+import { InMemoryDriver } from '../../infra/driver/in-memory.driver';
+import { createReadStream, ReadStream } from 'fs';
 
 describe('PropertyFacade Unit tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
+  let driver: Driver;
   let broker: Broker;
   let facade: PropertyFacade;
   let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
+    driver = new InMemoryDriver();
     broker = new Broker();
     logger = new WinstonLogger({
       svc: 'CreateUserUseCase',
@@ -118,7 +123,12 @@ describe('PropertyFacade Unit tests', () => {
       createCondominiumDetailRepository;
     repositoryFactory.createRuleRepository = createRuleRepository;
 
-    useCase = new CreatePropertyUseCase(repositoryFactory, broker, logger);
+    useCase = new CreatePropertyUseCase(
+      repositoryFactory,
+      driver,
+      broker,
+      logger,
+    );
     const mockGetUseCase = new GetPropertyUseCase(
       repositoryFactory,
       broker,
@@ -202,12 +212,11 @@ describe('PropertyFacade Unit tests', () => {
       ],
       photos: [
         {
-          url: 'string',
-          file: 'string',
-          name: 'string',
-          type: 'string',
-          subtype: 'string',
-          description: 'string',
+          filename: 'facade-upload-test.txt',
+          mimetype: 'text/plain',
+          encoding: '7bit',
+          createReadStream: () =>
+            createReadStream(`${__dirname}/facade-upload-test.txt`),
         },
       ],
       charges: [

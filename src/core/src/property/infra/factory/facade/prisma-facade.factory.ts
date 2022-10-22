@@ -7,6 +7,7 @@ import {
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
 import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
+import { AwsS3Driver, InMemoryDriver } from '../../driver';
 
 export class PrismaFacadeFactory {
   constructor(readonly req: any) {}
@@ -21,10 +22,13 @@ export class PrismaFacadeFactory {
       },
     });
     const repositoryFactory = new PrismaRepositoryFactory();
+    //const driver = new AwsS3Driver();
+    const driver = new InMemoryDriver();
     const broker = new Broker();
 
     const createPropertyUseCase = new CreatePropertyUseCase(
       repositoryFactory,
+      driver,
       broker,
       logger,
     );

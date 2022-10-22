@@ -1,3 +1,4 @@
+import { FileInput } from '../../domain/driver/driver-contracts';
 import { PropertyStatus } from '../../domain/entities';
 
 export type CreatePropertyInput = {
@@ -13,7 +14,7 @@ export type CreatePropertyInput = {
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
   rules: RuleInput[];
-  photos: PhotoInput[];
+  photos: FileInput[];
   charges: ChargeInput[];
 };
 
@@ -51,15 +52,6 @@ export type CondominiumDetailInput = {
 export type RuleInput = {
   id: string;
   allowed: boolean;
-};
-
-export type PhotoInput = {
-  url: string;
-  file: string;
-  name: string;
-  type: string;
-  subtype: string;
-  description?: string;
 };
 
 export type ChargeInput = {

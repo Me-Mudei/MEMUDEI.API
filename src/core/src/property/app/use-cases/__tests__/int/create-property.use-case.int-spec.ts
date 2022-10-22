@@ -6,15 +6,20 @@ import {
   Broker,
 } from '../../../../../shared/infra';
 import { RepositoryFactory } from '../../../../domain';
+import { Driver } from '../../../../domain/driver/driver-contracts';
+import { AwsS3Driver } from '../../../../infra/driver/aws-s3.driver';
+import { createReadStream, ReadStream } from 'fs';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
+  let driver: Driver;
   let broker: Broker;
   let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new PrismaRepositoryFactory();
+    driver = new AwsS3Driver();
     broker = new Broker();
     logger = new WinstonLogger({
       svc: 'CreateUserUseCase',
@@ -25,7 +30,12 @@ describe('CreatePropertyUseCase Unit Tests', () => {
         req_ua: 'test',
       },
     });
-    useCase = new CreatePropertyUseCase(repositoryFactory, broker, logger);
+    useCase = new CreatePropertyUseCase(
+      repositoryFactory,
+      driver,
+      broker,
+      logger,
+    );
   });
 
   it('should create a property', async () => {
@@ -86,12 +96,11 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       ],
       photos: [
         {
-          url: 'string',
-          file: 'string',
-          name: 'string',
-          type: 'string',
-          subtype: 'string',
-          description: 'string',
+          filename: 'int-use-case-upload-test.txt',
+          mimetype: 'text/plain',
+          encoding: '7bit',
+          createReadStream: () =>
+            createReadStream(`${__dirname}/int-use-case-upload-test.txt`),
         },
       ],
       charges: [
