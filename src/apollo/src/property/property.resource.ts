@@ -38,29 +38,3 @@ export const SearchProperties = queryField('search_properties', {
     return res as any;
   },
 });
-
-export const PhotoUpload = mutationField('photo_upload', {
-  type: 'photo_upload_output',
-  args: { file: nonNull('photo_upload_input') },
-  resolve: async (_, { file }, ctx) => {
-    const fi = await file.file;
-    const path = `${__dirname}/tmp`;
-    if (!existsSync(path)) mkdirSync(path, { recursive: true });
-    fi.createReadStream().pipe(createWriteStream(`${path}/${fi.filename}`));
-    return { status: 'ok' };
-  },
-});
-
-export const PhotoUploadOutput = objectType({
-  name: 'photo_upload_output',
-  definition(t) {
-    t.nonNull.string('status');
-  },
-});
-
-export const PhotoUploadInput = inputObjectType({
-  name: 'photo_upload_input',
-  definition(t) {
-    t.nonNull.upload('file');
-  },
-});
