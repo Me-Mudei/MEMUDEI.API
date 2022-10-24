@@ -1,4 +1,7 @@
 import { Property, PropertyStatus } from '../../domain/entities';
+import { PrivacyTypeOutput } from './privacy-type/privacy-type-output.dto';
+import { PropertyRelationshipOutput } from './property-relationship/property-relationship-output.dto';
+import { PropertyTypeOutput } from './property-type/property-type-output.dto';
 
 export type PropertyOutput = {
   id: string;
@@ -11,9 +14,9 @@ export type PropertyOutput = {
   privacy_type: PrivacyTypeOutput;
   //schedule: ScheduleOutput;
   floor_plans: FloorPlanOutput[];
-  property_details: PropertyDetailOutput[];
-  condominium_details: CondominiumDetailOutput[];
-  rules: RuleOutput[];
+  property_details: PropertyPropertyDetailOutput[];
+  condominium_details: PropertyCondominiumDetailOutput[];
+  rules: PropertyRuleOutput[];
   photos: PhotoOutput[];
   charges: ChargeOutput[];
   created_at: Date;
@@ -101,24 +104,6 @@ export type AddressOutput = {
   complement?: string;
 };
 
-export type PropertyTypeOutput = {
-  id: string;
-  name: string;
-  description?: string;
-};
-
-export type PropertyRelationshipOutput = {
-  id: string;
-  name: string;
-  description?: string;
-};
-
-export type PrivacyTypeOutput = {
-  id: string;
-  name: string;
-  description?: string;
-};
-
 export type FloorPlanOutput = {
   id: string;
   name: string;
@@ -126,25 +111,21 @@ export type FloorPlanOutput = {
   unit?: string;
 };
 
-export type ScheduleOutput = {
-  id: string;
-};
-
-export type PropertyDetailOutput = {
+export type PropertyPropertyDetailOutput = {
   id: string;
   name: string;
   description?: string;
   available: boolean;
 };
 
-export type CondominiumDetailOutput = {
+export type PropertyCondominiumDetailOutput = {
   id: string;
   name: string;
   description?: string;
   available: boolean;
 };
 
-export type RuleOutput = {
+export type PropertyRuleOutput = {
   id: string;
   name: string;
   description?: string;
@@ -165,8 +146,4 @@ export type ChargeOutput = {
   id: string;
   name: string;
   amount: number;
-};
-
-export type ReportOutput = {
-  id: string;
 };

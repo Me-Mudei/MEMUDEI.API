@@ -1,13 +1,5 @@
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
-import {
-  mutationField,
-  queryField,
-  nullable,
-  nonNull,
-  objectType,
-  inputObjectType,
-} from 'nexus';
-import { isAdmin } from '../shared/rules';
+import { mutationField, queryField, nullable, nonNull } from 'nexus';
+import { isAdmin } from '../../shared/rules';
 
 export const CreateProperty = mutationField('create_property', {
   type: 'property_output',
