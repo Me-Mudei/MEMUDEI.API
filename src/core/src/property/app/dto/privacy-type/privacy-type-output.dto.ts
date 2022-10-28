@@ -1,3 +1,5 @@
+import { PrivacyType } from '../../../domain';
+
 export type PrivacyTypeOutput = {
   id: string;
   name: string;
@@ -5,3 +7,9 @@ export type PrivacyTypeOutput = {
   created_at: Date;
   updated_at: Date;
 };
+
+export class PrivacyTypeOutputMapper {
+  static toOutput(entity: PrivacyType): PrivacyTypeOutput {
+    return entity.toJSON();
+  }
+}

@@ -1,32 +1,39 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { InMemorySearchableRepository } from '../../../../shared/domain/repository';
+import { SortDirection } from '../../../../shared/domain/repository';
+import { PropertyRelationship } from '../../../domain/entities';
 import {
-  PropertyRelationship,
   PropertyRelationshipRepository,
-} from '../../../domain';
+  PropertyRelationshipFilter,
+} from '../../../domain/repository';
 
 export class PropertyRelationshipInMemoryRepository
+  extends InMemorySearchableRepository<PropertyRelationship>
   implements PropertyRelationshipRepository
 {
-  items: PropertyRelationship[] = [];
+  sortableFields: string[] = ['name', 'created_at'];
 
-  async findById(id: string | UniqueEntityId): Promise<PropertyRelationship> {
-    const _id = `${id}`;
-    return this._get(_id);
-  }
-
-  async findManyByIds(
-    ids: string[] | UniqueEntityId[],
+  protected async applyFilter(
+    items: PropertyRelationship[],
+    filter: PropertyRelationshipFilter,
   ): Promise<PropertyRelationship[]> {
-    const _ids = ids.map((id) => `${id}`);
-    const _items = _ids.map((id) => this._get(id));
-    return Promise.all(_items);
+    if (!filter) {
+      return items;
+    }
+
+    return items.filter((i) => {
+      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+    });
   }
 
-  protected async _get(id: string): Promise<PropertyRelationship> {
-    const item = this.items.find((i) => i.id === id);
-    if (!item) {
-      throw new NotFoundError(`Entity Not Found using ID ${id}`);
-    }
-    return item;
+  protected async applySort(
+    items: PropertyRelationship[],
+    sort: string | null,
+    sort_dir: SortDirection | null,
+  ): Promise<PropertyRelationship[]> {
+    return !sort
+      ? super.applySort(items, 'created_at', 'desc')
+      : super.applySort(items, sort, sort_dir);
   }
 }
+
+export default PropertyRelationshipInMemoryRepository;

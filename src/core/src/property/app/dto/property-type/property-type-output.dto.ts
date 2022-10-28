@@ -1,3 +1,5 @@
+import { PropertyType } from '../../../domain';
+
 export type PropertyTypeOutput = {
   id: string;
   name: string;
@@ -5,3 +7,9 @@ export type PropertyTypeOutput = {
   created_at: Date;
   updated_at: Date;
 };
+
+export class PropertyTypeOutputMapper {
+  static toOutput(entity: PropertyType): PropertyTypeOutput {
+    return entity.toJSON();
+  }
+}

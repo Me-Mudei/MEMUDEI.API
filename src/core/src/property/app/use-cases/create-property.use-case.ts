@@ -32,7 +32,7 @@ export class CreatePropertyUseCase
   propertyDetailRepository: PropertyDetailRepository;
   condominiumDetailRepository: CondominiumDetailRepository;
   ruleRepository: RuleRepository;
-  propertyRepository: PropertyRepository.Repository;
+  propertyRepository: PropertyRepository;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly driver: Driver,

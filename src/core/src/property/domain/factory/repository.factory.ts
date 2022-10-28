@@ -9,7 +9,7 @@ import {
 } from '../repository';
 
 export interface RepositoryFactory {
-  createPropertyRepository(): PropertyRepository.Repository;
+  createPropertyRepository(): PropertyRepository;
   createPropertyTypeRepository(): PropertyTypeRepository;
   createPrivacyTypeRepository(): PrivacyTypeRepository;
   createPropertyRelationshipRepository(): PropertyRelationshipRepository;

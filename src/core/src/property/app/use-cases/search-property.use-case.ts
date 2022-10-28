@@ -1,4 +1,8 @@
-import { PropertyRepository, RepositoryFactory } from '../../domain';
+import {
+  PropertyRepository,
+  PropertySearchParams,
+  RepositoryFactory,
+} from '../../domain';
 import { Broker } from '../../../shared/infra/';
 import { PropertyOutput, PropertyOutputMapper } from '../dto';
 import { UseCase } from '../../../shared/app';
@@ -12,7 +16,7 @@ import {
 export class SearchPropertyUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PropertyOutput>>
 {
-  propertyRepository: PropertyRepository.Repository;
+  propertyRepository: PropertyRepository;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
@@ -25,7 +29,7 @@ export class SearchPropertyUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     this.logger.info({ message: 'Start Property Use Case' });
-    const params = new PropertyRepository.SearchParams(input);
+    const params = new PropertySearchParams(input);
     const property = await this.propertyRepository.search(params);
     const items = property.items.map((property) =>
       PropertyOutputMapper.toOutput(property),

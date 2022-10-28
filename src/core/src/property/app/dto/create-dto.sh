@@ -9,6 +9,20 @@ length=6
 for (( j=0; j<${length}; j++ ));
 do
 cat <<EOF >> ${FILE_NAME[j]}/${FILE_NAME[j]}-output.dto.ts
+import { ${CLASS_NAME[j]} } from '../../../domain';
 
+export type ${CLASS_NAME[j]}Output = {
+  id: string;
+  name: string;
+  description?: string;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export class ${CLASS_NAME[j]}OutputMapper {
+  static toOutput(entity: ${CLASS_NAME[j]}): ${CLASS_NAME[j]}Output {
+    return entity.toJSON();
+  }
+}
 EOF
 done

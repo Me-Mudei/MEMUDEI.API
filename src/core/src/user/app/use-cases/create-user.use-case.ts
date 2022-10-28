@@ -8,7 +8,7 @@ import { WinstonLogger } from '../../../shared/infra/logger/winston.logger';
 export class CreateUserUseCase implements UseCase<CreateUserInput, UserOutput> {
   logger: LoggerInterface;
   constructor(
-    readonly userRepository: UserRepository.Repository,
+    readonly userRepository: UserRepository,
     readonly broker: Broker,
     logger?: LoggerInterface,
   ) {

@@ -12,7 +12,7 @@ import {
 export class SearchRuleUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<RuleOutput>>
 {
-  ruleRepository: RuleRepository.Repository;
+  ruleRepository: RuleRepository;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
@@ -27,9 +27,7 @@ export class SearchRuleUseCase
     this.logger.info({ message: 'Start SearchRule Use Case' });
     const params = new RuleRepository.SearchParams(input);
     const rule = await this.ruleRepository.search(params);
-    const items = rule.items.map((rule) =>
-      RuleOutputMapper.toOutput(rule),
-    );
+    const items = rule.items.map((rule) => RuleOutputMapper.toOutput(rule));
 
     return PaginationOutputMapper.toOutput(items, rule);
   }

@@ -12,12 +12,16 @@ import {
   PropertyType,
   Rule,
 } from '../../../domain/entities';
-import { PropertyRepository } from '../../../domain/repository';
+import {
+  PropertyRepository,
+  PropertySearchParams,
+  PropertySearchResult,
+} from '../../../domain/repository';
 import { PrismaClient, Prisma } from '../../../../shared/infra/database';
 import { UniqueEntityId } from '../../../../shared/domain/value-objects';
 import { NotFoundError } from '../../../../shared/domain';
 
-export class PropertyPrismaRepository implements PropertyRepository.Repository {
+export class PropertyPrismaRepository implements PropertyRepository {
   sortableFields: string[] = ['createdAt'];
 
   constructor(readonly prisma: PrismaClient) {}
@@ -166,9 +170,7 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
     });
   }
 
-  async search(
-    props: PropertyRepository.SearchParams,
-  ): Promise<PropertyRepository.SearchResult> {
+  async search(props: PropertySearchParams): Promise<PropertySearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
 
@@ -182,7 +184,7 @@ export class PropertyPrismaRepository implements PropertyRepository.Repository {
       },
       include: this.includes(),
     });
-    return new PropertyRepository.SearchResult({
+    return new PropertySearchResult({
       items: properties.map((property) => this.toEntity(property)),
       current_page: props.page,
       per_page: props.per_page,

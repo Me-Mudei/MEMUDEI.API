@@ -3,7 +3,7 @@ import { UserRepository } from '../../domain/repository';
 import { PrismaClient } from '../../../shared/infra/database';
 import { UniqueEntityId } from '../../../shared/domain/value-objects';
 
-export class UserPrismaRepository implements UserRepository.Repository {
+export class UserPrismaRepository implements UserRepository {
   sortableFields: string[] = ['createdAt'];
 
   constructor(readonly prisma: PrismaClient) {}

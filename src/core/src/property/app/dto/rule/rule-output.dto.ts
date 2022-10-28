@@ -1,3 +1,5 @@
+import { Rule } from '../../../domain';
+
 export type RuleOutput = {
   id: string;
   name: string;
@@ -5,3 +7,9 @@ export type RuleOutput = {
   created_at: Date;
   updated_at: Date;
 };
+
+export class RuleOutputMapper {
+  static toOutput(entity: Rule): RuleOutput {
+    return entity.toJSON();
+  }
+}

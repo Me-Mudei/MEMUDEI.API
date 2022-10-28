@@ -1,6 +1,22 @@
-import { UniqueEntityId } from '../../../shared/domain';
+import {
+  SearchableRepositoryInterface,
+  SearchParams as DefaultSearchParams,
+  SearchResult as DefaultSearchResult,
+} from '../../../shared/domain';
 import { PropertyRelationship } from '../entities';
 
-export interface PropertyRelationshipRepository {
-  findById(id: string | UniqueEntityId): Promise<PropertyRelationship>;
-}
+export type PropertyRelationshipFilter = string;
+
+export class PropertyRelationshipSearchParams extends DefaultSearchParams<PropertyRelationshipFilter> {}
+
+export class PropertyRelationshipSearchResult extends DefaultSearchResult<
+  PropertyRelationship,
+  PropertyRelationshipFilter
+> {}
+
+export type PropertyRelationshipRepository = SearchableRepositoryInterface<
+  PropertyRelationship,
+  PropertyRelationshipFilter,
+  PropertyRelationshipSearchParams,
+  PropertyRelationshipSearchResult
+>;

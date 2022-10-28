@@ -7,7 +7,7 @@ import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
 export class GetPropertyUseCase
   implements UseCase<{ id: string }, PropertyOutput>
 {
-  propertyRepository: PropertyRepository.Repository;
+  propertyRepository: PropertyRepository;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,

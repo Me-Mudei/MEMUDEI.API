@@ -1,27 +1,39 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
-import { PrivacyType, PrivacyTypeRepository } from '../../../domain';
+import { InMemorySearchableRepository } from '../../../../shared/domain/repository';
+import { SortDirection } from '../../../../shared/domain/repository';
+import { PrivacyType } from '../../../domain/entities';
+import {
+  PrivacyTypeRepository,
+  PrivacyTypeFilter,
+} from '../../../domain/repository';
 
-export class PrivacyTypeInMemoryRepository implements PrivacyTypeRepository {
-  items: PrivacyType[] = [];
+export class PrivacyTypeInMemoryRepository
+  extends InMemorySearchableRepository<PrivacyType>
+  implements PrivacyTypeRepository
+{
+  sortableFields: string[] = ['name', 'created_at'];
 
-  async findById(id: string | UniqueEntityId): Promise<PrivacyType> {
-    const _id = `${id}`;
-    return this._get(_id);
-  }
-
-  async findManyByIds(
-    ids: string[] | UniqueEntityId[],
+  protected async applyFilter(
+    items: PrivacyType[],
+    filter: PrivacyTypeFilter,
   ): Promise<PrivacyType[]> {
-    const _ids = ids.map((id) => `${id}`);
-    const _items = _ids.map((id) => this._get(id));
-    return Promise.all(_items);
+    if (!filter) {
+      return items;
+    }
+
+    return items.filter((i) => {
+      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+    });
   }
 
-  protected async _get(id: string): Promise<PrivacyType> {
-    const item = this.items.find((i) => i.id === id);
-    if (!item) {
-      throw new NotFoundError(`Entity Not Found using ID ${id}`);
-    }
-    return item;
+  protected async applySort(
+    items: PrivacyType[],
+    sort: string | null,
+    sort_dir: SortDirection | null,
+  ): Promise<PrivacyType[]> {
+    return !sort
+      ? super.applySort(items, 'created_at', 'desc')
+      : super.applySort(items, sort, sort_dir);
   }
 }
+
+export default PrivacyTypeInMemoryRepository;

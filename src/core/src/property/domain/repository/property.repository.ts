@@ -5,19 +5,18 @@ import {
 } from '../../../shared/domain';
 import { Property } from '../entities';
 
-export namespace PropertyRepository {
-  export type Filter = string;
+export type PropertyFilter = string;
 
-  export class SearchParams extends DefaultSearchParams<Filter> {}
+export class PropertySearchParams extends DefaultSearchParams<PropertyFilter> {}
 
-  export class SearchResult extends DefaultSearchResult<Property, Filter> {}
+export class PropertySearchResult extends DefaultSearchResult<
+  Property,
+  PropertyFilter
+> {}
 
-  export type Repository = SearchableRepositoryInterface<
-    Property,
-    Filter,
-    SearchParams,
-    SearchResult
-  >;
-}
-
-export default PropertyRepository;
+export type PropertyRepository = SearchableRepositoryInterface<
+  Property,
+  PropertyFilter,
+  PropertySearchParams,
+  PropertySearchResult
+>;

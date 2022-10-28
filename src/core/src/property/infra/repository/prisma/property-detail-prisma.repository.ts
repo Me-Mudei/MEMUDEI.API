@@ -1,37 +1,100 @@
 import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
-import { PropertyDetail, PropertyDetailRepository } from '../../../domain';
+import {
+  PropertyDetail,
+  PropertyDetailRepository,
+  PropertyDetailSearchParams,
+  PropertyDetailSearchResult,
+} from '../../../domain';
 import { PrismaClient } from '../../../../shared/infra/database';
 
 export class PropertyDetailPrismaRepository
   implements PropertyDetailRepository
 {
+  sortableFields: string[] = ['createdAt'];
   constructor(readonly prisma: PrismaClient) {}
 
-  async findManyByIds(
-    ids: string[] | UniqueEntityId[],
-  ): Promise<PropertyDetail[]> {
-    const propertyDetailsDatabase = await this.prisma.property_detail.findMany({
-      where: {
-        id: {
-          in: ids.map((id) => `${id}`),
-        },
+  async insert(entity: PropertyDetail): Promise<void> {
+    await this.prisma.property_detail.create({
+      data: {
+        id: entity.id,
+        name: entity.name,
+        description: entity.description,
+        created_at: entity.created_at,
+        updated_at: entity.updated_at,
       },
     });
-    ids.map((id) => {
-      if (!propertyDetailsDatabase.find((c) => c.id === `${id}`)) {
-        throw new NotFoundError(`Property Detail Not Found using ID ${id}`);
-      }
-    });
-    const propertyDetails = propertyDetailsDatabase.map(
-      (propertyDetail) =>
-        new PropertyDetail({
-          id: new UniqueEntityId(propertyDetail.id),
-          name: propertyDetail.name,
-          description: propertyDetail.description,
-          created_at: propertyDetail.created_at,
-          updated_at: propertyDetail.updated_at,
-        }),
+  }
+
+  async findById(id: string | UniqueEntityId): Promise<PropertyDetail> {
+    const propertyDetail = await this.prisma.property_detail
+      .findFirstOrThrow({
+        where: { id: id.toString() },
+      })
+      .catch((_err) => {
+        throw new NotFoundError(`Entity Not Found using ID ${id}`);
+      });
+
+    return this.toEntity(propertyDetail);
+  }
+
+  async findAll(): Promise<PropertyDetail[]> {
+    const propertyDetails = await this.prisma.property_detail.findMany();
+    return propertyDetails.map((propertyDetail) =>
+      this.toEntity(propertyDetail),
     );
-    return propertyDetails;
+  }
+
+  async update(entity: PropertyDetail): Promise<void> {
+    await this.prisma.property_detail.update({
+      where: { id: entity.id },
+      data: {
+        name: entity.name,
+        description: entity.description,
+      },
+    });
+  }
+
+  async delete(id: string | UniqueEntityId): Promise<void> {
+    await this.prisma.property_detail.delete({
+      where: { id: id.toString() },
+    });
+  }
+
+  async search(
+    props: PropertyDetailSearchParams,
+  ): Promise<PropertyDetailSearchResult> {
+    const offset = (props.page - 1) * props.per_page;
+    const limit = props.per_page;
+
+    const propertyDetails = await this.prisma.property_detail.findMany({
+      take: limit,
+      skip: offset,
+      orderBy: {
+        ...(props.sort && this.sortableFields.includes(props.sort)
+          ? { [props.sort]: props.sort_dir }
+          : { created_at: 'asc' }),
+      },
+    });
+    return new PropertyDetailSearchResult({
+      items: propertyDetails.map((propertyDetail) =>
+        this.toEntity(propertyDetail),
+      ),
+      current_page: props.page,
+      per_page: props.per_page,
+      total: propertyDetails.length,
+      filter: props.filter,
+      sort: props.sort,
+      sort_dir: props.sort_dir,
+    });
+  }
+
+  private toEntity(entity: any): PropertyDetail {
+    return new PropertyDetail({
+      id: new UniqueEntityId(entity.id),
+      name: entity.name,
+      description: entity.description,
+      created_at: entity.created_at,
+      updated_at: entity.updated_at,
+    });
   }
 }

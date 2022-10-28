@@ -5,7 +5,7 @@ import { UserRepository } from '../../domain/repository';
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<User>
-  implements UserRepository.Repository
+  implements UserRepository
 {
   sortableFields: string[] = ['name', 'created_at'];
 

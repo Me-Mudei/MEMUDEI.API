@@ -1,25 +1,36 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
-import { Rule, RuleRepository } from '../../../domain';
+import { InMemorySearchableRepository } from '../../../../shared/domain/repository';
+import { SortDirection } from '../../../../shared/domain/repository';
+import { Rule } from '../../../domain/entities';
+import { RuleRepository, RuleFilter } from '../../../domain/repository';
 
-export class RuleInMemoryRepository implements RuleRepository {
-  items: Rule[] = [];
+export class RuleInMemoryRepository
+  extends InMemorySearchableRepository<Rule>
+  implements RuleRepository
+{
+  sortableFields: string[] = ['name', 'created_at'];
 
-  async findById(id: string | UniqueEntityId): Promise<Rule> {
-    const _id = `${id}`;
-    return this._get(_id);
-  }
-
-  async findManyByIds(ids: string[] | UniqueEntityId[]): Promise<Rule[]> {
-    const _ids = ids.map((id) => `${id}`);
-    const _items = _ids.map((id) => this._get(id));
-    return Promise.all(_items);
-  }
-
-  protected async _get(id: string): Promise<Rule> {
-    const item = this.items.find((i) => i.id === id);
-    if (!item) {
-      throw new NotFoundError(`Entity Not Found using ID ${id}`);
+  protected async applyFilter(
+    items: Rule[],
+    filter: RuleFilter,
+  ): Promise<Rule[]> {
+    if (!filter) {
+      return items;
     }
-    return item;
+
+    return items.filter((i) => {
+      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+    });
+  }
+
+  protected async applySort(
+    items: Rule[],
+    sort: string | null,
+    sort_dir: SortDirection | null,
+  ): Promise<Rule[]> {
+    return !sort
+      ? super.applySort(items, 'created_at', 'desc')
+      : super.applySort(items, sort, sort_dir);
   }
 }
+
+export default RuleInMemoryRepository;

@@ -1,17 +1,17 @@
 import { InMemorySearchableRepository } from '../../../../shared/domain/repository';
 import { SortDirection } from '../../../../shared/domain/repository';
 import { Property } from '../../../domain/entities';
-import { PropertyRepository } from '../../../domain/repository';
+import { PropertyRepository, PropertyFilter } from '../../../domain/repository';
 
 export class PropertyInMemoryRepository
   extends InMemorySearchableRepository<Property>
-  implements PropertyRepository.Repository
+  implements PropertyRepository
 {
   sortableFields: string[] = ['title', 'created_at'];
 
   protected async applyFilter(
     items: Property[],
-    filter: PropertyRepository.Filter,
+    filter: PropertyFilter,
   ): Promise<Property[]> {
     if (!filter) {
       return items;
@@ -34,6 +34,3 @@ export class PropertyInMemoryRepository
 }
 
 export default PropertyInMemoryRepository;
-//validação
-//implementar uma ordenação, ordenar por created_at
-//testar filtro + ordenação

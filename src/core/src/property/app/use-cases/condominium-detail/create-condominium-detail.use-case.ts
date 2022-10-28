@@ -25,7 +25,9 @@ export class CreateCondominiumDetailUseCase
       repositoryFactory.createCondominiumDetailRepository();
   }
 
-  async execute(input: CreateCondominiumDetailInput): Promise<CondominiumDetailOutput> {
+  async execute(
+    input: CreateCondominiumDetailInput,
+  ): Promise<CondominiumDetailOutput> {
     this.logger.info({ message: 'Start CreateCondominiumDetail Use Case' });
     const condominiumDetail = new CondominiumDetail({
       name: input.name,
