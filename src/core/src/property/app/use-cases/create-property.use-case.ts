@@ -89,7 +89,7 @@ export class CreatePropertyUseCase
       await this.propertyRelationshipRepository.findById(
         input.property_relationship_id,
       );
-    const propertyDetails = await this.propertyDetailRepository.findManyByIds(
+    const propertyDetails = await this.propertyDetailRepository.findManyById(
       input.property_details.map((propertyDetail) => propertyDetail.id),
     );
 
@@ -99,7 +99,7 @@ export class CreatePropertyUseCase
       ).available;
     });
     const condominiumDetails =
-      await this.condominiumDetailRepository.findManyByIds(
+      await this.condominiumDetailRepository.findManyById(
         input.condominium_details.map(
           (condominiumDetail) => condominiumDetail.id,
         ),
@@ -110,7 +110,7 @@ export class CreatePropertyUseCase
           condominiumDetailInput.id === condominiumDetail.id,
       ).available;
     });
-    const rules = await this.ruleRepository.findManyByIds(
+    const rules = await this.ruleRepository.findManyById(
       input.rules.map((rule) => rule.id),
     );
     rules.map((rule) => {

@@ -12,7 +12,7 @@ describe('CondominiumDetailRepository Unit tests', () => {
     const condominiumDetailRepository = new CondominiumDetailPrismaRepository(
       prisma,
     );
-    const condominiumDetails = await condominiumDetailRepository.findManyByIds([
+    const condominiumDetails = await condominiumDetailRepository.findManyById([
       new UniqueEntityId('p9bw4jiqH7Weh84d19Dk1'),
     ]);
     expect(condominiumDetails.length).toBe(1);

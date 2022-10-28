@@ -35,6 +35,19 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
     return this.toEntity(privacyType);
   }
 
+  async findManyById(ids: (string | UniqueEntityId)[]): Promise<PrivacyType[]> {
+    const privacyType = await this.prisma.privacy_type.findMany({
+      where: {
+        id: {
+          in: ids.map((id) => id.toString()),
+        },
+      },
+    });
+    return privacyType.map((condominiumDetail) =>
+      this.toEntity(condominiumDetail),
+    );
+  }
+
   async findAll(): Promise<PrivacyType[]> {
     const privacyTypes = await this.prisma.privacy_type.findMany();
     return privacyTypes.map((privacyType) => this.toEntity(privacyType));

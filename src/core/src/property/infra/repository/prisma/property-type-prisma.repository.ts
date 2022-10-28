@@ -35,6 +35,19 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
     return this.toEntity(propertyType);
   }
 
+  async findManyById(
+    ids: (string | UniqueEntityId)[],
+  ): Promise<PropertyType[]> {
+    const propertyTypes = await this.prisma.property_type.findMany({
+      where: {
+        id: {
+          in: ids.map((id) => id.toString()),
+        },
+      },
+    });
+    return propertyTypes.map((propertyType) => this.toEntity(propertyType));
+  }
+
   async findAll(): Promise<PropertyType[]> {
     const propertyTypes = await this.prisma.property_type.findMany();
     return propertyTypes.map((propertyType) => this.toEntity(propertyType));

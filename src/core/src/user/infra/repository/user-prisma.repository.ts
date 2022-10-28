@@ -1,5 +1,9 @@
 import { User } from '../../domain/entities';
-import { UserRepository } from '../../domain/repository';
+import {
+  UserRepository,
+  UserSearchParams,
+  UserSearchResult,
+} from '../../domain/repository';
 import { PrismaClient } from '../../../shared/infra/database';
 import { UniqueEntityId } from '../../../shared/domain/value-objects';
 
@@ -40,6 +44,27 @@ export class UserPrismaRepository implements UserRepository {
     });
   }
 
+  async findManyById(ids: (string | UniqueEntityId)[]): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: ids.map((id) => id.toString()),
+        },
+      },
+      include: {
+        role: true,
+      },
+    });
+    return users.map(
+      (user) =>
+        new User({
+          email: user.email,
+          name: user.name,
+          role_name: user?.role.name,
+        }),
+    );
+  }
+
   async findAll(): Promise<User[]> {
     const users = await this.prisma.user.findMany({
       include: {
@@ -72,9 +97,7 @@ export class UserPrismaRepository implements UserRepository {
     });
   }
 
-  async search(
-    props: UserRepository.SearchParams,
-  ): Promise<UserRepository.SearchResult> {
+  async search(props: UserSearchParams): Promise<UserSearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
 
@@ -98,7 +121,7 @@ export class UserPrismaRepository implements UserRepository {
       },
     });
 
-    return new UserRepository.SearchResult({
+    return new UserSearchResult({
       items: users.map(
         (user) =>
           new User({

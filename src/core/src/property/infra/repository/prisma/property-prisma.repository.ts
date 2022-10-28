@@ -147,6 +147,18 @@ export class PropertyPrismaRepository implements PropertyRepository {
     return this.toEntity(property);
   }
 
+  async findManyById(ids: (string | UniqueEntityId)[]): Promise<Property[]> {
+    const properties = await this.prisma.property.findMany({
+      where: {
+        id: {
+          in: ids.map((id) => id.toString()),
+        },
+      },
+      include: this.includes(),
+    });
+    return properties.map((property) => this.toEntity(property));
+  }
+
   async findAll(): Promise<Property[]> {
     const properties = await this.prisma.property.findMany({
       include: this.includes(),

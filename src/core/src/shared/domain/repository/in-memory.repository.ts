@@ -23,6 +23,11 @@ export abstract class InMemoryRepository<E extends Entity>
     return this._get(_id);
   }
 
+  async findManyById(ids: (string | UniqueEntityId)[]): Promise<E[]> {
+    const _ids = ids.map((id) => `${id}`);
+    return this.items.filter((i) => _ids.includes(i.id));
+  }
+
   async findAll(): Promise<E[]> {
     return this.items;
   }

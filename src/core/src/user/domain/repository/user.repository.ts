@@ -5,19 +5,15 @@ import {
 } from '../../../shared/domain';
 import { User } from '../entities';
 
-export namespace UserRepository {
-  export type Filter = string;
+export type UserFilter = string;
 
-  export class SearchParams extends DefaultSearchParams<Filter> {}
+export class UserSearchParams extends DefaultSearchParams<UserFilter> {}
 
-  export class SearchResult extends DefaultSearchResult<User, Filter> {}
+export class UserSearchResult extends DefaultSearchResult<User, UserFilter> {}
 
-  export type Repository = SearchableRepositoryInterface<
-    User,
-    Filter,
-    SearchParams,
-    SearchResult
-  >;
-}
-
-export default UserRepository;
+export type UserRepository = SearchableRepositoryInterface<
+  User,
+  UserFilter,
+  UserSearchParams,
+  UserSearchResult
+>;

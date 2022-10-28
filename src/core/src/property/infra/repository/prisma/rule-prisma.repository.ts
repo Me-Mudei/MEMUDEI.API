@@ -35,6 +35,17 @@ export class RulePrismaRepository implements RuleRepository {
     return this.toEntity(rule);
   }
 
+  async findManyById(ids: (string | UniqueEntityId)[]): Promise<Rule[]> {
+    const rules = await this.prisma.rule.findMany({
+      where: {
+        id: {
+          in: ids.map((id) => id.toString()),
+        },
+      },
+    });
+    return rules.map((rule) => this.toEntity(rule));
+  }
+
   async findAll(): Promise<Rule[]> {
     const rules = await this.prisma.rule.findMany();
     return rules.map((rule) => this.toEntity(rule));

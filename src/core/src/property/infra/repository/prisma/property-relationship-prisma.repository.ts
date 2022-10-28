@@ -37,6 +37,22 @@ export class PropertyRelationshipPrismaRepository
     return this.toEntity(propertyRelationship);
   }
 
+  async findManyById(
+    ids: (string | UniqueEntityId)[],
+  ): Promise<PropertyRelationship[]> {
+    const propertyRelationships =
+      await this.prisma.property_relationship.findMany({
+        where: {
+          id: {
+            in: ids.map((id) => id.toString()),
+          },
+        },
+      });
+    return propertyRelationships.map((propertyRelationship) =>
+      this.toEntity(propertyRelationship),
+    );
+  }
+
   async findAll(): Promise<PropertyRelationship[]> {
     const propertyRelationships =
       await this.prisma.property_relationship.findMany();
