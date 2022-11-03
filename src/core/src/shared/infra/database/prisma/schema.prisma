@@ -8,33 +8,91 @@ generator prisma_client {
     binaryTargets = ["darwin-arm64", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
 }
 
-model User {
-    id          String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    email       String    @unique
-    name        String
-    role_id     String    @db.Char(21)
-    role        Role      @relation(fields: [role_id], references: [id])
-    disabled_at DateTime?
-    deleted_at  DateTime?
-    created_at  DateTime  @default(now())
-    updated_at  DateTime  @updatedAt
+model user {
+    id              String        @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    email           String        @unique
+    name            String
+    role_id         String        @db.Char(21)
+    role            role          @relation(fields: [role_id], references: [id])
+    disabled_at     DateTime?
+    deleted_at      DateTime?
+    created_at      DateTime      @default(now())
+    updated_at      DateTime      @updatedAt
+    calendar        calendar[]
+    property        property[]
+    event           event[]
+    organization    organization? @relation(fields: [organization_id], references: [id])
+    organization_id String?       @db.Char(21)
 }
 
-model Role {
-    id          String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name        String   @unique
+model role {
+    id          String            @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name        String            @unique
     description String?
-    users       User[]
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+    created_at  DateTime          @default(now())
+    updated_at  DateTime          @updatedAt
+    users       user[]
+    permissions role_permission[]
 }
 
-model Permission {
-    id          String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name        String   @unique
+model role_permission {
+    role_id       String     @db.Char(21)
+    role          role       @relation(fields: [role_id], references: [id])
+    permission_id String     @db.Char(21)
+    permission    permission @relation(fields: [permission_id], references: [id])
+    created_at    DateTime   @default(now())
+    updated_at    DateTime   @updatedAt
+
+    @@id([role_id, permission_id])
+}
+
+model permission {
+    id          String            @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name        String            @unique
     description String?
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+    created_at  DateTime          @default(now())
+    updated_at  DateTime          @updatedAt
+    roles       role_permission[]
+}
+
+model calendar {
+    id                 String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    is_active          Boolean   @default(false)
+    user_id            String    @db.Char(21)
+    user               user      @relation(fields: [user_id], references: [id])
+    expired_at         DateTime
+    deleted_at         DateTime?
+    created_at         DateTime  @default(now())
+    updated_at         DateTime  @updatedAt
+    available_weekdays weekday[]
+    event              event[]
+}
+
+model weekday {
+    id              String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name            String    @unique
+    available_hours hour[]
+    created_at      DateTime  @default(now())
+    updated_at      DateTime  @updatedAt
+    calendar        calendar? @relation(fields: [calendar_id], references: [id])
+    calendar_id     String?   @db.Char(21)
+}
+
+model hour {
+    id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name       String   @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    weekday    weekday? @relation(fields: [weekday_id], references: [id])
+    weekday_id String?  @db.Char(21)
+}
+
+model organization {
+    id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    name       String?
+    members    user[]
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 }
 
 model property {
@@ -42,21 +100,40 @@ model property {
     title                    String
     description              String
     status                   String
+    user                     user                             @relation(fields: [user_id], references: [id])
+    user_id                  String                           @db.Char(21)
     property_type            property_type                    @relation(fields: [property_type_id], references: [id])
+    property_type_id         String                           @db.Char(21)
     property_relationship    property_relationship            @relation(fields: [property_relationship_id], references: [id])
+    property_relationship_id String                           @db.Char(21)
     privacy_type             privacy_type                     @relation(fields: [privacy_type_id], references: [id])
+    privacy_type_id          String                           @db.Char(21)
     floor_plans              floor_plan[]
     photos                   photo[]
     charges                  charge[]
     created_at               DateTime                         @default(now())
     updated_at               DateTime                         @updatedAt
-    property_type_id         String                           @db.Char(21)
-    property_relationship_id String                           @db.Char(21)
-    privacy_type_id          String                           @db.Char(21)
     condominium_details      properties_condominium_details[]
     rules                    properties_rules[]
     property_details         properties_property_details[]
     address                  address?
+    property_schedule        event[]
+}
+
+model event {
+    id           String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    title        String
+    obs          String?
+    start        DateTime
+    end          DateTime
+    created_at   DateTime  @default(now())
+    updated_at   DateTime  @updatedAt
+    calendar     calendar? @relation(fields: [calendar_id], references: [id])
+    calendar_id  String?   @db.Char(21)
+    property     property? @relation(fields: [property_id], references: [id])
+    property_id  String?   @db.Char(21)
+    scheduler    user?     @relation(fields: [scheduler_id], references: [id])
+    scheduler_id String?   @db.Char(21)
 }
 
 model address {
@@ -70,7 +147,7 @@ model address {
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
     property_id String   @unique @db.Char(21)
-    properties  property @relation(fields: [property_id], references: [id])
+    property    property @relation(fields: [property_id], references: [id])
 }
 
 model property_type {

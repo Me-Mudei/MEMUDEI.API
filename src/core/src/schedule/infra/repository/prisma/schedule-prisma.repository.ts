@@ -12,9 +12,16 @@ export class SchedulePrismaRepository implements ScheduleRepository {
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Schedule): Promise<void> {
-    await this.prisma.schedule.create({
+    await this.prisma.event.create({
       data: {
         id: entity.id,
+        start: entity.start,
+        end: entity.end,
+        calendar_id: entity.calendar.id,
+        title: entity.title,
+        obs: entity.obs,
+        property_id: entity.property.id,
+        scheduler_id: entity.scheduler.id,
         created_at: entity.created_at,
         updated_at: entity.updated_at,
       },
