@@ -1,5 +1,8 @@
 import { RepositoryFactory } from '../../../domain/factory';
-import { SchedulePrismaRepository } from '../../repository';
+import {
+  SchedulePrismaRepository,
+  CalendarPrismaRepository,
+} from '../../repository';
 import { Connection, PrismaClient } from '../../../../shared/infra/database';
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
@@ -9,5 +12,9 @@ export class PrismaRepositoryFactory implements RepositoryFactory {
   }
   createScheduleRepository() {
     return new SchedulePrismaRepository(this.prisma);
+  }
+
+  createCalendarRepository() {
+    return new CalendarPrismaRepository(this.prisma);
   }
 }

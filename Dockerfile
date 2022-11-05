@@ -3,6 +3,9 @@ FROM node:16.17.0-slim
 RUN mkdir -p /usr/share/man/man1 && \
     echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/stretch-backports.list && \
     apt update && apt install -y \
+    apt install -y wget netcat && \
+    wget -q -O /usr/bin/wait-for https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for && \
+    chmod +x /usr/bin/wait-for \
     git \
     ca-certificates \
     openjdk-11-jre \

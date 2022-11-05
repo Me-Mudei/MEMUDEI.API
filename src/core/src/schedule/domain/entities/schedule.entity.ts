@@ -3,16 +3,18 @@ import {
   EntityValidationError,
   UniqueEntityId,
 } from '../../../shared/domain';
+import { OverlapScheduleError } from '../errors/overlap-schedule.error';
 import ScheduleValidatorFactory from '../validators/schedule.validator';
 import { Calendar, Property, User } from './';
+
+export type ScheduleStatus = 'pending' | 'approved' | 'rejected';
 
 export type ScheduleProps = {
   id?: UniqueEntityId;
   start: Date;
-  end: Date;
-  title: string;
+  calendar?: Calendar;
   obs?: string;
-  calendar: Calendar;
+  status?: ScheduleStatus;
   property: Property;
   scheduler: User;
   created_at?: Date;
@@ -21,10 +23,9 @@ export type ScheduleProps = {
 
 export class Schedule extends Entity<ScheduleProps> {
   private _start: Date;
-  private _end: Date;
-  private _title: string;
+  private _calendar?: Calendar;
   private _obs?: string;
-  private _calendar: Calendar;
+  private _status: ScheduleStatus;
   private _property: Property;
   private _scheduler: User;
 
@@ -32,12 +33,12 @@ export class Schedule extends Entity<ScheduleProps> {
     Schedule.validate(props);
     super(props);
     this._start = props.start;
-    this._end = props.end;
-    this._title = props.title;
-    this._obs = props.obs;
     this._calendar = props.calendar;
+    this._obs = props.obs;
+    this._status = props.status || 'pending';
     this._property = props.property;
     this._scheduler = props.scheduler;
+    this.overlapOnCalendar(this._calendar);
   }
 
   static validate(props: ScheduleProps) {
@@ -48,6 +49,31 @@ export class Schedule extends Entity<ScheduleProps> {
     }
   }
 
+  public overlapOnCalendar(calendar?: Calendar): void {
+    if (calendar && !calendar.available(this)) {
+      throw new OverlapScheduleError('Calendar is not available');
+    }
+    return;
+  }
+
+  public overlapSchedule(other: Schedule, durationInMinutes: number): boolean {
+    const startInMinutes = this.dateToTimeInMinutes(this.start);
+    const endInMinutes = startInMinutes + durationInMinutes;
+    const otherStartInMinutes = this.dateToTimeInMinutes(other.start);
+    const otherEndInMinutes = otherStartInMinutes + durationInMinutes;
+
+    return (
+      (otherStartInMinutes >= startInMinutes &&
+        otherStartInMinutes <= endInMinutes) ||
+      (otherStartInMinutes < startInMinutes &&
+        otherEndInMinutes > startInMinutes)
+    );
+  }
+
+  public dateToTimeInMinutes(date: Date): number {
+    return date.getHours() * 60 + date.getMinutes();
+  }
+
   public get start(): Date {
     return this._start;
   }
@@ -56,20 +82,12 @@ export class Schedule extends Entity<ScheduleProps> {
     this._start = _start;
   }
 
-  public get end(): Date {
-    return this._end;
+  public get calendar(): Calendar {
+    return this._calendar;
   }
 
-  public set end(_end: Date) {
-    this._end = _end;
-  }
-
-  public get title(): string {
-    return this._title;
-  }
-
-  public set title(_title: string) {
-    this._title = _title;
+  public set calendar(_calendar: Calendar) {
+    this._calendar = _calendar;
   }
 
   public get obs(): string {
@@ -80,12 +98,12 @@ export class Schedule extends Entity<ScheduleProps> {
     this._obs = _obs;
   }
 
-  public get calendar(): Calendar {
-    return this._calendar;
+  public get status(): ScheduleStatus {
+    return this._status;
   }
 
-  public set calendar(_calendar: Calendar) {
-    this._calendar = _calendar;
+  public set status(_status: ScheduleStatus) {
+    this._status = _status;
   }
 
   public get property(): Property {

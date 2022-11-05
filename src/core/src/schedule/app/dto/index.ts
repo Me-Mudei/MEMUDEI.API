@@ -2,3 +2,5 @@
 
 export * from './create-schedule.dto';
 export * from './schedule-output.dto';
+
+export * from './calendar';

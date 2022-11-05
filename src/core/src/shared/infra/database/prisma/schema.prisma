@@ -70,21 +70,12 @@ model calendar {
 
 model weekday {
     id              String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name            String    @unique
-    available_hours hour[]
+    day             Int       @unique
+    available_hours Int[]
     created_at      DateTime  @default(now())
     updated_at      DateTime  @updatedAt
     calendar        calendar? @relation(fields: [calendar_id], references: [id])
     calendar_id     String?   @db.Char(21)
-}
-
-model hour {
-    id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name       String   @unique
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    weekday    weekday? @relation(fields: [weekday_id], references: [id])
-    weekday_id String?  @db.Char(21)
 }
 
 model organization {

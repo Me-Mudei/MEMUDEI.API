@@ -1,4 +1,4 @@
-import { ScheduleFacade } from '../../../app/facade';
+import { ScheduleFacade, CalendarFacade } from '../../../app/facade';
 import { Broker } from '../../../../shared/infra/broker';
 import {
   GetScheduleUseCase,
@@ -6,13 +6,19 @@ import {
   CreateScheduleUseCase,
   UpdateScheduleUseCase,
   DeleteScheduleUseCase,
+  GetCalendarUseCase,
+  SearchCalendarUseCase,
+  CreateCalendarUseCase,
+  UpdateCalendarUseCase,
+  DeleteCalendarUseCase,
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
 import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
+import { FacadeFactory } from '../../../domain/factory/facade.factory';
 
-export class PrismaFacadeFactory {
+export class PrismaFacadeFactory implements FacadeFactory {
   constructor(readonly req: any) {}
-  create() {
+  createScheduleFacade() {
     const logger = new WinstonLogger({
       svc: 'testSvc',
       req: {
@@ -57,6 +63,53 @@ export class PrismaFacadeFactory {
       createSchedule: createScheduleUseCase,
       updateSchedule: updateScheduleUseCase,
       deleteSchedule: deleteScheduleUseCase,
+    });
+  }
+  createCalendarFacade() {
+    const logger = new WinstonLogger({
+      svc: 'testSvc',
+      req: {
+        req_id: this.req.req_id,
+        req_path: this.req.req_path,
+        req_method: this.req.req_method,
+        req_ua: this.req.req_ua,
+      },
+    });
+    const repositoryFactory = new PrismaRepositoryFactory();
+    const broker = new Broker();
+
+    const getCalendarUseCase = new GetCalendarUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const searchCalendarUseCase = new SearchCalendarUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const createCalendarUseCase = new CreateCalendarUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const updateCalendarUseCase = new UpdateCalendarUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+    const deleteCalendarUseCase = new DeleteCalendarUseCase(
+      repositoryFactory,
+      broker,
+      logger,
+    );
+
+    return new CalendarFacade({
+      getCalendar: getCalendarUseCase,
+      searchCalendar: searchCalendarUseCase,
+      createCalendar: createCalendarUseCase,
+      updateCalendar: updateCalendarUseCase,
+      deleteCalendar: deleteCalendarUseCase,
     });
   }
 }
