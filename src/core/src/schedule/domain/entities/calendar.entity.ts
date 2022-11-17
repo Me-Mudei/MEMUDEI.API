@@ -1,4 +1,4 @@
-import { Schedule, Weekday, Hour } from './';
+import { Schedule, Weekday, User } from './';
 import {
   Entity,
   EntityValidationError,
@@ -9,7 +9,7 @@ import CalendarValidatorFactory from '../validators/calendar.validator';
 export type CalendarProps = {
   id?: UniqueEntityId;
   is_active?: boolean;
-  available_weekdays?: Weekday[];
+  weekdays?: Weekday[];
   schedule_duration?: number;
   events?: Schedule[];
   expired_at?: Date;
@@ -22,7 +22,7 @@ export class Calendar extends Entity<CalendarProps> {
   private VALIDITY_PERIOD = 30;
   private _is_active: boolean;
   private _expired_at: Date;
-  private _available_weekdays: Weekday[];
+  private _weekdays: Weekday[];
   private _events?: Schedule[];
   private _schedule_duration: number;
 
@@ -33,7 +33,7 @@ export class Calendar extends Entity<CalendarProps> {
     this._expired_at =
       props.expired_at ||
       new Date(new Date().setDate(new Date().getDate() + this.VALIDITY_PERIOD));
-    this._available_weekdays = props.available_weekdays || [];
+    this._weekdays = props.weekdays || [];
     this._events = props.events || [];
     this._schedule_duration = props.schedule_duration || 30;
   }
@@ -46,24 +46,21 @@ export class Calendar extends Entity<CalendarProps> {
     }
   }
 
-  public available(schedule: Schedule): boolean {
-    if (
-      schedule.start > this.expired_at ||
-      this._available_weekdays.length <= 0
-    ) {
+  public availableToSchedule(schedule: Schedule): boolean {
+    if (schedule.start > this.expired_at || this.weekdays.length <= 0) {
       return false;
     }
-    return this._available_weekdays
+    return this.weekdays
       .map((weekday) => {
         if (weekday.availableWeekday(schedule.start)) {
-          if (this._events.length === 0) {
+          if (this.events.length === 0) {
             return true;
           }
-          return !this._events
+          return this.events
             .map((event) =>
               event.overlapSchedule(schedule, this.schedule_duration),
             )
-            .includes(true);
+            .includes(false);
         }
         return false;
       })
@@ -86,12 +83,12 @@ export class Calendar extends Entity<CalendarProps> {
     this._expired_at = _expired_at;
   }
 
-  public get available_weekdays(): Weekday[] {
-    return this._available_weekdays;
+  public get weekdays(): Weekday[] {
+    return this._weekdays;
   }
 
-  public set available_weekdays(_available_weekdays: Weekday[]) {
-    this._available_weekdays = _available_weekdays;
+  public set weekdays(_weekdays: Weekday[]) {
+    this._weekdays = _weekdays;
   }
 
   public get events(): Schedule[] {

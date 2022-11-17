@@ -11,7 +11,6 @@ import {
   SearchScheduleUseCase,
   CreateScheduleUseCase,
   UpdateScheduleUseCase,
-  DeleteScheduleUseCase,
 } from '../use-cases';
 
 export interface ScheduleFacadeProps {
@@ -19,7 +18,6 @@ export interface ScheduleFacadeProps {
   searchSchedule: SearchScheduleUseCase;
   createSchedule: CreateScheduleUseCase;
   updateSchedule: UpdateScheduleUseCase;
-  deleteSchedule: DeleteScheduleUseCase;
 }
 
 export class ScheduleFacade {
@@ -27,14 +25,12 @@ export class ScheduleFacade {
   private _searchSchedule: SearchScheduleUseCase;
   private _createSchedule: CreateScheduleUseCase;
   private _updateSchedule: UpdateScheduleUseCase;
-  private _deleteSchedule: DeleteScheduleUseCase;
 
   constructor(readonly props: ScheduleFacadeProps) {
     this._getSchedule = props.getSchedule;
     this._searchSchedule = props.searchSchedule;
     this._createSchedule = props.createSchedule;
     this._updateSchedule = props.updateSchedule;
-    this._deleteSchedule = props.deleteSchedule;
   }
   async getSchedule(input: { id: string }): Promise<ScheduleOutput> {
     return this._getSchedule.execute(input);
@@ -52,8 +48,5 @@ export class ScheduleFacade {
   }
   async updateSchedule(input: UpdateScheduleInput): Promise<ScheduleOutput> {
     return this._updateSchedule.execute(input);
-  }
-  async deleteSchedule(input: { id: string }): Promise<void> {
-    return this._deleteSchedule.execute(input);
   }
 }

@@ -5,7 +5,6 @@ import {
   SearchScheduleUseCase,
   CreateScheduleUseCase,
   UpdateScheduleUseCase,
-  DeleteScheduleUseCase,
   GetCalendarUseCase,
   SearchCalendarUseCase,
   CreateCalendarUseCase,
@@ -51,18 +50,12 @@ export class PrismaFacadeFactory implements FacadeFactory {
       broker,
       logger,
     );
-    const deleteScheduleUseCase = new DeleteScheduleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
 
     return new ScheduleFacade({
       getSchedule: getScheduleUseCase,
       searchSchedule: searchScheduleUseCase,
       createSchedule: createScheduleUseCase,
       updateSchedule: updateScheduleUseCase,
-      deleteSchedule: deleteScheduleUseCase,
     });
   }
   createCalendarFacade() {

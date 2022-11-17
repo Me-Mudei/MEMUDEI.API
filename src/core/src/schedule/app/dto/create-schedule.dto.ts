@@ -1,8 +1,10 @@
 export type CreateScheduleInput = {
-  date: Date;
+  start: Date;
+  obs?: string;
+  property_id: string;
+  scheduler_id: string;
 };
 
 export type UpdateScheduleInput = {
   id: string;
-  date: Date;
 };

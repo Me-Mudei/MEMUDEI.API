@@ -2,6 +2,8 @@ import { RepositoryFactory } from '../../../domain/factory';
 import {
   ScheduleInMemoryRepository,
   CalendarInMemoryRepository,
+  PropertyInMemoryRepository,
+  UserInMemoryRepository,
 } from '../../repository';
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {
@@ -11,5 +13,13 @@ export class InMemoryRepositoryFactory implements RepositoryFactory {
 
   createCalendarRepository() {
     return new CalendarInMemoryRepository();
+  }
+
+  createPropertyRepository() {
+    return new PropertyInMemoryRepository();
+  }
+
+  createUserRepository() {
+    return new UserInMemoryRepository();
   }
 }

@@ -1,12 +1,8 @@
-import { CreatePropertyUseCase } from '../../create-property.use-case';
+import { CreateScheduleUseCase } from '../../create-schedule.use-case';
 import {
-  CondominiumDetailInMemoryRepository,
   InMemoryRepositoryFactory,
-  PrivacyTypeInMemoryRepository,
-  PropertyDetailInMemoryRepository,
-  PropertyRelationshipInMemoryRepository,
-  PropertyTypeInMemoryRepository,
-  RuleInMemoryRepository,
+  PropertyInMemoryRepository,
+  UserInMemoryRepository,
 } from '../../../../infra';
 import {
   LoggerInterface,
@@ -15,29 +11,25 @@ import {
 } from '../../../../../shared/infra';
 import { UniqueEntityId } from '../../../../../shared/domain';
 import {
-  CondominiumDetail,
-  PrivacyType,
-  PropertyDetail,
-  PropertyRelationship,
-  PropertyType,
   RepositoryFactory,
-  Rule,
+  Property,
+  User,
+  Calendar,
+  Schedule,
+  Weekday,
+  Hour,
 } from '../../../../domain';
-import { InMemoryDriver } from '../../../../infra/driver/in-memory.driver';
-import { Driver } from '../../../../domain/driver/driver-contracts';
-import path from 'path';
-import { createReadStream, ReadStream } from 'fs';
+import { OverlapScheduleError } from '../../../../domain/errors/overlap-schedule.error';
 
-describe('CreatePropertyUseCase Unit Tests', () => {
-  let useCase: CreatePropertyUseCase;
+describe('CreateScheduleUseCase Unit Tests', () => {
+  let useCase: CreateScheduleUseCase;
   let repositoryFactory: RepositoryFactory;
-  let driver: Driver;
   let broker: Broker;
   let logger: LoggerInterface;
+  const activeScheduleStart = new Date('2022-11-21T07:00:00.000Z');
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
-    driver = new InMemoryDriver();
     broker = new Broker();
     logger = new WinstonLogger({
       svc: 'CreateUserUseCase',
@@ -48,207 +40,122 @@ describe('CreatePropertyUseCase Unit Tests', () => {
         req_ua: 'test',
       },
     });
-    const propertyTypeRepository = new PropertyTypeInMemoryRepository();
-    propertyTypeRepository.items = [
-      new PropertyType({
-        id: new UniqueEntityId('-qAJnuQ9yyjAixr3kA0qV'),
-        name: 'Casa',
-      }),
+    const userRepository = new UserInMemoryRepository();
+    const hours = [
+      new Hour({ value: 7 * 60 }),
+      new Hour({ value: 7.5 * 60 }),
+      new Hour({ value: 8 * 60 }),
+      new Hour({ value: 8.5 * 60 }),
+      new Hour({ value: 9 * 60 }),
+      new Hour({ value: 9.5 * 60 }),
+      new Hour({ value: 10 * 60 }),
+      new Hour({ value: 10.5 * 60 }),
+      new Hour({ value: 11 * 60 }),
+      new Hour({ value: 11.5 * 60 }),
+      new Hour({ value: 12 * 60 }),
+      new Hour({ value: 12.5 * 60 }),
+      new Hour({ value: 13 * 60 }),
+      new Hour({ value: 13.5 * 60 }),
+      new Hour({ value: 14 * 60 }),
+      new Hour({ value: 14.5 * 60 }),
+      new Hour({ value: 15 * 60 }),
+      new Hour({ value: 15.5 * 60 }),
+      new Hour({ value: 16 * 60 }),
+      new Hour({ value: 16.5 * 60 }),
+      new Hour({ value: 17 * 60 }),
+      new Hour({ value: 17.5 * 60 }),
+      new Hour({ value: 18 * 60 }),
+      new Hour({ value: 18.5 * 60 }),
+      new Hour({ value: 19 * 60 }),
+      new Hour({ value: 19.5 * 60 }),
+      new Hour({ value: 20 * 60 }),
     ];
-    const createPropertyTypeRepository = () => propertyTypeRepository;
-    const privacyTypeRepository = new PrivacyTypeInMemoryRepository();
-    privacyTypeRepository.items = [
-      new PrivacyType({
-        id: new UniqueEntityId('W6gVuFYhw9hdJjqZhfyR5'),
-        name: 'Individual',
-      }),
-    ];
-    const createPrivacyTypeRepository = () => privacyTypeRepository;
-    const propertyRelationshipRepository =
-      new PropertyRelationshipInMemoryRepository();
-    propertyRelationshipRepository.items = [
-      new PropertyRelationship({
-        id: new UniqueEntityId('XVGl_wQH_qY-Ib12c4fdH'),
-        name: 'Propietario',
-      }),
-    ];
-    const createPropertyRelationshipRepository = () =>
-      propertyRelationshipRepository;
-    const propertyDetailRepository = new PropertyDetailInMemoryRepository();
-    propertyDetailRepository.items = [
-      new PropertyDetail({
-        id: new UniqueEntityId('WzpOAqMrbs0B-wL2nldyi'),
-        name: 'Cozinha americana',
-      }),
-      new PropertyDetail({
-        id: new UniqueEntityId('bvS8JBf9S9310FSDaUfss'),
-        name: 'Piscina',
-      }),
-    ];
-    const createPropertyDetailRepository = () => propertyDetailRepository;
-    const condominiumDetailRepository =
-      new CondominiumDetailInMemoryRepository();
-    condominiumDetailRepository.items = [
-      new CondominiumDetail({
-        id: new UniqueEntityId('ofPD2D4pPFJ2WNmdoeBrt'),
-        name: 'Portaria 24h',
-      }),
-      new CondominiumDetail({
-        id: new UniqueEntityId('NxSfKX56NoptjKXERlZ52'),
-        name: 'Elevador',
-      }),
-    ];
-    const createCondominiumDetailRepository = () => condominiumDetailRepository;
-    const ruleRepository = new RuleInMemoryRepository();
-    ruleRepository.items = [
-      new Rule({
+    const owner = new User({
+      id: new UniqueEntityId('KC3bcqEZoTt5BUByd9qwH'),
+      calendars: [
+        new Calendar({
+          id: new UniqueEntityId('hvm3HnQZa9mumQ_dghywi'),
+          is_active: true,
+          weekdays: [
+            new Weekday({ day: 1, hours }),
+            new Weekday({ day: 2, hours }),
+            new Weekday({ day: 3, hours }),
+            new Weekday({ day: 4, hours }),
+            new Weekday({ day: 5, hours }),
+          ],
+          events: [
+            new Schedule({
+              id: new UniqueEntityId('T1g9FuuVznxEBnzFKU3mh'),
+              start: activeScheduleStart,
+              status: 'approved',
+            }),
+          ],
+        }),
+      ],
+    });
+    const scheduler = new User({
+      id: new UniqueEntityId('Ryz0ucxehQKZzbKuWcZ6E'),
+    });
+    userRepository.items = [owner, scheduler];
+    const createUserRepository = () => userRepository;
+    const propertyRepository = new PropertyInMemoryRepository();
+    propertyRepository.items = [
+      new Property({
         id: new UniqueEntityId('CEiQmjH2zKOZ37yuzQHfA'),
-        name: 'Permite animais',
-      }),
-      new Rule({
-        id: new UniqueEntityId('QKhIxaf8BTzuZnsTOfVU4'),
-        name: 'Permitido fumar',
+        owner,
       }),
     ];
-    const createRuleRepository = () => ruleRepository;
-    repositoryFactory.createPropertyTypeRepository =
-      createPropertyTypeRepository;
-    repositoryFactory.createPrivacyTypeRepository = createPrivacyTypeRepository;
-    repositoryFactory.createPropertyRelationshipRepository =
-      createPropertyRelationshipRepository;
-    repositoryFactory.createPropertyDetailRepository =
-      createPropertyDetailRepository;
-    repositoryFactory.createCondominiumDetailRepository =
-      createCondominiumDetailRepository;
-    repositoryFactory.createRuleRepository = createRuleRepository;
+    const createPropertyRepository = () => propertyRepository;
 
-    useCase = new CreatePropertyUseCase(
-      repositoryFactory,
-      driver,
-      broker,
-      logger,
-    );
+    repositoryFactory.createUserRepository = createUserRepository;
+    repositoryFactory.createPropertyRepository = createPropertyRepository;
+
+    useCase = new CreateScheduleUseCase(repositoryFactory, broker, logger);
   });
 
-  it('should create a property', async () => {
+  it('should create a schedule', async () => {
     const spyRepositoryInsert = jest.spyOn(
-      useCase.propertyRepository,
+      useCase.scheduleRepository,
       'insert',
     );
 
-    const createPropertyProps = {
-      title: 'Apartamento completo com churraqueira',
-      description:
-        'Imóvel mobiliado, com churrasqueira e piscina, próximo ao metrô e comércio local, com 2 vagas de garagem e 2 quartos com ar condicionado. O condomínio possui academia, salão de festas e portaria 24 horas. Agende sua visita!',
-      address: {
-        zip_code: '04571000',
-        city: 'São Paulo',
-        state: 'SP',
-        street: 'Rua dos Pinheiros',
-        district: 'Pinheiros',
-      },
-      property_type_id: '-qAJnuQ9yyjAixr3kA0qV',
-      property_relationship_id: 'XVGl_wQH_qY-Ib12c4fdH',
-      privacy_type_id: 'W6gVuFYhw9hdJjqZhfyR5',
-      floor_plans: [
-        {
-          name: 'Quarto',
-          quantity: 2,
-        },
-        {
-          name: 'Banheiro',
-          quantity: 2,
-        },
-        {
-          name: 'Vaga de garagem',
-          quantity: 2,
-        },
-        {
-          name: 'Metragem',
-          quantity: 100,
-        },
-      ],
-      property_details: [
-        {
-          id: 'WzpOAqMrbs0B-wL2nldyi',
-          available: false,
-        },
-        {
-          id: 'bvS8JBf9S9310FSDaUfss',
-          available: true,
-        },
-      ],
-      condominium_details: [
-        {
-          id: 'ofPD2D4pPFJ2WNmdoeBrt',
-          available: false,
-        },
-        {
-          id: 'NxSfKX56NoptjKXERlZ52',
-          available: true,
-        },
-      ],
-      rules: [
-        {
-          id: 'CEiQmjH2zKOZ37yuzQHfA',
-          allowed: false,
-        },
-        {
-          id: 'QKhIxaf8BTzuZnsTOfVU4',
-          allowed: true,
-        },
-      ],
-      photos: [
-        {
-          filename: 'unit-use-case-upload-test.txt',
-          mimetype: 'text/plain',
-          encoding: '7bit',
-          createReadStream: () =>
-            createReadStream(`${__dirname}/unit-use-case-upload-test.txt`),
-        },
-      ],
-      charges: [
-        {
-          name: 'Aluguel',
-          amount: 1200,
-        },
-        {
-          name: 'Condomínio',
-          amount: 400,
-        },
-        {
-          name: 'IPTU',
-          amount: 100,
-        },
-        {
-          name: 'Seguro incêndio',
-          amount: 100,
-        },
-      ],
-    };
-    const property = await useCase.execute(createPropertyProps);
-
-    expect(property.address).toMatchObject(createPropertyProps.address);
-    expect(property.title).toBe(createPropertyProps.title);
-    expect(property.description).toBe(createPropertyProps.description);
-    expect(property.property_type.id).toBe(
-      createPropertyProps.property_type_id,
-    );
-    expect(property.property_relationship.id).toBe(
-      createPropertyProps.property_relationship_id,
-    );
-    expect(property.privacy_type.id).toBe(createPropertyProps.privacy_type_id);
-    expect(property.floor_plans).toMatchObject(createPropertyProps.floor_plans);
-    expect(property.property_details).toMatchObject(
-      createPropertyProps.property_details,
-    );
-    expect(property.condominium_details).toMatchObject(
-      createPropertyProps.condominium_details,
-    );
-    expect(property.rules).toMatchObject(createPropertyProps.rules);
-    expect(property.photos).toMatchObject(createPropertyProps.photos);
-    expect(property.charges).toMatchObject(createPropertyProps.charges);
-
+    const schedule = await useCase.execute({
+      start: new Date('2022-11-21T08:00:00.000Z'),
+      property_id: 'CEiQmjH2zKOZ37yuzQHfA',
+      scheduler_id: 'Ryz0ucxehQKZzbKuWcZ6E',
+    });
+    expect(schedule).toMatchObject({ status: 'pending' });
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not create a schedule', async () => {
+    const arrange = [
+      {
+        params: { start: activeScheduleStart },
+        result: new OverlapScheduleError('Calendar is not available'),
+      },
+      {
+        params: { start: new Date('2022-11-21T07:10:00.000Z') },
+        result: new OverlapScheduleError('Calendar is not available'),
+      },
+      {
+        params: { start: new Date('2022-11-21T06:50:00.000Z') },
+        result: new OverlapScheduleError('Calendar is not available'),
+      },
+      {
+        params: { start: new Date('2022-11-21T06:00:00.000Z') },
+        result: new OverlapScheduleError('Calendar is not available'),
+      },
+    ];
+
+    for (const { params, result } of arrange) {
+      expect(() =>
+        useCase.execute({
+          ...params,
+          property_id: 'CEiQmjH2zKOZ37yuzQHfA',
+          scheduler_id: 'Ryz0ucxehQKZzbKuWcZ6E',
+        }),
+      ).rejects.toThrow(result);
+    }
   });
 });
