@@ -1,12 +1,13 @@
 import {
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
-import { ClassValidatorFields } from '../../../shared/domain/validators/class-validator-fields';
-import { PropertyProps } from '../entities/property.entity';
+import { ClassValidatorFields } from '#shared/domain/validators/class-validator-fields';
+import { PropertyProps, PropertyStatus } from '../entities/property.entity';
 
 export class PropertyRules {
   @MaxLength(50)
@@ -19,9 +20,17 @@ export class PropertyRules {
   @IsNotEmpty()
   description: string;
 
+  @IsEnum(PropertyStatus)
+  @IsOptional()
+  status: string;
+
   @IsDate()
   @IsOptional()
   created_at: Date;
+
+  @IsDate()
+  @IsOptional()
+  updated_at: Date;
 
   constructor({ title, description, created_at }: PropertyProps) {
     Object.assign(this, { title, description, created_at });

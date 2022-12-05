@@ -1,26 +1,24 @@
-import {
-  PropertyType,
-  PropertyTypeRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { PropertyTypeRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PropertyType } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   CreatePropertyTypeInput,
   PropertyTypeOutput,
   PropertyTypeOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class CreatePropertyTypeUseCase
   implements UseCase<CreatePropertyTypeInput, PropertyTypeOutput>
 {
   propertyTypeRepository: PropertyTypeRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyTypeRepository =
       repositoryFactory.createPropertyTypeRepository();
   }

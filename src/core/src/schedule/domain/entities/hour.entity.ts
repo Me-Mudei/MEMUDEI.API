@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import HourValidatorFactory from '../validators/hour.validator';
 
 export type HourProps = {

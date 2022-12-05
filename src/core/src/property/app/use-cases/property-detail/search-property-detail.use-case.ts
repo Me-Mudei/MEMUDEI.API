@@ -1,23 +1,27 @@
-import { PropertyDetailRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import { PropertyDetailOutput, PropertyDetailOutputMapper } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  PropertyDetailRepository,
+  PropertyDetailSearchParams,
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { PropertyDetailOutput, PropertyDetailOutputMapper } from '../../dto';
+import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchPropertyDetailUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PropertyDetailOutput>>
 {
   propertyDetailRepository: PropertyDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyDetailRepository =
       repositoryFactory.createPropertyDetailRepository();
   }
@@ -26,7 +30,7 @@ export class SearchPropertyDetailUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyDetailOutput>> {
     this.logger.info({ message: 'Start SearchPropertyDetail Use Case' });
-    const params = new PropertyDetailRepository.SearchParams(input);
+    const params = new PropertyDetailSearchParams(input);
     const propertyDetail = await this.propertyDetailRepository.search(params);
     const items = propertyDetail.items.map((propertyDetail) =>
       PropertyDetailOutputMapper.toOutput(propertyDetail),

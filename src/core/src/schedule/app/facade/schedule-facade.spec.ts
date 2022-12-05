@@ -1,4 +1,4 @@
-import { Broker, LoggerInterface, WinstonLogger } from '../../../shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import {
   CreateScheduleUseCase,
   DeleteScheduleUseCase,

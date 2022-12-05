@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import RuleValidatorFactory from '../validators/rule.validator';
 
 export type RuleProps = {

@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import ScheduleValidatorFactory from '../validators/schedule.validator';
 import { Calendar, Property, User } from './';
 

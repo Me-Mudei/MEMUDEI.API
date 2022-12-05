@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import CondominiumDetailValidatorFactory from '../validators/condominium-detail.validator';
 
 export type CondominiumDetailProps = {

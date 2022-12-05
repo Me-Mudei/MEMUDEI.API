@@ -1,23 +1,27 @@
-import { PrivacyTypeRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import { PrivacyTypeOutput, PrivacyTypeOutputMapper } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  PrivacyTypeRepository,
+  PrivacyTypeSearchParams,
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { PrivacyTypeOutput, PrivacyTypeOutputMapper } from '../../dto';
+import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchPrivacyTypeUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PrivacyTypeOutput>>
 {
   privacyTypeRepository: PrivacyTypeRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.privacyTypeRepository =
       repositoryFactory.createPrivacyTypeRepository();
   }
@@ -26,7 +30,7 @@ export class SearchPrivacyTypeUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<PrivacyTypeOutput>> {
     this.logger.info({ message: 'Start SearchPrivacyType Use Case' });
-    const params = new PrivacyTypeRepository.SearchParams(input);
+    const params = new PrivacyTypeSearchParams(input);
     const privacyType = await this.privacyTypeRepository.search(params);
     const items = privacyType.items.map((privacyType) =>
       PrivacyTypeOutputMapper.toOutput(privacyType),

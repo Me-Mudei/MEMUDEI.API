@@ -1,10 +1,6 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
 import { PrismaRepositoryFactory } from '../../../../infra';
-import {
-  LoggerInterface,
-  WinstonLogger,
-  Broker,
-} from '../../../../../shared/infra';
+import { LoggerInterface, WinstonLogger, Broker } from '../../#shared/infra';
 import { RepositoryFactory } from '../../../../domain';
 import { Driver } from '../../../../domain/driver/driver-contracts';
 import { AwsS3Driver } from '../../../../infra/driver/aws-s3.driver';

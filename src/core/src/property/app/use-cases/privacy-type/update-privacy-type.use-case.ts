@@ -1,26 +1,24 @@
+import { PrivacyTypeRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PrivacyType } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
-  PrivacyType,
-  PrivacyTypeRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import {
-  CreatePrivacyTypeInput,
+  UpdatePrivacyTypeInput,
   PrivacyTypeOutput,
   PrivacyTypeOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class UpdatePrivacyTypeUseCase
   implements UseCase<UpdatePrivacyTypeInput, PrivacyTypeOutput>
 {
   privacyTypeRepository: PrivacyTypeRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.privacyTypeRepository =
       repositoryFactory.createPrivacyTypeRepository();
   }

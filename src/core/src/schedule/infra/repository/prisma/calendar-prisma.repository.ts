@@ -1,11 +1,11 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   Calendar,
   CalendarRepository,
   CalendarSearchParams,
   CalendarSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '#sharedatabase';
 
 export class CalendarPrismaRepository implements CalendarRepository {
   sortableFields: string[] = ['createdAt'];

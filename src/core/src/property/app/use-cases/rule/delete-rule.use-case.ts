@@ -1,15 +1,16 @@
-import { RuleRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { RuleRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { UseCase } from '#shared/app';
 
 export class DeleteRuleUseCase implements UseCase<{ id: string }, void> {
   ruleRepository: RuleRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 

@@ -3,25 +3,25 @@ import {
   RepositoryFactory,
   CalendarSearchParams,
 } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import { CalendarOutput, CalendarOutputMapper } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchCalendarUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<CalendarOutput>>
 {
   calendarRepository: CalendarRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.calendarRepository = repositoryFactory.createCalendarRepository();
   }
 

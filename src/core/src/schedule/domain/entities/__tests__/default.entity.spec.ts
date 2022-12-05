@@ -1,4 +1,4 @@
-//import { UniqueEntityId } from '../../../../shared/domain';
+//import { UniqueEntityId } from '#shared/domain';
 import { OverlapScheduleError } from '../../errors/overlap-schedule.error';
 import { Calendar, Schedule, Weekday, Hour, Property, User } from '../';
 

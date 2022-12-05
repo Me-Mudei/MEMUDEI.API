@@ -1,9 +1,6 @@
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { UseCase } from '#shared/app';
 import {
-  Address,
-  Charge,
-  FloorPlan,
-  Photo,
-  Property,
   PropertyRepository,
   PropertyTypeRepository,
   PrivacyTypeRepository,
@@ -11,17 +8,21 @@ import {
   PropertyDetailRepository,
   CondominiumDetailRepository,
   RuleRepository,
-  RepositoryFactory,
-} from '../../domain';
-import { Broker } from '../../../shared/infra/';
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import {
+  Address,
+  Charge,
+  FloorPlan,
+  Photo,
+  Property,
+} from '../../../domain/entities';
 import {
   CreatePropertyInput,
   PropertyOutput,
   PropertyOutputMapper,
-} from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
-import { Driver } from '../../domain/driver/driver-contracts';
+} from '../../dto';
+import { Driver } from '../../../domain/driver';
 
 export class CreatePropertyUseCase
   implements UseCase<CreatePropertyInput, PropertyOutput>
@@ -33,12 +34,13 @@ export class CreatePropertyUseCase
   condominiumDetailRepository: CondominiumDetailRepository;
   ruleRepository: RuleRepository;
   propertyRepository: PropertyRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly driver: Driver,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyTypeRepository =
       repositoryFactory.createPropertyTypeRepository();
     this.privacyTypeRepository =

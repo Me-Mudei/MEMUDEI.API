@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import AddressValidatorFactory from '../validators/address.validator';
 
 export type AddressProps = {

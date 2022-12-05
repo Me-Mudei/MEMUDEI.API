@@ -1,4 +1,4 @@
-//import { UniqueEntityId } from '../../../../shared/domain';
+//import { UniqueEntityId } from '#shared/domain';
 //import { Property } from '../property.entity';
 
 describe('Property Unit Tests', () => {

@@ -1,30 +1,31 @@
 import {
   CondominiumDetailRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+  CondominiumDetailSearchParams,
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   CondominiumDetailOutput,
   CondominiumDetailOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchCondominiumDetailUseCase
   implements
     UseCase<SearchInputDto, PaginationOutputDto<CondominiumDetailOutput>>
 {
   condominiumDetailRepository: CondominiumDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.condominiumDetailRepository =
       repositoryFactory.createCondominiumDetailRepository();
   }
@@ -33,7 +34,7 @@ export class SearchCondominiumDetailUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<CondominiumDetailOutput>> {
     this.logger.info({ message: 'Start SearchCondominiumDetail Use Case' });
-    const params = new CondominiumDetailRepository.SearchParams(input);
+    const params = new CondominiumDetailSearchParams(input);
     const condominiumDetail = await this.condominiumDetailRepository.search(
       params,
     );

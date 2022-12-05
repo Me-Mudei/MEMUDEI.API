@@ -1,10 +1,6 @@
 import { SearchPropertyUseCase } from '../../search-property.use-case';
 import { PrismaRepositoryFactory } from '../../../../infra';
-import {
-  LoggerInterface,
-  WinstonLogger,
-  Broker,
-} from '../../../../../shared/infra';
+import { LoggerInterface, WinstonLogger, Broker } from '../../#shared/infra';
 import { RepositoryFactory } from '../../../../domain';
 
 describe('SearchPropertyUseCase Unit Tests', () => {

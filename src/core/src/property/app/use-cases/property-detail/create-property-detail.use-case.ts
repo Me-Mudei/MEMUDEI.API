@@ -1,31 +1,31 @@
-import {
-  PropertyDetail,
-  PropertyDetailRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { PropertyDetailRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PropertyDetail } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   CreatePropertyDetailInput,
   PropertyDetailOutput,
   PropertyDetailOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class CreatePropertyDetailUseCase
   implements UseCase<CreatePropertyDetailInput, PropertyDetailOutput>
 {
   propertyDetailRepository: PropertyDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyDetailRepository =
       repositoryFactory.createPropertyDetailRepository();
   }
 
-  async execute(input: CreatePropertyDetailInput): Promise<PropertyDetailOutput> {
+  async execute(
+    input: CreatePropertyDetailInput,
+  ): Promise<PropertyDetailOutput> {
     this.logger.info({ message: 'Start CreatePropertyDetail Use Case' });
     const propertyDetail = new PropertyDetail({
       name: input.name,

@@ -1,7 +1,9 @@
-import { Property, PropertyStatus } from '../../domain/entities';
-import { PrivacyTypeOutput } from './privacy-type/privacy-type-output.dto';
-import { PropertyRelationshipOutput } from './property-relationship/property-relationship-output.dto';
-import { PropertyTypeOutput } from './property-type/property-type-output.dto';
+import { Property, PropertyStatus } from '../../../domain/entities';
+import {
+  PrivacyTypeOutput,
+  PropertyRelationshipOutput,
+  PropertyTypeOutput,
+} from '../';
 
 export type PropertyOutput = {
   id: string;
@@ -44,14 +46,23 @@ export class PropertyOutputMapper {
       property_type: {
         id: property.property_type.id,
         name: property.property_type.name,
+        description: property.property_type.description,
+        created_at: property.property_type.created_at,
+        updated_at: property.property_type.updated_at,
       },
       property_relationship: {
         id: property.property_relationship.id,
         name: property.property_relationship.name,
+        description: property.property_relationship.description,
+        created_at: property.property_relationship.created_at,
+        updated_at: property.property_relationship.updated_at,
       },
       privacy_type: {
         id: property.privacy_type.id,
         name: property.privacy_type.name,
+        description: property.privacy_type.description,
+        created_at: property.privacy_type.created_at,
+        updated_at: property.privacy_type.updated_at,
       },
       floor_plans: property.floor_plans.map((floorPlan) => ({
         id: floorPlan.id,

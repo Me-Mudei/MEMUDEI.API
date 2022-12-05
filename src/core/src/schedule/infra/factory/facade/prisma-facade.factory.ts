@@ -1,5 +1,5 @@
 import { ScheduleFacade, CalendarFacade } from '../../../app/facade';
-import { Broker } from '../../../../shared/infra/broker';
+import { Broker } from '../#shared/infra/broker';
 import {
   GetScheduleUseCase,
   SearchScheduleUseCase,
@@ -12,7 +12,7 @@ import {
   DeleteCalendarUseCase,
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
-import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
+import { WinstonLogger } from '#sharedogger/winston.logger';
 import { FacadeFactory } from '../../../domain/factory/facade.factory';
 
 export class PrismaFacadeFactory implements FacadeFactory {

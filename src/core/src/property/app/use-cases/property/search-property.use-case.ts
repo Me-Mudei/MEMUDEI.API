@@ -1,27 +1,27 @@
 import {
   PropertyRepository,
   PropertySearchParams,
-  RepositoryFactory,
-} from '../../domain';
-import { Broker } from '../../../shared/infra/';
-import { PropertyOutput, PropertyOutputMapper } from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../shared/app/dto/search-input.dto';
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PropertyOutput, PropertyOutputMapper } from '../../dto';
+import { UseCase } from '#shared/app';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { SearchInputDto } from '#shared/app/dto/search-input.dto';
 import {
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app/dto/pagination-output.dto';
 
 export class SearchPropertyUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PropertyOutput>>
 {
   propertyRepository: PropertyRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 

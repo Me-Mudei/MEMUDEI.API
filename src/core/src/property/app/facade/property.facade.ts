@@ -1,5 +1,4 @@
-import { PaginationOutputDto } from '#shared/app/dto/pagination-output.dto';
-import { SearchInputDto } from '#shared/app/dto/search-input.dto';
+import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
 import {
   CreatePropertyInput,
   PropertyOutput,

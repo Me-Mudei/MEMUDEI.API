@@ -17,9 +17,9 @@ import {
   PropertySearchParams,
   PropertySearchResult,
 } from '../../../domain/repository';
-import { PrismaClient, Prisma } from '../../../../shared/infra/database';
-import { UniqueEntityId } from '../../../../shared/domain/value-objects';
-import { NotFoundError } from '../../../../shared/domain';
+import { PrismaClient, Prisma } from '../#shared/infra/database';
+import { UniqueEntityId } from '#sharedvalue-objects';
+import { NotFoundError } from '#shared;
 
 export class PropertyPrismaRepository implements PropertyRepository {
   sortableFields: string[] = ['createdAt'];

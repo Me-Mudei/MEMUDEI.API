@@ -1,16 +1,20 @@
-import { PropertyDetailRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { PropertyDetailRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { UseCase } from '#shared/app';
 
-export class DeletePropertyDetailUseCase implements UseCase<{ id: string }, void> {
+export class DeletePropertyDetailUseCase
+  implements UseCase<{ id: string }, void>
+{
   propertyDetailRepository: PropertyDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
-    this.propertyDetailRepository = repositoryFactory.createPropertyDetailRepository();
+    this.logger = SingletonLogger.getInstance();
+    this.propertyDetailRepository =
+      repositoryFactory.createPropertyDetailRepository();
   }
 
   async execute(input: { id: string }): Promise<void> {

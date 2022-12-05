@@ -1,30 +1,31 @@
 import {
   PropertyRelationshipRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+  PropertyRelationshipSearchParams,
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   PropertyRelationshipOutput,
   PropertyRelationshipOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchPropertyRelationshipUseCase
   implements
     UseCase<SearchInputDto, PaginationOutputDto<PropertyRelationshipOutput>>
 {
   propertyRelationshipRepository: PropertyRelationshipRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyRelationshipRepository =
       repositoryFactory.createPropertyRelationshipRepository();
   }
@@ -33,7 +34,7 @@ export class SearchPropertyRelationshipUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyRelationshipOutput>> {
     this.logger.info({ message: 'Start SearchPropertyRelationship Use Case' });
-    const params = new PropertyRelationshipRepository.SearchParams(input);
+    const params = new PropertyRelationshipSearchParams(input);
     const propertyRelationship =
       await this.propertyRelationshipRepository.search(params);
     const items = propertyRelationship.items.map((propertyRelationship) =>

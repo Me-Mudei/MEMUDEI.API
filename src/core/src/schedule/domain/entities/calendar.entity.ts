@@ -1,9 +1,5 @@
 import { Schedule, Weekday, User } from './';
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import CalendarValidatorFactory from '../validators/calendar.validator';
 
 export type CalendarProps = {

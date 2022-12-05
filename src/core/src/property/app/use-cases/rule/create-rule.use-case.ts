@@ -1,28 +1,19 @@
-import {
-  Rule,
-  RuleRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import {
-  CreateRuleInput,
-  RuleOutput,
-  RuleOutputMapper,
-} from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { RuleRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Rule } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { CreateRuleInput, RuleOutput, RuleOutputMapper } from '../../dto';
+import { UseCase } from '#shared/app';
 
-export class CreateRuleUseCase
-  implements UseCase<CreateRuleInput, RuleOutput>
-{
+export class CreateRuleUseCase implements UseCase<CreateRuleInput, RuleOutput> {
   ruleRepository: RuleRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
-    this.ruleRepository =
-      repositoryFactory.createRuleRepository();
+    this.logger = SingletonLogger.getInstance();
+    this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 
   async execute(input: CreateRuleInput): Promise<RuleOutput> {

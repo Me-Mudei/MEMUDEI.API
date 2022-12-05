@@ -1,31 +1,32 @@
-import {
-  PropertyRelationship,
-  PropertyRelationshipRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { PropertyRelationshipRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PropertyRelationship } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   CreatePropertyRelationshipInput,
   PropertyRelationshipOutput,
   PropertyRelationshipOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class CreatePropertyRelationshipUseCase
-  implements UseCase<CreatePropertyRelationshipInput, PropertyRelationshipOutput>
+  implements
+    UseCase<CreatePropertyRelationshipInput, PropertyRelationshipOutput>
 {
   propertyRelationshipRepository: PropertyRelationshipRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyRelationshipRepository =
       repositoryFactory.createPropertyRelationshipRepository();
   }
 
-  async execute(input: CreatePropertyRelationshipInput): Promise<PropertyRelationshipOutput> {
+  async execute(
+    input: CreatePropertyRelationshipInput,
+  ): Promise<PropertyRelationshipOutput> {
     this.logger.info({ message: 'Start CreatePropertyRelationship Use Case' });
     const propertyRelationship = new PropertyRelationship({
       name: input.name,

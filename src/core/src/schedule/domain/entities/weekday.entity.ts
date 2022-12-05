@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import WeekdayValidatorFactory from '../validators/weekday.validator';
 import { Hour } from './hour.entity';
 

@@ -1,11 +1,11 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   PropertyDetail,
   PropertyDetailRepository,
   PropertyDetailSearchParams,
   PropertyDetailSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '#sharedatabase';
 
 export class PropertyDetailPrismaRepository
   implements PropertyDetailRepository

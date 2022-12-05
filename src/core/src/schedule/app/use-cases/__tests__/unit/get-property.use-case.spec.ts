@@ -4,9 +4,9 @@ import {
   LoggerInterface,
   WinstonLogger,
   Broker,
-} from '../../../../../shared/infra';
+} from '../../#shared/infra';
 import { RepositoryFactory } from '../../../../domain';
-import { NotFoundError } from '../../../../../shared/domain';
+import { NotFoundError } from '../#shared;
 
 describe('GetPropertyUseCase Unit Tests', () => {
   let useCase: GetPropertyUseCase;

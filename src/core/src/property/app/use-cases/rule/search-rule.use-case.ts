@@ -1,23 +1,24 @@
-import { RuleRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { RuleRepository, RuleSearchParams } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import { RuleOutput, RuleOutputMapper } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchRuleUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<RuleOutput>>
 {
   ruleRepository: RuleRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 
@@ -25,7 +26,7 @@ export class SearchRuleUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<RuleOutput>> {
     this.logger.info({ message: 'Start SearchRule Use Case' });
-    const params = new RuleRepository.SearchParams(input);
+    const params = new RuleSearchParams(input);
     const rule = await this.ruleRepository.search(params);
     const items = rule.items.map((rule) => RuleOutputMapper.toOutput(rule));
 

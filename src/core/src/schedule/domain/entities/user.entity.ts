@@ -3,7 +3,7 @@ import {
   EntityValidationError,
   NotFoundError,
   UniqueEntityId,
-} from '../../../shared/domain';
+} from '#shared/domain';
 import UserValidatorFactory from '../validators/user.validator';
 import { Calendar } from './';
 

@@ -1,11 +1,11 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   Rule,
   RuleRepository,
   RuleSearchParams,
   RuleSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '#sharedatabase';
 
 export class RulePrismaRepository implements RuleRepository {
   sortableFields: string[] = ['createdAt'];

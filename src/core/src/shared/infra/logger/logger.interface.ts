@@ -54,3 +54,15 @@ export interface LoggerInterface {
   debug(input: DefaultInput): void;
   warn(input: DefaultInput): void;
 }
+
+export class SingletonLogger {
+  private static instance: LoggerInterface;
+  constructor(props: LoggerProps, logger: LoggerInterface) {
+    if (!SingletonLogger.instance) {
+      SingletonLogger.instance = logger;
+    }
+  }
+  static getInstance() {
+    return SingletonLogger.instance;
+  }
+}

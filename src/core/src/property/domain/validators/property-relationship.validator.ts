@@ -1,5 +1,5 @@
 import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '../../../shared/domain/validators/class-validator-fields';
+import { ClassValidatorFields } from '#shared/domain/validators/class-validator-fields';
 import { PropertyRelationshipProps } from '../entities/property-relationship.entity';
 
 export class PropertyRelationshipRules {

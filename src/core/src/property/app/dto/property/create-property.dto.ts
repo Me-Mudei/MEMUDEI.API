@@ -1,5 +1,5 @@
-import { FileInput } from '../../domain/driver/driver-contracts';
-import { PropertyStatus } from '../../domain/entities';
+import { FileInput } from '../../../domain/driver';
+import { PropertyStatus } from '../../../domain/entities';
 
 export type CreatePropertyInput = {
   title: string;

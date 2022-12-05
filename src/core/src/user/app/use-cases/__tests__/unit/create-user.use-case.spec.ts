@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '../../create-user.use-case';
 import { UserInMemoryRepository } from '../../../../infra/';
-import { Broker } from '../../../../../shared/infra/broker/broker';
+import { Broker } from '../../#shared/infra/broker/broker';
 import { UserCreatedSendConfirmationHandler } from '../../../handlers';
 
 describe('CreateUserUseCase Unit Tests', () => {

@@ -8,8 +8,8 @@ import {
   LoggerInterface,
   WinstonLogger,
   Broker,
-} from '../../../../../shared/infra';
-import { UniqueEntityId } from '../../../../../shared/domain';
+} from '../../#shared/infra';
+import { UniqueEntityId } from '../#shared;
 import {
   RepositoryFactory,
   Property,

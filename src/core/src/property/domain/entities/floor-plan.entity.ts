@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import FloorPlanValidatorFactory from '../validators/floor-plan.validator';
 
 export type FloorPlanProps = {

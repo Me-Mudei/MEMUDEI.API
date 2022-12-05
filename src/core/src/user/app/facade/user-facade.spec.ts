@@ -1,4 +1,4 @@
-import { Broker } from '../../../shared/infra';
+import { Broker } from '#shared/infra';
 import { UserInMemoryRepository } from '../../infra';
 import { CreateUserUseCase } from '../use-cases';
 import { UserFacade } from './user.facade';

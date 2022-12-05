@@ -89,6 +89,15 @@ describe('PropertyValidator Tests', () => {
       {
         title: 'some value',
         description: 'same description',
+        address: Address;
+        property_type: PropertyType;
+        property_relationship: PropertyRelationship;
+        privacy_type: PrivacyType;
+        floor_plans: FloorPlan[];
+        property_details: PropertyDetail[];
+        condominium_details: CondominiumDetail[];
+        rules: Rule[];
+        charges: Charge[];
       },
     ];
 

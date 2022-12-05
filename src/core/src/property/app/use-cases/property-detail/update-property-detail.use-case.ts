@@ -1,31 +1,31 @@
+import { PropertyDetailRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { PropertyDetail } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
-  PropertyDetail,
-  PropertyDetailRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import {
-  CreatePropertyDetailInput,
+  UpdatePropertyDetailInput,
   PropertyDetailOutput,
   PropertyDetailOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class UpdatePropertyDetailUseCase
   implements UseCase<UpdatePropertyDetailInput, PropertyDetailOutput>
 {
   propertyDetailRepository: PropertyDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyDetailRepository =
       repositoryFactory.createPropertyDetailRepository();
   }
 
-  async execute(input: UpdatePropertyDetailInput): Promise<PropertyDetailOutput> {
+  async execute(
+    input: UpdatePropertyDetailInput,
+  ): Promise<PropertyDetailOutput> {
     this.logger.info({ message: 'Start UpdatePropertyDetail Use Case' });
     const propertyDetail = new PropertyDetail({
       name: input.name,

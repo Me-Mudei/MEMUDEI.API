@@ -1,9 +1,9 @@
 import { User, UserCreated, UserRepository } from '../../domain';
-import { Broker } from '../../../shared/infra/';
+
 import { CreateUserInput, UserOutput } from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
-import { WinstonLogger } from '../../../shared/infra/logger/winston.logger';
+import { UseCase } from '#shared/app';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { WinstonLogger } from '#shared/infra/logger/winston.logger';
 
 export class CreateUserUseCase implements UseCase<CreateUserInput, UserOutput> {
   logger: LoggerInterface;

@@ -5,7 +5,7 @@ import {
   PropertyPrismaRepository,
   UserPrismaRepository,
 } from '../../repository';
-import { Connection, PrismaClient } from '../../../../shared/infra/database';
+import { Connection, PrismaClient } from '../#shared/infra/database';
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   private prisma: PrismaClient;

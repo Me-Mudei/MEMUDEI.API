@@ -1,11 +1,11 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   Schedule,
   ScheduleRepository,
   ScheduleSearchParams,
   ScheduleSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '#sharedatabase';
 
 export class SchedulePrismaRepository implements ScheduleRepository {
   sortableFields: string[] = ['createdAt'];

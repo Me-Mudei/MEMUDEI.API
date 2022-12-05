@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '../../../../shared/domain';
+import { UniqueEntityId } from '#shared/domain';
 import { User } from '../user.entity';
 
 describe('User Unit Tests', () => {

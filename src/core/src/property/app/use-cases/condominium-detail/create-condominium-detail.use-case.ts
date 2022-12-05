@@ -1,26 +1,24 @@
-import {
-  CondominiumDetail,
-  CondominiumDetailRepository,
-  RepositoryFactory,
-} from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
+import { CondominiumDetailRepository } from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { CondominiumDetail } from '../../../domain/entities';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import {
   CreateCondominiumDetailInput,
   CondominiumDetailOutput,
   CondominiumDetailOutputMapper,
 } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
 
 export class CreateCondominiumDetailUseCase
   implements UseCase<CreateCondominiumDetailInput, CondominiumDetailOutput>
 {
   condominiumDetailRepository: CondominiumDetailRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.condominiumDetailRepository =
       repositoryFactory.createCondominiumDetailRepository();
   }

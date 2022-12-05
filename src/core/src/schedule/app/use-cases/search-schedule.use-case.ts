@@ -3,25 +3,26 @@ import {
   RepositoryFactory,
   ScheduleSearchParams,
 } from '../../domain';
-import { Broker } from '../../../shared/infra/';
+
 import { ScheduleOutput, ScheduleOutputMapper } from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../shared/app/dto/search-input.dto';
+import { UseCase } from '#shared/app';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { SearchInputDto } from '#shared/app/dto/search-input.dto';
 import {
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app/dto/pagination-output.dto';
 
 export class SearchScheduleUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<ScheduleOutput>>
 {
   scheduleRepository: ScheduleRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
   }
 

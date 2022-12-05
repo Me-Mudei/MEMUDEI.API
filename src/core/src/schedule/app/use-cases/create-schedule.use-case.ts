@@ -7,14 +7,14 @@ import {
   PropertyRepository,
   UserRepository,
 } from '../../domain/repository';
-import { Broker } from '../../../shared/infra/';
+
 import {
   CreateScheduleInput,
   ScheduleOutput,
   ScheduleOutputMapper,
 } from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 import { OverlapScheduleError } from '../../domain/errors/overlap-schedule.error';
 
 export class CreateScheduleUseCase
@@ -24,11 +24,12 @@ export class CreateScheduleUseCase
   calendarRepository: CalendarRepository;
   propertyRepository: PropertyRepository;
   userRepository: UserRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
     this.propertyRepository = repositoryFactory.createPropertyRepository();
     this.userRepository = repositoryFactory.createUserRepository();

@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import PropertyRelationshipValidatorFactory from '../validators/property-relationship.validator';
 
 export type PropertyRelationshipProps = {

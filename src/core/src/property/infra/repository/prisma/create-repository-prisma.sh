@@ -10,14 +10,14 @@ length=6
 for (( j=0; j<${length}; j++ ));
 do
 cat <<EOF >> ${FILE_NAME[j]}-prisma.repository.ts
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   ${CLASS_NAME[j]},
   ${CLASS_NAME[j]}Repository,
   ${CLASS_NAME[j]}SearchParams,
   ${CLASS_NAME[j]}SearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '../#shared/infra/database';
 
 export class ${CLASS_NAME[j]}PrismaRepository
   implements ${CLASS_NAME[j]}Repository

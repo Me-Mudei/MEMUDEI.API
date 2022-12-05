@@ -1,8 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  UniqueEntityId,
-} from '../../../shared/domain';
+import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
 import { Address } from './address.entity';
 import { PropertyType } from './property-type.entity';
 import { PropertyRelationship } from './property-relationship.entity';
@@ -16,7 +12,10 @@ import { Photo } from './photo.entity';
 import { Charge } from './charge.entity';
 import PropertyValidatorFactory from '../validators/property.validator';
 
-export type PropertyStatus = 'pending' | 'complete';
+export enum PropertyStatus {
+  PENDING = 'pending',
+  COMPLETE = 'complete',
+}
 
 export type PropertyProps = {
   id?: UniqueEntityId;
@@ -61,7 +60,7 @@ export class Property extends Entity<PropertyProps> {
     super(props);
     this._title = props.title;
     this._description = props.description;
-    this._status = props.status || 'pending';
+    this._status = props.status || PropertyStatus.PENDING;
     this._address = props.address;
     this._property_type = props.property_type;
     this._property_relationship = props.property_relationship;

@@ -6,7 +6,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { ClassValidatorFields } from '../../../shared/domain/validators/class-validator-fields';
+import { ClassValidatorFields } from '#shared/domain/validators/class-validator-fields';
 import { ScheduleProps } from '../entities/schedule.entity';
 import { UserRules, PropertyRules, CalendarRules } from './';
 

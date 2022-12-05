@@ -1,12 +1,12 @@
 import { GetPropertyUseCase } from '../../get-property.use-case';
-import { InMemoryRepositoryFactory } from '../../../../infra';
+import { PrismaRepositoryFactory } from '../../../../infra';
 import {
   LoggerInterface,
   WinstonLogger,
   Broker,
-} from '../../../../../shared/infra';
+} from '../../#shared/infra';
 import { RepositoryFactory } from '../../../../domain';
-import { NotFoundError } from '../../../../../shared/domain';
+import { NotFoundError } from '../#shared;
 
 describe('GetPropertyUseCase Unit Tests', () => {
   let useCase: GetPropertyUseCase;
@@ -15,7 +15,7 @@ describe('GetPropertyUseCase Unit Tests', () => {
   let logger: LoggerInterface;
 
   beforeEach(() => {
-    repositoryFactory = new InMemoryRepositoryFactory();
+    repositoryFactory = new PrismaRepositoryFactory();
     broker = new Broker();
     logger = new WinstonLogger({
       svc: 'GetUserUseCase',
@@ -41,9 +41,9 @@ describe('GetPropertyUseCase Unit Tests', () => {
       'findById',
     );
     const input = { id: '9micktlceY2WicUyvJKq3' };
-    await expect(() => useCase.execute(input)).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID 9micktlceY2WicUyvJKq3`),
-    );
+    const property = await useCase.execute(input);
+
+    expect(property).toMatchObject(input);
     expect(spyRepositoryFindById).toHaveBeenCalledTimes(1);
   });
 });

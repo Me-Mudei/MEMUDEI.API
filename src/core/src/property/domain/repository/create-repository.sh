@@ -13,7 +13,7 @@ import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
-} from '../../../shared/domain';
+} from '#shared/domain';
 import { ${CLASS_NAME[j]} } from '../entities';
 
 export type ${CLASS_NAME[j]}Filter = string;

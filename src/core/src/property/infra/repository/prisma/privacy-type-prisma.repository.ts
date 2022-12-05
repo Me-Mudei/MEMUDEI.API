@@ -1,11 +1,11 @@
-import { NotFoundError, UniqueEntityId } from '../../../../shared/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 import {
   PrivacyType,
   PrivacyTypeRepository,
   PrivacyTypeSearchParams,
   PrivacyTypeSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../../../../shared/infra/database';
+import { PrismaClient } from '#sharedatabase';
 
 export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
   sortableFields: string[] = ['createdAt'];

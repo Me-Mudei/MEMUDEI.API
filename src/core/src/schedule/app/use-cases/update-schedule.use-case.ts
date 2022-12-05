@@ -1,22 +1,23 @@
 import { Schedule, ScheduleRepository, RepositoryFactory } from '../../domain';
-import { Broker } from '../../../shared/infra/';
+
 import {
   ScheduleOutput,
   ScheduleOutputMapper,
   UpdateScheduleInput,
 } from '../dto';
-import { UseCase } from '../../../shared/app';
-import { LoggerInterface } from '../../../shared/infra/logger/logger.interface';
+import { UseCase } from '#shared/app';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
 
 export class UpdateScheduleUseCase
   implements UseCase<UpdateScheduleInput, ScheduleOutput>
 {
   scheduleRepository: ScheduleRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
   }
 

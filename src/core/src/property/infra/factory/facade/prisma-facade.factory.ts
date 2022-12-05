@@ -1,5 +1,5 @@
 import { PropertyFacade } from '../../../app/facade';
-import { Broker } from '../../../../shared/infra/broker';
+import { Broker } from '../#shared/infra/broker';
 import {
   CreatePropertyUseCase,
   GetPropertyUseCase,
@@ -36,7 +36,7 @@ import {
   DeleteRuleUseCase,
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
-import { WinstonLogger } from '../../../../shared/infra/logger/winston.logger';
+import { WinstonLogger } from '#sharedogger/winston.logger';
 import { AwsS3Driver, InMemoryDriver } from '../../driver';
 
 export class PrismaFacadeFactory {

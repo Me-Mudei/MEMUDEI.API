@@ -1,23 +1,27 @@
-import { PropertyTypeRepository, RepositoryFactory } from '../../../domain';
-import { Broker } from '../../../../shared/infra/';
-import { PropertyTypeOutput, PropertyTypeOutputMapper } from '../../dto';
-import { UseCase } from '../../../../shared/app';
-import { LoggerInterface } from '../../../../shared/infra/logger/logger.interface';
-import { SearchInputDto } from '../../../../shared/app/dto/search-input.dto';
 import {
+  PropertyTypeRepository,
+  PropertyTypeSearchParams,
+} from '../../../domain/repository';
+import { RepositoryFactory } from '../../../domain/factory';
+import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { PropertyTypeOutput, PropertyTypeOutputMapper } from '../../dto';
+import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '../../../../shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchPropertyTypeUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PropertyTypeOutput>>
 {
   propertyTypeRepository: PropertyTypeRepository;
+  private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
-    readonly logger: LoggerInterface,
   ) {
+    this.logger = SingletonLogger.getInstance();
     this.propertyTypeRepository =
       repositoryFactory.createPropertyTypeRepository();
   }
@@ -26,7 +30,7 @@ export class SearchPropertyTypeUseCase
     input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyTypeOutput>> {
     this.logger.info({ message: 'Start SearchPropertyType Use Case' });
-    const params = new PropertyTypeRepository.SearchParams(input);
+    const params = new PropertyTypeSearchParams(input);
     const propertyType = await this.propertyTypeRepository.search(params);
     const items = propertyType.items.map((propertyType) =>
       PropertyTypeOutputMapper.toOutput(propertyType),

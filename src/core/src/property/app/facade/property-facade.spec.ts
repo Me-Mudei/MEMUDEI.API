@@ -1,4 +1,4 @@
-import { Broker, LoggerInterface, WinstonLogger } from '../../../shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import {
   CreatePropertyUseCase,
   GetPropertyUseCase,
@@ -14,7 +14,7 @@ import {
   PropertyTypeInMemoryRepository,
   RuleInMemoryRepository,
 } from '../../infra';
-import { UniqueEntityId } from '../../../shared/domain';
+import { UniqueEntityId } from '#shared/domain';
 import {
   CondominiumDetail,
   PrivacyType,
