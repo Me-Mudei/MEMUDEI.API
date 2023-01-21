@@ -6,7 +6,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain/validators/class-validator-fields';
+import { ClassValidatorFields } from '#shared/domain';
 import { PropertyProps, PropertyStatus } from '../entities/property.entity';
 
 export class PropertyRules {

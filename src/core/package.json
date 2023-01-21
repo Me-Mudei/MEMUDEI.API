@@ -3,9 +3,18 @@
   "version": "0.0.1",
   "main": "index.js",
   "imports": {
-    "#shared/*": "./dist/core/shared/*.js",
-    "#property/*": "./dist/core/property/*.js",
-    "#user/*": "./dist/core/user/*.js"
+    "#shared/*": "./dist/shared/*.js",
+    "#shared/app": "./dist/shared/app/index.js",
+    "#shared/domain": "./dist/shared/domain/index.js",
+    "#shared/infra": "./dist/shared/infra/index.js",
+    "#property/*": "./dist/property/*.js",
+    "#property/app": "./dist/property/app/index.js",
+    "#property/domain": "./dist/property/domain/index.js",
+    "#property/infra": "./dist/property/infra/index.js",
+    "#user/*": "./dist/user/*.js",
+    "#user/app": "./dist/user/app/index.js",
+    "#user/domain": "./dist/user/domain/index.js",
+    "#user/infra": "./dist/user/infra/index.js"
   },
   "exports": {
     "./shared/app": "./dist/shared/app/index.js",

@@ -17,9 +17,8 @@ import {
   PropertySearchParams,
   PropertySearchResult,
 } from '../../../domain/repository';
-import { PrismaClient, Prisma } from '../#shared/infra/database';
-import { UniqueEntityId } from '#sharedvalue-objects';
-import { NotFoundError } from '#shared;
+import { PrismaClient } from '#shared/infra';
+import { UniqueEntityId, NotFoundError } from '#shared/domain';
 
 export class PropertyPrismaRepository implements PropertyRepository {
   sortableFields: string[] = ['createdAt'];
@@ -207,7 +206,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     });
   }
 
-  private includes(): Prisma.propertyInclude {
+  private includes(): any {
     return {
       address: true,
       charges: true,

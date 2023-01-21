@@ -14,10 +14,9 @@ export default {
       lines: 80,
     },
   },
-  rootDir: 'src',
   setupFilesAfterEnv: [
-    './shared/domain/tests/validations.ts',
-    './shared/domain/tests/jest.ts',
+    './src/shared/domain/tests/validations.ts',
+    './src/shared/domain/tests/jest.ts',
   ],
   testRegex: '.*\\..*spec\\.ts$',
   transform: {

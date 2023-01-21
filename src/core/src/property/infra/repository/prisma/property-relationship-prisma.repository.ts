@@ -5,7 +5,7 @@ import {
   PropertyRelationshipSearchParams,
   PropertyRelationshipSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class PropertyRelationshipPrismaRepository
   implements PropertyRelationshipRepository

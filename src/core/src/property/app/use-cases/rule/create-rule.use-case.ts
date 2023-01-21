@@ -1,7 +1,7 @@
 import { RuleRepository } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
 import { Rule } from '../../../domain/entities';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { CreateRuleInput, RuleOutput, RuleOutputMapper } from '../../dto';
 import { UseCase } from '#shared/app';
 
@@ -12,7 +12,7 @@ export class CreateRuleUseCase implements UseCase<CreateRuleInput, RuleOutput> {
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 

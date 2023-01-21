@@ -5,7 +5,7 @@ import {
   PropertyDetailSearchParams,
   PropertyDetailSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class PropertyDetailPrismaRepository
   implements PropertyDetailRepository

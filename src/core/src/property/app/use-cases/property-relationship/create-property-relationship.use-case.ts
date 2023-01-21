@@ -1,7 +1,7 @@
 import { PropertyRelationshipRepository } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
 import { PropertyRelationship } from '../../../domain/entities';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import {
   CreatePropertyRelationshipInput,
   PropertyRelationshipOutput,
@@ -19,7 +19,7 @@ export class CreatePropertyRelationshipUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.propertyRelationshipRepository =
       repositoryFactory.createPropertyRelationshipRepository();
   }

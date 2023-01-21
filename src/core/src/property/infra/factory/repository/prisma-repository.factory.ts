@@ -8,7 +8,7 @@ import {
   CondominiumDetailPrismaRepository,
   RulePrismaRepository,
 } from '../../repository';
-import { Connection, PrismaClient } from '../#shared/infra/database';
+import { Connection, PrismaClient } from '#shared/infra';
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   private prisma: PrismaClient;

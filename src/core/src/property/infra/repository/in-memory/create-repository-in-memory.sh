@@ -10,8 +10,8 @@ length=6
 for (( j=0; j<${length}; j++ ));
 do
 cat <<EOF >> ${FILE_NAME[j]}-in-memory.repository.ts
-import { InMemorySearchableRepository } from '../#shared/domain/repository';
-import { SortDirection } from '../#shared/domain/repository';
+import { InMemorySearchableRepository } from '#shared/domain';
+import { SortDirection } from '#shared/domain';
 import { ${CLASS_NAME[j]} } from '../../../domain/entities';
 import { ${CLASS_NAME[j]}Repository, ${CLASS_NAME[j]}Filter } from '../../../domain/repository';
 

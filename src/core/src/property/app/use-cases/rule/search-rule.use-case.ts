@@ -1,6 +1,6 @@
 import { RuleRepository, RuleSearchParams } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { RuleOutput, RuleOutputMapper } from '../../dto';
 import {
   UseCase,
@@ -18,7 +18,7 @@ export class SearchRuleUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 

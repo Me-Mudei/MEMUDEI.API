@@ -5,7 +5,7 @@ import {
   PropertyTypeSearchParams,
   PropertyTypeSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class PropertyTypePrismaRepository implements PropertyTypeRepository {
   sortableFields: string[] = ['createdAt'];

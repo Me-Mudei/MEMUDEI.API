@@ -1,5 +1,5 @@
 import { PropertyFacade } from '../../../app/facade';
-import { Broker } from '../#shared/infra/broker';
+import { Broker } from '#shared/infra';
 import {
   CreatePropertyUseCase,
   GetPropertyUseCase,
@@ -36,13 +36,13 @@ import {
   DeleteRuleUseCase,
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
-import { WinstonLogger } from '#sharedogger/winston.logger';
+import { WinstonLogger } from '#shared/infra';
 import { AwsS3Driver, InMemoryDriver } from '../../driver';
 
 export class PrismaFacadeFactory {
   constructor(readonly req: any) {}
   create() {
-    const logger = new WinstonLogger({
+    new WinstonLogger({
       svc: 'testSvc',
       req: {
         req_id: this.req.req_id,
@@ -60,157 +60,113 @@ export class PrismaFacadeFactory {
       repositoryFactory,
       driver,
       broker,
-      logger,
     );
     const getPropertyUseCase = new GetPropertyUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchPropertyUseCase = new SearchPropertyUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
 
     const getPropertyTypeUseCase = new GetPropertyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchPropertyTypeUseCase = new SearchPropertyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createPropertyTypeUseCase = new CreatePropertyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updatePropertyTypeUseCase = new UpdatePropertyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const deletePropertyTypeUseCase = new DeletePropertyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const getPropertyRelationshipUseCase = new GetPropertyRelationshipUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchPropertyRelationshipUseCase =
-      new SearchPropertyRelationshipUseCase(repositoryFactory, broker, logger);
+      new SearchPropertyRelationshipUseCase(repositoryFactory, broker);
     const createPropertyRelationshipUseCase =
-      new CreatePropertyRelationshipUseCase(repositoryFactory, broker, logger);
+      new CreatePropertyRelationshipUseCase(repositoryFactory, broker);
     const updatePropertyRelationshipUseCase =
-      new UpdatePropertyRelationshipUseCase(repositoryFactory, broker, logger);
+      new UpdatePropertyRelationshipUseCase(repositoryFactory, broker);
     const deletePropertyRelationshipUseCase =
-      new DeletePropertyRelationshipUseCase(repositoryFactory, broker, logger);
+      new DeletePropertyRelationshipUseCase(repositoryFactory, broker);
     const getPrivacyTypeUseCase = new GetPrivacyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchPrivacyTypeUseCase = new SearchPrivacyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createPrivacyTypeUseCase = new CreatePrivacyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updatePrivacyTypeUseCase = new UpdatePrivacyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const deletePrivacyTypeUseCase = new DeletePrivacyTypeUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const getPropertyDetailUseCase = new GetPropertyDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchPropertyDetailUseCase = new SearchPropertyDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createPropertyDetailUseCase = new CreatePropertyDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updatePropertyDetailUseCase = new UpdatePropertyDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const deletePropertyDetailUseCase = new DeletePropertyDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const getCondominiumDetailUseCase = new GetCondominiumDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchCondominiumDetailUseCase = new SearchCondominiumDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createCondominiumDetailUseCase = new CreateCondominiumDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updateCondominiumDetailUseCase = new UpdateCondominiumDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const deleteCondominiumDetailUseCase = new DeleteCondominiumDetailUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
-    const getRuleUseCase = new GetRuleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    const searchRuleUseCase = new SearchRuleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    const createRuleUseCase = new CreateRuleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    const updateRuleUseCase = new UpdateRuleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    const deleteRuleUseCase = new DeleteRuleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
+    const getRuleUseCase = new GetRuleUseCase(repositoryFactory, broker);
+    const searchRuleUseCase = new SearchRuleUseCase(repositoryFactory, broker);
+    const createRuleUseCase = new CreateRuleUseCase(repositoryFactory, broker);
+    const updateRuleUseCase = new UpdateRuleUseCase(repositoryFactory, broker);
+    const deleteRuleUseCase = new DeleteRuleUseCase(repositoryFactory, broker);
 
     return new PropertyFacade({
       createProperty: createPropertyUseCase,

@@ -5,7 +5,7 @@ import {
   PrivacyTypeSearchParams,
   PrivacyTypeSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
   sortableFields: string[] = ['createdAt'];

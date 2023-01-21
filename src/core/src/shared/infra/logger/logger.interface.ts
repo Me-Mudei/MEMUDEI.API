@@ -11,12 +11,14 @@ export type LoggerProps = {
 
 export interface DefaultInput {
   message: string;
+  meta?: any;
 }
 
 export interface ErrorInput extends DefaultInput {
   imp: string;
   err_code: string;
-  err_category: string;
+  err_category?: string;
+  meta?: any;
 }
 
 export type levelType =
@@ -28,41 +30,26 @@ export type levelType =
   | 'critical';
 
 export const logLevels = {
-  info: 0,
-  warn: 1,
+  info: 5,
+  warn: 4,
   debug: 3,
-  error: 4,
-  process: 5,
-  critical: 6,
+  error: 2,
+  process: 1,
+  critical: 0,
+};
+
+export const logColors = {
+  info: 'green',
+  warn: 'yellow',
+  debug: 'blue',
+  error: 'red',
+  process: 'magenta',
+  critical: 'bgRed',
 };
 export interface LoggerInterface {
-  svc: string;
-  req_id: string;
-  req_path: string;
-  req_method: string;
-  req_ua: string;
-  ts: Date;
-  caller?: string;
-  message?: string;
-  res_st_code?: number;
-  imp?: string;
-  err_code?: string;
-  err_category?: string;
   critical(input: ErrorInput): void;
   info(input: DefaultInput): void;
   error(input: ErrorInput): void;
   debug(input: DefaultInput): void;
   warn(input: DefaultInput): void;
-}
-
-export class SingletonLogger {
-  private static instance: LoggerInterface;
-  constructor(props: LoggerProps, logger: LoggerInterface) {
-    if (!SingletonLogger.instance) {
-      SingletonLogger.instance = logger;
-    }
-  }
-  static getInstance() {
-    return SingletonLogger.instance;
-  }
 }

@@ -1,4 +1,4 @@
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { UseCase } from '#shared/app';
 import { PropertyOutput, PropertyOutputMapper } from '../../dto';
 import { PropertyRepository } from '../../../domain/repository';
@@ -13,7 +13,7 @@ export class GetPropertyUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 

@@ -1,6 +1,6 @@
 import { CondominiumDetailRepository } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { UseCase } from '#shared/app';
 
 export class DeleteCondominiumDetailUseCase
@@ -12,7 +12,7 @@ export class DeleteCondominiumDetailUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.condominiumDetailRepository =
       repositoryFactory.createCondominiumDetailRepository();
   }

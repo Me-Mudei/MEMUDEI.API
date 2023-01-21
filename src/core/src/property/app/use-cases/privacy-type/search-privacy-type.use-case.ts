@@ -3,7 +3,7 @@ import {
   PrivacyTypeSearchParams,
 } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { PrivacyTypeOutput, PrivacyTypeOutputMapper } from '../../dto';
 import {
   UseCase,
@@ -21,7 +21,7 @@ export class SearchPrivacyTypeUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.privacyTypeRepository =
       repositoryFactory.createPrivacyTypeRepository();
   }

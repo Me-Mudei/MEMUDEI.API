@@ -17,7 +17,7 @@ import {
   ${CLASS_NAME[j]}SearchParams,
   ${CLASS_NAME[j]}SearchResult,
 } from '../../../domain';
-import { PrismaClient } from '../#shared/infra/database';
+import { PrismaClient } from '#shared/infra';
 
 export class ${CLASS_NAME[j]}PrismaRepository
   implements ${CLASS_NAME[j]}Repository

@@ -5,7 +5,7 @@ import {
   RuleSearchParams,
   RuleSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class RulePrismaRepository implements RuleRepository {
   sortableFields: string[] = ['createdAt'];

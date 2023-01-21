@@ -1,7 +1,7 @@
 import { PrivacyTypeRepository } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
 import { PrivacyType } from '../../../domain/entities';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import {
   CreatePrivacyTypeInput,
   PrivacyTypeOutput,
@@ -18,7 +18,7 @@ export class CreatePrivacyTypeUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.privacyTypeRepository =
       repositoryFactory.createPrivacyTypeRepository();
   }

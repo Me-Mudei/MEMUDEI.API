@@ -1,9 +1,10 @@
-import { LoggerInterface, LoggerProps } from './logger.interface';
+import { LoggerProps } from './logger.interface';
 import { WinstonLogger } from './winston.logger';
 
 describe('WinstonLogger Unit Tests', () => {
-  let winston: LoggerInterface;
   let winstonProps: LoggerProps;
+  let logger: WinstonLogger;
+
   beforeEach(() => {
     winstonProps = {
       svc: 'testSvc',
@@ -14,7 +15,7 @@ describe('WinstonLogger Unit Tests', () => {
         req_ua: 'test',
       },
     };
-    winston = new WinstonLogger(winstonProps);
+    logger = new WinstonLogger(winstonProps);
   });
   it('should accept a required logger props passed in constructor', () => {
     const loggerProps = {
@@ -26,7 +27,6 @@ describe('WinstonLogger Unit Tests', () => {
         req_ua: 'test',
       },
     };
-    const logger = new WinstonLogger(loggerProps);
     expect(logger.svc).toStrictEqual(loggerProps.svc);
     expect(logger.req_id).toStrictEqual(loggerProps.req.req_id);
     expect(logger.req_method).toStrictEqual(loggerProps.req.req_method);
@@ -36,25 +36,25 @@ describe('WinstonLogger Unit Tests', () => {
 
   it('should logger sucess all levels', () => {
     const infoLoggerProps = { message: 'info log' };
-    winston.info(infoLoggerProps);
-    expect(winston.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:39:13)`,
-    );
-    expect(winston.message).toStrictEqual(infoLoggerProps.message);
+    logger.info(infoLoggerProps);
 
-    const warnLoggerProps = { message: 'warn log' };
-    winston.warn(warnLoggerProps);
-    expect(winston.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:46:13)`,
+    expect(logger.caller).toStrictEqual(
+      `(${__dirname}/winston.logger.spec.ts:39:12)`,
     );
-    expect(winston.message).toStrictEqual(warnLoggerProps.message);
+    expect(logger.message).toStrictEqual(infoLoggerProps.message);
+    const warnLoggerProps = { message: 'warn log' };
+    logger.warn(warnLoggerProps);
+    expect(logger.caller).toStrictEqual(
+      `(${__dirname}/winston.logger.spec.ts:46:12)`,
+    );
+    expect(logger.message).toStrictEqual(warnLoggerProps.message);
 
     const debugLoggerProps = { message: 'debug log' };
-    winston.debug(debugLoggerProps);
-    expect(winston.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:53:13)`,
+    logger.debug(debugLoggerProps);
+    expect(logger.caller).toStrictEqual(
+      `(${__dirname}/winston.logger.spec.ts:53:12)`,
     );
-    expect(winston.message).toStrictEqual(debugLoggerProps.message);
+    expect(logger.message).toStrictEqual(debugLoggerProps.message);
 
     const errorLoggerProps = {
       message: 'error log',
@@ -62,11 +62,11 @@ describe('WinstonLogger Unit Tests', () => {
       err_code: 'ERROR_LOG',
       err_category: 'ERROR',
     };
-    winston.error(errorLoggerProps);
-    expect(winston.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:65:13)`,
+    logger.error(errorLoggerProps);
+    expect(logger.caller).toStrictEqual(
+      `(${__dirname}/winston.logger.spec.ts:65:12)`,
     );
-    expect(winston.message).toStrictEqual(errorLoggerProps.message);
+    expect(logger.message).toStrictEqual(errorLoggerProps.message);
 
     const criticalLoggerProps = {
       message: 'critical log',
@@ -74,10 +74,10 @@ describe('WinstonLogger Unit Tests', () => {
       err_code: 'ERROR_LOG',
       err_category: 'ERROR',
     };
-    winston.critical(criticalLoggerProps);
-    expect(winston.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:77:13)`,
+    logger.critical(criticalLoggerProps);
+    expect(logger.caller).toStrictEqual(
+      `(${__dirname}/winston.logger.spec.ts:77:12)`,
     );
-    expect(winston.message).toStrictEqual(criticalLoggerProps.message);
+    expect(logger.message).toStrictEqual(criticalLoggerProps.message);
   });
 });

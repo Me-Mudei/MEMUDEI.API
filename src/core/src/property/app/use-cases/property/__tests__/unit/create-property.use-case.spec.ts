@@ -7,13 +7,9 @@ import {
   PropertyRelationshipInMemoryRepository,
   PropertyTypeInMemoryRepository,
   RuleInMemoryRepository,
-} from '../../../../infra';
-import {
-  LoggerInterface,
-  WinstonLogger,
-  Broker,
-} from '../../#shared/infra';
-import { UniqueEntityId } from '../#shared;
+} from '../../../../../infra';
+import { Broker } from '#shared/infra';
+import { UniqueEntityId } from '#shared/domain';
 import {
   CondominiumDetail,
   PrivacyType,
@@ -22,32 +18,21 @@ import {
   PropertyType,
   RepositoryFactory,
   Rule,
-} from '../../../../domain';
-import { InMemoryDriver } from '../../../../infra/driver/in-memory.driver';
-import { Driver } from '../../../../domain/driver/driver-contracts';
-import path from 'path';
-import { createReadStream, ReadStream } from 'fs';
+} from '../../../../../domain';
+import { InMemoryDriver } from '../../../../../infra/driver/in-memory.driver';
+import { Driver } from '../../../../../domain/driver/driver-contracts';
+import { createReadStream } from 'fs';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let driver: Driver;
   let broker: Broker;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
     driver = new InMemoryDriver();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'CreateUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
     const propertyTypeRepository = new PropertyTypeInMemoryRepository();
     propertyTypeRepository.items = [
       new PropertyType({
@@ -122,12 +107,7 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       createCondominiumDetailRepository;
     repositoryFactory.createRuleRepository = createRuleRepository;
 
-    useCase = new CreatePropertyUseCase(
-      repositoryFactory,
-      driver,
-      broker,
-      logger,
-    );
+    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
   });
 
   it('should create a property', async () => {

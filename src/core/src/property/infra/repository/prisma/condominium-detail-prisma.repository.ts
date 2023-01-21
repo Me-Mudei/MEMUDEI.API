@@ -5,7 +5,7 @@ import {
   CondominiumDetailSearchParams,
   CondominiumDetailSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class CondominiumDetailPrismaRepository
   implements CondominiumDetailRepository

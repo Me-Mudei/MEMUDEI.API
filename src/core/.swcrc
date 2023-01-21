@@ -6,9 +6,9 @@
     },
     "baseUrl": "./src",
     "paths": {
-      "shared/*": ["./core/shared/*"],
-      "user/*": ["./core/user/*"],
-      "property/*": ["./core/property/*"]
+      "#shared/*": ["./shared/*"],
+      "#user/*": ["./user/*"],
+      "#property/*": ["./property/*"]
     }
   }
 }
