@@ -1,9 +1,8 @@
 import { UserFacade } from '../../../app/facade';
-import { Broker } from '../#shared/infra/broker';
+import { Broker, WinstonLogger } from '#shared/infra';
 import { CreateUserUseCase } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
 import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
-import { WinstonLogger } from '#sharedogger/winston.logger';
 
 export class PrismaFacadeFactory {
   constructor(readonly req: any) {}

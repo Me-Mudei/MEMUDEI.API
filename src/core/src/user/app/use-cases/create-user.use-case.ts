@@ -2,27 +2,15 @@ import { User, UserCreated, UserRepository } from '../../domain';
 
 import { CreateUserInput, UserOutput } from '../dto';
 import { UseCase } from '#shared/app';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
-import { WinstonLogger } from '#shared/infra/logger/winston.logger';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 
 export class CreateUserUseCase implements UseCase<CreateUserInput, UserOutput> {
-  logger: LoggerInterface;
+  private logger: LoggerInterface;
   constructor(
     readonly userRepository: UserRepository,
     readonly broker: Broker,
-    logger?: LoggerInterface,
   ) {
-    !!logger
-      ? (this.logger = logger)
-      : (this.logger = new WinstonLogger({
-          svc: 'CreateUserUseCase',
-          req: {
-            req_id: 'test',
-            req_path: 'test',
-            req_method: 'test',
-            req_ua: 'test',
-          },
-        }));
+    this.logger = WinstonLogger.getInstance();
   }
 
   async execute(input: CreateUserInput): Promise<UserOutput> {

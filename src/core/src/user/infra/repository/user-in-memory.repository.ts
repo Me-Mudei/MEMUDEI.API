@@ -1,7 +1,6 @@
-import { InMemorySearchableRepository } from '#shared/domain/repository';
-import { SortDirection } from '#shared/domain/repository';
+import { InMemorySearchableRepository, SortDirection } from '#shared/domain';
 import { User } from '../../domain/entities';
-import { UserRepository } from '../../domain/repository';
+import { UserRepository, UserFilter } from '../../domain/repository';
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<User>
@@ -11,7 +10,7 @@ export class UserInMemoryRepository
 
   protected async applyFilter(
     items: User[],
-    filter: UserRepository.Filter,
+    filter: UserFilter,
   ): Promise<User[]> {
     if (!filter) {
       return items;

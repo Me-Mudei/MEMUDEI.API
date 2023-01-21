@@ -4,8 +4,8 @@ import {
   UserSearchParams,
   UserSearchResult,
 } from '../../domain/repository';
-import { PrismaClient } from '#shared/infra/database';
-import { UniqueEntityId } from '#shared/domain/value-objects';
+import { PrismaClient } from '#shared/infra';
+import { UniqueEntityId } from '#shared/domain';
 
 export class UserPrismaRepository implements UserRepository {
   sortableFields: string[] = ['createdAt'];

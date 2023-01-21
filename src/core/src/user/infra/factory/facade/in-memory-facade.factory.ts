@@ -1,10 +1,8 @@
 import { UserFacade } from '../../../app/facade';
-import { Broker } from '../#shared/infra';
+import { Broker, ReqLoggerProps, WinstonLogger } from '#shared/infra';
 import { CreateUserUseCase } from '../../../app/use-cases';
 import { InMemoryRepositoryFactory } from '../repository';
 import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
-import { WinstonLogger } from '#sharedogger/winston.logger';
-import { ReqLoggerProps } from '#sharedogger/logger.interface';
 
 export class InMemoryFacadeFactory {
   constructor(readonly req: ReqLoggerProps) {}
