@@ -1,7 +1,7 @@
 import { SearchPropertyUseCase } from '../../search-property.use-case';
-import { PrismaRepositoryFactory } from '../../../../infra';
-import { LoggerInterface, WinstonLogger, Broker } from '../../#shared/infra';
-import { RepositoryFactory } from '../../../../domain';
+import { PrismaRepositoryFactory } from '#property/infra';
+import { LoggerInterface, WinstonLogger, Broker } from '#shared/infra';
+import { RepositoryFactory } from '#property/domain';
 
 describe('SearchPropertyUseCase Unit Tests', () => {
   let useCase: SearchPropertyUseCase;
@@ -12,21 +12,11 @@ describe('SearchPropertyUseCase Unit Tests', () => {
   beforeEach(() => {
     repositoryFactory = new PrismaRepositoryFactory();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'SearchUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
-    useCase = new SearchPropertyUseCase(repositoryFactory, broker, logger);
+    useCase = new SearchPropertyUseCase(repositoryFactory, broker);
   });
 
-  it('should create a property', async () => {
+  it('should search a property', async () => {
     const output = await useCase.execute({});
-
     expect(output).toMatchObject({
       total: 15,
       current_page: 1,

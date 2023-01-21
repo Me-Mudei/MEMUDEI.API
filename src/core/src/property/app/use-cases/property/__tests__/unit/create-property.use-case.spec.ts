@@ -226,9 +226,17 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       createPropertyProps.condominium_details,
     );
     expect(property.rules).toMatchObject(createPropertyProps.rules);
-    expect(property.photos).toMatchObject(createPropertyProps.photos);
+    expect(property.photos).toMatchObject(
+      createPropertyProps.photos.map((p) => ({
+        file: p.filename,
+        name: p.filename,
+        type: p.mimetype.split('/')[0],
+        subtype: p.mimetype.split('/')[1],
+      })),
+    );
     expect(property.charges).toMatchObject(createPropertyProps.charges);
 
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
+    property.photos.map((photo) => driver.delete(photo.file, property.id));
   });
 });

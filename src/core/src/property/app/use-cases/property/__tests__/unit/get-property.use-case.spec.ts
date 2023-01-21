@@ -1,32 +1,18 @@
 import { GetPropertyUseCase } from '../../get-property.use-case';
-import { InMemoryRepositoryFactory } from '../../../../infra';
-import {
-  LoggerInterface,
-  WinstonLogger,
-  Broker,
-} from '../../#shared/infra';
-import { RepositoryFactory } from '../../../../domain';
-import { NotFoundError } from '../#shared;
+import { InMemoryRepositoryFactory } from '#property/infra';
+import { LoggerInterface, WinstonLogger, Broker } from '#shared/infra';
+import { RepositoryFactory } from '#property/domain';
+import { NotFoundError } from '#shared/domain';
 
 describe('GetPropertyUseCase Unit Tests', () => {
   let useCase: GetPropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'GetUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
-    useCase = new GetPropertyUseCase(repositoryFactory, broker, logger);
+    useCase = new GetPropertyUseCase(repositoryFactory, broker);
   });
 
   it('should throws error when entity not found', async () => {
@@ -35,9 +21,9 @@ describe('GetPropertyUseCase Unit Tests', () => {
     );
   });
 
-  it('should create a property', async () => {
+  it('should get a property', async () => {
     const spyRepositoryFindById = jest.spyOn(
-      useCase.propertyRepository,
+      useCase['propertyRepository'],
       'findById',
     );
     const input = { id: '9micktlceY2WicUyvJKq3' };

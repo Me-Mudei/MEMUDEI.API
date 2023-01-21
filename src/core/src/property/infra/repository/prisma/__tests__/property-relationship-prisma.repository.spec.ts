@@ -1,5 +1,5 @@
-import { UniqueEntityId } from '../../#shared/domain';
-import { Connection, PrismaClient } from '../#sharedatabase';
+import { UniqueEntityId } from '#shared/domain';
+import { Connection, PrismaClient } from '#shared/infra';
 import { PropertyRelationshipPrismaRepository } from '../property-relationship-prisma.repository';
 
 describe('PropertyRelationshipRepository Unit tests', () => {
