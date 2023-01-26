@@ -2,7 +2,7 @@ import { ScheduleRepository, RepositoryFactory } from '../../domain';
 
 import { ScheduleOutput, ScheduleOutputMapper } from '../dto';
 import { UseCase } from '#shared/app';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 
 export class GetScheduleUseCase
   implements UseCase<{ id: string }, ScheduleOutput>
@@ -13,7 +13,7 @@ export class GetScheduleUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
   }
 

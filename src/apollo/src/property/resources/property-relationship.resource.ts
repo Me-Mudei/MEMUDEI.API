@@ -52,7 +52,8 @@ export const DeletePropertyRelationship = mutationField(
     shield: isAdmin(),
     args: { input: list(nonNull('delete_property_relationship_input')) },
     resolve: async (_, { input }, ctx) => {
-      return ctx.propertyService.deletePropertyRelationship(input as any);
+      await ctx.propertyService.deletePropertyRelationship(input as any);
+      return { id: input[0].id };
     },
   },
 );

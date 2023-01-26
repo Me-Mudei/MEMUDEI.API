@@ -41,6 +41,7 @@ export const DeletePrivacyType = mutationField('delete_privacy_types', {
   shield: isAdmin(),
   args: { input: list(nonNull('delete_privacy_type_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.deletePrivacyType(input as any);
+    await ctx.propertyService.deletePrivacyType(input as any);
+    return { id: input[0].id };
   },
 });

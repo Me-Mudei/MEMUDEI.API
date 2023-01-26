@@ -3,7 +3,7 @@ import {
   RepositoryFactory,
   CalendarSearchParams,
 } from '../../../domain';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { CalendarOutput, CalendarOutputMapper } from '../../dto';
 import {
   UseCase,
@@ -21,7 +21,7 @@ export class SearchCalendarUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.calendarRepository = repositoryFactory.createCalendarRepository();
   }
 

@@ -1,5 +1,5 @@
-import { InMemorySearchableRepository } from '../#shared/domain/repository';
-import { SortDirection } from '#sharedrepository';
+import { InMemorySearchableRepository } from '#shared/domain';
+import { SortDirection } from '#shared/domain';
 import { Schedule } from '../../../domain/entities';
 import { ScheduleRepository, ScheduleFilter } from '../../../domain/repository';
 

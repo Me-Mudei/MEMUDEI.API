@@ -5,13 +5,13 @@ import {
   ScheduleSearchParams,
   ScheduleSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class SchedulePrismaRepository implements ScheduleRepository {
   sortableFields: string[] = ['createdAt'];
   constructor(readonly prisma: PrismaClient) {}
 
-  async insert(entity: Schedule): Promise<void> {
+  async insert(entity: any): Promise<void> {
     await this.prisma.event.create({
       data: {
         id: entity.id,
@@ -96,6 +96,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
   private toEntity(entity: any): Schedule {
     return new Schedule({
       id: new UniqueEntityId(entity.id),
+      start: entity.start,
       created_at: entity.created_at,
       updated_at: entity.updated_at,
     });

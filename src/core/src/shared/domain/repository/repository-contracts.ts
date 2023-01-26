@@ -12,7 +12,7 @@ export interface RepositoryInterface<E extends Entity> {
 
 export type SortDirection = 'asc' | 'desc';
 
-export type SearchProps<Filter = string> = {
+export type SearchProps<Filter> = {
   page?: number;
   per_page?: number;
   sort?: string | null;
@@ -20,7 +20,7 @@ export type SearchProps<Filter = string> = {
   filter?: Filter | null;
 };
 
-export class SearchParams<Filter = string> {
+export class SearchParams<Filter> {
   protected _page: number;
   protected _per_page = 15;
   protected _sort: string | null;
@@ -97,7 +97,7 @@ export class SearchParams<Filter = string> {
     this._filter =
       value === null || value === undefined || (value as unknown) === ''
         ? null
-        : (`${value}` as any);
+        : value;
   }
 }
 
@@ -111,7 +111,7 @@ type SearchResultProps<E extends Entity, Filter> = {
   filter: Filter | null;
 };
 
-export class SearchResult<E extends Entity = Entity, Filter = string> {
+export class SearchResult<E extends Entity = Entity, Filter = any> {
   readonly items: E[];
   readonly total: number;
   readonly current_page: number;
@@ -119,7 +119,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
   readonly last_page: number;
   readonly sort: string | null;
   readonly sort_dir: string | null;
-  readonly filter: Filter;
+  readonly filter: Filter | null;
 
   constructor(props: SearchResultProps<E, Filter>) {
     this.items = props.items;
@@ -146,14 +146,10 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
   }
 }
 
-//category.props.name
-
-//Entidade e Objetos
-
 export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
-  SearchInput = SearchParams,
+  SearchInput = SearchParams<Filter>,
   SearchOutput = SearchResult<E, Filter>,
 > extends RepositoryInterface<E> {
   sortableFields: string[];

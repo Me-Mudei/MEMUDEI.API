@@ -6,7 +6,7 @@ import {
 
 import { ScheduleOutput, ScheduleOutputMapper } from '../dto';
 import { UseCase } from '#shared/app';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { SearchInputDto } from '#shared/app/dto/search-input.dto';
 import {
   PaginationOutputDto,
@@ -22,7 +22,7 @@ export class SearchScheduleUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
   }
 

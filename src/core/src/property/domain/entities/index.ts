@@ -1,5 +1,6 @@
 // created from 'create-ts-index'
 
+export * from './fakers';
 export * from './address.entity';
 export * from './charge.entity';
 export * from './condominium-detail.entity';

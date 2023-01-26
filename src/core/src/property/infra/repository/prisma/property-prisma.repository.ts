@@ -13,11 +13,12 @@ import {
   Rule,
 } from '../../../domain/entities';
 import {
+  PropertyFilter,
   PropertyRepository,
   PropertySearchParams,
   PropertySearchResult,
 } from '../../../domain/repository';
-import { PrismaClient } from '#shared/infra';
+import { PrismaClient, Prisma } from '#shared/infra';
 import { UniqueEntityId, NotFoundError } from '#shared/domain';
 
 export class PropertyPrismaRepository implements PropertyRepository {
@@ -193,6 +194,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
           ? { [props.sort]: props.sort_dir }
           : { created_at: 'asc' }),
       },
+      where: this.applyFilters(props.filter),
       include: this.includes(),
     });
     return new PropertySearchResult({
@@ -352,5 +354,278 @@ export class PropertyPrismaRepository implements PropertyRepository {
       created_at: property.created_at,
       updated_at: property.updated_at,
     });
+  }
+
+  private applyFilters(filter: PropertyFilter): Prisma.propertyWhereInput {
+    let where: Prisma.propertyWhereInput = {};
+    if (!filter) {
+      return where;
+    }
+    for (const key in filter) {
+      if (filter[key]) {
+        if (key.includes('min_')) {
+          const field = key.replace('min_', '');
+          where = this[field + '_filter'](
+            where,
+            filter[`min_${field}`],
+            filter[`max_${field}`],
+          );
+          continue;
+        } else if (key.includes('max_')) {
+          continue;
+        }
+        where = this[key + '_filter'](where, filter[key]);
+      }
+    }
+    return where;
+  }
+
+  rules_filter(
+    where: Prisma.propertyWhereInput,
+    rules: string[],
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      rules: {
+        every: {
+          rule: {
+            name: {
+              in: rules,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  condominium_details_filter(
+    where: Prisma.propertyWhereInput,
+    condominiumDetails: string[],
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      condominium_details: {
+        every: {
+          condominium_detail: {
+            name: {
+              in: condominiumDetails,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  property_details_filter(
+    where: Prisma.propertyWhereInput,
+    propertyDetails: string[],
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      property_details: {
+        every: {
+          property_detail: {
+            name: {
+              in: propertyDetails,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  privacy_type_filter(
+    where: Prisma.propertyWhereInput,
+    privacyType: string,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      privacy_type: {
+        name: privacyType,
+      },
+    };
+  }
+
+  property_type_filter(
+    where: Prisma.propertyWhereInput,
+    propertyType: string,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      property_type: {
+        name: propertyType,
+      },
+    };
+  }
+
+  query_filter(
+    where: Prisma.propertyWhereInput,
+    query: string,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      OR: [
+        {
+          title: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          address: {
+            street: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          address: {
+            city: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          address: {
+            district: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          address: {
+            state: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          address: {
+            zip_code: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+      ],
+    };
+  }
+
+  id_filter(
+    where: Prisma.propertyWhereInput,
+    id: string,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      id: {
+        contains: id,
+      },
+    };
+  }
+
+  value_type_filter(
+    where: Prisma.propertyWhereInput,
+    type: 'total' | 'rent',
+  ): Prisma.propertyWhereInput {
+    if (type === 'total') {
+      return where;
+    }
+    return {
+      ...where,
+      charges: {
+        every: {
+          name: {
+            equals: type,
+          },
+        },
+      },
+    };
+  }
+
+  value_filter(
+    where: Prisma.propertyWhereInput,
+    min: number,
+    max: number,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      charges: {
+        every: {
+          amount: {
+            gte: min,
+            lte: max,
+          },
+        },
+      },
+    };
+  }
+
+  area_filter(
+    where: Prisma.propertyWhereInput,
+    min: number,
+    max: number,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      floor_plans: {
+        every: {
+          name: {
+            contains: 'total_area',
+          },
+          quantity: {
+            gte: min,
+            lte: max,
+          },
+        },
+      },
+    };
+  }
+
+  qtd_bedrooms_filter(
+    where: Prisma.propertyWhereInput,
+    qtd: number,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      floor_plans: {
+        every: {
+          name: {
+            contains: 'bedrooms',
+          },
+          quantity: {
+            gte: qtd,
+          },
+        },
+      },
+    };
+  }
+
+  qtd_bathrooms_filter(
+    where: Prisma.propertyWhereInput,
+    qtd: number,
+  ): Prisma.propertyWhereInput {
+    return {
+      ...where,
+      floor_plans: {
+        every: {
+          name: {
+            contains: 'bathrooms',
+          },
+          quantity: {
+            gte: qtd,
+          },
+        },
+      },
+    };
   }
 }

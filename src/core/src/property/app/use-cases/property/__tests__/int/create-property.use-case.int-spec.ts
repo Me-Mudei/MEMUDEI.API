@@ -1,9 +1,9 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
 import { PrismaRepositoryFactory } from '../../../../infra';
-import { LoggerInterface, WinstonLogger, Broker } from '../../#shared/infra';
+import { Broker } from '../../#shared/infra';
 import { RepositoryFactory } from '../../../../domain';
 import { Driver } from '../../../../domain/driver/driver-contracts';
-import { AwsS3Driver } from '../../../../infra/driver/aws-s3.driver';
+//import { AwsS3Driver } from '../../../../infra/driver/aws-s3.driver';
 import { InMemoryDriver } from '../../../../infra/driver/in-memory.driver';
 
 import { createReadStream } from 'fs';
@@ -13,27 +13,12 @@ describe('CreatePropertyUseCase Unit Tests', () => {
   let repositoryFactory: RepositoryFactory;
   let driver: Driver;
   let broker: Broker;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new PrismaRepositoryFactory();
     driver = new InMemoryDriver();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'CreateUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
-    useCase = new CreatePropertyUseCase(
-      repositoryFactory,
-      driver,
-      broker,
-      logger,
-    );
+    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
   });
 
   it('should create a property', async () => {

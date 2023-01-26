@@ -41,6 +41,7 @@ export const DeletePropertyDetail = mutationField('delete_property_details', {
   shield: isAdmin(),
   args: { input: list(nonNull('delete_property_detail_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.deletePropertyDetail(input as any);
+    await ctx.propertyService.deletePropertyDetail(input as any);
+    return { id: input[0].id };
   },
 });

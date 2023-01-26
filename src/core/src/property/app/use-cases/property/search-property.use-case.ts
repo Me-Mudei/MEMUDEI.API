@@ -1,19 +1,24 @@
 import {
+  PropertyFilter,
   PropertyRepository,
   PropertySearchParams,
 } from '../../../domain/repository';
 import { RepositoryFactory } from '../../../domain/factory';
 import { PropertyOutput, PropertyOutputMapper } from '../../dto';
-import { UseCase } from '#shared/app';
 import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { SearchInputDto } from '#shared/app/dto/search-input.dto';
 import {
+  UseCase,
+  SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
-} from '#shared/app/dto/pagination-output.dto';
+} from '#shared/app';
 
 export class SearchPropertyUseCase
-  implements UseCase<SearchInputDto, PaginationOutputDto<PropertyOutput>>
+  implements
+    UseCase<
+      SearchInputDto<PropertyFilter>,
+      PaginationOutputDto<PropertyOutput>
+    >
 {
   propertyRepository: PropertyRepository;
   private logger: LoggerInterface;
@@ -26,7 +31,7 @@ export class SearchPropertyUseCase
   }
 
   async execute(
-    input: SearchInputDto,
+    input: SearchInputDto<PropertyFilter>,
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     this.logger.info({ message: 'Start Property Use Case' });
     const params = new PropertySearchParams(input);

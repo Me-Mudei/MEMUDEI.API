@@ -1,4 +1,4 @@
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, rmdir } from 'fs';
 import {
   Driver,
   FileInput,
@@ -28,7 +28,11 @@ export class InMemoryDriver implements Driver {
     return id;
   }
 
-  async delete(id: string, folder?: string): Promise<void> {
-    this.files = this.files.filter((file) => file.filename !== id);
+  async delete(filename: string, id: string): Promise<void> {
+    const path = `${__dirname}/tmp/${id}`;
+    rmdir(`${path}`, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+    this.files = this.files.filter((file) => file.filename !== filename);
   }
 }

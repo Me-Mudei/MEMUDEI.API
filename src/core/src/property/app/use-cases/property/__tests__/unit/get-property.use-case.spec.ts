@@ -1,8 +1,8 @@
 import { GetPropertyUseCase } from '../../get-property.use-case';
 import { InMemoryRepositoryFactory } from '#property/infra';
-import { LoggerInterface, WinstonLogger, Broker } from '#shared/infra';
-import { RepositoryFactory } from '#property/domain';
-import { NotFoundError } from '#shared/domain';
+import { Broker } from '#shared/infra';
+import { PropertyFakeBuilder, RepositoryFactory } from '#property/domain';
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
 
 describe('GetPropertyUseCase Unit Tests', () => {
   let useCase: GetPropertyUseCase;
@@ -26,10 +26,13 @@ describe('GetPropertyUseCase Unit Tests', () => {
       useCase['propertyRepository'],
       'findById',
     );
-    const input = { id: '9micktlceY2WicUyvJKq3' };
-    await expect(() => useCase.execute(input)).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID 9micktlceY2WicUyvJKq3`),
-    );
+    const id = new UniqueEntityId('9micktlceY2WicUyvJKq3');
+    useCase['propertyRepository']['items'] = [
+      PropertyFakeBuilder.theProperties(5).build(),
+      PropertyFakeBuilder.aProperty().withId(id).build(),
+    ];
+    const response = await useCase.execute({ id: id.value });
+    expect(response.id).toBe(id.value);
     expect(spyRepositoryFindById).toHaveBeenCalledTimes(1);
   });
 });

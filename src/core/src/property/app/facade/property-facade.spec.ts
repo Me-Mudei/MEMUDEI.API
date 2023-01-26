@@ -34,21 +34,11 @@ describe('PropertyFacade Unit tests', () => {
   let driver: Driver;
   let broker: Broker;
   let facade: PropertyFacade;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
     driver = new InMemoryDriver();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'CreateUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
     const propertyTypeRepository = new PropertyTypeInMemoryRepository();
     propertyTypeRepository.items = [
       new PropertyType({
@@ -123,27 +113,17 @@ describe('PropertyFacade Unit tests', () => {
       createCondominiumDetailRepository;
     repositoryFactory.createRuleRepository = createRuleRepository;
 
-    useCase = new CreatePropertyUseCase(
-      repositoryFactory,
-      driver,
-      broker,
-      logger,
-    );
-    const mockGetUseCase = new GetPropertyUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
+    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
+    const mockGetUseCase = new GetPropertyUseCase(repositoryFactory, broker);
     const mockSearchUseCase = new SearchPropertyUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     facade = new PropertyFacade({
-      createUseCase: useCase,
-      getUseCase: mockGetUseCase,
-      searchUseCase: mockSearchUseCase,
-    });
+      createProperty: useCase,
+      getProperty: mockGetUseCase,
+      searchProperty: mockSearchUseCase,
+    } as any);
   });
   it('should create a property facade', async () => {
     const spyFacadeCreate = jest.spyOn(facade, 'createProperty');

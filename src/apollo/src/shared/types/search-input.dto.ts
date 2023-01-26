@@ -1,4 +1,4 @@
-import { enumType, inputObjectType, objectType } from 'nexus';
+import { enumType, inputObjectType, objectType, extendInputType } from 'nexus';
 
 export const SearchInput = inputObjectType({
   name: 'search_input',
@@ -7,7 +7,13 @@ export const SearchInput = inputObjectType({
     t.nullable.int('per_page');
     t.nullable.string('sort');
     t.nullable.field('sort_dir', { type: 'sort_direction' });
-    t.nullable.string('filter');
+  },
+});
+
+export const DefaultSearchInput = extendInputType({
+  type: 'search_input',
+  definition(t) {
+    t.string('filter');
   },
 });
 

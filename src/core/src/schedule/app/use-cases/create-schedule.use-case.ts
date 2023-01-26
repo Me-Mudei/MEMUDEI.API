@@ -14,7 +14,7 @@ import {
   ScheduleOutputMapper,
 } from '../dto';
 import { UseCase } from '#shared/app';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { OverlapScheduleError } from '../../domain/errors/overlap-schedule.error';
 
 export class CreateScheduleUseCase
@@ -29,10 +29,8 @@ export class CreateScheduleUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
-    this.propertyRepository = repositoryFactory.createPropertyRepository();
-    this.userRepository = repositoryFactory.createUserRepository();
   }
 
   async execute(input: CreateScheduleInput): Promise<ScheduleOutput> {

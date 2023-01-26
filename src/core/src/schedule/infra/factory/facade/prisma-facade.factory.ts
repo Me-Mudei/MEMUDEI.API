@@ -1,5 +1,5 @@
 import { ScheduleFacade, CalendarFacade } from '../../../app/facade';
-import { Broker } from '../#shared/infra/broker';
+import { Broker } from '#shared/infra';
 import {
   GetScheduleUseCase,
   SearchScheduleUseCase,
@@ -12,7 +12,7 @@ import {
   DeleteCalendarUseCase,
 } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
-import { WinstonLogger } from '#sharedogger/winston.logger';
+import { WinstonLogger } from '#shared/infra';
 import { FacadeFactory } from '../../../domain/factory/facade.factory';
 
 export class PrismaFacadeFactory implements FacadeFactory {
@@ -33,22 +33,18 @@ export class PrismaFacadeFactory implements FacadeFactory {
     const getScheduleUseCase = new GetScheduleUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchScheduleUseCase = new SearchScheduleUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createScheduleUseCase = new CreateScheduleUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updateScheduleUseCase = new UpdateScheduleUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
 
     return new ScheduleFacade({
@@ -59,7 +55,7 @@ export class PrismaFacadeFactory implements FacadeFactory {
     });
   }
   createCalendarFacade() {
-    const logger = new WinstonLogger({
+    new WinstonLogger({
       svc: 'testSvc',
       req: {
         req_id: this.req.req_id,
@@ -74,27 +70,22 @@ export class PrismaFacadeFactory implements FacadeFactory {
     const getCalendarUseCase = new GetCalendarUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const searchCalendarUseCase = new SearchCalendarUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const createCalendarUseCase = new CreateCalendarUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const updateCalendarUseCase = new UpdateCalendarUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
     const deleteCalendarUseCase = new DeleteCalendarUseCase(
       repositoryFactory,
       broker,
-      logger,
     );
 
     return new CalendarFacade({

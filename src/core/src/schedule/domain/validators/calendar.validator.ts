@@ -1,5 +1,5 @@
 import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain/validators/class-validator-fields';
+import { ClassValidatorFields } from '#shared/domain';
 import { CalendarProps } from '../entities/calendar.entity';
 
 export class CalendarRules {

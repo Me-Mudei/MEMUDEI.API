@@ -4,10 +4,6 @@ export const PropertyDetailOutput = objectType({
   name: 'property_detail_output',
   definition(t) {
     t.nonNull.string('id');
-    t.nonNull.string('name');
-    t.nullable.string('description');
-    t.nonNull.date('created_at');
-    t.nonNull.date('updated_at');
   },
 });
 

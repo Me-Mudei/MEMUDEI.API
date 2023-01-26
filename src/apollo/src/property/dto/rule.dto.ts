@@ -4,10 +4,6 @@ export const RuleOutput = objectType({
   name: 'rule_output',
   definition(t) {
     t.nonNull.string('id');
-    t.nonNull.string('name');
-    t.nullable.string('description');
-    t.nonNull.date('created_at');
-    t.nonNull.date('updated_at');
   },
 });
 

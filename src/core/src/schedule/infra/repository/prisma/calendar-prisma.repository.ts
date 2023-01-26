@@ -5,7 +5,7 @@ import {
   CalendarSearchParams,
   CalendarSearchResult,
 } from '../../../domain';
-import { PrismaClient } from '#sharedatabase';
+import { PrismaClient } from '#shared/infra';
 
 export class CalendarPrismaRepository implements CalendarRepository {
   sortableFields: string[] = ['createdAt'];
@@ -15,7 +15,7 @@ export class CalendarPrismaRepository implements CalendarRepository {
     this.prisma.calendar.create({
       data: {
         id: entity.id,
-        user_id: entity.user.id,
+        user_id: (entity as any).user.id,
         is_active: entity.is_active,
         expired_at: entity.expired_at,
         created_at: entity.created_at,
@@ -24,7 +24,7 @@ export class CalendarPrismaRepository implements CalendarRepository {
     });
 
     this.prisma.weekday.createMany({
-      data: entity.available_weekdays.map((weekday) => ({
+      data: (entity as any).available_weekdays.map((weekday) => ({
         id: weekday.id,
         calendar_id: entity.id,
         day: weekday.day,

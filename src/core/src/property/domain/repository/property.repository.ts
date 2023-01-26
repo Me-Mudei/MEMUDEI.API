@@ -1,15 +1,34 @@
 import {
   SearchableRepositoryInterface,
-  SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
+  SearchParams,
+  SearchResult,
 } from '#shared/domain';
 import { Property } from '../entities';
 
-export type PropertyFilter = string;
+export type PropertyFilter = {
+  id?: string;
+  query?: string;
+  status?: string;
+  property_type?: string;
+  privacy_type?: string;
+  property_details?: string[];
+  condominium_details?: string[];
+  rules?: string[];
+  //lat?: number;
+  //lng?: number;
+  //distance?: number;
+  value_type?: string;
+  min_value?: number;
+  max_value?: number;
+  min_area?: number;
+  max_area?: number;
+  qtd_bedrooms?: number;
+  qtd_bathrooms?: number;
+} | null;
 
-export class PropertySearchParams extends DefaultSearchParams<PropertyFilter> {}
+export class PropertySearchParams extends SearchParams<PropertyFilter> {}
 
-export class PropertySearchResult extends DefaultSearchResult<
+export class PropertySearchResult extends SearchResult<
   Property,
   PropertyFilter
 > {}

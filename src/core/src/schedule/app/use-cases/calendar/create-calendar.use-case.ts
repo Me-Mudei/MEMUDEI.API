@@ -1,6 +1,6 @@
-import { Calendar, CalendarRepository } from '../../../domain/repository';
+import { Calendar, CalendarRepository } from '../../../domain';
 import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, SingletonLogger } from '#shared/infra';
+import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import {
   CreateCalendarInput,
   CalendarOutput,
@@ -17,7 +17,7 @@ export class CreateCalendarUseCase
     readonly repositoryFactory: RepositoryFactory,
     readonly broker: Broker,
   ) {
-    this.logger = SingletonLogger.getInstance();
+    this.logger = WinstonLogger.getInstance();
     this.calendarRepository = repositoryFactory.createCalendarRepository();
   }
 

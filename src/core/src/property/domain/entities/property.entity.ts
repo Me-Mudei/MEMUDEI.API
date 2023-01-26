@@ -4,7 +4,6 @@ import { PropertyType } from './property-type.entity';
 import { PropertyRelationship } from './property-relationship.entity';
 import { PrivacyType } from './privacy-type.entity';
 import { FloorPlan } from './floor-plan.entity';
-//import { Schedule } from './schedule.entity';
 import { PropertyDetail } from './property-detail.entity';
 import { CondominiumDetail } from './condominium-detail.entity';
 import { Rule } from './rule.entity';
@@ -29,7 +28,6 @@ export type PropertyProps = {
   property_relationship: PropertyRelationship;
   privacy_type: PrivacyType;
   floor_plans: FloorPlan[];
-  //schedule: Schedule;
   property_details: PropertyDetail[];
   condominium_details: CondominiumDetail[];
   rules: Rule[];
@@ -46,7 +44,6 @@ export class Property extends Entity<PropertyProps> {
   private _property_relationship: PropertyRelationship;
   private _privacy_type: PrivacyType;
   private _floor_plans: FloorPlan[];
-  //private _schedule: Schedule;
   private _property_details: PropertyDetail[];
   private _condominium_details: CondominiumDetail[];
   private _rules: Rule[];
@@ -66,7 +63,6 @@ export class Property extends Entity<PropertyProps> {
     this._property_relationship = props.property_relationship;
     this._privacy_type = props.privacy_type;
     this._floor_plans = props.floor_plans;
-    //this._schedule = props.schedule;
     this._property_details = props.property_details;
     this._condominium_details = props.condominium_details;
     this._rules = props.rules;
@@ -142,12 +138,6 @@ export class Property extends Entity<PropertyProps> {
   set floor_plans(floor_plans) {
     this._floor_plans = floor_plans;
   }
-  /* get schedule() {
-    return this._schedule;
-  }
-  set schedule(schedule) {
-    this._schedule = schedule;
-  } */
   get property_details() {
     return this._property_details;
   }

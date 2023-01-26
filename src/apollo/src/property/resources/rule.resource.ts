@@ -41,6 +41,7 @@ export const DeleteRule = mutationField('delete_rules', {
   shield: isAdmin(),
   args: { input: list(nonNull('delete_rule_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.deleteRule(input as any);
+    await ctx.propertyService.deleteRule(input as any);
+    return { id: input[0].id };
   },
 });

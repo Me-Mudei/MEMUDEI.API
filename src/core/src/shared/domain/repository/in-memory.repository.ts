@@ -1,3 +1,4 @@
+import { PropertyFilter } from '#property/domain';
 import { Entity } from '../entity';
 import { NotFoundError } from '../errors';
 import { UniqueEntityId } from '../value-objects';
@@ -54,13 +55,16 @@ export abstract class InMemoryRepository<E extends Entity>
   }
 }
 
-export abstract class InMemorySearchableRepository<E extends Entity>
+export abstract class InMemorySearchableRepository<
+    E extends Entity,
+    Filter = any,
+  >
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E>
+  implements SearchableRepositoryInterface<E, Filter>
 {
   sortableFields: string[] = [];
 
-  async search(props: SearchParams): Promise<SearchResult<E>> {
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E, Filter>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = await this.applySort(
       itemsFiltered,
@@ -85,7 +89,7 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
   protected abstract applyFilter(
     items: E[],
-    filter: string | null,
+    filter: Filter | null,
   ): Promise<E[]>;
 
   protected async applySort(
@@ -112,8 +116,8 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
   protected async applyPaginate(
     items: E[],
-    page: SearchParams['page'],
-    per_page: SearchParams['per_page'],
+    page: SearchParams<PropertyFilter>['page'],
+    per_page: SearchParams<PropertyFilter>['per_page'],
   ): Promise<E[]> {
     const start = (page - 1) * per_page; // 1 * 15 = 15
     const limit = start + per_page; // 15 + 15 = 30

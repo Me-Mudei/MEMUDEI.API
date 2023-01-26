@@ -1,12 +1,8 @@
 import { GetPropertyUseCase } from '../../get-property.use-case';
-import { PrismaRepositoryFactory } from '../../../../infra';
-import {
-  LoggerInterface,
-  WinstonLogger,
-  Broker,
-} from '../../#shared/infra';
-import { RepositoryFactory } from '../../../../domain';
-import { NotFoundError } from '../#shared;
+import { PrismaRepositoryFactory } from '#property/infra';
+import { LoggerInterface, WinstonLogger, Broker } from '#shared/infra';
+import { RepositoryFactory } from '#property/domain';
+import { NotFoundError } from '#shared/domain';
 
 describe('GetPropertyUseCase Unit Tests', () => {
   let useCase: GetPropertyUseCase;
