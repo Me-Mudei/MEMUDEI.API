@@ -1,5 +1,5 @@
-import { UniqueEntityId } from '../../#shared/domain';
-import { Connection, PrismaClient } from '../#sharedatabase';
+import { UniqueEntityId } from '#shared/domain';
+import { Connection, PrismaClient } from '#shared/infra';
 import { PrivacyTypePrismaRepository } from '../privacy-type-prisma.repository';
 
 describe('PrivacyTypeRepository Unit tests', () => {

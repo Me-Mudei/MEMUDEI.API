@@ -1,5 +1,5 @@
 import { CreateUserUseCase } from '../../create-user.use-case';
-import { UserInMemoryRepository } from '../../../../infra/';
+import { UserInMemoryRepository } from '#user/infra/';
 import { Broker } from '#shared/infra';
 import { UserCreatedSendConfirmationHandler } from '../../../handlers';
 

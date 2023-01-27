@@ -1,5 +1,5 @@
-import { UniqueEntityId } from '../../#shared/domain';
-import { Connection, PrismaClient } from '../#sharedatabase';
+import { UniqueEntityId } from '#shared/domain';
+import { Connection, PrismaClient } from '#shared/infra';
 import { CondominiumDetailPrismaRepository } from '../condominium-detail-prisma.repository';
 
 describe('CondominiumDetailRepository Unit tests', () => {

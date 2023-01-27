@@ -9,7 +9,7 @@ export const GetPropertyDetail = queryField('get_property_detail', {
   },
 });
 
-export const SearchPropertyDetail = queryField('search_property_detail', {
+export const SearchPropertyDetails = queryField('search_property_details', {
   type: 'pagination_output',
   shield: isAdmin(),
   args: { input: nullable('search_input') },

@@ -24,9 +24,9 @@ export const GetProperty = queryField('get_property', {
 export const SearchProperties = queryField('search_properties', {
   type: 'pagination_output',
   shield: isAdmin(),
-  args: { input: nullable('search_input') },
+  args: { input: nullable('property_search_input') },
   resolve: async (_, { input }, ctx) => {
-    const res = ctx.propertyService.searchProperty(input as any);
+    const res = await ctx.propertyService.searchProperty(input as any);
     return res as any;
   },
 });

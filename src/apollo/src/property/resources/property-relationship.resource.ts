@@ -9,8 +9,8 @@ export const GetPropertyRelationship = queryField('get_property_relationship', {
   },
 });
 
-export const SearchPropertyRelationship = queryField(
-  'search_property_relationship',
+export const SearchPropertyRelationships = queryField(
+  'search_property_relationships',
   {
     type: 'pagination_output',
     shield: isAdmin(),

@@ -9,14 +9,17 @@ export const GetCondominiumDetail = queryField('get_condominium_detail', {
   },
 });
 
-export const SearchCondominiumDetail = queryField('search_condominium_detail', {
-  type: 'pagination_output',
-  shield: isAdmin(),
-  args: { input: nullable('search_input') },
-  resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.searchCondominiumDetail(input as any);
+export const SearchCondominiumDetails = queryField(
+  'search_condominium_details',
+  {
+    type: 'pagination_output',
+    shield: isAdmin(),
+    args: { input: nullable('search_input') },
+    resolve: async (_, { input }, ctx) => {
+      return ctx.propertyService.searchCondominiumDetail(input as any);
+    },
   },
-});
+);
 
 export const CreateCondominiumDetail = mutationField(
   'create_condominium_detail',

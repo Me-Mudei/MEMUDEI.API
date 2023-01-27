@@ -34,6 +34,11 @@ export class PropertyPrismaRepository implements PropertyRepository {
         status: entity.status,
         created_at: entity.created_at,
         updated_at: entity.updated_at,
+        user: {
+          connect: {
+            id: 'MgxO159FtDCCYQYULEhBy',
+          },
+        },
         address: {
           create: {
             id: entity.address.id,

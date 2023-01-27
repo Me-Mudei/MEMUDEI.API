@@ -9,7 +9,7 @@ export const GetRule = queryField('get_rule', {
   },
 });
 
-export const SearchRule = queryField('search_rule', {
+export const SearchRules = queryField('search_rules', {
   type: 'pagination_output',
   shield: isAdmin(),
   args: { input: nullable('search_input') },

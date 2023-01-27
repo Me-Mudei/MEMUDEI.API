@@ -1,3 +1,4 @@
+import { PropertyFilter } from '#property/domain';
 import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
 import {
   CreatePropertyInput,
@@ -182,7 +183,7 @@ export class PropertyFacade {
   }
 
   async searchProperty(
-    input: SearchInputDto,
+    input: SearchInputDto<PropertyFilter>,
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     return this._searchProperty.execute(input);
   }

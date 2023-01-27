@@ -93,6 +93,7 @@ export class PropertyInMemoryRepository
   }
 
   query_filter(items: Property[], query: string): Property[] {
+    if (query.length < 3) return items;
     return items.filter((item) => {
       return (
         item.title.toLowerCase().includes(query.toLowerCase()) ||

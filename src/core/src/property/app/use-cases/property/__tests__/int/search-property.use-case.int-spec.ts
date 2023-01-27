@@ -1,13 +1,12 @@
 import { SearchPropertyUseCase } from '../../search-property.use-case';
 import { PrismaRepositoryFactory } from '#property/infra';
-import { LoggerInterface, WinstonLogger, Broker } from '#shared/infra';
+import { Broker } from '#shared/infra';
 import { RepositoryFactory } from '#property/domain';
 
 describe('SearchPropertyUseCase Unit Tests', () => {
   let useCase: SearchPropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new PrismaRepositoryFactory();

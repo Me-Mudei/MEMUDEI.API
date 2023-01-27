@@ -1,4 +1,3 @@
-import { Property, PropertyFilter } from '#property/domain';
 import { SearchResult } from '../../domain/repository/repository-contracts';
 
 export type PaginationOutputDto<Item = any> = {
@@ -10,9 +9,9 @@ export type PaginationOutputDto<Item = any> = {
 };
 
 export class PaginationOutputMapper {
-  static toOutput<Item = any>(
+  static toOutput<Item = any, Filter = any>(
     items: Item[],
-    result: SearchResult<Property, PropertyFilter>,
+    result: SearchResult<any, Filter>,
   ): PaginationOutputDto<Item> {
     return {
       items,

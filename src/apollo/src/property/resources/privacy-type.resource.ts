@@ -9,7 +9,7 @@ export const GetPrivacyType = queryField('get_privacy_type', {
   },
 });
 
-export const SearchPrivacyType = queryField('search_privacy_type', {
+export const SearchPrivacyTypes = queryField('search_privacy_types', {
   type: 'pagination_output',
   shield: isAdmin(),
   args: { input: nullable('search_input') },

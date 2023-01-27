@@ -1,7 +1,6 @@
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
+import { Broker } from '#shared/infra';
 import {
   CreateScheduleUseCase,
-  DeleteScheduleUseCase,
   GetScheduleUseCase,
   SearchScheduleUseCase,
   UpdateScheduleUseCase,
@@ -15,49 +14,20 @@ describe('ScheduleFacade Unit tests', () => {
   let getSchedule: GetScheduleUseCase;
   let updateSchedule: UpdateScheduleUseCase;
   let searchSchedule: SearchScheduleUseCase;
-  let deleteSchedule: DeleteScheduleUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
   let facade: ScheduleFacade;
-  let logger: LoggerInterface;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
     broker = new Broker();
-    logger = new WinstonLogger({
-      svc: 'CreateUserUseCase',
-      req: {
-        req_id: 'test',
-        req_path: 'test',
-        req_method: 'test',
-        req_ua: 'test',
-      },
-    });
-    createSchedule = new CreateScheduleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    getSchedule = new GetScheduleUseCase(repositoryFactory, broker, logger);
-    updateSchedule = new UpdateScheduleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    searchSchedule = new SearchScheduleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
-    deleteSchedule = new DeleteScheduleUseCase(
-      repositoryFactory,
-      broker,
-      logger,
-    );
+    createSchedule = new CreateScheduleUseCase(repositoryFactory, broker);
+    getSchedule = new GetScheduleUseCase(repositoryFactory, broker);
+    updateSchedule = new UpdateScheduleUseCase(repositoryFactory, broker);
+    searchSchedule = new SearchScheduleUseCase(repositoryFactory, broker);
     facade = new ScheduleFacade({
       createSchedule,
       getSchedule,
-      deleteSchedule,
       searchSchedule,
       updateSchedule,
     });
@@ -68,7 +38,7 @@ describe('ScheduleFacade Unit tests', () => {
     const createScheduleProps = {
       date: new Date(),
     };
-    await facade.createSchedule(createScheduleProps);
+    await facade.createSchedule(createScheduleProps as any);
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);
     expect(spyUseCaseExecute).toHaveBeenCalledTimes(1);
   });

@@ -1,10 +1,9 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
-import { PrismaRepositoryFactory } from '../../../../infra';
-import { Broker } from '../../#shared/infra';
-import { RepositoryFactory } from '../../../../domain';
-import { Driver } from '../../../../domain/driver/driver-contracts';
-//import { AwsS3Driver } from '../../../../infra/driver/aws-s3.driver';
-import { InMemoryDriver } from '../../../../infra/driver/in-memory.driver';
+import { PrismaRepositoryFactory } from '#property/infra';
+import { Broker } from '#shared/infra';
+import { RepositoryFactory, Driver } from '#property/domain';
+//import { AwsS3Driver } from '#property/infra';
+import { InMemoryDriver } from '#property/infra';
 
 import { createReadStream } from 'fs';
 

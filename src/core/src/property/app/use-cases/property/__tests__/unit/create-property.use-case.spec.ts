@@ -7,9 +7,10 @@ import {
   PropertyRelationshipInMemoryRepository,
   PropertyTypeInMemoryRepository,
   RuleInMemoryRepository,
-} from '../../../../../infra';
-import { Broker } from '#shared/infra';
+  InMemoryDriver,
+} from '#property/infra';
 import { UniqueEntityId } from '#shared/domain';
+import { Broker } from '#shared/infra';
 import {
   CondominiumDetail,
   PrivacyType,
@@ -18,9 +19,8 @@ import {
   PropertyType,
   RepositoryFactory,
   Rule,
-} from '../../../../../domain';
-import { InMemoryDriver } from '../../../../../infra/driver/in-memory.driver';
-import { Driver } from '../../../../../domain/driver/driver-contracts';
+} from '#property/domain';
+import { Driver } from '#property/domain/driver/driver-contracts';
 import { createReadStream } from 'fs';
 
 describe('CreatePropertyUseCase Unit Tests', () => {

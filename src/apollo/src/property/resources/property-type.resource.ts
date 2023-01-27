@@ -1,5 +1,4 @@
 import { mutationField, queryField, nullable, nonNull, list } from 'nexus';
-import { DefaultSearchInput } from '../../shared/types/search-input.dto';
 import { isAdmin } from '../../shared/rules';
 
 export const GetPropertyType = queryField('get_property_type', {
@@ -10,10 +9,10 @@ export const GetPropertyType = queryField('get_property_type', {
   },
 });
 
-export const SearchPropertyType = queryField('search_property_type', {
+export const SearchPropertyTypes = queryField('search_property_types', {
   type: 'pagination_output',
   shield: isAdmin(),
-  args: { input: nullable(DefaultSearchInput) },
+  args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.propertyService.searchPropertyType(input as any);
   },
