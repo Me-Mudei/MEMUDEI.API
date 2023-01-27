@@ -1,4 +1,4 @@
-import { PropertyFilter } from '#property/domain';
+import { PropertyFilter, PropertyStatus } from '#property/domain';
 import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
 import {
   CreatePropertyInput,
@@ -171,11 +171,14 @@ export class PropertyFacade {
     this._updateRule = props.updateRule;
     this._deleteRule = props.deleteRule;
   }
-  async createProperty(input: CreatePropertyInput): Promise<PropertyOutput> {
+  async createProperty(
+    input: Omit<CreatePropertyInput, 'status'> & { status?: string },
+  ): Promise<PropertyOutput> {
     this._createProperty.broker.register(
       new PropertyCreatedSendConfirmationHandler(),
     );
-    return this._createProperty.execute(input);
+    const status = input.status && PropertyStatus[`${input.status}`];
+    return this._createProperty.execute({ ...input, status });
   }
 
   async getProperty(input: { id: string }): Promise<PropertyOutput> {

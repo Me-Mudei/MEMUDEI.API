@@ -18,7 +18,7 @@ export const CreatePropertyInput = inputObjectType({
       type: 'condominium_detail_input',
     });
     t.nonNull.list.nonNull.field('rules', { type: 'rule_input' });
-    t.nonNull.list.nonNull.upload('photos');
+    t.nullable.list.nonNull.upload('photos');
     t.nonNull.list.nonNull.field('charges', { type: 'charge_input' });
   },
 });
@@ -109,7 +109,7 @@ export const PropertyOutput = objectType({
       type: 'property_condominium_detail_output',
     });
     t.nonNull.list.nonNull.field('rules', { type: 'property_rule_output' });
-    t.nonNull.list.nonNull.field('photos', { type: 'photo_output' });
+    t.nonNull.list.nullable.field('photos', { type: 'photo_output' });
     t.nonNull.list.nonNull.field('charges', { type: 'charge_output' });
     t.nonNull.date('created_at');
     t.nonNull.date('updated_at');
@@ -213,7 +213,7 @@ export const PropertyFilterInput = inputObjectType({
 });
 
 export const PropertySearchInput = inputObjectType({
-  name: 'property_search_input',
+  name: 'search_properties_input',
   definition(t) {
     t.nullable.int('page');
     t.nullable.int('per_page');

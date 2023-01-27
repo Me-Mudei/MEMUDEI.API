@@ -1,19 +1,18 @@
 import { UserFacade } from '../../../app/facade';
-import { Broker, WinstonLogger } from '#shared/infra';
+import { Broker, WinstonLogger, ReqLoggerProps } from '#shared/infra';
 import { CreateUserUseCase } from '../../../app/use-cases';
 import { PrismaRepositoryFactory } from '../repository';
 import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
 
 export class PrismaFacadeFactory {
-  constructor(readonly req: any) {}
-  create() {
+  static create(req: ReqLoggerProps) {
     const logger = new WinstonLogger({
       svc: 'testSvc',
       req: {
-        req_id: this.req.req_id,
-        req_path: this.req.req_path,
-        req_method: this.req.req_method,
-        req_ua: this.req.req_ua,
+        req_id: req.req_id,
+        req_path: req.req_path,
+        req_method: req.req_method,
+        req_ua: req.req_ua,
       },
     });
     logger.info({ message: 'Start User Service' });

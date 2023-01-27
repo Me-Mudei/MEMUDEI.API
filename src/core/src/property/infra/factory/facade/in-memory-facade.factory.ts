@@ -1,5 +1,3 @@
-import { PropertyFacade } from '../../../app/facade';
-import { Broker } from '#shared/infra';
 import {
   CreatePropertyUseCase,
   GetPropertyUseCase,
@@ -35,29 +33,83 @@ import {
   UpdateRuleUseCase,
   DeleteRuleUseCase,
 } from '../../../app/use-cases';
+import { PropertyFacade } from '../../../app/facade';
+import {
+  CondominiumDetailFakeBuilder,
+  PrivacyTypeFakeBuilder,
+  PropertyDetailFakeBuilder,
+  PropertyFakeBuilder,
+  PropertyRelationshipFakeBuilder,
+  PropertyTypeFakeBuilder,
+  RuleFakeBuilder,
+} from '#property/domain';
+import { UniqueEntityId } from '#shared/domain';
+import { Broker, ReqLoggerProps, WinstonLogger } from '#shared/infra';
 import { InMemoryRepositoryFactory } from '../repository';
-import { WinstonLogger } from '#shared/infra';
 import { InMemoryDriver } from '../../driver';
-import { PropertyFakeBuilder } from '#property/domain';
 
 export class InMemoryFacadeFactory {
-  constructor(readonly req: any) {}
-  create() {
+  static create(req: ReqLoggerProps) {
     new WinstonLogger({
       svc: 'testSvc',
       req: {
-        req_id: this.req.req_id,
-        req_path: this.req.req_path,
-        req_method: this.req.req_method,
-        req_ua: this.req.req_ua,
+        req_id: req.req_id,
+        req_path: req.req_path,
+        req_method: req.req_method,
+        req_ua: req.req_ua,
       },
     });
     const repositoryFactory = new InMemoryRepositoryFactory();
+    const id = new UniqueEntityId('9micktlceY2WicUyvJKq3');
     const propertyItems = [
+      PropertyFakeBuilder.aProperty().withId(id).build(),
       ...PropertyFakeBuilder.theProperties(15).build(),
       ...PropertyFakeBuilder.theProperties(5).withTitle('Casa').build(),
       ...PropertyFakeBuilder.theProperties(3).withTitle('test').build(),
     ];
+    const property_type_id = new UniqueEntityId('-qAJnuQ9yyjAixr3kA0qV');
+    const propertyTypeItems = [
+      PropertyTypeFakeBuilder.aPropertyType().withId(property_type_id).build(),
+    ];
+    const property_relationship_id = new UniqueEntityId(
+      'XVGl_wQH_qY-Ib12c4fdH',
+    );
+    const propertyRelationshipItems = [
+      PropertyRelationshipFakeBuilder.aPropertyRelationship()
+        .withId(property_relationship_id)
+        .build(),
+    ];
+    const privacy_type_id = new UniqueEntityId('W6gVuFYhw9hdJjqZhfyR5');
+    const privacyTypeItems = [
+      PrivacyTypeFakeBuilder.aPrivacyType().withId(privacy_type_id).build(),
+    ];
+    const property_detail_id = new UniqueEntityId('WzpOAqMrbs0B-wL2nldyi');
+    const property_detail_id2 = new UniqueEntityId('bvS8JBf9S9310FSDaUfss');
+    const propertyDetailItems = [
+      PropertyDetailFakeBuilder.aPropertyDetail()
+        .withId(property_detail_id)
+        .build(),
+      PropertyDetailFakeBuilder.aPropertyDetail()
+        .withId(property_detail_id2)
+        .build(),
+    ];
+    const condominium_detail_id = new UniqueEntityId('ofPD2D4pPFJ2WNmdoeBrt');
+    const condominium_detail_id2 = new UniqueEntityId('NxSfKX56NoptjKXERlZ52');
+    const condominiumDetailItems = [
+      CondominiumDetailFakeBuilder.aCondominiumDetail()
+        .withId(condominium_detail_id)
+        .build(),
+      CondominiumDetailFakeBuilder.aCondominiumDetail()
+        .withId(condominium_detail_id2)
+        .build(),
+    ];
+    const rule_id = new UniqueEntityId('CEiQmjH2zKOZ37yuzQHfA');
+    const rule_id2 = new UniqueEntityId('QKhIxaf8BTzuZnsTOfVU4');
+    const ruleItems = [
+      RuleFakeBuilder.aRule().withId(rule_id).build(),
+      RuleFakeBuilder.aRule().withId(rule_id2).build(),
+    ];
+
     const driver = new InMemoryDriver();
     const broker = new Broker();
 
@@ -173,6 +225,17 @@ export class InMemoryFacadeFactory {
     const deleteRuleUseCase = new DeleteRuleUseCase(repositoryFactory, broker);
 
     searchPropertyUseCase['propertyRepository']['items'] = propertyItems;
+    getPropertyUseCase['propertyRepository']['items'] = propertyItems;
+    createPropertyUseCase['propertyTypeRepository']['items'] =
+      propertyTypeItems;
+    createPropertyUseCase['propertyRelationshipRepository']['items'] =
+      propertyRelationshipItems;
+    createPropertyUseCase['privacyTypeRepository']['items'] = privacyTypeItems;
+    createPropertyUseCase['propertyDetailRepository']['items'] =
+      propertyDetailItems;
+    createPropertyUseCase['condominiumDetailRepository']['items'] =
+      condominiumDetailItems;
+    createPropertyUseCase['ruleRepository']['items'] = ruleItems;
 
     return new PropertyFacade({
       createProperty: createPropertyUseCase,

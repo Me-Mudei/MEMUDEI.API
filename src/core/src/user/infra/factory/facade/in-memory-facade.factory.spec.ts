@@ -2,12 +2,12 @@ import { InMemoryFacadeFactory } from './in-memory-facade.factory';
 
 describe('InMemoryFacadeFactory Unit tests', () => {
   it('should create a user facade', async () => {
-    const facade = new InMemoryFacadeFactory({
+    const facade = InMemoryFacadeFactory.create({
       req_id: 'test',
       req_path: 'test',
       req_method: 'test',
       req_ua: 'test',
-    }).create();
+    });
     const spyFacadeCreate = jest.spyOn(facade, 'createUser');
     await facade.createUser({
       name: 'Test',

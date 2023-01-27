@@ -1,5 +1,3 @@
-import { PropertyFacade } from '../../../app/facade';
-import { Broker } from '#shared/infra';
 import {
   CreatePropertyUseCase,
   GetPropertyUseCase,
@@ -35,20 +33,20 @@ import {
   UpdateRuleUseCase,
   DeleteRuleUseCase,
 } from '../../../app/use-cases';
+import { PropertyFacade } from '../../../app/facade';
+import { Broker, WinstonLogger, ReqLoggerProps } from '#shared/infra';
 import { PrismaRepositoryFactory } from '../repository';
-import { WinstonLogger } from '#shared/infra';
 import { AwsS3Driver, InMemoryDriver } from '../../driver';
 
 export class PrismaFacadeFactory {
-  constructor(readonly req: any) {}
-  create() {
+  static create(req: ReqLoggerProps) {
     new WinstonLogger({
       svc: 'testSvc',
       req: {
-        req_id: this.req.req_id,
-        req_path: this.req.req_path,
-        req_method: this.req.req_method,
-        req_ua: this.req.req_ua,
+        req_id: req.req_id,
+        req_path: req.req_path,
+        req_method: req.req_method,
+        req_ua: req.req_ua,
       },
     });
     const repositoryFactory = new PrismaRepositoryFactory();

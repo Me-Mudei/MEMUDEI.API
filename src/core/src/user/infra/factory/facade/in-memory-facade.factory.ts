@@ -5,8 +5,7 @@ import { InMemoryRepositoryFactory } from '../repository';
 import { UserCreatedSendConfirmationHandler } from '../../../app/handlers';
 
 export class InMemoryFacadeFactory {
-  constructor(readonly req: ReqLoggerProps) {}
-  create() {
+  static create(req: ReqLoggerProps) {
     const repositoryFactory = new InMemoryRepositoryFactory();
     const broker = new Broker();
 

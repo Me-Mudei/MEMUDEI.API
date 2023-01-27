@@ -18,7 +18,7 @@ import {
   PropertySearchParams,
   PropertySearchResult,
 } from '../../../domain/repository';
-import { PrismaClient, Prisma } from '#shared/infra';
+import { PrismaClient } from '#shared/infra';
 import { UniqueEntityId, NotFoundError } from '#shared/domain';
 
 export class PropertyPrismaRepository implements PropertyRepository {
@@ -361,8 +361,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
     });
   }
 
-  private applyFilters(filter: PropertyFilter): Prisma.propertyWhereInput {
-    let where: Prisma.propertyWhereInput = {};
+  private applyFilters(filter: PropertyFilter): any {
+    let where: any = {};
     if (!filter) {
       return where;
     }
@@ -385,10 +385,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     return where;
   }
 
-  rules_filter(
-    where: Prisma.propertyWhereInput,
-    rules: string[],
-  ): Prisma.propertyWhereInput {
+  rules_filter(where: any, rules: string[]): any {
     return {
       ...where,
       rules: {
@@ -403,10 +400,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  condominium_details_filter(
-    where: Prisma.propertyWhereInput,
-    condominiumDetails: string[],
-  ): Prisma.propertyWhereInput {
+  condominium_details_filter(where: any, condominiumDetails: string[]): any {
     return {
       ...where,
       condominium_details: {
@@ -421,10 +415,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  property_details_filter(
-    where: Prisma.propertyWhereInput,
-    propertyDetails: string[],
-  ): Prisma.propertyWhereInput {
+  property_details_filter(where: any, propertyDetails: string[]): any {
     return {
       ...where,
       property_details: {
@@ -439,10 +430,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  privacy_type_filter(
-    where: Prisma.propertyWhereInput,
-    privacyType: string,
-  ): Prisma.propertyWhereInput {
+  privacy_type_filter(where: any, privacyType: string): any {
     return {
       ...where,
       privacy_type: {
@@ -451,10 +439,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  property_type_filter(
-    where: Prisma.propertyWhereInput,
-    propertyType: string,
-  ): Prisma.propertyWhereInput {
+  property_type_filter(where: any, propertyType: string): any {
     return {
       ...where,
       property_type: {
@@ -463,10 +448,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  query_filter(
-    where: Prisma.propertyWhereInput,
-    query: string,
-  ): Prisma.propertyWhereInput {
+  query_filter(where: any, query: string): any {
     return {
       ...where,
       OR: [
@@ -526,10 +508,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  id_filter(
-    where: Prisma.propertyWhereInput,
-    id: string,
-  ): Prisma.propertyWhereInput {
+  id_filter(where: any, id: string): any {
     return {
       ...where,
       id: {
@@ -538,10 +517,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  value_type_filter(
-    where: Prisma.propertyWhereInput,
-    type: 'total' | 'rent',
-  ): Prisma.propertyWhereInput {
+  value_type_filter(where: any, type: 'total' | 'rent'): any {
     if (type === 'total') {
       return where;
     }
@@ -557,11 +533,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  value_filter(
-    where: Prisma.propertyWhereInput,
-    min: number,
-    max: number,
-  ): Prisma.propertyWhereInput {
+  value_filter(where: any, min: number, max: number): any {
     return {
       ...where,
       charges: {
@@ -575,11 +547,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  area_filter(
-    where: Prisma.propertyWhereInput,
-    min: number,
-    max: number,
-  ): Prisma.propertyWhereInput {
+  area_filter(where: any, min: number, max: number): any {
     return {
       ...where,
       floor_plans: {
@@ -596,10 +564,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  qtd_bedrooms_filter(
-    where: Prisma.propertyWhereInput,
-    qtd: number,
-  ): Prisma.propertyWhereInput {
+  qtd_bedrooms_filter(where: any, qtd: number): any {
     return {
       ...where,
       floor_plans: {
@@ -615,10 +580,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     };
   }
 
-  qtd_bathrooms_filter(
-    where: Prisma.propertyWhereInput,
-    qtd: number,
-  ): Prisma.propertyWhereInput {
+  qtd_bathrooms_filter(where: any, qtd: number): any {
     return {
       ...where,
       floor_plans: {

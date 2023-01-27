@@ -14,7 +14,7 @@ export type CreatePropertyInput = {
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
   rules: RuleInput[];
-  photos: FileInput[];
+  photos?: FileInput[];
   charges: ChargeInput[];
 };
 

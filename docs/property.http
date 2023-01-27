@@ -1,5 +1,5 @@
 #Enviroments
-@local_url = http://localhost:4000/graphql
+@local_url = http://localhost:3000/graphql
 
 POST {{local_url}}
 Content-Type: application/json
@@ -8,8 +8,13 @@ X-REQUEST-TYPE: GraphQL
 
 
 
-curl localhost:4000/graphql \
-  -F operations='{"query":"mutation UploadFile($file:Upload!) {\n photo_upload(file:$file)\n}”, “variables”: { “file”: null }", “variables”: { “file”: null }}' \
+curl localhost:3000/graphql \
+  -F operations='{ "query": "mutation UploadFile($file: Upload!) { photo_upload(file: $file) { status } }", "variables": { "file": null } }' \
   -F map='{ "0": ["variables.file"] }' \
-  -F 0=@a.png
+  -F 0=@Documents/test.png
+
+curl localhost:3000/graphql \
+  -F operations='{ "query": "mutation ($files: [Upload!]) { create_property(input:{title: \"Apartamento completo com churraqueira\", description: \"Imóvel mobiliado, com churrasqueira e piscina, próximo ao metrô e comércio local, com 2 vagas de garagem e 2 quartos com ar condicionado. O condomínio possui academia, salão de festas e portaria 24 horas. Agende sua visita!\", photos: $files, address:{zip_code: \"04571000\", city: \"São Paulo\", state: \"SP\", street: \"Rua dos Pinheiros\", district: \"Pinheiros\"}, property_type_id: \"-qAJnuQ9yyjAixr3kA0qV\", property_relationship_id: \"XVGl_wQH_qY-Ib12c4fdH\", privacy_type_id: \"W6gVuFYhw9hdJjqZhfyR5\", floor_plans:[{name: \"Quarto\", quantity: 2}, {name: \"Banheiro\", quantity: 2}, {name: \"Vaga de garagem\", quantity: 2}, {name: \"Metragem\", quantity: 100}], property_details:[{id: \"WzpOAqMrbs0B-wL2nldyi\", available: false}, {id: \"bvS8JBf9S9310FSDaUfss\", available: true}],condominium_details:[{id: \"ofPD2D4pPFJ2WNmdoeBrt\", available: false}, {id: \"NxSfKX56NoptjKXERlZ52\", available: true}], rules: [{id: \"CEiQmjH2zKOZ37yuzQHfA\", allowed: false}, {id: \"QKhIxaf8BTzuZnsTOfVU4\", allowed: true}], charges:[{name: \"Aluguel\", amount:1200}, {name: \"Condomínio\", amount:400}, {name: \"IPTU\", amount: 100}, {name: \"Seguro incêndio\", amount: 100}]}) { id, status }}", "variables": { "files": [null] }}' \
+  -F map='{ "0": ["variables.files"] }' \
+  -F 0=@Documents/test.png
 

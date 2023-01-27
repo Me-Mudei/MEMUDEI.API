@@ -12,8 +12,8 @@ export class Context {
     req_method: string;
     req_ua: string;
   }) {
-    this.userService = new User(req).create();
-    this.propertyService = new Property(req).create();
+    this.userService = User.create(req);
+    this.propertyService = Property.create(req);
     return this;
   }
 }
