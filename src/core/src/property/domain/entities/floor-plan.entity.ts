@@ -3,24 +3,18 @@ import FloorPlanValidatorFactory from '../validators/floor-plan.validator';
 
 export type FloorPlanProps = {
   id?: UniqueEntityId;
-  name: string;
-  quantity: number;
-  unit?: string;
+  value: number;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class FloorPlan extends Entity<FloorPlanProps> {
-  private _name: string;
-  private _quantity: number;
-  private _unit?: string;
+  private _value: number;
 
   constructor(props: FloorPlanProps) {
     FloorPlan.validate(props);
     super(props);
-    this._name = props.name;
-    this._quantity = props.quantity;
-    this._unit = props.unit;
+    this._value = props.value;
   }
 
   static validate(props: FloorPlanProps) {
@@ -31,26 +25,11 @@ export class FloorPlan extends Entity<FloorPlanProps> {
     }
   }
 
-  public get name(): string {
-    return this._name;
+  public get value(): number {
+    return this._value;
   }
 
-  public set name(_name: string) {
-    this._name = _name;
-  }
-
-  public get quantity(): number {
-    return this._quantity;
-  }
-
-  public set quantity(_quantity: number) {
-    this._quantity = _quantity;
-  }
-
-  public get unit(): string {
-    return this._unit;
-  }
-  public set unit(_unit: string) {
-    this._unit = _unit;
+  public set value(_value: number) {
+    this._value = _value;
   }
 }

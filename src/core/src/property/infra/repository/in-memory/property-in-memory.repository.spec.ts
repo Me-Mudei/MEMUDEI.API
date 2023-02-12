@@ -1,0 +1,370 @@
+import {
+  ChargeFakeBuilder,
+  CondominiumDetailFakeBuilder,
+  FloorPlanFakeBuilder,
+  PropertyDetailFakeBuilder,
+  PropertyFakeBuilder,
+  PropertyStatus,
+  RuleFakeBuilder,
+} from '#property/domain';
+import { UniqueEntityId } from '#shared/domain';
+import { nanoid } from 'nanoid';
+import PropertyInMemoryRepository from './property-in-memory.repository';
+
+describe('PropertyInMemoryRepository', () => {
+  let repository: PropertyInMemoryRepository;
+
+  beforeEach(() => {
+    repository = new PropertyInMemoryRepository();
+  });
+
+  it('should no filter items when filter param is null', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const filter = null;
+    const items = [faker.build()];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = await repository['applyFilter'](items, filter);
+    expect(itemsFiltered).toStrictEqual(items);
+    expect(spyFilterMethod).not.toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using query filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const filter = 'test';
+    const items = [
+      faker.withTitle('test').withDescription('test').build(),
+      faker.withTitle('fake').withDescription('test').build(),
+      faker.withTitle('TEST').withDescription('fake').build(),
+      faker.withTitle('fake').withDescription('fake').build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['query_filter'](items, filter);
+    expect(itemsFiltered).toStrictEqual([items[0], items[1], items[2]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using id filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const finderId = new UniqueEntityId();
+    const filter = finderId.value;
+    const items = [
+      faker.withId(finderId).build(),
+      faker.withId(new UniqueEntityId()).build(),
+      faker.withId(new UniqueEntityId()).build(),
+      faker.withId(new UniqueEntityId()).build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['id_filter'](items, filter);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using status filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const filter = PropertyStatus.PENDING;
+    const items = [
+      faker.withStatus(PropertyStatus.PENDING).build(),
+      faker.withStatus(PropertyStatus.COMPLETE).build(),
+      faker.withStatus(PropertyStatus.COMPLETE).build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['status_filter'](items, filter);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using property_type_id filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const items = [
+      faker.withPropertyTypeId(id).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['property_type_filter'](items, id.value);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using privacy_type filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const items = [
+      faker.withPrivacyTypeId(id).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['privacy_type_filter'](items, id.value);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using property_details filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const propertyDetails = PropertyDetailFakeBuilder.thePropertyDetails(3)
+      .withId(id)
+      .withAvailable(true)
+      .build();
+    const items = [
+      faker.withPropertyDetails(propertyDetails).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['property_details_filter'](items, [
+      id.value,
+    ]);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using condominium_details filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const condominiumDetails =
+      CondominiumDetailFakeBuilder.theCondominiumDetails(3)
+        .withId(id)
+        .withAvailable(true)
+        .build();
+    const items = [
+      faker.withCondominiumDetails(condominiumDetails).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['condominium_details_filter'](items, [
+      id.value,
+    ]);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using rules filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const rules = RuleFakeBuilder.theRules(3)
+      .withId(id)
+      .withAllowed(true)
+      .build();
+    const items = [
+      faker.withRules(rules).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['rules_filter'](items, [id.value]);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using value filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const min = 1000;
+    const max = 1500;
+    const charges = [
+      ChargeFakeBuilder.aCharge()
+        .withId(new UniqueEntityId(nanoid()))
+        .withAmount(1000)
+        .build(),
+      ChargeFakeBuilder.aCharge()
+        .withId(new UniqueEntityId(nanoid()))
+        .withAmount(300)
+        .build(),
+      ChargeFakeBuilder.aCharge()
+        .withId(new UniqueEntityId(nanoid()))
+        .withAmount(100)
+        .build(),
+    ];
+
+    const items = [
+      faker.withCharges(charges).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['value_filter'](items, min, max);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using area filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const min = 30;
+    const max = 50;
+    const floorPlan = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId(nanoid()))
+      .withValue(40)
+      .build();
+    const items = [
+      faker.withFloorPlans([floorPlan]).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['area_filter'](items, min, max);
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using qtd_bedrooms filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const qtd = 2;
+    const floorPlan = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId(nanoid()))
+      .withValue(qtd)
+      .build();
+    const items = [
+      faker.withFloorPlans([floorPlan]).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['qtd_bedrooms_filter'](items, qtd);
+    expect(itemsFiltered).toStrictEqual([]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using qtd_bathrooms filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const qtd = 2;
+    const floorPlan = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId(nanoid()))
+      .withValue(qtd)
+      .build();
+    const items = [
+      faker.withFloorPlans([floorPlan]).build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = repository['qtd_bathrooms_filter'](items, qtd);
+    expect(itemsFiltered).toStrictEqual([]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should filter items using all filter param', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const id = new UniqueEntityId(nanoid());
+    const propertyDetails = PropertyDetailFakeBuilder.aPropertyDetail()
+      .withId(id)
+      .withAvailable(true)
+      .build();
+    const condominiumDetails =
+      CondominiumDetailFakeBuilder.theCondominiumDetails(3)
+        .withId(id)
+        .withAvailable(true)
+        .build();
+    const rules = RuleFakeBuilder.theRules(3)
+      .withId(id)
+      .withAllowed(true)
+      .build();
+    const rent = ChargeFakeBuilder.aCharge()
+      .withId(new UniqueEntityId())
+      .withAmount(1000)
+      .build();
+    const taxes = ChargeFakeBuilder.aCharge()
+      .withId(new UniqueEntityId())
+      .withAmount(300)
+      .build();
+    const iptu = ChargeFakeBuilder.aCharge()
+      .withId(new UniqueEntityId())
+      .withAmount(100)
+      .build();
+    const area = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId())
+      .withValue(40)
+      .build();
+    const bathrooms = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId())
+      .withValue(2)
+      .build();
+    const bedrooms = FloorPlanFakeBuilder.aFloorPlan()
+      .withId(new UniqueEntityId())
+      .withValue(2)
+      .build();
+    const privacyTypeId = new UniqueEntityId();
+    const propertyTypeId = new UniqueEntityId();
+    const propertyRelationshipId = new UniqueEntityId();
+    const items = [
+      faker
+        .withCondominiumDetails(condominiumDetails)
+        .withRules(rules)
+        .withCharges([rent, taxes, iptu])
+        .withFloorPlans([area, bathrooms, bedrooms])
+        .withPropertyDetails([propertyDetails])
+        .withPrivacyTypeId(privacyTypeId)
+        .withPropertyTypeId(propertyTypeId)
+        .withPropertyRelationshipId(propertyRelationshipId)
+        .withStatus(PropertyStatus.COMPLETE)
+        .withTitle('test')
+        .build(),
+      PropertyFakeBuilder.aProperty().build(),
+      PropertyFakeBuilder.aProperty().build(),
+    ];
+
+    const query = 'test';
+    const spyFilterMethod = jest.spyOn(items, 'filter');
+    const itemsFiltered = await repository['applyFilter'](items, {
+      query,
+      value_type: 'rent',
+      min_value: 1000,
+      max_value: 1200,
+      min_area: 30,
+      max_area: 50,
+      qtd_bedrooms: 2,
+      qtd_bathrooms: 2,
+      status: PropertyStatus.COMPLETE,
+      privacy_type: privacyTypeId.value,
+      condominium_details: ['test'],
+      rules: ['test'],
+      property_details: ['test'],
+      property_type: propertyTypeId.value,
+    });
+    expect(itemsFiltered).toStrictEqual([items[0]]);
+    expect(spyFilterMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should sort items by created_at when sort param is null', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const created_at = new Date();
+    const items = [
+      faker.withCreatedAt(created_at).build(),
+      faker.withCreatedAt(new Date(created_at.getTime() + 100)).build(),
+      faker.withCreatedAt(new Date(created_at.getTime() + 200)).build(),
+    ];
+
+    const itemsSorted = await repository['applySort'](items, null, null);
+    expect(itemsSorted).toStrictEqual([items[2], items[1], items[0]]);
+  });
+
+  it('should sort items by title', async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const items = [
+      faker.withTitle('a').build(),
+      faker.withTitle('b').build(),
+      faker.withTitle('c').build(),
+    ];
+
+    let itemsSorted = await repository['applySort'](items, 'title', 'asc');
+    expect(itemsSorted).toStrictEqual([items[0], items[1], items[2]]);
+
+    itemsSorted = await repository['applySort'](items, 'title', 'desc');
+    expect(itemsSorted).toStrictEqual([items[2], items[1], items[0]]);
+  });
+});

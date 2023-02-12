@@ -8,10 +8,7 @@ export class FloorPlanFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
-  private _name: PropOrFactory<string> = (_index) => this.chance.word();
-  private _unit: PropOrFactory<string | null> = (_index) =>
-    this.chance.syllable();
-  private _quantity: PropOrFactory<number> = (_index) =>
+  private _value: PropOrFactory<number> = (_index) =>
     this.chance.integer({ min: 1, max: 20 });
 
   private countObjs: number;
@@ -46,18 +43,8 @@ export class FloorPlanFakeBuilder<TBuild = any> {
     return this;
   }
 
-  withName(valueOrFactory: PropOrFactory<string>) {
-    this._name = valueOrFactory;
-    return this;
-  }
-
-  withQuantity(valueOrFactory: PropOrFactory<number>) {
-    this._quantity = valueOrFactory;
-    return this;
-  }
-
-  withUnit(valueOrFactory: PropOrFactory<string | null>) {
-    this._unit = valueOrFactory;
+  withValue(valueOrFactory: PropOrFactory<number>) {
+    this._value = valueOrFactory;
     return this;
   }
 
@@ -74,9 +61,7 @@ export class FloorPlanFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
-          name: this.callFactory(this._name, index),
-          quantity: this.callFactory(this._quantity, index),
-          unit: this.callFactory(this._unit, index),
+          value: this.callFactory(this._value, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -86,16 +71,8 @@ export class FloorPlanFakeBuilder<TBuild = any> {
     return this.getValue('id');
   }
 
-  get name() {
-    return this.getValue('name');
-  }
-
-  get quantity() {
-    return this.getValue('quantity');
-  }
-
-  get unit() {
-    return this.getValue('unit');
+  get value() {
+    return this.getValue('value');
   }
 
   get created_at() {

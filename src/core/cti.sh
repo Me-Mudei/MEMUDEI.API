@@ -11,3 +11,7 @@ npm run cti create './src/user/infra' -- -i '*spec.ts' -b
 npm run cti create './src/property/app' -- -i '*spec.ts' -b && 
 npm run cti create './src/property/domain' -- -i '*spec.ts' -b && 
 npm run cti create './src/property/infra' -- -i '*spec.ts' -b
+
+npm run cti create './src/adm/app' -- -i '*spec.ts' -b && 
+npm run cti create './src/adm/domain' -- -i '*spec.ts' -b && 
+npm run cti create './src/adm/infra' -- -i '*spec.ts' -b

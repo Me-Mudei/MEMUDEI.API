@@ -15,7 +15,7 @@ export class PhotoFakeBuilder<TBuild = any> {
   private _type: PropOrFactory<string> = (_index) => this.chance.word();
   private _subtype: PropOrFactory<string> = (_index) => this.chance.word();
   private _url: PropOrFactory<string> = (_index) =>
-    this.chance.url({ extensions: ['jpg', 'png'] });
+    'https://loremflickr.com/640/480/real-estate';
 
   private countObjs: number;
 

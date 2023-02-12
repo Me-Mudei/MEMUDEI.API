@@ -1,29 +1,11 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsBoolean, IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { ClassValidatorFields } from '#shared/domain';
 import { PropertyDetailProps } from '../entities/property-detail.entity';
 
 export class PropertyDetailRules {
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
   @IsBoolean()
   @IsNotEmpty()
-  @IsOptional()
   available: boolean;
-
-  @MaxLength(255)
-  @IsString()
-  @IsOptional()
-  description: string;
 
   @IsDate()
   @IsOptional()
@@ -33,20 +15,8 @@ export class PropertyDetailRules {
   @IsOptional()
   updated_at: Date;
 
-  constructor({
-    name,
-    available,
-    description,
-    created_at,
-    updated_at,
-  }: PropertyDetailProps) {
-    Object.assign(this, {
-      name,
-      available,
-      description,
-      created_at,
-      updated_at,
-    });
+  constructor(props: PropertyDetailProps) {
+    Object.assign(this, props);
   }
 }
 

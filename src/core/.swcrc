@@ -8,7 +8,8 @@
     "paths": {
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
-      "#property/*": ["./property/*"]
+      "#property/*": ["./property/*"],
+      "#adm/*": ["./adm/*"]
     }
   }
 }

@@ -1,5 +1,4 @@
 import PropertyValidatorFactory, {
-  PropertyRules,
   PropertyValidator,
 } from '../property.validator';
 describe('PropertyValidator Tests', () => {

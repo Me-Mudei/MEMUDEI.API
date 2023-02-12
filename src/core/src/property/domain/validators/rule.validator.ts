@@ -1,29 +1,12 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsBoolean, IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { ClassValidatorFields } from '#shared/domain';
 import { RuleProps } from '../entities/rule.entity';
 
 export class RuleRules {
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
   @IsBoolean()
   @IsNotEmpty()
   @IsOptional()
   allowed: boolean;
-
-  @MaxLength(255)
-  @IsString()
-  @IsOptional()
-  description: string;
 
   @IsDate()
   @IsOptional()
@@ -33,20 +16,8 @@ export class RuleRules {
   @IsOptional()
   updated_at: Date;
 
-  constructor({
-    name,
-    allowed,
-    description,
-    created_at,
-    updated_at,
-  }: RuleProps) {
-    Object.assign(this, {
-      name,
-      allowed,
-      description,
-      created_at,
-      updated_at,
-    });
+  constructor(props: RuleProps) {
+    Object.assign(this, props);
   }
 }
 

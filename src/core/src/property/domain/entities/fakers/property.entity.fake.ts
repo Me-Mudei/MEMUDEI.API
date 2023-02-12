@@ -3,9 +3,6 @@ import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 import {
   Address,
-  PropertyType,
-  PropertyRelationship,
-  PrivacyType,
   FloorPlan,
   PropertyDetail,
   CondominiumDetail,
@@ -16,9 +13,6 @@ import {
 
 import {
   AddressFakeBuilder,
-  PropertyTypeFakeBuilder,
-  PropertyRelationshipFakeBuilder,
-  PrivacyTypeFakeBuilder,
   FloorPlanFakeBuilder,
   PropertyDetailFakeBuilder,
   CondominiumDetailFakeBuilder,
@@ -38,15 +32,14 @@ export class PropertyFakeBuilder<TBuild = any> {
     this.chance.sentence({ words: 10 });
   private _status: PropOrFactory<PropertyStatus | null> = (_index) =>
     PropertyStatus.PENDING;
+  private _property_type_id: PropOrFactory<UniqueEntityId> = (_index) =>
+    new UniqueEntityId();
+  private _property_relationship_id: PropOrFactory<UniqueEntityId> = (_index) =>
+    new UniqueEntityId();
+  private _privacy_type_id: PropOrFactory<UniqueEntityId> = (_index) =>
+    new UniqueEntityId();
   private _address: PropOrFactory<Address> = (_index) =>
     AddressFakeBuilder.aAddress().build();
-  private _property_type: PropOrFactory<PropertyType> = (_index) =>
-    PropertyTypeFakeBuilder.aPropertyType().build();
-  private _property_relationship: PropOrFactory<PropertyRelationship> = (
-    _index,
-  ) => PropertyRelationshipFakeBuilder.aPropertyRelationship().build();
-  private _privacy_type: PropOrFactory<PrivacyType> = (_index) =>
-    PrivacyTypeFakeBuilder.aPrivacyType().build();
   private _floor_plans: PropOrFactory<FloorPlan[]> = (_index) =>
     FloorPlanFakeBuilder.theFloorPlans(3).build();
   private _property_details: PropOrFactory<PropertyDetail[]> = (_index) =>
@@ -111,18 +104,16 @@ export class PropertyFakeBuilder<TBuild = any> {
     this._address = valueOrFactory;
     return this;
   }
-  withPropertyType(valueOrFactory: PropOrFactory<PropertyType>) {
-    this._property_type = valueOrFactory;
+  withPropertyTypeId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
+    this._property_type_id = valueOrFactory;
     return this;
   }
-  withPropertyRelationship(
-    valueOrFactory: PropOrFactory<PropertyRelationship>,
-  ) {
-    this._property_relationship = valueOrFactory;
+  withPropertyRelationshipId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
+    this._property_relationship_id = valueOrFactory;
     return this;
   }
-  withPrivacyType(valueOrFactory: PropOrFactory<PrivacyType>) {
-    this._privacy_type = valueOrFactory;
+  withPrivacyTypeId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
+    this._privacy_type_id = valueOrFactory;
     return this;
   }
   withFloorPlans(valueOrFactory: PropOrFactory<FloorPlan[]>) {
@@ -167,12 +158,12 @@ export class PropertyFakeBuilder<TBuild = any> {
           description: this.callFactory(this._description, index),
           status: this.callFactory(this._status, index),
           address: this.callFactory(this._address, index),
-          property_type: this.callFactory(this._property_type, index),
-          property_relationship: this.callFactory(
-            this._property_relationship,
+          property_type_id: this.callFactory(this._property_type_id, index),
+          property_relationship_id: this.callFactory(
+            this._property_relationship_id,
             index,
           ),
-          privacy_type: this.callFactory(this._privacy_type, index),
+          privacy_type_id: this.callFactory(this._privacy_type_id, index),
           floor_plans: this.callFactory(this._floor_plans, index),
           property_details: this.callFactory(this._property_details, index),
           condominium_details: this.callFactory(
@@ -207,13 +198,13 @@ export class PropertyFakeBuilder<TBuild = any> {
   get address() {
     return this.getValue('address');
   }
-  get property_type() {
-    return this.getValue('property_type');
+  get property_type_id() {
+    return this.getValue('property_type_id');
   }
-  get property_relationship() {
-    return this.getValue('property_relationship');
+  get property_relationship_id() {
+    return this.getValue('property_relationship_id');
   }
-  get privacy_type() {
+  get privacy_type_id() {
     return this.getValue('privacy_type');
   }
   get floor_plans() {

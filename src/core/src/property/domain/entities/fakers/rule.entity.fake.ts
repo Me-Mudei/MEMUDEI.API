@@ -1,5 +1,4 @@
 import { Rule } from '../rule.entity';
-import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 
 type PropOrFactory<T> = T | ((index: number) => T);
@@ -8,9 +7,6 @@ export class RuleFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
-  private _name: PropOrFactory<string> = (_index) => this.chance.word();
-  private _description: PropOrFactory<string | null> = (_index) =>
-    this.chance.sentence({ words: 10 });
   private _allowed: PropOrFactory<boolean | null> = (_index) => false;
 
   private countObjs: number;
@@ -23,11 +19,8 @@ export class RuleFakeBuilder<TBuild = any> {
     return new RuleFakeBuilder<Rule[]>(countObjs);
   }
 
-  private chance: Chance.Chance;
-
   private constructor(countObjs = 1) {
     this.countObjs = countObjs;
-    this.chance = Chance();
   }
 
   withId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
@@ -42,16 +35,6 @@ export class RuleFakeBuilder<TBuild = any> {
 
   withUpdatedAt(valueOrFactory: PropOrFactory<Date>) {
     this._updated_at = valueOrFactory;
-    return this;
-  }
-
-  withName(valueOrFactory: PropOrFactory<string>) {
-    this._name = valueOrFactory;
-    return this;
-  }
-
-  withDescription(valueOrFactory: PropOrFactory<string | null>) {
-    this._description = valueOrFactory;
     return this;
   }
 
@@ -73,8 +56,6 @@ export class RuleFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
-          name: this.callFactory(this._name, index),
-          description: this.callFactory(this._description, index),
           allowed: this.callFactory(this._allowed, index),
         }),
     );
@@ -83,14 +64,6 @@ export class RuleFakeBuilder<TBuild = any> {
 
   get id() {
     return this.getValue('id');
-  }
-
-  get name() {
-    return this.getValue('name');
-  }
-
-  get description() {
-    return this.getValue('description');
   }
 
   get allowed() {

@@ -1,8 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 export class Connection {
+  private static instance: PrismaClient;
   static getInstance() {
-    const prisma = new PrismaClient();
-    return prisma;
+    if (!Connection.instance) {
+      Connection.instance = new PrismaClient({
+        log: ['query', 'info', 'warn', 'error'],
+      });
+    }
+    return Connection.instance;
   }
 }
 

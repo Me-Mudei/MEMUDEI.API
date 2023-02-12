@@ -11,6 +11,10 @@
     "#property/app": "./dist/property/app/index.js",
     "#property/domain": "./dist/property/domain/index.js",
     "#property/infra": "./dist/property/infra/index.js",
+    "#adm/*": "./dist/adm/*.js",
+    "#adm/app": "./dist/adm/app/index.js",
+    "#adm/domain": "./dist/adm/domain/index.js",
+    "#adm/infra": "./dist/adm/infra/index.js",
     "#user/*": "./dist/user/*.js",
     "#user/app": "./dist/user/app/index.js",
     "#user/domain": "./dist/user/domain/index.js",
@@ -27,7 +31,11 @@
     "./property/app": "./dist/property/app/index.js",
     "./property/domain": "./dist/property/domain/index.js",
     "./property/infra": "./dist/property/infra/index.js",
-    "./property": "./dist/property/index.js"
+    "./property": "./dist/property/index.js",
+    "./adm/app": "./dist/adm/app/index.js",
+    "./adm/domain": "./dist/adm/domain/index.js",
+    "./adm/infra": "./dist/adm/infra/index.js",
+    "./adm": "./dist/adm/index.js"
   },
   "typesVersions": {
     ">=4.0": {
@@ -63,6 +71,18 @@
       ],
       "property": [
         "./dist/property/index.d.ts"
+      ],
+      "adm/app": [
+        "./dist/adm/app/index.d.ts"
+      ],
+      "adm/domain": [
+        "./dist/adm/domain/index.d.ts"
+      ],
+      "adm/infra": [
+        "./dist/adm/infra/index.d.ts"
+      ],
+      "adm": [
+        "./dist/adm/index.d.ts"
       ]
     }
   },

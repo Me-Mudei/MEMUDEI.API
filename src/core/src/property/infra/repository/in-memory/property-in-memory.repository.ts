@@ -46,49 +46,39 @@ export class PropertyInMemoryRepository
     return items;
   }
 
-  rules_filter(items: Property[], rules: string[]): Property[] {
+  rules_filter(items: Property[], ids: string[]): Property[] {
     return items.filter((item) => {
       return item.rules
         .filter((item) => item.allowed)
-        .some((rule) => rules.includes(rule.name));
+        .some((rule) => ids.includes(rule.id));
     });
   }
 
-  condominium_details_filter(
-    items: Property[],
-    condominiumDetails: string[],
-  ): Property[] {
+  condominium_details_filter(items: Property[], ids: string[]): Property[] {
     return items.filter((item) => {
       return item.condominium_details
         .filter((item) => item.available)
-        .some((condominiumDetail) =>
-          condominiumDetails.includes(condominiumDetail.name),
-        );
+        .some((condominiumDetail) => ids.includes(condominiumDetail.id));
     });
   }
 
-  property_details_filter(
-    items: Property[],
-    propertyDetails: string[],
-  ): Property[] {
+  property_details_filter(items: Property[], ids: string[]): Property[] {
     return items.filter((item) => {
       return item.property_details
         .filter((item) => item.available)
-        .some((propertyDetail) =>
-          propertyDetails.includes(propertyDetail.name),
-        );
+        .some((propertyDetail) => ids.includes(propertyDetail.id));
     });
   }
 
-  privacy_type_filter(items: Property[], privacyType: string): Property[] {
+  privacy_type_filter(items: Property[], id: string): Property[] {
     return items.filter((item) => {
-      return item.privacy_type.name === privacyType;
+      return item.privacy_type_id.value === id;
     });
   }
 
-  property_type_filter(items: Property[], propertyType: string): Property[] {
+  property_type_filter(items: Property[], id: string): Property[] {
     return items.filter((item) => {
-      return item.property_type.name === propertyType;
+      return item.property_type_id.value === id;
     });
   }
 
@@ -118,11 +108,11 @@ export class PropertyInMemoryRepository
     items: Property[],
     min: number,
     max: number,
-    valueType?: string,
+    id?: string,
   ): Property[] {
     return items.filter((item) => {
-      const chargeFiltered = valueType
-        ? item.charges.filter((charge) => charge.name === valueType)
+      const chargeFiltered = id
+        ? item.charges.filter((charge) => charge.id === id)
         : item.charges;
       if (chargeFiltered.length <= 0) {
         return;
@@ -140,17 +130,17 @@ export class PropertyInMemoryRepository
 
   private floor_plans_filter(
     items: Property[],
-    name: string,
+    id: string,
     min: number,
     max?: number,
   ): Property[] {
     return items.filter((item) => {
       const floorPlan = item.floor_plans.find(
-        (floorPlan) => floorPlan.name === name,
+        (floorPlan) => floorPlan.id === id,
       );
 
-      if (!!floorPlan && floorPlan.quantity >= min) {
-        if (max && floorPlan.quantity <= max) {
+      if (!!floorPlan && floorPlan.value >= min) {
+        if (max && floorPlan.value <= max) {
           return item;
         }
         return item;

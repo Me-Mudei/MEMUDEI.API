@@ -8,9 +8,6 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
-  private _name: PropOrFactory<string> = (_index) => this.chance.word();
-  private _description: PropOrFactory<string | null> = (_index) =>
-    this.chance.sentence({ words: 10 });
   private _available: PropOrFactory<boolean | null> = (_index) => false;
 
   private countObjs: number;
@@ -23,11 +20,8 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
     return new PropertyDetailFakeBuilder<PropertyDetail[]>(countObjs);
   }
 
-  private chance: Chance.Chance;
-
   private constructor(countObjs = 1) {
     this.countObjs = countObjs;
-    this.chance = Chance();
   }
 
   withId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
@@ -42,16 +36,6 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
 
   withUpdatedAt(valueOrFactory: PropOrFactory<Date>) {
     this._updated_at = valueOrFactory;
-    return this;
-  }
-
-  withName(valueOrFactory: PropOrFactory<string>) {
-    this._name = valueOrFactory;
-    return this;
-  }
-
-  withDescription(valueOrFactory: PropOrFactory<string | null>) {
-    this._description = valueOrFactory;
     return this;
   }
 
@@ -73,8 +57,6 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
-          name: this.callFactory(this._name, index),
-          description: this.callFactory(this._description, index),
           available: this.callFactory(this._available, index),
         }),
     );
@@ -83,14 +65,6 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
 
   get id() {
     return this.getValue('id');
-  }
-
-  get name() {
-    return this.getValue('name');
-  }
-
-  get description() {
-    return this.getValue('description');
   }
 
   get available() {

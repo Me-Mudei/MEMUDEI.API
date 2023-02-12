@@ -4,12 +4,9 @@ import {
   CondominiumDetail,
   FloorPlan,
   Photo,
-  PrivacyType,
   Property,
   PropertyDetail,
-  PropertyRelationship,
   PropertyStatus,
-  PropertyType,
   Rule,
 } from '../../../domain/entities';
 import {
@@ -55,8 +52,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         charges: {
           createMany: {
             data: entity.charges.map((charge) => ({
-              id: charge.id,
-              name: charge.name,
+              charge_id: charge.id,
               amount: charge.amount,
               created_at: charge.created_at,
               updated_at: charge.updated_at,
@@ -81,10 +77,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
         floor_plans: {
           createMany: {
             data: entity.floor_plans.map((floor_plan) => ({
-              id: floor_plan.id,
-              name: floor_plan.name,
-              quantity: floor_plan.quantity,
-              unit: floor_plan.unit,
+              floor_plan_id: floor_plan.id,
+              value: floor_plan.value,
               created_at: floor_plan.created_at,
               updated_at: floor_plan.updated_at,
             })),
@@ -92,17 +86,17 @@ export class PropertyPrismaRepository implements PropertyRepository {
         },
         privacy_type: {
           connect: {
-            id: entity.privacy_type.id,
+            id: entity.privacy_type_id,
           },
         },
         property_type: {
           connect: {
-            id: entity.property_type.id,
+            id: entity.property_type_id,
           },
         },
         property_relationship: {
           connect: {
-            id: entity.property_relationship.id,
+            id: entity.property_relationship_id,
           },
         },
         condominium_details: {
@@ -252,32 +246,10 @@ export class PropertyPrismaRepository implements PropertyRepository {
       created_at: property.address.created_at,
       updated_at: property.address.updated_at,
     });
-    const privacy_type = new PrivacyType({
-      id: new UniqueEntityId(property.privacy_type.id),
-      name: property.privacy_type.name,
-      description: property.privacy_type.description,
-      created_at: property.privacy_type.created_at,
-      updated_at: property.privacy_type.updated_at,
-    });
-    const property_type = new PropertyType({
-      id: new UniqueEntityId(property.property_type.id),
-      name: property.property_type.name,
-      description: property.property_type.description,
-      created_at: property.property_type.created_at,
-      updated_at: property.property_type.updated_at,
-    });
-    const property_relationship = new PropertyRelationship({
-      id: new UniqueEntityId(property.property_relationship.id),
-      name: property.property_relationship.name,
-      description: property.property_relationship.description,
-      created_at: property.property_relationship.created_at,
-      updated_at: property.property_relationship.updated_at,
-    });
     const charges = property.charges.map(
       (charge) =>
         new Charge({
           id: new UniqueEntityId(charge.id),
-          name: charge.name,
           amount: charge.amount,
           created_at: charge.created_at,
           updated_at: charge.updated_at,
@@ -301,9 +273,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
       (floor_plan) =>
         new FloorPlan({
           id: new UniqueEntityId(floor_plan.id),
-          name: floor_plan.name,
-          quantity: floor_plan.quantity,
-          unit: floor_plan.unit,
+          value: floor_plan.value,
           created_at: floor_plan.created_at,
           updated_at: floor_plan.updated_at,
         }),
@@ -312,8 +282,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
       (condominium_detail) =>
         new CondominiumDetail({
           id: new UniqueEntityId(condominium_detail.condominium_detail_id),
-          name: condominium_detail.condominium_detail.name,
-          description: condominium_detail.condominium_detail.description,
           available: condominium_detail.available,
           created_at: condominium_detail.created_at,
           updated_at: condominium_detail.updated_at,
@@ -323,8 +291,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
       (property_detail) =>
         new PropertyDetail({
           id: new UniqueEntityId(property_detail.property_detail_id),
-          name: property_detail.property_detail.name,
-          description: property_detail.property_detail.description,
           available: property_detail.available,
           created_at: property_detail.created_at,
           updated_at: property_detail.updated_at,
@@ -334,8 +300,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
       (rule) =>
         new Rule({
           id: new UniqueEntityId(rule.rule_id),
-          name: rule.rule.name,
-          description: rule.rule.description,
           allowed: rule.allowed,
           created_at: rule.created_at,
           updated_at: rule.updated_at,
@@ -346,12 +310,12 @@ export class PropertyPrismaRepository implements PropertyRepository {
       title: property.title,
       description: property.description,
       address,
-      charges,
       photos,
+      privacy_type_id: property.privacy_type_id,
+      property_type_id: property.property_type_id,
+      property_relationship_id: property.property_relationship_id,
+      charges,
       floor_plans,
-      privacy_type,
-      property_type,
-      property_relationship,
       condominium_details,
       property_details,
       rules,

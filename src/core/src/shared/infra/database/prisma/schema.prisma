@@ -9,7 +9,7 @@ generator prisma_client {
 }
 
 model user {
-    id              String        @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id              String        @id @default(nanoid()) @db.Char(21)
     email           String        @unique
     name            String
     role_id         String        @db.Char(21)
@@ -26,7 +26,7 @@ model user {
 }
 
 model role {
-    id          String            @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String            @id @default(nanoid()) @db.Char(21)
     name        String            @unique
     description String?
     created_at  DateTime          @default(now())
@@ -47,7 +47,7 @@ model role_permission {
 }
 
 model permission {
-    id          String            @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String            @id @default(nanoid()) @db.Char(21)
     name        String            @unique
     description String?
     created_at  DateTime          @default(now())
@@ -56,7 +56,7 @@ model permission {
 }
 
 model calendar {
-    id                 String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id                 String    @id @default(nanoid()) @db.Char(21)
     is_active          Boolean   @default(false)
     user_id            String    @db.Char(21)
     user               user      @relation(fields: [user_id], references: [id])
@@ -69,7 +69,7 @@ model calendar {
 }
 
 model weekday {
-    id              String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id              String    @id @default(nanoid()) @db.Char(21)
     day             Int       @unique
     available_hours Int[]
     created_at      DateTime  @default(now())
@@ -79,7 +79,7 @@ model weekday {
 }
 
 model organization {
-    id         String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id         String   @id @default(nanoid()) @db.Char(21)
     name       String?
     members    user[]
     created_at DateTime @default(now())
@@ -87,7 +87,7 @@ model organization {
 }
 
 model property {
-    id                       String                           @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id                       String                           @id @default(nanoid()) @db.Char(21)
     title                    String
     description              String
     status                   String
@@ -99,20 +99,20 @@ model property {
     property_relationship_id String                           @db.Char(21)
     privacy_type             privacy_type                     @relation(fields: [privacy_type_id], references: [id])
     privacy_type_id          String                           @db.Char(21)
-    floor_plans              floor_plan[]
-    photos                   photo[]
-    charges                  charge[]
     created_at               DateTime                         @default(now())
     updated_at               DateTime                         @updatedAt
+    photos                   photo[]
     condominium_details      properties_condominium_details[]
     rules                    properties_rules[]
     property_details         properties_property_details[]
     address                  address?
     property_schedule        event[]
+    floor_plans              properties_floor_plans[]
+    charges                  properties_charges[]
 }
 
 model event {
-    id           String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id           String    @id @default(nanoid()) @db.Char(21)
     title        String
     obs          String?
     start        DateTime
@@ -128,7 +128,7 @@ model event {
 }
 
 model address {
-    id          String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String   @id @default(nanoid()) @db.Char(21)
     zip_code    String
     city        String
     state       String
@@ -142,7 +142,7 @@ model address {
 }
 
 model property_type {
-    id          String     @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String     @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -151,7 +151,7 @@ model property_type {
 }
 
 model property_relationship {
-    id          String     @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String     @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -160,7 +160,7 @@ model property_relationship {
 }
 
 model privacy_type {
-    id          String     @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String     @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -169,18 +169,28 @@ model privacy_type {
 }
 
 model floor_plan {
-    id          String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name        String
-    quantity    Int
-    unit        String?
-    created_at  DateTime  @default(now())
-    updated_at  DateTime  @updatedAt
-    properties  property? @relation(fields: [property_id], references: [id])
-    property_id String?   @db.Char(21)
+    id         String                   @id @default(nanoid()) @db.Char(21)
+    name       String
+    unit       String?
+    created_at DateTime                 @default(now())
+    updated_at DateTime                 @updatedAt
+    properties properties_floor_plans[]
+}
+
+model properties_floor_plans {
+    floor_plan_id String     @db.Char(21)
+    floor_plan    floor_plan @relation(fields: [floor_plan_id], references: [id])
+    property_id   String     @db.Char(21)
+    property      property   @relation(fields: [property_id], references: [id])
+    value         Int
+    created_at    DateTime   @default(now())
+    updated_at    DateTime   @updatedAt
+
+    @@id([property_id, floor_plan_id])
 }
 
 model property_detail {
-    id          String                        @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String                        @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime                      @default(now())
@@ -201,7 +211,7 @@ model properties_property_details {
 }
 
 model condominium_detail {
-    id          String                           @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String                           @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime                         @default(now())
@@ -222,7 +232,7 @@ model properties_condominium_details {
 }
 
 model rule {
-    id          String             @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String             @id @default(nanoid()) @db.Char(21)
     name        String
     description String?
     created_at  DateTime           @default(now())
@@ -242,24 +252,35 @@ model properties_rules {
     @@id([property_id, rule_id])
 }
 
+model charge {
+    id          String               @id @default(nanoid()) @db.Char(21)
+    name        String
+    description String?
+    created_at  DateTime             @default(now())
+    updated_at  DateTime             @updatedAt
+    properties  properties_charges[]
+}
+
+model properties_charges {
+    property_id String   @db.Char(21)
+    properties  property @relation(fields: [property_id], references: [id])
+    charge_id   String   @db.Char(21)
+    charge      charge   @relation(fields: [charge_id], references: [id])
+    amount      Int
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+
+    @@id([property_id, charge_id])
+}
+
 model photo {
-    id          String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
+    id          String    @id @default(nanoid()) @db.Char(21)
     url         String
     file        String
     name        String
     type        String
     subtype     String
     description String?
-    created_at  DateTime  @default(now())
-    updated_at  DateTime  @updatedAt
-    properties  property? @relation(fields: [property_id], references: [id])
-    property_id String?   @db.Char(21)
-}
-
-model charge {
-    id          String    @id @default(dbgenerated("nanoid()")) @db.Char(21)
-    name        String
-    amount      Int
     created_at  DateTime  @default(now())
     updated_at  DateTime  @updatedAt
     properties  property? @relation(fields: [property_id], references: [id])

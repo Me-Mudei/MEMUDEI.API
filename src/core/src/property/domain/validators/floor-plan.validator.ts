@@ -1,28 +1,11 @@
-import {
-  IsDate,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { ClassValidatorFields } from '#shared/domain';
 import { FloorPlanProps } from '../entities/floor-plan.entity';
 
 export class FloorPlanRules {
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
   @IsNumber()
   @IsNotEmpty()
-  quantity: number;
-
-  @MaxLength(5)
-  @IsString()
-  @IsOptional()
-  unit?: string;
+  value: number;
 
   @IsDate()
   @IsOptional()
@@ -32,14 +15,8 @@ export class FloorPlanRules {
   @IsOptional()
   updated_at: Date;
 
-  constructor({
-    name,
-    quantity,
-    unit,
-    created_at,
-    updated_at,
-  }: FloorPlanProps) {
-    Object.assign(this, { name, quantity, unit, created_at, updated_at });
+  constructor(props: FloorPlanProps) {
+    Object.assign(this, props);
   }
 }
 
