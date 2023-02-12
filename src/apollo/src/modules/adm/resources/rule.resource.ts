@@ -5,7 +5,7 @@ export const GetRule = queryField('get_rule', {
   type: 'rule_output',
   args: { input: nonNull('get_rule_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.getRule(input as any);
+    return ctx.admService.getRule(input as any);
   },
 });
 
@@ -14,7 +14,7 @@ export const SearchRules = queryField('search_rules', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.searchRule(input as any);
+    return ctx.admService.searchRule(input as any);
   },
 });
 
@@ -23,7 +23,7 @@ export const CreateRule = mutationField('create_rule', {
   shield: isAdmin(),
   args: { input: list(nonNull('create_rule_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.createRule(input as any);
+    return ctx.admService.createRule(input as any);
   },
 });
 
@@ -32,7 +32,7 @@ export const UpdateRule = mutationField('update_rule', {
   shield: isAdmin(),
   args: { input: nonNull('update_rule_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.updateRule(input as any);
+    return ctx.admService.updateRule(input as any);
   },
 });
 
@@ -41,7 +41,7 @@ export const DeleteRule = mutationField('delete_rules', {
   shield: isAdmin(),
   args: { input: list(nonNull('delete_rule_input')) },
   resolve: async (_, { input }, ctx) => {
-    await ctx.propertyService.deleteRule(input as any);
+    await ctx.admService.deleteRule(input as any);
     return { id: input[0].id };
   },
 });

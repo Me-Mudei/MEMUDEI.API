@@ -129,12 +129,12 @@ export const AddressOutput = objectType({
   },
 });
 
-export const FloorPlanOutput = objectType({
-  name: 'floor_plan_output',
+export const PropertyFloorPlanOutput = objectType({
+  name: 'property_floor_plan_output',
   definition(t) {
     t.nonNull.string('id');
     t.nonNull.string('name');
-    t.nonNull.int('quantity');
+    t.nonNull.int('value');
     t.nullable.string('unit');
   },
 });
@@ -182,8 +182,8 @@ export const PhotoOutput = objectType({
   },
 });
 
-export const ChargeOutput = objectType({
-  name: 'charge_output',
+export const PropertyChargeOutput = objectType({
+  name: 'property_charge_output',
   definition(t) {
     t.nonNull.string('id');
     t.nonNull.string('name');

@@ -20,7 +20,7 @@ export type PropertyOutput = {
 };
 
 export class PropertyOutputMapper {
-  static toOutput(property: Property): PropertyOutput {
+  static toOutput(property: any): PropertyOutput {
     return {
       id: property.id,
       title: property.title,

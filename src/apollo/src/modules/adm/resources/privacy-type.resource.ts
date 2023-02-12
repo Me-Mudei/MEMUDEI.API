@@ -5,7 +5,7 @@ export const GetPrivacyType = queryField('get_privacy_type', {
   type: 'privacy_type_output',
   args: { input: nonNull('get_privacy_type_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.getPrivacyType(input as any);
+    return ctx.admService.getPrivacyType(input as any);
   },
 });
 
@@ -14,7 +14,7 @@ export const SearchPrivacyTypes = queryField('search_privacy_types', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.searchPrivacyType(input as any);
+    return ctx.admService.searchPrivacyType(input as any);
   },
 });
 
@@ -23,7 +23,7 @@ export const CreatePrivacyType = mutationField('create_privacy_type', {
   shield: isAdmin(),
   args: { input: list(nonNull('create_privacy_type_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.createPrivacyType(input as any);
+    return ctx.admService.createPrivacyType(input as any);
   },
 });
 
@@ -32,7 +32,7 @@ export const UpdatePrivacyType = mutationField('update_privacy_type', {
   shield: isAdmin(),
   args: { input: nonNull('update_privacy_type_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.updatePrivacyType(input as any);
+    return ctx.admService.updatePrivacyType(input as any);
   },
 });
 
@@ -41,7 +41,7 @@ export const DeletePrivacyType = mutationField('delete_privacy_types', {
   shield: isAdmin(),
   args: { input: list(nonNull('delete_privacy_type_input')) },
   resolve: async (_, { input }, ctx) => {
-    await ctx.propertyService.deletePrivacyType(input as any);
+    await ctx.admService.deletePrivacyType(input as any);
     return { id: input[0].id };
   },
 });

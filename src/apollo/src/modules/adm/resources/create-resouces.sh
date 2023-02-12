@@ -16,7 +16,7 @@ export const Get${CLASS_NAME[j]} = queryField('get_${VALUE_NAME[j]}', {
   type: '${VALUE_NAME[j]}_output',
   args: { input: nonNull('get_${VALUE_NAME[j]}_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.get${CLASS_NAME[j]}(input as any);
+    return ctx.admService.get${CLASS_NAME[j]}(input as any);
   },
 });
 
@@ -25,7 +25,7 @@ export const Search${CLASS_NAME[j]} = queryField('search_${VALUE_NAME[j]}', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.search${CLASS_NAME[j]}(input as any);
+    return ctx.admService.search${CLASS_NAME[j]}(input as any);
   },
 });
 
@@ -34,7 +34,7 @@ export const Create${CLASS_NAME[j]} = mutationField('create_${VALUE_NAME[j]}', {
   shield: isAdmin(),
   args: { input: list(nonNull('create_${VALUE_NAME[j]}_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.create${CLASS_NAME[j]}(input as any);
+    return ctx.admService.create${CLASS_NAME[j]}(input as any);
   },
 });
 
@@ -43,7 +43,7 @@ export const Update${CLASS_NAME[j]} = mutationField('update_${VALUE_NAME[j]}', {
   shield: isAdmin(),
   args: { input: nonNull('update_${VALUE_NAME[j]}_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.update${CLASS_NAME[j]}(input as any);
+    return ctx.admService.update${CLASS_NAME[j]}(input as any);
   },
 });
 
@@ -52,7 +52,7 @@ export const Delete${CLASS_NAME[j]} = mutationField('delete_${VALUE_NAME[j]}s', 
   shield: isAdmin(),
   args: { input: list(nonNull('delete_${VALUE_NAME[j]}_input')) },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.delete${CLASS_NAME[j]}(input as any);
+    return ctx.admService.delete${CLASS_NAME[j]}(input as any);
   },
 });
 EOF
