@@ -25,6 +25,14 @@ model user {
     organization_id String?       @db.Char(21)
 }
 
+model organization {
+    id         String   @id @default(nanoid()) @db.Char(21)
+    name       String?
+    members    user[]
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
 model role {
     id          String            @id @default(nanoid()) @db.Char(21)
     name        String            @unique
@@ -55,37 +63,6 @@ model permission {
     roles       role_permission[]
 }
 
-model calendar {
-    id                 String    @id @default(nanoid()) @db.Char(21)
-    is_active          Boolean   @default(false)
-    user_id            String    @db.Char(21)
-    user               user      @relation(fields: [user_id], references: [id])
-    expired_at         DateTime
-    deleted_at         DateTime?
-    created_at         DateTime  @default(now())
-    updated_at         DateTime  @updatedAt
-    available_weekdays weekday[]
-    event              event[]
-}
-
-model weekday {
-    id              String    @id @default(nanoid()) @db.Char(21)
-    day             Int       @unique
-    available_hours Int[]
-    created_at      DateTime  @default(now())
-    updated_at      DateTime  @updatedAt
-    calendar        calendar? @relation(fields: [calendar_id], references: [id])
-    calendar_id     String?   @db.Char(21)
-}
-
-model organization {
-    id         String   @id @default(nanoid()) @db.Char(21)
-    name       String?
-    members    user[]
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-}
-
 model property {
     id                       String                           @id @default(nanoid()) @db.Char(21)
     title                    String
@@ -109,6 +86,29 @@ model property {
     property_schedule        event[]
     floor_plans              properties_floor_plans[]
     charges                  properties_charges[]
+}
+
+model calendar {
+    id                 String    @id @default(nanoid()) @db.Char(21)
+    is_active          Boolean   @default(false)
+    user_id            String    @db.Char(21)
+    user               user      @relation(fields: [user_id], references: [id])
+    expired_at         DateTime
+    deleted_at         DateTime?
+    created_at         DateTime  @default(now())
+    updated_at         DateTime  @updatedAt
+    available_weekdays weekday[]
+    event              event[]
+}
+
+model weekday {
+    id              String    @id @default(nanoid()) @db.Char(21)
+    day             Int       @unique
+    available_hours Int[]
+    created_at      DateTime  @default(now())
+    updated_at      DateTime  @updatedAt
+    calendar        calendar? @relation(fields: [calendar_id], references: [id])
+    calendar_id     String?   @db.Char(21)
 }
 
 model event {
@@ -143,6 +143,7 @@ model address {
 
 model property_type {
     id          String     @id @default(nanoid()) @db.Char(21)
+    key         String     @unique
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -152,6 +153,7 @@ model property_type {
 
 model property_relationship {
     id          String     @id @default(nanoid()) @db.Char(21)
+    key         String     @unique
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -161,6 +163,7 @@ model property_relationship {
 
 model privacy_type {
     id          String     @id @default(nanoid()) @db.Char(21)
+    key         String     @unique
     name        String
     description String?
     created_at  DateTime   @default(now())
@@ -170,6 +173,7 @@ model privacy_type {
 
 model floor_plan {
     id         String                   @id @default(nanoid()) @db.Char(21)
+    key        String                   @unique
     name       String
     unit       String?
     created_at DateTime                 @default(now())
@@ -191,6 +195,7 @@ model properties_floor_plans {
 
 model property_detail {
     id          String                        @id @default(nanoid()) @db.Char(21)
+    key         String                        @unique
     name        String
     description String?
     created_at  DateTime                      @default(now())
@@ -212,6 +217,7 @@ model properties_property_details {
 
 model condominium_detail {
     id          String                           @id @default(nanoid()) @db.Char(21)
+    key         String                           @unique
     name        String
     description String?
     created_at  DateTime                         @default(now())
@@ -233,6 +239,7 @@ model properties_condominium_details {
 
 model rule {
     id          String             @id @default(nanoid()) @db.Char(21)
+    key         String             @unique
     name        String
     description String?
     created_at  DateTime           @default(now())
@@ -254,6 +261,7 @@ model properties_rules {
 
 model charge {
     id          String               @id @default(nanoid()) @db.Char(21)
+    key         String               @unique
     name        String
     description String?
     created_at  DateTime             @default(now())

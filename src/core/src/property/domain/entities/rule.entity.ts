@@ -3,19 +3,20 @@ import RuleValidatorFactory from '../validators/rule.validator';
 
 export type RuleProps = {
   id?: UniqueEntityId;
+  key: string;
   allowed: boolean;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class Rule extends Entity<RuleProps> {
-  private _name: string;
+  private _key: string;
   private _allowed: boolean;
-  private _description?: string;
 
   constructor(props: RuleProps) {
     Rule.validate(props);
     super(props);
+    this._key = props.key;
     this._allowed = props.allowed;
   }
 
@@ -26,7 +27,13 @@ export class Rule extends Entity<RuleProps> {
       throw new EntityValidationError(validator.errors);
     }
   }
+  public get key(): string {
+    return this._key;
+  }
 
+  public set key(_key: string) {
+    this._key = _key;
+  }
   public get allowed(): boolean {
     return this._allowed;
   }

@@ -1,8 +1,18 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { ClassValidatorFields } from '#shared/domain';
 import { ChargeProps } from '../entities/charge.entity';
 
 export class ChargeRules {
+  @IsString()
+  @IsNotEmpty()
+  key: string;
+
   @IsNumber()
   @IsNotEmpty()
   amount: number;

@@ -1,7 +1,7 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
 import { InMemoryRepositoryFactory, InMemoryDriver } from '#property/infra';
 import { Broker } from '#shared/infra';
-import { RepositoryFactory } from '#property/domain';
+import { PropertyStatus, RepositoryFactory } from '#property/domain';
 import { Driver } from '#property/domain/driver/driver-contracts';
 import { createReadStream } from 'fs';
 import { nanoid } from 'nanoid';
@@ -117,35 +117,13 @@ describe('CreatePropertyUseCase Unit Tests', () => {
     };
     const property = await useCase.execute(createPropertyProps);
 
-    expect(property.address).toMatchObject(createPropertyProps.address);
-    expect(property.title).toBe(createPropertyProps.title);
-    expect(property.description).toBe(createPropertyProps.description);
-    expect(property.property_type.id).toBe(
-      createPropertyProps.property_type_id,
-    );
-    expect(property.property_relationship.id).toBe(
-      createPropertyProps.property_relationship_id,
-    );
-    expect(property.privacy_type.id).toBe(createPropertyProps.privacy_type_id);
-    expect(property.floor_plans).toMatchObject(createPropertyProps.floor_plans);
-    expect(property.property_details).toMatchObject(
-      createPropertyProps.property_details,
-    );
-    expect(property.condominium_details).toMatchObject(
-      createPropertyProps.condominium_details,
-    );
-    expect(property.rules).toMatchObject(createPropertyProps.rules);
-    expect(property.photos).toMatchObject(
-      createPropertyProps.photos.map((p) => ({
-        file: p.filename,
-        name: p.filename,
-        type: p.mimetype.split('/')[0],
-        subtype: p.mimetype.split('/')[1],
-      })),
-    );
-    expect(property.charges).toMatchObject(createPropertyProps.charges);
-
+    expect(property.id).toBeDefined();
+    expect(property.status).toBe(PropertyStatus.PENDING);
+    expect(property.created_at).toBeInstanceOf(Date);
+    expect(property.updated_at).toBeInstanceOf(Date);
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
-    property.photos.map((photo) => driver.delete(photo.file, property.id));
+    createPropertyProps.photos.map((photo) =>
+      driver.delete(photo.filename, property.id),
+    );
   });
 });

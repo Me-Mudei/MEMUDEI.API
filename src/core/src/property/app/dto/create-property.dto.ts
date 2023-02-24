@@ -6,9 +6,9 @@ export type CreatePropertyInput = {
   description: string;
   status?: PropertyStatus;
   address: AddressInput;
-  property_type_id: string;
-  property_relationship_id: string;
-  privacy_type_id: string;
+  property_type: string;
+  property_relationship: string;
+  privacy_type: string;
   floor_plans: FloorPlanInput[];
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
@@ -27,32 +27,26 @@ export type AddressInput = {
 };
 
 export type FloorPlanInput = {
-  id: string;
+  key: string;
   value: number;
 };
 
-export type ScheduleInput = {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
-};
-
 export type PropertyDetailInput = {
-  id: string;
+  key: string;
   available: boolean;
 };
 
 export type CondominiumDetailInput = {
-  id: string;
+  key: string;
   available: boolean;
 };
 
 export type RuleInput = {
-  id: string;
+  key: string;
   allowed: boolean;
 };
 
 export type ChargeInput = {
-  id: string;
+  key: string;
   amount: number;
 };

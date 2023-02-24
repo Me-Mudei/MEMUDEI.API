@@ -1,8 +1,18 @@
-import { IsBoolean, IsDate, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { ClassValidatorFields } from '#shared/domain';
 import { RuleProps } from '../entities/rule.entity';
 
 export class RuleRules {
+  @IsString()
+  @IsNotEmpty()
+  key: string;
+
   @IsBoolean()
   @IsNotEmpty()
   @IsOptional()

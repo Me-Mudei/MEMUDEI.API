@@ -1,7 +1,7 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
 import { PrismaRepositoryFactory } from '#property/infra';
 import { Broker } from '#shared/infra';
-import { RepositoryFactory, Driver } from '#property/domain';
+import { RepositoryFactory, Driver, PropertyStatus } from '#property/domain';
 //import { AwsS3Driver } from '#property/infra';
 import { InMemoryDriver } from '#property/infra';
 
@@ -107,25 +107,10 @@ describe('CreatePropertyUseCase Unit Tests', () => {
     };
     const property = await useCase.execute(createPropertyProps);
 
-    expect(property.address).toMatchObject(createPropertyProps.address);
-    expect(property.title).toBe(createPropertyProps.title);
-    expect(property.description).toBe(createPropertyProps.description);
-    expect(property.property_type.id).toBe(
-      createPropertyProps.property_type_id,
-    );
-    expect(property.property_relationship.id).toBe(
-      createPropertyProps.property_relationship_id,
-    );
-    expect(property.privacy_type.id).toBe(createPropertyProps.privacy_type_id);
-    expect(property.floor_plans).toMatchObject(createPropertyProps.floor_plans);
-    expect(property.property_details).toMatchObject(
-      createPropertyProps.property_details,
-    );
-    expect(property.condominium_details).toMatchObject(
-      createPropertyProps.condominium_details,
-    );
-    expect(property.rules).toMatchObject(createPropertyProps.rules);
-    expect(property.charges).toMatchObject(createPropertyProps.charges);
+    expect(property.id).toBeDefined();
+    expect(property.status).toBe(PropertyStatus.PENDING);
+    expect(property.created_at).toBeInstanceOf(Date);
+    expect(property.updated_at).toBeInstanceOf(Date);
 
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
   });

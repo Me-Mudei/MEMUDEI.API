@@ -3,17 +3,20 @@ import FloorPlanValidatorFactory from '../validators/floor-plan.validator';
 
 export type FloorPlanProps = {
   id?: UniqueEntityId;
+  key: string;
   value: number;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class FloorPlan extends Entity<FloorPlanProps> {
+  private _key: string;
   private _value: number;
 
   constructor(props: FloorPlanProps) {
     FloorPlan.validate(props);
     super(props);
+    this._key = props.key;
     this._value = props.value;
   }
 
@@ -23,6 +26,14 @@ export class FloorPlan extends Entity<FloorPlanProps> {
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
+  }
+
+  public get key(): string {
+    return this._key;
+  }
+
+  public set key(_key: string) {
+    this._key = _key;
   }
 
   public get value(): number {

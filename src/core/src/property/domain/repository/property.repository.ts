@@ -20,8 +20,8 @@ export type PropertyFilter = {
   value_type?: string;
   min_value?: number;
   max_value?: number;
-  min_area?: number;
-  max_area?: number;
+  min_footage?: number;
+  max_footage?: number;
   qtd_bedrooms?: number;
   qtd_bathrooms?: number;
 } | null;

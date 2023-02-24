@@ -1,4 +1,5 @@
 import { Rule } from '../rule.entity';
+import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 
 type PropOrFactory<T> = T | ((index: number) => T);
@@ -7,6 +8,8 @@ export class RuleFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
+  private _key: PropOrFactory<string> = (_index) =>
+    this.chance.word({ length: 10 });
   private _allowed: PropOrFactory<boolean | null> = (_index) => false;
 
   private countObjs: number;
@@ -19,8 +22,10 @@ export class RuleFakeBuilder<TBuild = any> {
     return new RuleFakeBuilder<Rule[]>(countObjs);
   }
 
+  private chance: Chance.Chance;
   private constructor(countObjs = 1) {
     this.countObjs = countObjs;
+    this.chance = Chance();
   }
 
   withId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
@@ -38,6 +43,10 @@ export class RuleFakeBuilder<TBuild = any> {
     return this;
   }
 
+  withKey(valueOrFactory: PropOrFactory<string>) {
+    this._key = valueOrFactory;
+    return this;
+  }
   withAllowed(valueOrFactory: PropOrFactory<boolean | null>) {
     this._allowed = valueOrFactory;
     return this;
@@ -56,6 +65,7 @@ export class RuleFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
+          key: this.callFactory(this._key, index),
           allowed: this.callFactory(this._allowed, index),
         }),
     );
@@ -66,6 +76,9 @@ export class RuleFakeBuilder<TBuild = any> {
     return this.getValue('id');
   }
 
+  get key() {
+    return this.getValue('key');
+  }
   get allowed() {
     return this.getValue('allowed');
   }

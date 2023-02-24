@@ -3,17 +3,20 @@ import PropertyDetailValidatorFactory from '../validators/property-detail.valida
 
 export type PropertyDetailProps = {
   id?: UniqueEntityId;
+  key: string;
   available?: boolean;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class PropertyDetail extends Entity<PropertyDetailProps> {
+  private _key: string;
   private _available?: boolean;
 
   constructor(props: PropertyDetailProps) {
     PropertyDetail.validate(props);
     super(props);
+    this._key = props.key;
     this._available = props.available;
   }
 
@@ -23,6 +26,14 @@ export class PropertyDetail extends Entity<PropertyDetailProps> {
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
+  }
+
+  public get key(): string {
+    return this._key;
+  }
+
+  public set key(_key: string) {
+    this._key = _key;
   }
 
   public get available(): boolean {

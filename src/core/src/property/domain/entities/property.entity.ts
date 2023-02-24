@@ -21,9 +21,9 @@ export type PropertyProps = {
   title: string;
   description: string;
   address: Address;
-  property_type_id: UniqueEntityId;
-  property_relationship_id: UniqueEntityId;
-  privacy_type_id: UniqueEntityId;
+  property_type: string;
+  property_relationship: string;
+  privacy_type: string;
   floor_plans: FloorPlan[];
   property_details: PropertyDetail[];
   condominium_details: CondominiumDetail[];
@@ -37,9 +37,9 @@ export class Property extends Entity<PropertyProps> {
   private _description: string;
   private _status: PropertyStatus;
   private _address: Address;
-  private _property_type_id: UniqueEntityId;
-  private _property_relationship_id: UniqueEntityId;
-  private _privacy_type_id: UniqueEntityId;
+  private _property_type: string;
+  private _property_relationship: string;
+  private _privacy_type: string;
   private _floor_plans: FloorPlan[];
   private _property_details: PropertyDetail[];
   private _condominium_details: CondominiumDetail[];
@@ -56,9 +56,9 @@ export class Property extends Entity<PropertyProps> {
     this._description = props.description;
     this._status = props.status || PropertyStatus.PENDING;
     this._address = props.address;
-    this._property_type_id = props.property_type_id;
-    this._property_relationship_id = props.property_relationship_id;
-    this._privacy_type_id = props.privacy_type_id;
+    this._property_type = props.property_type;
+    this._property_relationship = props.property_relationship;
+    this._privacy_type = props.privacy_type;
     this._floor_plans = props.floor_plans;
     this._property_details = props.property_details;
     this._condominium_details = props.condominium_details;
@@ -111,23 +111,23 @@ export class Property extends Entity<PropertyProps> {
   set address(address) {
     this._address = address;
   }
-  get property_type_id() {
-    return this._property_type_id.value;
+  get property_type() {
+    return this._property_type;
   }
-  set property_type_id(property_type_id: any) {
-    this._property_type_id = property_type_id;
+  set property_type(property_type) {
+    this._property_type = property_type;
   }
-  get property_relationship_id() {
-    return this._property_relationship_id.value;
+  get property_relationship() {
+    return this._property_relationship;
   }
-  set property_relationship_id(property_relationship_id: any) {
-    this._property_relationship_id = property_relationship_id;
+  set property_relationship(property_relationship) {
+    this._property_relationship = property_relationship;
   }
-  get privacy_type_id() {
-    return this._privacy_type_id.value;
+  get privacy_type() {
+    return this._privacy_type;
   }
-  set privacy_type_id(privacy_type_id: any) {
-    this._privacy_type_id = privacy_type_id;
+  set privacy_type(privacy_type) {
+    this._privacy_type = privacy_type;
   }
   get floor_plans() {
     return this._floor_plans;

@@ -32,12 +32,12 @@ export class PropertyFakeBuilder<TBuild = any> {
     this.chance.sentence({ words: 10 });
   private _status: PropOrFactory<PropertyStatus | null> = (_index) =>
     PropertyStatus.PENDING;
-  private _property_type_id: PropOrFactory<UniqueEntityId> = (_index) =>
-    new UniqueEntityId();
-  private _property_relationship_id: PropOrFactory<UniqueEntityId> = (_index) =>
-    new UniqueEntityId();
-  private _privacy_type_id: PropOrFactory<UniqueEntityId> = (_index) =>
-    new UniqueEntityId();
+  private _property_type: PropOrFactory<string> = (_index) =>
+    this.chance.word({ length: 5 });
+  private _property_relationship: PropOrFactory<string> = (_index) =>
+    this.chance.word({ length: 5 });
+  private _privacy_type: PropOrFactory<string> = (_index) =>
+    this.chance.word({ length: 5 });
   private _address: PropOrFactory<Address> = (_index) =>
     AddressFakeBuilder.aAddress().build();
   private _floor_plans: PropOrFactory<FloorPlan[]> = (_index) =>
@@ -104,16 +104,16 @@ export class PropertyFakeBuilder<TBuild = any> {
     this._address = valueOrFactory;
     return this;
   }
-  withPropertyTypeId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._property_type_id = valueOrFactory;
+  withPropertyTypeKey(valueOrFactory: PropOrFactory<string>) {
+    this._property_type = valueOrFactory;
     return this;
   }
-  withPropertyRelationshipId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._property_relationship_id = valueOrFactory;
+  withPropertyRelationshipKey(valueOrFactory: PropOrFactory<string>) {
+    this._property_relationship = valueOrFactory;
     return this;
   }
-  withPrivacyTypeId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._privacy_type_id = valueOrFactory;
+  withPrivacyTypeKey(valueOrFactory: PropOrFactory<string>) {
+    this._privacy_type = valueOrFactory;
     return this;
   }
   withFloorPlans(valueOrFactory: PropOrFactory<FloorPlan[]>) {
@@ -158,12 +158,12 @@ export class PropertyFakeBuilder<TBuild = any> {
           description: this.callFactory(this._description, index),
           status: this.callFactory(this._status, index),
           address: this.callFactory(this._address, index),
-          property_type_id: this.callFactory(this._property_type_id, index),
-          property_relationship_id: this.callFactory(
-            this._property_relationship_id,
+          property_type: this.callFactory(this._property_type, index),
+          property_relationship: this.callFactory(
+            this._property_relationship,
             index,
           ),
-          privacy_type_id: this.callFactory(this._privacy_type_id, index),
+          privacy_type: this.callFactory(this._privacy_type, index),
           floor_plans: this.callFactory(this._floor_plans, index),
           property_details: this.callFactory(this._property_details, index),
           condominium_details: this.callFactory(
@@ -198,13 +198,13 @@ export class PropertyFakeBuilder<TBuild = any> {
   get address() {
     return this.getValue('address');
   }
-  get property_type_id() {
-    return this.getValue('property_type_id');
+  get property_type() {
+    return this.getValue('property_type');
   }
-  get property_relationship_id() {
-    return this.getValue('property_relationship_id');
+  get property_relationship() {
+    return this.getValue('property_relationship');
   }
-  get privacy_type_id() {
+  get privacy_type() {
     return this.getValue('privacy_type');
   }
   get floor_plans() {
