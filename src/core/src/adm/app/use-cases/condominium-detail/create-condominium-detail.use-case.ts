@@ -28,6 +28,7 @@ export class CreateCondominiumDetailUseCase
   ): Promise<CondominiumDetailOutput> {
     this.logger.info({ message: 'Start CreateCondominiumDetail Use Case' });
     const condominiumDetail = new CondominiumDetail({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

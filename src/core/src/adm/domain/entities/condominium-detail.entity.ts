@@ -3,6 +3,7 @@ import CondominiumDetailValidatorFactory from '../validators/condominium-detail.
 
 export type CondominiumDetailProps = {
   id?: UniqueEntityId;
+  key: string;
   name: string;
   description?: string;
   created_at?: Date;
@@ -10,12 +11,14 @@ export type CondominiumDetailProps = {
 };
 
 export class CondominiumDetail extends Entity<CondominiumDetailProps> {
+  private _key: string;
   private _name: string;
   private _description?: string;
 
   constructor(props: CondominiumDetailProps) {
     CondominiumDetail.validate(props);
     super(props);
+    this._key = props.key;
     this._name = props.name;
     this._description = props.description;
   }
@@ -26,6 +29,14 @@ export class CondominiumDetail extends Entity<CondominiumDetailProps> {
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
+  }
+
+  public get key(): string {
+    return this._key;
+  }
+
+  public set key(_key: string) {
+    this._key = _key;
   }
 
   public get name(): string {

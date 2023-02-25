@@ -15,6 +15,7 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
     await this.prisma.property_type.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
@@ -57,6 +58,7 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
     await this.prisma.property_type.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         description: entity.description,
       },
@@ -98,6 +100,7 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
   private toEntity(entity: any): PropertyType {
     return new PropertyType({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,

@@ -17,6 +17,7 @@ export class PropertyRelationshipPrismaRepository
     await this.prisma.property_relationship.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
@@ -65,6 +66,7 @@ export class PropertyRelationshipPrismaRepository
     await this.prisma.property_relationship.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         description: entity.description,
       },
@@ -109,6 +111,7 @@ export class PropertyRelationshipPrismaRepository
   private toEntity(entity: any): PropertyRelationship {
     return new PropertyRelationship({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,

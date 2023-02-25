@@ -26,6 +26,7 @@ export class CreatePrivacyTypeUseCase
   async execute(input: CreatePrivacyTypeInput): Promise<PrivacyTypeOutput> {
     this.logger.info({ message: 'Start CreatePrivacyType Use Case' });
     const privacyType = new PrivacyType({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

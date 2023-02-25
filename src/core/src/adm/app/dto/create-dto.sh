@@ -13,6 +13,7 @@ import { ${CLASS_NAME[j]} } from '../../../domain';
 
 export type ${CLASS_NAME[j]}Output = {
   id: string;
+  key: string;
   name: string;
   description?: string;
   created_at: Date;

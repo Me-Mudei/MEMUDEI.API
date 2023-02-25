@@ -13,7 +13,17 @@ export class ChargeRules {
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
+  key: string;
+
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
   name: string;
+
+  @MaxLength(255)
+  @IsString()
+  @IsOptional()
+  description: string;
 
   @IsDate()
   @IsOptional()

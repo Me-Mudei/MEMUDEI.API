@@ -15,6 +15,7 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
     await this.prisma.floor_plan.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         unit: entity.unit,
         created_at: entity.created_at,
@@ -57,6 +58,7 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
     await this.prisma.floor_plan.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         unit: entity.unit,
       },
@@ -96,6 +98,7 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
   private toEntity(entity: any): FloorPlan {
     return new FloorPlan({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
       unit: entity.unit,
       created_at: entity.created_at,

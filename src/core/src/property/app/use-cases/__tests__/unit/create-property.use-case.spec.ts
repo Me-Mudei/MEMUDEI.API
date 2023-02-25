@@ -4,7 +4,8 @@ import { Broker } from '#shared/infra';
 import { PropertyStatus, RepositoryFactory } from '#property/domain';
 import { Driver } from '#property/domain/driver/driver-contracts';
 import { createReadStream } from 'fs';
-import { nanoid } from 'nanoid';
+import { Chance } from 'chance';
+import { UniqueEntityId } from '#shared/domain';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
@@ -25,10 +26,13 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       'insert',
     );
 
+    const chance = Chance();
+
     const createPropertyProps = {
       title: 'Apartamento completo com churraqueira',
       description:
         'Imóvel mobiliado, com churrasqueira e piscina, próximo ao metrô e comércio local, com 2 vagas de garagem e 2 quartos com ar condicionado. O condomínio possui academia, salão de festas e portaria 24 horas. Agende sua visita!',
+      user_id: new UniqueEntityId().value,
       address: {
         zip_code: '04571000',
         city: 'São Paulo',
@@ -36,54 +40,54 @@ describe('CreatePropertyUseCase Unit Tests', () => {
         street: 'Rua dos Pinheiros',
         district: 'Pinheiros',
       },
-      property_type_id: nanoid(),
-      property_relationship_id: nanoid(),
-      privacy_type_id: nanoid(),
+      property_type: chance.word({ length: 10 }),
+      property_relationship: chance.word({ length: 10 }),
+      privacy_type: chance.word({ length: 10 }),
       floor_plans: [
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           value: 2,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           value: 2,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           value: 2,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           value: 100,
         },
       ],
       property_details: [
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           available: false,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           available: true,
         },
       ],
       condominium_details: [
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           available: false,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           available: true,
         },
       ],
       rules: [
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           allowed: false,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           allowed: true,
         },
       ],
@@ -98,19 +102,19 @@ describe('CreatePropertyUseCase Unit Tests', () => {
       ],
       charges: [
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           amount: 1200,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           amount: 400,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           amount: 100,
         },
         {
-          id: nanoid(),
+          key: chance.word({ length: 10 }),
           amount: 100,
         },
       ],

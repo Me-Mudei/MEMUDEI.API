@@ -18,30 +18,28 @@ export class PropertyInMemoryRepository
     }
     const ignoredKeyList = ['max_', 'value_type'];
     for (const key in filter) {
-      if (filter[key]) {
-        if (ignoredKeyList.find((item) => key.includes(item))) {
-          continue;
-        }
-        if (key.includes('min_')) {
-          const field = key.replace('min_', '');
-          if (field === 'value') {
-            items = this[`${field}_filter`](
-              items,
-              filter[`min_${field}`],
-              filter[`max_${field}`],
-              filter.value_type,
-            );
-            continue;
-          }
+      if (!filter[key] || ignoredKeyList.find((item) => key.includes(item))) {
+        continue;
+      }
+      if (key.includes('min_')) {
+        const field = key.replace('min_', '');
+        if (field === 'value') {
           items = this[`${field}_filter`](
             items,
             filter[`min_${field}`],
             filter[`max_${field}`],
+            filter.value_type,
           );
           continue;
         }
-        items = this[`${key}_filter`](items, filter[key]);
+        items = this[`${field}_filter`](
+          items,
+          filter[`min_${field}`],
+          filter[`max_${field}`],
+        );
+        continue;
       }
+      items = this[`${key}_filter`](items, filter[key]);
     }
     return items;
   }

@@ -11,6 +11,8 @@ export class RuleFakeBuilder<TBuild = any> {
   private _key: PropOrFactory<string> = (_index) =>
     this.chance.word({ length: 10 });
   private _allowed: PropOrFactory<boolean | null> = (_index) => false;
+  private _name = null;
+  private _description = null;
 
   private countObjs: number;
 
@@ -52,6 +54,16 @@ export class RuleFakeBuilder<TBuild = any> {
     return this;
   }
 
+  withName(valueOrFactory: PropOrFactory<string>) {
+    this._name = valueOrFactory;
+    return this;
+  }
+
+  withDescription(valueOrFactory: PropOrFactory<string>) {
+    this._description = valueOrFactory;
+    return this;
+  }
+
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
@@ -67,6 +79,8 @@ export class RuleFakeBuilder<TBuild = any> {
           }),
           key: this.callFactory(this._key, index),
           allowed: this.callFactory(this._allowed, index),
+          name: this.callFactory(this._name, index),
+          description: this.callFactory(this._description, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -81,6 +95,13 @@ export class RuleFakeBuilder<TBuild = any> {
   }
   get allowed() {
     return this.getValue('allowed');
+  }
+  get name() {
+    return this.getValue('name');
+  }
+
+  get description() {
+    return this.getValue('description');
   }
 
   get created_at() {

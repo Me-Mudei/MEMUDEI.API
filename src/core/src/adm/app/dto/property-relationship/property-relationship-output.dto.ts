@@ -2,6 +2,7 @@ import { PropertyRelationship } from '../../../domain';
 
 export type PropertyRelationshipOutput = {
   id: string;
+  key: string;
   name: string;
   description?: string;
   created_at: Date;

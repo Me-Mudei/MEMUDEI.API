@@ -17,6 +17,7 @@ export class CondominiumDetailPrismaRepository
     await this.prisma.condominium_detail.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
@@ -63,6 +64,7 @@ export class CondominiumDetailPrismaRepository
     await this.prisma.condominium_detail.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         description: entity.description,
       },
@@ -106,6 +108,7 @@ export class CondominiumDetailPrismaRepository
   private toEntity(entity: any): CondominiumDetail {
     return new CondominiumDetail({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,

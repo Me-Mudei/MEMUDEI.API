@@ -5,6 +5,8 @@ export type CondominiumDetailProps = {
   id?: UniqueEntityId;
   key: string;
   available: boolean;
+  name?: string;
+  description?: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -12,12 +14,16 @@ export type CondominiumDetailProps = {
 export class CondominiumDetail extends Entity<CondominiumDetailProps> {
   private _key: string;
   private _available: boolean;
+  private _name?: string;
+  private _description?: string;
 
   constructor(props: CondominiumDetailProps) {
     CondominiumDetail.validate(props);
     super(props);
     this._key = props.key;
     this._available = props.available;
+    this._name = props.name;
+    this._description = props.description;
   }
 
   static validate(props: CondominiumDetailProps) {
@@ -42,5 +48,21 @@ export class CondominiumDetail extends Entity<CondominiumDetailProps> {
 
   public set available(_available: boolean) {
     this._available = _available;
+  }
+
+  public get name(): string | undefined {
+    return this._name;
+  }
+
+  public set name(_name: string | undefined) {
+    this._name = _name;
+  }
+
+  public get description(): string | undefined {
+    return this._description;
+  }
+
+  public set description(_description: string | undefined) {
+    this._description = _description;
   }
 }

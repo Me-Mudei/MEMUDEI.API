@@ -4,7 +4,7 @@ export class Connection {
   static getInstance() {
     if (!Connection.instance) {
       Connection.instance = new PrismaClient({
-        log: ['query', 'info', 'warn', 'error'],
+        log: ['error'],
       });
     }
     return Connection.instance;

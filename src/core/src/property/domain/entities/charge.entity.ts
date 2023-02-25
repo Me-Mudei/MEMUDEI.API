@@ -5,6 +5,8 @@ export type ChargeProps = {
   id?: UniqueEntityId;
   key: string;
   amount: number;
+  name?: string;
+  description?: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -12,12 +14,16 @@ export type ChargeProps = {
 export class Charge extends Entity<ChargeProps> {
   private _key: string;
   private _amount: number;
+  private _name?: string;
+  private _description?: string;
 
   constructor(props: ChargeProps) {
     Charge.validate(props);
     super(props);
     this._key = props.key;
     this._amount = props.amount;
+    this._name = props.name;
+    this._description = props.description;
   }
 
   static validate(props: ChargeProps) {
@@ -42,5 +48,21 @@ export class Charge extends Entity<ChargeProps> {
 
   public set amount(_amount: number) {
     this._amount = _amount;
+  }
+
+  public get name(): string | undefined {
+    return this._name;
+  }
+
+  public set name(_name: string | undefined) {
+    this._name = _name;
+  }
+
+  public get description(): string | undefined {
+    return this._description;
+  }
+
+  public set description(_description: string | undefined) {
+    this._description = _description;
   }
 }

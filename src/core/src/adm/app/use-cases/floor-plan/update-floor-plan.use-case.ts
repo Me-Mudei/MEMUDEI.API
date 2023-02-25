@@ -25,6 +25,7 @@ export class UpdateFloorPlanUseCase
   async execute(input: UpdateFloorPlanInput): Promise<FloorPlanOutput> {
     this.logger.info({ message: 'Start UpdateFloorPlan Use Case' });
     const floorPlan = new FloorPlan({
+      key: input.key,
       name: input.name,
       unit: input.unit,
     });

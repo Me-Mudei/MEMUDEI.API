@@ -20,7 +20,11 @@ export class UpdateChargeUseCase
 
   async execute(input: UpdateChargeInput): Promise<ChargeOutput> {
     this.logger.info({ message: 'Start UpdateCharge Use Case' });
-    const charge = new Charge({ name: input.name });
+    const charge = new Charge({
+      key: input.key,
+      name: input.name,
+      description: input.description,
+    });
     await this.chargeRepository.update(charge);
     return ChargeOutputMapper.toOutput(charge);
   }

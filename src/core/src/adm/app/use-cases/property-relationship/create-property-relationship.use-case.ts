@@ -29,6 +29,7 @@ export class CreatePropertyRelationshipUseCase
   ): Promise<PropertyRelationshipOutput> {
     this.logger.info({ message: 'Start CreatePropertyRelationship Use Case' });
     const propertyRelationship = new PropertyRelationship({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

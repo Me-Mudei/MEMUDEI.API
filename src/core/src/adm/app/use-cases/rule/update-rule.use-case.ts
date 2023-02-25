@@ -19,7 +19,9 @@ export class UpdateRuleUseCase implements UseCase<UpdateRuleInput, RuleOutput> {
   async execute(input: UpdateRuleInput): Promise<RuleOutput> {
     this.logger.info({ message: 'Start UpdateRule Use Case' });
     const rule = new Rule({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.ruleRepository.update(rule);
     return RuleOutputMapper.toOutput(rule);

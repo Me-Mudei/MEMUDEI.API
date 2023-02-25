@@ -10,9 +10,10 @@ export class ChargeFakeBuilder<TBuild = any> {
   private _updated_at = undefined;
   private _key: PropOrFactory<string> = (_index) =>
     this.chance.word({ length: 10 });
-
   private _amount: PropOrFactory<number> = (_index) =>
     this.chance.integer({ min: 50, max: 2000 });
+  private _name = null;
+  private _description = null;
 
   private countObjs: number;
 
@@ -56,6 +57,16 @@ export class ChargeFakeBuilder<TBuild = any> {
     return this;
   }
 
+  withName(valueOrFactory: PropOrFactory<string>) {
+    this._name = valueOrFactory;
+    return this;
+  }
+
+  withDescription(valueOrFactory: PropOrFactory<string>) {
+    this._description = valueOrFactory;
+    return this;
+  }
+
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
@@ -71,6 +82,8 @@ export class ChargeFakeBuilder<TBuild = any> {
           }),
           key: this.callFactory(this._key, index),
           amount: this.callFactory(this._amount, index),
+          name: this.callFactory(this._name, index),
+          description: this.callFactory(this._description, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -86,6 +99,14 @@ export class ChargeFakeBuilder<TBuild = any> {
 
   get amount() {
     return this.getValue('amount');
+  }
+
+  get name() {
+    return this.getValue('name');
+  }
+
+  get description() {
+    return this.getValue('description');
   }
 
   get created_at() {

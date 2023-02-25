@@ -26,7 +26,9 @@ export class UpdatePrivacyTypeUseCase
   async execute(input: UpdatePrivacyTypeInput): Promise<PrivacyTypeOutput> {
     this.logger.info({ message: 'Start UpdatePrivacyType Use Case' });
     const privacyType = new PrivacyType({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.privacyTypeRepository.update(privacyType);
     return PrivacyTypeOutputMapper.toOutput(privacyType);

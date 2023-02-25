@@ -26,7 +26,9 @@ export class UpdatePropertyTypeUseCase
   async execute(input: UpdatePropertyTypeInput): Promise<PropertyTypeOutput> {
     this.logger.info({ message: 'Start UpdatePropertyType Use Case' });
     const propertyType = new PropertyType({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.propertyTypeRepository.update(propertyType);
     return PropertyTypeOutputMapper.toOutput(propertyType);

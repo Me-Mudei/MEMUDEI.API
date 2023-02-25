@@ -28,7 +28,9 @@ export class UpdateCondominiumDetailUseCase
   ): Promise<CondominiumDetailOutput> {
     this.logger.info({ message: 'Start UpdateCondominiumDetail Use Case' });
     const condominiumDetail = new CondominiumDetail({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.condominiumDetailRepository.update(condominiumDetail);
     return CondominiumDetailOutputMapper.toOutput(condominiumDetail);

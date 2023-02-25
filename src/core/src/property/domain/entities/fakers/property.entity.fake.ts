@@ -52,6 +52,8 @@ export class PropertyFakeBuilder<TBuild = any> {
     PhotoFakeBuilder.thePhotos(3).build();
   private _charges: PropOrFactory<Charge[]> = (_index) =>
     ChargeFakeBuilder.theCharges(3).build();
+  private _user_id: PropOrFactory<UniqueEntityId> = (_index) =>
+    new UniqueEntityId();
 
   private countObjs: number;
 
@@ -140,6 +142,10 @@ export class PropertyFakeBuilder<TBuild = any> {
     this._charges = valueOrFactory;
     return this;
   }
+  withUserId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
+    this._user_id = valueOrFactory;
+    return this;
+  }
 
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
@@ -173,6 +179,7 @@ export class PropertyFakeBuilder<TBuild = any> {
           rules: this.callFactory(this._rules, index),
           photos: this.callFactory(this._photos, index),
           charges: this.callFactory(this._charges, index),
+          user_id: this.callFactory(this._user_id, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -224,6 +231,9 @@ export class PropertyFakeBuilder<TBuild = any> {
   }
   get charges() {
     return this.getValue('charges');
+  }
+  get user_id() {
+    return this.getValue('user_id');
   }
 
   private getValue(prop) {

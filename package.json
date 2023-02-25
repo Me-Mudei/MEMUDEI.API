@@ -24,7 +24,7 @@
     "nexus:generate": "ts-node --transpile-only -e 'import NexusSchema from \"./src/apollo/src/schema.ts\"; NexusSchema.makeSchema()'",
     "prisma:generate": "prisma generate --schema src/core/src/shared/infra/database/prisma/schema.prisma",
     "prisma:studio": "prisma studio --schema src/core/src/shared/infra/database/prisma/schema.prisma",
-    "prisma:seed": "prisma db seed --schema src/core/src/shared/infra/database/prisma/schema.prisma",
+    "prisma:seed": "prisma db seed",
     "prisma:reset": "prisma migrate reset --schema src/core/src/shared/infra/database/prisma/schema.prisma",
     "prisma:migration": "prisma migrate dev --schema src/core/src/shared/infra/database/prisma/schema.prisma"
   },

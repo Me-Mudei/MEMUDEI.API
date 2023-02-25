@@ -30,6 +30,7 @@ export type PropertyProps = {
   rules: Rule[];
   photos?: Photo[];
   charges: Charge[];
+  user_id: UniqueEntityId;
 };
 
 export class Property extends Entity<PropertyProps> {
@@ -46,6 +47,7 @@ export class Property extends Entity<PropertyProps> {
   private _rules: Rule[];
   private _photos?: Photo[];
   private _charges: Charge[];
+  private _user_id: UniqueEntityId;
   private _disabled_at?: Date;
   private _deleted_at?: Date;
 
@@ -65,6 +67,7 @@ export class Property extends Entity<PropertyProps> {
     this._rules = props.rules;
     this._photos = props.photos;
     this._charges = props.charges;
+    this._user_id = props.user_id;
   }
 
   static validate(props: PropertyProps) {
@@ -164,5 +167,11 @@ export class Property extends Entity<PropertyProps> {
   }
   set charges(charges) {
     this._charges = charges;
+  }
+  get user_id() {
+    return this._user_id;
+  }
+  set user_id(user_id) {
+    this._user_id = user_id;
   }
 }

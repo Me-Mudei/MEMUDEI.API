@@ -8,6 +8,7 @@ export class PropertyRelationshipFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
+  private _key: PropOrFactory<string> = (_index) => this.chance.word();
   private _name: PropOrFactory<string> = (_index) => this.chance.word();
   private _description: PropOrFactory<string | null> = (_index) =>
     this.chance.sentence({ words: 10 });
@@ -46,6 +47,11 @@ export class PropertyRelationshipFakeBuilder<TBuild = any> {
     return this;
   }
 
+  withKey(valueOrFactory: PropOrFactory<string>) {
+    this._key = valueOrFactory;
+    return this;
+  }
+
   withName(valueOrFactory: PropOrFactory<string>) {
     this._name = valueOrFactory;
     return this;
@@ -69,6 +75,7 @@ export class PropertyRelationshipFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
+          key: this.callFactory(this._key, index),
           name: this.callFactory(this._name, index),
           description: this.callFactory(this._description, index),
         }),
@@ -78,6 +85,10 @@ export class PropertyRelationshipFakeBuilder<TBuild = any> {
 
   get id() {
     return this.getValue('id');
+  }
+
+  get key() {
+    return this.getValue('key');
   }
 
   get name() {

@@ -29,7 +29,9 @@ export class UpdatePropertyRelationshipUseCase
   ): Promise<PropertyRelationshipOutput> {
     this.logger.info({ message: 'Start UpdatePropertyRelationship Use Case' });
     const propertyRelationship = new PropertyRelationship({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.propertyRelationshipRepository.update(propertyRelationship);
     return PropertyRelationshipOutputMapper.toOutput(propertyRelationship);

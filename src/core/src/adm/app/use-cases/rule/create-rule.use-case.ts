@@ -19,6 +19,7 @@ export class CreateRuleUseCase implements UseCase<CreateRuleInput, RuleOutput> {
   async execute(input: CreateRuleInput): Promise<RuleOutput> {
     this.logger.info({ message: 'Start CreateRule Use Case' });
     const rule = new Rule({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

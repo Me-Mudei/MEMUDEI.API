@@ -2,6 +2,7 @@ import { FloorPlan } from '../../../domain';
 
 export type FloorPlanOutput = {
   id: string;
+  key: string;
   name: string;
   unit?: string;
   created_at: Date;

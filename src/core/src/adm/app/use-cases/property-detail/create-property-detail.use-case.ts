@@ -28,6 +28,7 @@ export class CreatePropertyDetailUseCase
   ): Promise<PropertyDetailOutput> {
     this.logger.info({ message: 'Start CreatePropertyDetail Use Case' });
     const propertyDetail = new PropertyDetail({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

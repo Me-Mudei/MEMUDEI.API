@@ -29,6 +29,7 @@ export class ${CLASS_NAME[j]}PrismaRepository
     await this.prisma.${VALUE_NAME[j]}.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
@@ -60,6 +61,7 @@ export class ${CLASS_NAME[j]}PrismaRepository
     await this.prisma.${VALUE_NAME[j]}.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         description: entity.description,
       },
@@ -103,8 +105,9 @@ export class ${CLASS_NAME[j]}PrismaRepository
   private toEntity(entity: any): ${CLASS_NAME[j]} {
     return new ${CLASS_NAME[j]}({
       id: new UniqueEntityId(entity.id),
-      name: entity.name,
-      description: entity.description,
+      key: entity.key,
+        name: entity.name,
+        description: entity.description,
       created_at: entity.created_at,
       updated_at: entity.updated_at,
     });

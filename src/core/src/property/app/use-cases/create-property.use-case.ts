@@ -46,33 +46,33 @@ export class CreatePropertyUseCase
     });
     const propertyDetails = input.property_details.map((propertyDetail) => {
       return new PropertyDetail({
-        id: new UniqueEntityId(propertyDetail.id),
+        key: propertyDetail.key,
         available: propertyDetail.available,
       });
     });
     const floorPlans = input.floor_plans.map((floorPlan) => {
       return new FloorPlan({
-        id: new UniqueEntityId(floorPlan.id),
+        key: floorPlan.key,
         value: floorPlan.value,
       });
     });
     const charges = input.charges.map((charge) => {
       return new Charge({
-        id: new UniqueEntityId(charge.id),
+        key: charge.key,
         amount: charge.amount,
       });
     });
     const condominiumDetails = input.condominium_details.map(
       (condominiumDetail) => {
         return new CondominiumDetail({
-          id: new UniqueEntityId(condominiumDetail.id),
+          key: condominiumDetail.key,
           available: condominiumDetail.available,
         });
       },
     );
     const rules = input.rules.map((rule) => {
       return new Rule({
-        id: new UniqueEntityId(rule.id),
+        key: rule.key,
         allowed: rule.allowed,
       });
     });
@@ -82,16 +82,15 @@ export class CreatePropertyUseCase
       description: input.description,
       status: input.status,
       address: address,
-      property_type_id: new UniqueEntityId(input.property_type_id),
-      property_relationship_id: new UniqueEntityId(
-        input.property_relationship_id,
-      ),
-      privacy_type_id: new UniqueEntityId(input.privacy_type_id),
+      property_type: input.property_type,
+      property_relationship: input.property_relationship,
+      privacy_type: input.privacy_type,
       floor_plans: floorPlans,
       property_details: propertyDetails,
       condominium_details: condominiumDetails,
       rules: rules,
       charges: charges,
+      user_id: new UniqueEntityId(input.user_id),
     });
     const files = await this.driver.uploadMany(input.photos, `${property.id}`);
     this.logger.info({ message: 'Files uploaded' });

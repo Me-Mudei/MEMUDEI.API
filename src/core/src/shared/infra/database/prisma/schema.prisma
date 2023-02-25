@@ -78,12 +78,12 @@ model property {
     privacy_type_id          String                           @db.Char(21)
     created_at               DateTime                         @default(now())
     updated_at               DateTime                         @updatedAt
+    address                  address?
     photos                   photo[]
+    property_schedule        event[]
     condominium_details      properties_condominium_details[]
     rules                    properties_rules[]
     property_details         properties_property_details[]
-    address                  address?
-    property_schedule        event[]
     floor_plans              properties_floor_plans[]
     charges                  properties_charges[]
 }
@@ -182,15 +182,15 @@ model floor_plan {
 }
 
 model properties_floor_plans {
-    floor_plan_id String     @db.Char(21)
-    floor_plan    floor_plan @relation(fields: [floor_plan_id], references: [id])
-    property_id   String     @db.Char(21)
-    property      property   @relation(fields: [property_id], references: [id])
-    value         Int
-    created_at    DateTime   @default(now())
-    updated_at    DateTime   @updatedAt
+    floor_plan_key String
+    floor_plan     floor_plan @relation(fields: [floor_plan_key], references: [key])
+    property_id    String     @db.Char(21)
+    property       property   @relation(fields: [property_id], references: [id])
+    value          Int
+    created_at     DateTime   @default(now())
+    updated_at     DateTime   @updatedAt
 
-    @@id([property_id, floor_plan_id])
+    @@id([property_id, floor_plan_key])
 }
 
 model property_detail {
@@ -204,15 +204,15 @@ model property_detail {
 }
 
 model properties_property_details {
-    property_id        String          @db.Char(21)
-    property           property        @relation(fields: [property_id], references: [id])
-    property_detail_id String          @db.Char(21)
-    property_detail    property_detail @relation(fields: [property_detail_id], references: [id])
-    available          Boolean
-    created_at         DateTime        @default(now())
-    updated_at         DateTime        @updatedAt
+    property_id         String          @db.Char(21)
+    property            property        @relation(fields: [property_id], references: [id])
+    property_detail_key String
+    property_detail     property_detail @relation(fields: [property_detail_key], references: [key])
+    available           Boolean
+    created_at          DateTime        @default(now())
+    updated_at          DateTime        @updatedAt
 
-    @@id([property_id, property_detail_id])
+    @@id([property_id, property_detail_key])
 }
 
 model condominium_detail {
@@ -226,15 +226,15 @@ model condominium_detail {
 }
 
 model properties_condominium_details {
-    property_id           String             @db.Char(21)
-    property              property           @relation(fields: [property_id], references: [id])
-    condominium_detail_id String             @db.Char(21)
-    condominium_detail    condominium_detail @relation(fields: [condominium_detail_id], references: [id])
-    available             Boolean
-    created_at            DateTime           @default(now())
-    updated_at            DateTime           @updatedAt
+    property_id            String             @db.Char(21)
+    property               property           @relation(fields: [property_id], references: [id])
+    condominium_detail_key String
+    condominium_detail     condominium_detail @relation(fields: [condominium_detail_key], references: [key])
+    available              Boolean
+    created_at             DateTime           @default(now())
+    updated_at             DateTime           @updatedAt
 
-    @@id([property_id, condominium_detail_id])
+    @@id([property_id, condominium_detail_key])
 }
 
 model rule {
@@ -250,13 +250,13 @@ model rule {
 model properties_rules {
     property_id String   @db.Char(21)
     properties  property @relation(fields: [property_id], references: [id])
-    rule_id     String   @db.Char(21)
-    rule        rule     @relation(fields: [rule_id], references: [id])
+    rule_key    String
+    rule        rule     @relation(fields: [rule_key], references: [key])
     allowed     Boolean
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
 
-    @@id([property_id, rule_id])
+    @@id([property_id, rule_key])
 }
 
 model charge {
@@ -272,13 +272,13 @@ model charge {
 model properties_charges {
     property_id String   @db.Char(21)
     properties  property @relation(fields: [property_id], references: [id])
-    charge_id   String   @db.Char(21)
-    charge      charge   @relation(fields: [charge_id], references: [id])
+    charge_key  String
+    charge      charge   @relation(fields: [charge_key], references: [key])
     amount      Int
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
 
-    @@id([property_id, charge_id])
+    @@id([property_id, charge_key])
 }
 
 model photo {

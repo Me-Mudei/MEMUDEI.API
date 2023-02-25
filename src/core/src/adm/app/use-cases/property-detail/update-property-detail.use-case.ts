@@ -28,7 +28,9 @@ export class UpdatePropertyDetailUseCase
   ): Promise<PropertyDetailOutput> {
     this.logger.info({ message: 'Start UpdatePropertyDetail Use Case' });
     const propertyDetail = new PropertyDetail({
+      key: input.key,
       name: input.name,
+      description: input.description,
     });
     await this.propertyDetailRepository.update(propertyDetail);
     return PropertyDetailOutputMapper.toOutput(propertyDetail);

@@ -2,6 +2,7 @@ import { Rule } from '../../../domain';
 
 export type RuleOutput = {
   id: string;
+  key: string;
   name: string;
   description?: string;
   created_at: Date;

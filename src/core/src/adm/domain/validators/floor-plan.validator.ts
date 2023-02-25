@@ -12,6 +12,11 @@ export class FloorPlanRules {
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
+  key: string;
+
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @MaxLength(5)

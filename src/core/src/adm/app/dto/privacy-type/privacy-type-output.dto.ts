@@ -2,6 +2,7 @@ import { PrivacyType } from '../../../domain';
 
 export type PrivacyTypeOutput = {
   id: string;
+  key: string;
   name: string;
   description?: string;
   created_at: Date;

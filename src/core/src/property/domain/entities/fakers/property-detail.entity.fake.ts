@@ -11,6 +11,8 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
   private _key: PropOrFactory<string> = (_index) =>
     this.chance.word({ length: 10 });
   private _available: PropOrFactory<boolean | null> = (_index) => false;
+  private _name = null;
+  private _description = null;
 
   private countObjs: number;
 
@@ -52,6 +54,16 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
     return this;
   }
 
+  withName(valueOrFactory: PropOrFactory<string>) {
+    this._name = valueOrFactory;
+    return this;
+  }
+
+  withDescription(valueOrFactory: PropOrFactory<string>) {
+    this._description = valueOrFactory;
+    return this;
+  }
+
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
@@ -67,6 +79,8 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
           }),
           key: this.callFactory(this._key, index),
           available: this.callFactory(this._available, index),
+          name: this.callFactory(this._name, index),
+          description: this.callFactory(this._description, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -81,6 +95,13 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
 
   get available() {
     return this.getValue('available');
+  }
+  get name() {
+    return this.getValue('name');
+  }
+
+  get description() {
+    return this.getValue('description');
   }
 
   get created_at() {

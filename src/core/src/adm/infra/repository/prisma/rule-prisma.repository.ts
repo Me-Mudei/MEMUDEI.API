@@ -15,6 +15,7 @@ export class RulePrismaRepository implements RuleRepository {
     await this.prisma.rule.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
@@ -55,6 +56,7 @@ export class RulePrismaRepository implements RuleRepository {
     await this.prisma.rule.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
         description: entity.description,
       },
@@ -94,6 +96,7 @@ export class RulePrismaRepository implements RuleRepository {
   private toEntity(entity: any): Rule {
     return new Rule({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,

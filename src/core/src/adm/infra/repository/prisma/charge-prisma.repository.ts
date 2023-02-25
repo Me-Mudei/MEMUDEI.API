@@ -15,7 +15,9 @@ export class ChargePrismaRepository implements ChargeRepository {
     await this.prisma.charge.create({
       data: {
         id: entity.id,
+        key: entity.key,
         name: entity.name,
+        description: entity.description,
         created_at: entity.created_at,
         updated_at: entity.updated_at,
       },
@@ -54,7 +56,9 @@ export class ChargePrismaRepository implements ChargeRepository {
     await this.prisma.charge.update({
       where: { id: entity.id },
       data: {
+        key: entity.key,
         name: entity.name,
+        description: entity.description,
       },
     });
   }
@@ -92,7 +96,9 @@ export class ChargePrismaRepository implements ChargeRepository {
   private toEntity(entity: any): Charge {
     return new Charge({
       id: new UniqueEntityId(entity.id),
+      key: entity.key,
       name: entity.name,
+      description: entity.description,
       created_at: entity.created_at,
       updated_at: entity.updated_at,
     });

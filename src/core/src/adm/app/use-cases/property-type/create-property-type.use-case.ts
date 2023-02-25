@@ -26,6 +26,7 @@ export class CreatePropertyTypeUseCase
   async execute(input: CreatePropertyTypeInput): Promise<PropertyTypeOutput> {
     this.logger.info({ message: 'Start CreatePropertyType Use Case' });
     const propertyType = new PropertyType({
+      key: input.key,
       name: input.name,
       description: input.description,
     });

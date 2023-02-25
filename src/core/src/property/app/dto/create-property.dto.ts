@@ -15,6 +15,7 @@ export type CreatePropertyInput = {
   rules: RuleInput[];
   photos?: FileInput[];
   charges: ChargeInput[];
+  user_id: string;
 };
 
 export type AddressInput = {

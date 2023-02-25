@@ -2,6 +2,7 @@ import { PropertyDetail } from '../../../domain';
 
 export type PropertyDetailOutput = {
   id: string;
+  key: string;
   name: string;
   description?: string;
   created_at: Date;

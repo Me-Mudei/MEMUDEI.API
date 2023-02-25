@@ -12,6 +12,11 @@ export class RuleRules {
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
+  key: string;
+
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @MaxLength(255)
