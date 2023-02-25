@@ -1,7 +1,10 @@
 import { AdmFacade } from '@me-mudei/core/dist/adm/app/facade';
 import { UserFacade } from '@me-mudei/core/dist/user/app/facade';
 import { PropertyFacade } from '@me-mudei/core/dist/property/app/facade';
-import { PrismaFacadeFactory as Property } from '@me-mudei/core/property';
+import {
+  InMemoryFacadeFactory,
+  PrismaFacadeFactory,
+} from '@me-mudei/core/property';
 
 export class Context {
   admService: AdmFacade;
@@ -15,7 +18,18 @@ export class Context {
   }) {
     this.admService = {} as any;
     this.userService = {} as any;
-    this.propertyService = Property.create(req);
+    this.propertyService = PrismaFacadeFactory.create(req);
+    return this;
+  }
+  getTestContext() {
+    this.admService = {} as any;
+    this.userService = {} as any;
+    this.propertyService = InMemoryFacadeFactory.create({
+      req_id: 'test',
+      req_path: 'test',
+      req_method: 'test',
+      req_ua: 'test',
+    });
     return this;
   }
 }

@@ -1,4 +1,5 @@
 import { CreatePropertyInput as CoreCreatePropertyInput } from '@me-mudei/core/dist/property/app/dto';
+import { FileInput } from '@me-mudei/core/dist/property/domain/driver';
 import { PropertyStatus as CorePropertyStatus } from '@me-mudei/core/dist/property/domain/entities';
 import { NexusGenInputs } from 'generated/nexus';
 import { inputObjectType } from 'nexus';
@@ -122,9 +123,10 @@ export class CreatePropertyInputMapper {
     property: NexusGenInputs['create_property_input'];
     user: { id: string };
   }): Promise<CoreCreatePropertyInput> {
-    const photos = await Promise.all(
-      input.property.photos.map((photo) => photo),
-    );
+    let photos: FileInput[] = [];
+    if (input.property.photos) {
+      photos = await Promise.all(input.property.photos.map((photo) => photo));
+    }
     return {
       ...input.property,
       user_id: input.user.id,

@@ -67,7 +67,7 @@ describe('PropertyPrismaRepository', () => {
 
   beforeEach(() => {
     prisma = Connection.getInstance();
-    repository = new PropertyPrismaRepository(prisma);
+    repository = PropertyPrismaRepository.getInstance(prisma);
   });
 
   afterEach(async () => {

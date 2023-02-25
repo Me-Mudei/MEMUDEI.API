@@ -20,8 +20,16 @@ import { UniqueEntityId, NotFoundError } from '#shared/domain';
 
 export class PropertyPrismaRepository implements PropertyRepository {
   sortableFields: string[] = ['createdAt'];
+  static instance: PropertyPrismaRepository;
 
   constructor(readonly prisma: PrismaClient) {}
+
+  static getInstance(prisma: PrismaClient): PropertyPrismaRepository {
+    if (!PropertyPrismaRepository.instance) {
+      PropertyPrismaRepository.instance = new PropertyPrismaRepository(prisma);
+    }
+    return PropertyPrismaRepository.instance;
+  }
   async insert(entity: Property): Promise<void> {
     await this.prisma.property.create({
       data: {

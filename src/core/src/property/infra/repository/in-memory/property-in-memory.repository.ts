@@ -7,7 +7,15 @@ export class PropertyInMemoryRepository
   extends InMemorySearchableRepository<Property, PropertyFilter>
   implements PropertyRepository
 {
+  static instance: PropertyInMemoryRepository;
   sortableFields: string[] = ['title', 'created_at'];
+
+  static getInstance(): PropertyInMemoryRepository {
+    if (!PropertyInMemoryRepository.instance) {
+      PropertyInMemoryRepository.instance = new PropertyInMemoryRepository();
+    }
+    return PropertyInMemoryRepository.instance;
+  }
 
   protected async applyFilter(
     items: Property[],

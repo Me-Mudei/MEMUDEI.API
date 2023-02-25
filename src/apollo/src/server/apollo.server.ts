@@ -12,34 +12,35 @@ import Server from './server.interface';
 import { nanoid } from 'nanoid';
 import { graphqlUploadExpress } from 'graphql-upload';
 
-export default class ApolloServer implements Server {
-  private _schema: GraphQLSchema;
-  private _context: Context;
+export default class ApolloServer implements Server<Apollo<Context>> {
+  schema: GraphQLSchema;
+  context: Context;
+  server: Apollo<Context>;
   private _app: express.Application;
   private _httpServer: http.Server;
-  constructor(readonly schema: GraphQLSchema, readonly context: Context) {
-    this._schema = schema;
-    this._context = context;
+  constructor(schema: GraphQLSchema, context: Context) {
+    this.schema = schema;
+    this.context = context;
     this._app = express();
     this._httpServer = http.createServer(this._app);
-  }
-  async listen(port: number): Promise<void> {
-    const server = new Apollo<Context>({
-      schema: this._schema,
+    this.server = new Apollo<Context>({
+      schema: this.schema,
       csrfPrevention: false,
       plugins: [
         ApolloServerPluginDrainHttpServer({ httpServer: this._httpServer }),
       ],
     });
-    await server.start();
+  }
+  async listen(port: number): Promise<void> {
+    await this.server.start();
     this._app.use(
       '/graphql',
       cors<cors.CorsRequest>(),
       json(),
       graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
-      expressMiddleware(server, {
+      expressMiddleware(this.server, {
         context: async ({ req }) =>
-          this._context.getContext({
+          this.context.getContext({
             req_id: nanoid(),
             req_path: req.url,
             req_method: req.method,

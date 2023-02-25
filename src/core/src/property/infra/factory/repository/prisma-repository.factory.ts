@@ -8,6 +8,6 @@ export class PrismaRepositoryFactory implements RepositoryFactory {
     this.prisma = Connection.getInstance();
   }
   createPropertyRepository() {
-    return new PropertyPrismaRepository(this.prisma);
+    return PropertyPrismaRepository.getInstance(this.prisma);
   }
 }
