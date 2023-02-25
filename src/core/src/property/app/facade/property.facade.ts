@@ -24,14 +24,11 @@ export class PropertyFacade {
     this._getProperty = props.getProperty;
     this._searchProperty = props.searchProperty;
   }
-  async createProperty(
-    input: Omit<CreatePropertyInput, 'status'> & { status?: string },
-  ): Promise<PropertyOutput> {
+  async createProperty(input: CreatePropertyInput): Promise<PropertyOutput> {
     this._createProperty.broker.register(
       new PropertyCreatedSendConfirmationHandler(),
     );
-    const status = input.status && PropertyStatus[`${input.status}`];
-    return this._createProperty.execute({ ...input, status });
+    return this._createProperty.execute(input);
   }
 
   async getProperty(input: { id: string }): Promise<PropertyOutput> {

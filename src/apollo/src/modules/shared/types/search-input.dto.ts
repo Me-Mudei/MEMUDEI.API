@@ -1,10 +1,4 @@
-import {
-  enumType,
-  inputObjectType,
-  objectType,
-  extendInputType,
-  stringArg,
-} from 'nexus';
+import { enumType, inputObjectType, objectType } from 'nexus';
 
 export const SearchInput = inputObjectType({
   name: 'search_input',
