@@ -35,7 +35,11 @@
     "./adm/app": "./dist/adm/app/index.js",
     "./adm/domain": "./dist/adm/domain/index.js",
     "./adm/infra": "./dist/adm/infra/index.js",
-    "./adm": "./dist/adm/index.js"
+    "./adm": "./dist/adm/index.js",
+    "./auth/app": "./dist/auth/app/index.js",
+    "./auth/domain": "./dist/auth/domain/index.js",
+    "./auth/infra": "./dist/auth/infra/index.js",
+    "./auth": "./dist/auth/index.js"
   },
   "typesVersions": {
     ">=4.0": {
@@ -83,6 +87,18 @@
       ],
       "adm": [
         "./dist/adm/index.d.ts"
+      ],
+      "auth/app": [
+        "./dist/auth/app/index.d.ts"
+      ],
+      "auth/domain": [
+        "./dist/auth/domain/index.d.ts"
+      ],
+      "auth/infra": [
+        "./dist/auth/infra/index.d.ts"
+      ],
+      "auth": [
+        "./dist/auth/index.d.ts"
       ]
     }
   },

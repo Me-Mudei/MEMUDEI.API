@@ -9,7 +9,8 @@
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
       "#property/*": ["./property/*"],
-      "#adm/*": ["./adm/*"]
+      "#adm/*": ["./adm/*"],
+      "#auth/*": ["./auth/*"]
     }
   }
 }
