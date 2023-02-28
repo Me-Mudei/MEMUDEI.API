@@ -45,6 +45,7 @@ export default class ApolloServer implements Server<Apollo<Context>> {
             req_path: req.url,
             req_method: req.method,
             req_ua: req.headers['user-agent'],
+            headers: req.headers,
           }),
       }),
     );

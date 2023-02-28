@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './property-in-memory.repository';
+export * from './user-in-memory.repository';

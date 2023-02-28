@@ -1,3 +1,5 @@
 // created from 'create-ts-index'
 
-export * from './charge.validator';
+export * from './user.validator';
+export * from './role.validator';
+export * from './permission.validator';

@@ -1,6 +1,7 @@
 import { CreatePropertyInput as CoreCreatePropertyInput } from '@me-mudei/core/dist/property/app/dto';
 import { FileInput } from '@me-mudei/core/dist/property/domain/driver';
 import { PropertyStatus as CorePropertyStatus } from '@me-mudei/core/dist/property/domain/entities';
+import { User } from '../../../context';
 import { NexusGenInputs } from 'generated/nexus';
 import { inputObjectType } from 'nexus';
 
@@ -121,7 +122,7 @@ export const PropertySearchInput = inputObjectType({
 export class CreatePropertyInputMapper {
   static async toInput(input: {
     property: NexusGenInputs['create_property_input'];
-    user: { id: string };
+    user: User;
   }): Promise<CoreCreatePropertyInput> {
     let photos: FileInput[] = [];
     if (input.property.photos) {

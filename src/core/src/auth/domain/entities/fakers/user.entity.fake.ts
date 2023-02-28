@@ -1,28 +1,28 @@
-import { Charge } from '../charge.entity';
+import { User } from '../user.entity';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
+import { Role } from '../role.entity';
+import { RoleFakeBuilder } from './role.entity.fake';
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
-export class ChargeFakeBuilder<TBuild = any> {
+export class UserFakeBuilder<TBuild = any> {
   private _id = undefined;
   private _created_at = undefined;
   private _updated_at = undefined;
-  private _key: PropOrFactory<string> = (_index) =>
-    this.chance.word({ length: 10 });
-  private _amount: PropOrFactory<number> = (_index) =>
-    this.chance.integer({ min: 50, max: 2000 });
-  private _name = null;
-  private _description = null;
+  private _email: PropOrFactory<string> = (_index) =>
+    this.chance.email({ domain: 'memudei.me' });
+  private _role: PropOrFactory<Role> = (_index) =>
+    RoleFakeBuilder.aRole().build();
 
   private countObjs: number;
 
-  static aCharge() {
-    return new ChargeFakeBuilder<Charge>();
+  static aUser() {
+    return new UserFakeBuilder<User>();
   }
 
-  static theCharges(countObjs: number) {
-    return new ChargeFakeBuilder<Charge[]>(countObjs);
+  static theUsers(countObjs: number) {
+    return new UserFakeBuilder<User[]>(countObjs);
   }
 
   private chance: Chance.Chance;
@@ -47,30 +47,20 @@ export class ChargeFakeBuilder<TBuild = any> {
     return this;
   }
 
-  withKey(valueOrFactory: PropOrFactory<string>) {
-    this._key = valueOrFactory;
+  withEmail(valueOrFactory: PropOrFactory<string>) {
+    this._email = valueOrFactory;
     return this;
   }
 
-  withAmount(valueOrFactory: PropOrFactory<number>) {
-    this._amount = valueOrFactory;
-    return this;
-  }
-
-  withName(valueOrFactory: PropOrFactory<string>) {
-    this._name = valueOrFactory;
-    return this;
-  }
-
-  withDescription(valueOrFactory: PropOrFactory<string>) {
-    this._description = valueOrFactory;
+  withRole(valueOrFactory: PropOrFactory<Role>) {
+    this._role = valueOrFactory;
     return this;
   }
 
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
-        new Charge({
+        new User({
           ...(this._id && {
             id: this.callFactory(this._id, index),
           }),
@@ -80,10 +70,8 @@ export class ChargeFakeBuilder<TBuild = any> {
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
-          key: this.callFactory(this._key, index),
-          amount: this.callFactory(this._amount, index),
-          name: this.callFactory(this._name, index),
-          description: this.callFactory(this._description, index),
+          email: this.callFactory(this._email, index),
+          role: this.callFactory(this._role, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -93,20 +81,12 @@ export class ChargeFakeBuilder<TBuild = any> {
     return this.getValue('id');
   }
 
-  get key() {
-    return this.getValue('key');
+  get email() {
+    return this.getValue('email');
   }
 
-  get amount() {
-    return this.getValue('amount');
-  }
-
-  get name() {
-    return this.getValue('name');
-  }
-
-  get description() {
-    return this.getValue('description');
+  get role() {
+    return this.getValue('role');
   }
 
   get created_at() {
@@ -121,7 +101,7 @@ export class ChargeFakeBuilder<TBuild = any> {
     const optional = ['id', 'created_at', 'updated_at'];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
-      throw new Error(`Charge ${prop} not have a factory, use 'with' methods`);
+      throw new Error(`User ${prop} not have a factory, use 'with' methods`);
     }
     return this.callFactory(this[privateProp], 0);
   }

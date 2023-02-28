@@ -1,1 +1,1 @@
-export * from './infra/factory/facade';
+export * from './infra/factory';

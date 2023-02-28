@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './property-prisma.repository';
+export * from './user-prisma.repository';

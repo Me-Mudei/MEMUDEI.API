@@ -1,26 +1,28 @@
 import {
-  AuthenticUserInput,
-  AuthenticUserOutput,
+  AuthenticateUserInput,
+  AuthenticateUserOutput,
   AuthorizeUserInput,
   AuthorizeUserOutput,
 } from '../dto';
-import { AuthenticUserUseCase, AuthorizeUserUseCase } from '../use-cases';
+import { AuthenticateUserUseCase, AuthorizeUserUseCase } from '../use-cases';
 
 export interface AuthFacadeProps {
-  authenticUser: AuthenticUserUseCase;
+  authenticateUser: AuthenticateUserUseCase;
   authorizeUser: AuthorizeUserUseCase;
 }
 
 export class AuthFacade {
-  private _authenticUser: AuthenticUserUseCase;
+  private _authenticateUser: AuthenticateUserUseCase;
   private _authorizeUser: AuthorizeUserUseCase;
 
   constructor(readonly props: AuthFacadeProps) {
-    this._authenticUser = props.authenticUser;
+    this._authenticateUser = props.authenticateUser;
     this._authorizeUser = props.authorizeUser;
   }
-  async authentic(input: AuthenticUserInput): Promise<AuthenticUserOutput> {
-    return this._authenticUser.execute(input);
+  async authenticate(
+    input: AuthenticateUserInput,
+  ): Promise<AuthenticateUserOutput> {
+    return this._authenticateUser.execute(input);
   }
   async authorize(input: AuthorizeUserInput): Promise<AuthorizeUserOutput> {
     return this._authorizeUser.execute(input);

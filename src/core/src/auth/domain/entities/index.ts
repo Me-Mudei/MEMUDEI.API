@@ -1,4 +1,6 @@
 // created from 'create-ts-index'
 
 export * from './fakers';
-export * from './charge.entity';
+export * from './user.entity';
+export * from './role.entity';
+export * from './permission.entity';

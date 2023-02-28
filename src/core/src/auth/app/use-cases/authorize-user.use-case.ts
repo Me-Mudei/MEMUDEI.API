@@ -5,13 +5,16 @@ import {
   AuthorizeUserOutput,
   AuthorizeUserOutputMapper,
 } from '../dto';
+import { UserRepository } from '#auth/domain';
 
 export class AuthorizeUserUseCase
   implements UseCase<AuthorizeUserInput, AuthorizeUserOutput>
 {
   private logger: LoggerInterface;
-  constructor() {
+  private _userRepository: UserRepository;
+  constructor(userRepository: UserRepository) {
     this.logger = WinstonLogger.getInstance();
+    this._userRepository = userRepository;
   }
 
   async execute(input: AuthorizeUserInput): Promise<AuthorizeUserOutput> {
