@@ -1,4 +1,4 @@
-import { User } from '#auth/domain';
+import { User } from '../../domain';
 
 export type AuthenticateUserOutput = {
   id: string;

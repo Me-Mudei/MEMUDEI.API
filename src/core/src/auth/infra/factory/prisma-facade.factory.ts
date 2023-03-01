@@ -1,10 +1,11 @@
 import {
   AuthenticateUserUseCase,
   AuthorizeUserUseCase,
-} from '#auth/app/use-cases';
-import { AuthFacade } from '#auth/app/facade';
+  AuthFacade,
+} from '../../app';
 import { ReqLoggerProps, WinstonLogger, Connection } from '#shared/infra';
 import { UserPrismaRepository } from '../repository';
+import { AuthGateway } from '../auth-gateway';
 
 export class PrismaFacadeFactory {
   static create(req: ReqLoggerProps) {
@@ -19,7 +20,7 @@ export class PrismaFacadeFactory {
     });
     const prisma = Connection.getInstance();
     const userRepository = new UserPrismaRepository(prisma);
-    const authGateway = {} as any;
+    const authGateway = new AuthGateway();
 
     const authenticateUserUseCase = new AuthenticateUserUseCase(
       authGateway,

@@ -6,7 +6,7 @@ import {
   AuthenticateUserOutput,
   AuthenticateUserOutputMapper,
 } from '../dto';
-import { AuthGateway } from '#auth/infra';
+import { AuthGateway } from '../../infra';
 
 export class AuthenticateUserUseCase
   implements UseCase<AuthenticateUserInput, AuthenticateUserOutput>

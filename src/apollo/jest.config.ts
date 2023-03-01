@@ -28,6 +28,8 @@ export default {
       '<rootDir>/../../../node_modules/@me-mudei/core/dist/user/$1',
     '#property/(.*)$':
       '<rootDir>/../../../node_modules/@me-mudei/core/dist/property/$1',
+    '#auth/(.*)$':
+      '<rootDir>/../../../node_modules/@me-mudei/core/dist/auth/$1',
   },
   setupFilesAfterEnv: ['../../core/src/shared/domain/tests/jest.ts'],
 };

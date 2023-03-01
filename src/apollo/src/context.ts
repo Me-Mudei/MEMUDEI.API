@@ -3,9 +3,10 @@ import { AuthFacade } from '@me-mudei/core/dist/auth/app/facade';
 import { PropertyFacade } from '@me-mudei/core/dist/property/app/facade';
 import { UserFacade } from '@me-mudei/core/dist/user/app/facade';
 import {
-  InMemoryFacadeFactory,
-  PrismaFacadeFactory,
+  InMemoryFacadeFactory as InMemoryPropertyFacadeFactory,
+  PrismaFacadeFactory as PrismaPropertyFacadeFactory,
 } from '@me-mudei/core/property';
+import { InMemoryFacadeFactory as InMemoryAuthFacadeFactory } from '@me-mudei/core/auth';
 
 export interface ContextInput {
   req_id: string;
@@ -40,18 +41,18 @@ export class Context implements Context {
   user?: User;
   async getContext(req: ContextInput) {
     this.admService = {} as any;
-    this.authService = {} as any;
-    this.propertyService = PrismaFacadeFactory.create(req);
+    this.authService = InMemoryAuthFacadeFactory.create(req);
+    this.propertyService = PrismaPropertyFacadeFactory.create(req);
     this.userService = {} as any;
 
     const token = req.headers.authorization || '';
-    this.user = await this.authService.authenticate(token);
+    this.user = await this.authService.authenticate({ token });
     return this;
   }
   getTestContext() {
     this.admService = {} as any;
     this.userService = {} as any;
-    this.propertyService = InMemoryFacadeFactory.create({
+    this.propertyService = InMemoryPropertyFacadeFactory.create({
       req_id: 'test',
       req_path: 'test',
       req_method: 'test',

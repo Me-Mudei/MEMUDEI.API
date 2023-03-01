@@ -1,10 +1,11 @@
 import {
   AuthenticateUserUseCase,
   AuthorizeUserUseCase,
-} from '#auth/app/use-cases';
-import { AuthFacade } from '#auth/app/facade';
+  AuthFacade,
+} from '../../app';
 import { ReqLoggerProps, WinstonLogger } from '#shared/infra';
 import { UserInMemoryRepository } from '../repository';
+import { AuthGateway } from '../auth-gateway';
 
 export class InMemoryFacadeFactory {
   static create(req: ReqLoggerProps) {
@@ -18,7 +19,7 @@ export class InMemoryFacadeFactory {
       },
     });
     const userRepository = new UserInMemoryRepository();
-    const authGateway = {} as any;
+    const authGateway = new AuthGateway();
 
     const authenticateUserUseCase = new AuthenticateUserUseCase(
       authGateway,

@@ -5,7 +5,7 @@ import { configEnv } from '#shared/infra';
 export class AuthGateway {
   private getKey(header: any, callback: any) {
     const client = jwksClient({
-      jwksUri: `${configEnv.auth.domain}/.well-known/jwks.json`,
+      jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`,
     });
     client.getSigningKey(header.kid, function (error, key) {
       if (error || !key) callback(error, null);
@@ -19,11 +19,11 @@ export class AuthGateway {
   async decodeToken(token: string) {
     const res = await new Promise<any>((resolve, reject) => {
       verify(
-        token,
+        token.replace('Bearer ', ''),
         this.getKey,
         {
           audience: configEnv.auth.audience,
-          issuer: configEnv.auth.issuer,
+          issuer: `https://${configEnv.auth.domain}/`,
           algorithms: ['RS256'],
         },
         (err, decoded) => {

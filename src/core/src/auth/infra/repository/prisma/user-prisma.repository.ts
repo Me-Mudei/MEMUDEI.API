@@ -1,4 +1,4 @@
-import { Role, User, UserRepository } from '#auth/domain';
+import { Role, User, UserRepository } from '../../../domain';
 import { UniqueEntityId } from '#shared/domain';
 import { PrismaClient, Prisma } from '#shared/infra';
 

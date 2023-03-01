@@ -1,7 +1,7 @@
 import { LoggerInterface, WinstonLogger } from '#shared/infra';
 import { UseCase } from '#shared/app';
 import { AuthorizeUserInput } from '../dto';
-import { UserRepository } from '#auth/domain';
+import { UserRepository } from '../../domain';
 
 export class AuthorizeUserUseCase
   implements UseCase<AuthorizeUserInput, boolean>
