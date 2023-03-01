@@ -17,10 +17,8 @@ export interface ContextInput {
 
 export type User = {
   id: string;
-  email: string;
   role: {
     name: string;
-    permissions: string[];
   };
 };
 
@@ -47,15 +45,7 @@ export class Context implements Context {
     this.userService = {} as any;
 
     const token = req.headers.authorization || '';
-    const auth = await this.authService.authenticate(token);
-    this.user = {
-      id: auth.id,
-      email: auth.email,
-      role: {
-        name: auth.role.name,
-        permissions: auth.role.permissions,
-      },
-    };
+    this.user = await this.authService.authenticate(token);
     return this;
   }
   getTestContext() {

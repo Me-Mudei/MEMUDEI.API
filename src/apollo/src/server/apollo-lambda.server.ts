@@ -24,6 +24,7 @@ export default class ApolloLambdaServer implements Server<Apollo<Context>> {
           req_path: '/graphql',
           req_method: 'POST',
           req_ua: event.headers['user-agent'],
+          headers: event.headers,
         });
       },
     });

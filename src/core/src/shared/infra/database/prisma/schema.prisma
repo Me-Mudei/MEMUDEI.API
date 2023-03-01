@@ -19,7 +19,7 @@ model user {
     created_at      DateTime      @default(now())
     updated_at      DateTime      @updatedAt
     calendar        calendar[]
-    property        property[]
+    properties      property[]
     event           event[]
     organization    organization? @relation(fields: [organization_id], references: [id])
     organization_id String?       @db.Char(21)

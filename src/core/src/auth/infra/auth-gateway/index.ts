@@ -1,1 +1,1 @@
-export * from './auth-gateway.interface';
+export * from './auth-gateway';

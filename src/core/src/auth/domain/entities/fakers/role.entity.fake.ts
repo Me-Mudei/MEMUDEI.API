@@ -1,8 +1,6 @@
 import { Role } from '../role.entity';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
-import { Permission } from '../permission.entity';
-import { PermissionFakeBuilder } from './permission.entity.fake';
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -12,8 +10,6 @@ export class RoleFakeBuilder<TBuild = any> {
   private _updated_at = undefined;
   private _name: PropOrFactory<string> = (_index) =>
     this.chance.word({ length: 10 });
-  private _permissions: PropOrFactory<Permission> = (_index) =>
-    PermissionFakeBuilder.aPermission().build();
 
   private countObjs: number;
 
@@ -52,11 +48,6 @@ export class RoleFakeBuilder<TBuild = any> {
     return this;
   }
 
-  withPermissions(valueOrFactory: PropOrFactory<Permission>) {
-    this._permissions = valueOrFactory;
-    return this;
-  }
-
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
@@ -71,7 +62,6 @@ export class RoleFakeBuilder<TBuild = any> {
             updated_at: this.callFactory(this._updated_at, index),
           }),
           name: this.callFactory(this._name, index),
-          permissions: this.callFactory(this._permissions, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -83,10 +73,6 @@ export class RoleFakeBuilder<TBuild = any> {
 
   get name() {
     return this.getValue('name');
-  }
-
-  get permissions() {
-    return this.getValue('permissions');
   }
 
   get created_at() {

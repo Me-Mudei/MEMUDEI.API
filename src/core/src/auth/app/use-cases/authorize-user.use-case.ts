@@ -1,14 +1,10 @@
 import { LoggerInterface, WinstonLogger } from '#shared/infra';
 import { UseCase } from '#shared/app';
-import {
-  AuthorizeUserInput,
-  AuthorizeUserOutput,
-  AuthorizeUserOutputMapper,
-} from '../dto';
+import { AuthorizeUserInput } from '../dto';
 import { UserRepository } from '#auth/domain';
 
 export class AuthorizeUserUseCase
-  implements UseCase<AuthorizeUserInput, AuthorizeUserOutput>
+  implements UseCase<AuthorizeUserInput, boolean>
 {
   private logger: LoggerInterface;
   private _userRepository: UserRepository;
@@ -17,9 +13,8 @@ export class AuthorizeUserUseCase
     this._userRepository = userRepository;
   }
 
-  async execute(input: AuthorizeUserInput): Promise<AuthorizeUserOutput> {
+  async execute(input: AuthorizeUserInput): Promise<boolean> {
     this.logger.info({ message: 'Start Authorize User Use Case' });
-    const authorize = input;
-    return AuthorizeUserOutputMapper.toOutput(authorize);
+    return this._userRepository.hasPermission(input.user_id, input.scope);
   }
 }

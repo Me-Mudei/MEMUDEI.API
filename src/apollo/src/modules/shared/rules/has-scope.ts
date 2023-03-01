@@ -2,8 +2,7 @@ import { ruleType } from 'nexus-shield';
 
 export const hasScope = (scope: string) => {
   return ruleType({
-    resolve: (_root, _args, ctx) => {
-      return ctx.user.role.permissions.includes(scope);
-    },
+    resolve: async (_root, _args, ctx) =>
+      ctx.authService.authorize({ user_id: ctx.user.id, scope }),
   });
 };

@@ -5,6 +5,11 @@ type Config = {
   log: {
     level: string;
   };
+  auth: {
+    audience: string;
+    issuer: string;
+    domain: string;
+  };
 };
 
 export function makeConfig(envFile?: string): Config {
@@ -23,6 +28,11 @@ export function makeConfig(envFile?: string): Config {
   return {
     log: {
       level: output.parsed.LOG_LEVEL,
+    },
+    auth: {
+      audience: output.parsed.AUTH_AUDIENCE,
+      issuer: output.parsed.AUTH_ISSUER,
+      domain: output.parsed.AUTH_DOMAIN,
     },
   };
 }

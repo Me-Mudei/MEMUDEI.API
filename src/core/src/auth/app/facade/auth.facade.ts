@@ -2,7 +2,6 @@ import {
   AuthenticateUserInput,
   AuthenticateUserOutput,
   AuthorizeUserInput,
-  AuthorizeUserOutput,
 } from '../dto';
 import { AuthenticateUserUseCase, AuthorizeUserUseCase } from '../use-cases';
 
@@ -24,7 +23,7 @@ export class AuthFacade {
   ): Promise<AuthenticateUserOutput> {
     return this._authenticateUser.execute(input);
   }
-  async authorize(input: AuthorizeUserInput): Promise<AuthorizeUserOutput> {
+  async authorize(input: AuthorizeUserInput): Promise<boolean> {
     return this._authorizeUser.execute(input);
   }
 }

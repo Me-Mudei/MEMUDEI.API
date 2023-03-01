@@ -2,4 +2,3 @@
 
 export * from './user.entity.fake';
 export * from './role.entity.fake';
-export * from './permission.entity.fake';
