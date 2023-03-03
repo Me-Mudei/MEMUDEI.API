@@ -6,7 +6,7 @@ import {
 import { PropertyFacade } from '../../../app/facade';
 import { Broker, WinstonLogger, ReqLoggerProps } from '#shared/infra';
 import { PrismaRepositoryFactory } from '../repository';
-import { InMemoryDriver } from '../../driver';
+import { AwsS3Driver } from '../../driver';
 
 export class PrismaFacadeFactory {
   static create(req: ReqLoggerProps) {
@@ -20,7 +20,7 @@ export class PrismaFacadeFactory {
       },
     });
     const repositoryFactory = new PrismaRepositoryFactory();
-    const driver = new InMemoryDriver();
+    const driver = new AwsS3Driver();
     const broker = new Broker();
 
     const createPropertyUseCase = new CreatePropertyUseCase(

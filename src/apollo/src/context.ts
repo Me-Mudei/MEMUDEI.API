@@ -6,7 +6,10 @@ import {
   InMemoryFacadeFactory as InMemoryPropertyFacadeFactory,
   PrismaFacadeFactory as PrismaPropertyFacadeFactory,
 } from '@me-mudei/core/property';
-import { InMemoryFacadeFactory as InMemoryAuthFacadeFactory } from '@me-mudei/core/auth';
+import {
+  InMemoryFacadeFactory as InMemoryAuthFacadeFactory,
+  PrismaFacadeFactory as PrismaAuthFacadeFactory,
+} from '@me-mudei/core/auth';
 
 export interface ContextInput {
   req_id: string;
@@ -41,23 +44,28 @@ export class Context implements Context {
   user?: User;
   async getContext(req: ContextInput) {
     this.admService = {} as any;
-    this.authService = InMemoryAuthFacadeFactory.create(req);
+    this.authService = PrismaAuthFacadeFactory.create(req);
     this.propertyService = PrismaPropertyFacadeFactory.create(req);
     this.userService = {} as any;
 
-    const token = req.headers.authorization || '';
-    this.user = await this.authService.authenticate({ token });
+    const token = req.headers.authorization;
+    if (token) {
+      this.user = await this.authService.authenticate({ token });
+    }
     return this;
   }
   getTestContext() {
-    this.admService = {} as any;
-    this.userService = {} as any;
-    this.propertyService = InMemoryPropertyFacadeFactory.create({
+    const req = {
       req_id: 'test',
       req_path: 'test',
       req_method: 'test',
       req_ua: 'test',
-    });
+    };
+    this.admService = {} as any;
+    this.userService = {} as any;
+    this.authService = PrismaAuthFacadeFactory.create({ req });
+    this.propertyService = InMemoryPropertyFacadeFactory.create({ req });
+    this.user = { id: 'l5lgcQKhDqoDIOQYPBMj2', role: { name: 'ADMIN' } };
     return this;
   }
 }

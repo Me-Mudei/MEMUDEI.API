@@ -23,9 +23,7 @@ export class AuthenticateUserUseCase
   async execute(input: AuthenticateUserInput): Promise<AuthenticateUserOutput> {
     this.logger.info({ message: 'Start Authenticate User Use Case' });
     const authenticate = await this._authGateway.decodeToken(input.token);
-    const user = await this._userRepository.findByEmail(
-      authenticate.user.email,
-    );
+    const user = await this._userRepository.findByEmail(authenticate.email);
     return AuthenticateUserOutputMapper.toOutput(user);
   }
 }

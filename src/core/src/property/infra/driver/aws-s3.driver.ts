@@ -1,3 +1,4 @@
+import { configEnv } from '#shared/infra';
 import { S3 } from 'aws-sdk';
 import {
   Driver,
@@ -9,21 +10,24 @@ export class AwsS3Driver implements Driver {
   private s3: S3;
   constructor() {
     this.s3 = new S3({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
+      accessKeyId: configEnv.cloud.accessKeyId,
+      secretAccessKey: configEnv.cloud.secretAccessKey,
+      region: configEnv.cloud.vendor !== 'LOCALSTACK' && configEnv.cloud.region,
+      s3ForcePathStyle: configEnv.cloud.vendor === 'LOCALSTACK',
+      endpoint: configEnv.cloud.endpoint,
     });
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
-    const params = {
-      Bucket: process.env.AWS_BUCKET,
-      Key: `${folder}/${file.filename}`,
-      Body: await file.createReadStream(),
-      ACL: 'public-read',
-    };
-
-    const { Location } = await this.s3.upload(params).promise();
+    const { Location } = await this.s3
+      .upload({
+        Bucket: configEnv.storage.bucket,
+        Key: `${folder}/${file.filename}`,
+        Body: file.createReadStream(),
+        ACL: 'public-read',
+      })
+      .promise();
+    console.log(Location);
     return {
       filename: file.filename,
       mimetype: file.mimetype,

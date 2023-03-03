@@ -35,11 +35,11 @@ export class SearchPropertyUseCase
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     this.logger.info({ message: 'Start Property Use Case' });
     const params = new PropertySearchParams(input);
-    const property = await this.propertyRepository.search(params);
-    const items = property.items.map((property) =>
+    const result = await this.propertyRepository.search(params);
+    const items = result.items.map((property) =>
       PropertyOutputMapper.toOutput(property),
     );
 
-    return PaginationOutputMapper.toOutput(items, property);
+    return PaginationOutputMapper.toOutput(items, result);
   }
 }

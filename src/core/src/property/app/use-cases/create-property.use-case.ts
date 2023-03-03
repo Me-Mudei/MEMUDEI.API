@@ -5,8 +5,8 @@ import { PropertyRepository } from '../../domain/repository';
 import { RepositoryFactory } from '../../domain/factory';
 import {
   CreatePropertyInput,
-  PropertyOutput,
-  PropertyOutputMapper,
+  CreatePropertyOutput,
+  CreatePropertyOutputMapper,
 } from '../dto';
 import { Driver } from '../../domain/driver';
 import {
@@ -21,7 +21,7 @@ import {
 } from '../../domain/entities';
 
 export class CreatePropertyUseCase
-  implements UseCase<CreatePropertyInput, PropertyOutput>
+  implements UseCase<CreatePropertyInput, CreatePropertyOutput>
 {
   propertyRepository: PropertyRepository;
   private logger: LoggerInterface;
@@ -34,7 +34,7 @@ export class CreatePropertyUseCase
     this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 
-  async execute(input: CreatePropertyInput): Promise<PropertyOutput> {
+  async execute(input: CreatePropertyInput): Promise<CreatePropertyOutput> {
     this.logger.info({ message: 'Start Property Use Case' });
     const address = new Address({
       zip_code: input.address.zip_code,
@@ -105,6 +105,6 @@ export class CreatePropertyUseCase
     });
     property.photos = photos;
     await this.propertyRepository.insert(property);
-    return PropertyOutputMapper.toOutput(property);
+    return CreatePropertyOutputMapper.toOutput(property);
   }
 }

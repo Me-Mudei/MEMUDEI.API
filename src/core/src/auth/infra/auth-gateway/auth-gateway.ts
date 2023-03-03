@@ -2,6 +2,24 @@ import { verify } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 import { configEnv } from '#shared/infra';
 
+export type Session = {
+  given_name: string;
+  family_name: string;
+  nickname: string;
+  name: string;
+  picture: string;
+  locale: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  iss: string;
+  aud: string;
+  iat: number;
+  exp: number;
+  sub: string;
+  sid: string;
+  nonce: string;
+};
 export class AuthGateway {
   private getKey(header: any, callback: any) {
     const client = jwksClient({
@@ -17,7 +35,7 @@ export class AuthGateway {
   }
 
   async decodeToken(token: string) {
-    const res = await new Promise<any>((resolve, reject) => {
+    const res = await new Promise<Session>((resolve, reject) => {
       verify(
         token.replace('Bearer ', ''),
         this.getKey,
@@ -26,7 +44,7 @@ export class AuthGateway {
           issuer: `https://${configEnv.auth.domain}/`,
           algorithms: ['RS256'],
         },
-        (err, decoded) => {
+        (err, decoded: Session) => {
           if (err) {
             return reject(
               new Error(`Failed to authenticate token: ${err.message}`),

@@ -1,6 +1,10 @@
 import { PropertyFilter, PropertyStatus } from '#property/domain';
 import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
-import { CreatePropertyInput, PropertyOutput } from '../dto';
+import {
+  CreatePropertyInput,
+  CreatePropertyOutput,
+  PropertyOutput,
+} from '../dto';
 import { PropertyCreatedSendConfirmationHandler } from '../handlers';
 import {
   CreatePropertyUseCase,
@@ -24,7 +28,9 @@ export class PropertyFacade {
     this._getProperty = props.getProperty;
     this._searchProperty = props.searchProperty;
   }
-  async createProperty(input: CreatePropertyInput): Promise<PropertyOutput> {
+  async createProperty(
+    input: CreatePropertyInput,
+  ): Promise<CreatePropertyOutput> {
     this._createProperty.broker.register(
       new PropertyCreatedSendConfirmationHandler(),
     );

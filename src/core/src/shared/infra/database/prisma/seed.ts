@@ -4,11 +4,11 @@ async function main() {
   await prisma.role.createMany({
     data: [
       {
-        name: 'ADMIN',
+        name: 'admin',
         description: 'Admin manager',
       },
       {
-        name: 'TESTER',
+        name: 'tester',
         description: 'Tester manager',
       },
     ],
@@ -17,27 +17,65 @@ async function main() {
 
   await prisma.permission.createMany({
     data: [
-      {
-        name: 'FIND_USER_BY_ID',
-        description: 'Find user by id',
-      },
-      {
-        name: 'SEARCH_USER',
-        description: 'Search user',
-      },
-      {
-        name: 'CREATE_USER',
-        description: 'Create user',
-      },
-      {
-        name: 'UPDATE_USER',
-        description: 'Update user',
-      },
-      {
-        name: 'DELETE_USER',
-        description: 'Delete user',
-      },
+      { name: 'user:read', description: 'Read user' },
+      { name: 'user:write', description: 'Write user' },
+      { name: 'user:delete', description: 'Delete user' },
+      { name: 'user:create', description: 'Create user' },
+      { name: 'property:create', description: 'Create property' },
+      { name: 'property:read', description: 'Read property' },
+      { name: 'property:write', description: 'Write property' },
+      { name: 'property:delete', description: 'Delete property' },
     ],
+    skipDuplicates: true,
+  });
+
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'user:read' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'user:write' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'user:delete' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'user:create' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'property:create' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'property:read' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'property:write' } },
+    },
+  });
+  await prisma.role_permission.create({
+    data: {
+      role: { connect: { name: 'admin' } },
+      permission: { connect: { name: 'property:delete' } },
+    },
   });
 
   await prisma.user.create({
@@ -46,7 +84,7 @@ async function main() {
       email: 'uriel.guy@memudei.me',
       role: {
         connect: {
-          name: 'ADMIN',
+          name: 'admin',
         },
       },
     },
@@ -59,7 +97,7 @@ async function main() {
       email: 'jhon.doe@memudei.me',
       role: {
         connect: {
-          name: 'TESTER',
+          name: 'tester',
         },
       },
     },

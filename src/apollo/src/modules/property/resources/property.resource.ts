@@ -30,7 +30,7 @@ export const GetProperty = queryField('get_property', {
 });
 
 export const SearchProperties = queryField('search_properties', {
-  type: 'pagination_output',
+  type: 'properties_pagination_output',
   shield: canSearchProperty(),
   args: { input: nullable('search_properties_input') },
   resolve: async (_, { input }, ctx) => {
