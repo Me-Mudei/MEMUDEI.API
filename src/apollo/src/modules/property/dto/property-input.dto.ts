@@ -101,8 +101,8 @@ export const PropertyFilterInput = inputObjectType({
     t.nullable.string('value_type');
     t.nullable.float('min_value');
     t.nullable.float('max_value');
-    t.nullable.int('min_area');
-    t.nullable.int('max_area');
+    t.nullable.int('min_footage');
+    t.nullable.int('max_footage');
     t.nullable.int('qtd_bedrooms');
     t.nullable.int('qtd_bathrooms');
   },
