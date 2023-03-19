@@ -25,17 +25,12 @@ type Config = {
   };
 };
 
-export function makeConfig(envFile?: string): Config {
-  const envByNodeEnv = {
-    [process.env.NODE_ENV]: join(
-      __dirname,
-      `../../../../envs/.env.${process.env.NODE_ENV}`,
-    ),
-    default: join(__dirname, `../../../../envs/.env`),
-  };
-
+export function makeConfig(): Config {
   const output = readEnv({
-    path: envFile || envByNodeEnv[process.env.NODE_ENV || 'default'],
+    path:
+      !process.env?.NODE_ENV || process.env.NODE_ENV === 'local'
+        ? join(__dirname, '../../../../../../.env')
+        : join(__dirname, `../../../../../../.env.${process.env.NODE_ENV}`),
   });
 
   return {

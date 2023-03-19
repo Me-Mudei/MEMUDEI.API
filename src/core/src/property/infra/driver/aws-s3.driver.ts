@@ -1,5 +1,5 @@
 import { configEnv } from '#shared/infra';
-import { S3 } from 'aws-sdk';
+import { PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import {
   Driver,
   FileInput,
@@ -10,29 +10,29 @@ export class AwsS3Driver implements Driver {
   private s3: S3;
   constructor() {
     this.s3 = new S3({
-      accessKeyId: configEnv.cloud.accessKeyId,
-      secretAccessKey: configEnv.cloud.secretAccessKey,
-      region: configEnv.cloud.vendor !== 'LOCALSTACK' && configEnv.cloud.region,
-      s3ForcePathStyle: configEnv.cloud.vendor === 'LOCALSTACK',
+      credentials: {
+        accessKeyId: configEnv.cloud.accessKeyId,
+        secretAccessKey: configEnv.cloud.secretAccessKey,
+      },
+      forcePathStyle: configEnv.cloud.vendor === 'LOCALSTACK',
+      region: configEnv.cloud.region,
       endpoint: configEnv.cloud.endpoint,
     });
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
-    const { Location } = await this.s3
-      .upload({
-        Bucket: configEnv.storage.bucket,
-        Key: `${folder}/${file.filename}`,
-        Body: file.createReadStream(),
-        ACL: 'public-read',
-      })
-      .promise();
-    console.log(Location);
+    const command = new PutObjectCommand({
+      Bucket: configEnv.storage.bucket,
+      Key: `${folder}/${file.filename}`,
+      Body: file.createReadStream(),
+      ACL: 'public-read',
+    });
+    await this.s3.send(command);
     return {
       filename: file.filename,
       mimetype: file.mimetype,
       encoding: file.encoding,
-      url: Location,
+      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${folder}/${file.filename}`,
     };
   }
 
@@ -52,11 +52,9 @@ export class AwsS3Driver implements Driver {
   }
 
   async delete(id: string, folder?: string): Promise<void> {
-    const params = {
+    await this.s3.deleteObject({
       Bucket: process.env.AWS_BUCKET,
       Key: `${folder}/${id}`,
-    };
-
-    await this.s3.deleteObject(params).promise();
+    });
   }
 }

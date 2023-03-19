@@ -22,11 +22,11 @@
     "format": "npm run format --workspaces",
     "prepare": "husky install",
     "nexus:generate": "ts-node --transpile-only -e 'import NexusSchema from \"./src/apollo/src/schema.ts\"; NexusSchema.makeSchema()'",
-    "prisma:generate": "prisma generate --schema src/core/src/shared/infra/database/prisma/schema.prisma",
-    "prisma:studio": "prisma studio --schema src/core/src/shared/infra/database/prisma/schema.prisma",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed",
-    "prisma:reset": "prisma migrate reset --schema src/core/src/shared/infra/database/prisma/schema.prisma",
-    "prisma:migration": "prisma migrate dev --schema src/core/src/shared/infra/database/prisma/schema.prisma"
+    "prisma:reset": "prisma migrate reset",
+    "prisma:migration": "prisma migrate dev"
   },
   "prisma": {
     "seed": "ts-node src/core/src/shared/infra/database/prisma/seed.ts"
@@ -45,13 +45,17 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/node": "^18",
     "husky": "^8.0.1",
     "serverless": "^3.22.0",
     "serverless-offline": "^11.0.1",
     "serverless-plugin-monorepo": "^0.11.0",
-    "serverless-plugin-typescript": "^2.1.2"
+    "serverless-plugin-typescript": "^2.1.2",
+    "ts-node": "^10",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "apollo-server": "^3.10.3"
+    "@aws-sdk/client-s3": "^3.294.0",
+    "prisma": "^4"
   }
 }

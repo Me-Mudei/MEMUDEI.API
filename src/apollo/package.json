@@ -38,6 +38,7 @@
     "@apollo/server": "^4.0.2",
     "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.0",
     "@as-integrations/aws-lambda": "^1.0.1",
+    "nexus": "^1",
     "express": "^4.18.2",
     "file-type": "^18.0.0",
     "graphql": "^16",

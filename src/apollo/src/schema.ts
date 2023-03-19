@@ -1,6 +1,6 @@
+import { GraphQLError } from 'graphql';
 import { makeSchema } from 'nexus';
 import { nexusShield, allow } from 'nexus-shield';
-import { ForbiddenError } from 'apollo-server';
 import * as TypeModules from './modules';
 
 export default class NexusSchema {
@@ -9,7 +9,11 @@ export default class NexusSchema {
       types: [TypeModules],
       plugins: [
         nexusShield({
-          defaultError: new ForbiddenError('Not allowed'),
+          defaultError: new GraphQLError('Not Authorized!', {
+            extensions: {
+              code: 'FORBIDDEN',
+            },
+          }),
           defaultRule: allow,
         }),
       ],
