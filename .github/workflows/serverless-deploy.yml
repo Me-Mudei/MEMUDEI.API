@@ -15,13 +15,13 @@ jobs:
         with:
           node-version: "16"
 
-      #- name: Install dependencies
-      #  run: npm i
+      - name: Install dependencies
+        run: npm i
 
       - uses: noliran/branch-based-secrets@v1
         with:
-          secrets: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION
-          
+          LOG_LEVEL,DATABASE_URL,AUTH_VENDOR,AUTH_AUDIENCE,AUTH_ISSUER,AUTH_DOMAIN,CLOUD_VENDOR,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,COULD_ENDPOINT,STORAGE_VENDOR,COULD_BUCKET_NAME
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -29,24 +29,24 @@ jobs:
           aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME] }}
           aws-region: ${{ secrets[env.AWS_REGION_NAME] }}
 
-      #- name: Serverless Install
-      #  run: npm install -g serverless@^3
+      - name: Serverless Install
+        run: npm install -g serverless@^3
 
-      #- name: Serverless Deploy
-      #  uses: serverless/github-action@v3.1
-      #  with:
-      #    args: deploy
-      #  env: 
-      #    LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
-      #    DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
-      #    AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
-      #    AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
-      #    AUTH_ISSUER: ${{ secrets[env.AUTH_ISSUER_NAME] }}
-      #    AUTH_DOMAIN: ${{ secrets[env.AUTH_DOMAIN_NAME] }}
-      #    CLOUD_VENDOR: ${{ secrets[env.CLOUD_VENDOR_NAME] }}
-      #    CLOUD_ACCESS_KEY_ID: ${{ secrets[env.COULD_ACCESS_KEY_ID_NAME] }}
-      #    CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.COULD_SECRET_ACCESS_KEY_NAME] }}
-      #    CLOUD_REGION: ${{ secrets[env.COULD_REGION_NAME] }}
-      #    CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
-      #    STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
-      #    STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
+      - name: Serverless Deploy
+        uses: serverless/github-action@v3.1
+        with:
+          args: deploy
+        env: 
+          LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
+          DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
+          AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
+          AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
+          AUTH_ISSUER: ${{ secrets[env.AUTH_ISSUER_NAME] }}
+          AUTH_DOMAIN: ${{ secrets[env.AUTH_DOMAIN_NAME] }}
+          CLOUD_VENDOR: ${{ secrets[env.CLOUD_VENDOR_NAME] }}
+          CLOUD_ACCESS_KEY_ID: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME] }}
+          CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME] }}
+          CLOUD_REGION: ${{ secrets[env.AWS_REGION_NAME] }}
+          #CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
+          STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
+          STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
