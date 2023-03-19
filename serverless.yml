@@ -26,11 +26,11 @@ provider:
   memorySize: 512
   stage: ${opt:stage, 'local'}
   region: ${opt:region, 'us-east-1'}
-  vpc:
-    securityGroupIds:
-      - ${ssm:/me-mudei/infra/vpc/security-group-ids}
-    subnetIds:
-      - ${ssm:/me-mudei/infra/vpc/subnet-ids~split}
+  #vpc:
+  #  securityGroupIds:
+  #    - ${ssm:/me-mudei/infra/vpc/security-group-ids}
+  #  subnetIds:
+  #    - ${ssm:/me-mudei/infra/vpc/subnet-ids~split}
   environment:
     NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
     SLS_DEBUG: "*"
