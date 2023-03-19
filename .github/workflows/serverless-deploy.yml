@@ -32,21 +32,21 @@ jobs:
       - name: Serverless Install
         run: npm install -g serverless@^3
 
-      - name: Serverless Deploy
-        uses: serverless/github-action@v3.1
-        with:
-          args: deploy
-        env: 
-          LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
-          DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
-          AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
-          AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
-          AUTH_ISSUER: ${{ secrets[env.AUTH_ISSUER_NAME] }}
-          AUTH_DOMAIN: ${{ secrets[env.AUTH_DOMAIN_NAME] }}
-          CLOUD_VENDOR: ${{ secrets[env.CLOUD_VENDOR_NAME] }}
-          CLOUD_ACCESS_KEY_ID: ${{ secrets[env.COULD_ACCESS_KEY_ID_NAME] }}
-          CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.COULD_SECRET_ACCESS_KEY_NAME] }}
-          CLOUD_REGION: ${{ secrets[env.COULD_REGION_NAME] }}
-          CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
-          STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
-          STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
+      #- name: Serverless Deploy
+      #  uses: serverless/github-action@v3.1
+      #  with:
+      #    args: deploy
+      #  env: 
+      #    LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
+      #    DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
+      #    AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
+      #    AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
+      #    AUTH_ISSUER: ${{ secrets[env.AUTH_ISSUER_NAME] }}
+      #    AUTH_DOMAIN: ${{ secrets[env.AUTH_DOMAIN_NAME] }}
+      #    CLOUD_VENDOR: ${{ secrets[env.CLOUD_VENDOR_NAME] }}
+      #    CLOUD_ACCESS_KEY_ID: ${{ secrets[env.COULD_ACCESS_KEY_ID_NAME] }}
+      #    CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.COULD_SECRET_ACCESS_KEY_NAME] }}
+      #    CLOUD_REGION: ${{ secrets[env.COULD_REGION_NAME] }}
+      #    CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
+      #    STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
+      #    STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
