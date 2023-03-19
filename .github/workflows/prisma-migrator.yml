@@ -1,0 +1,44 @@
+name: "prisma-migrator"
+
+on:
+  push:
+    branches:
+      - staging
+      - main
+    paths:
+      - /prisma
+      - .github/workflows/prisma-migrator.yml
+
+jobs:
+  prisma-migrator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm i
+
+      - uses: noliran/branch-based-secrets@v1
+        with:
+          secrets: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,TARGET_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME]}}
+          aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME]}}
+          aws-region: ${{ secrets[env.AWS_REGION_NAME]}}
+
+      - name: Serverless Deploy
+        uses: serverless/github-action@v3.1
+        with:
+          args: -c "cd prisma && serverless invoke --function migrator"
+          entrypoint: /bin/bash
+        env: 
+          LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
+          DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
+
+

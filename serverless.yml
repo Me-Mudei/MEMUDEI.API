@@ -26,10 +26,6 @@ provider:
   memorySize: 512
   stage: ${opt:stage, 'local'}
   region: ${opt:region, 'us-east-1'}
-  ecr:
-    images:
-      migrator:
-        path: ./src/core/shared/database/prisma
   vpc:
     securityGroupIds:
       - ${ssm:/me-mudei/infra/vpc/security-group-ids}
@@ -40,20 +36,15 @@ provider:
     SLS_DEBUG: "*"
     LOG_LEVEL: info
     DATABASE_URL: postgres://me_mudei:postgres@localhost:11229/me_mudei
-    # Auth Provider
     AUTH_VENDOR: AUTH0
     AUTH_AUDIENCE: yHXEEEFlFXxBDoJoM32GouJ7vGhTntXy
     AUTH_ISSUER: https://dev-r4cyxge8.us.auth0.com/
     AUTH_DOMAIN: dev-r4cyxge8.us.auth0.com
-
-    # Cloud Provider
     CLOUD_VENDOR: LOCALSTACK
     CLOUD_ACCESS_KEY_ID: 
     CLOUD_SECRET_ACCESS_KEY: 
     CLOUD_REGION: 
-    CLOUD_ENDPOINT: http://127.0.0.1:4566å
-
-    # Storage Provider
+    CLOUD_ENDPOINT: http://127.0.0.1:4566
     STORAGE_VENDOR: S3
     STORAGE_BUCKET: memudei-bucket
 
@@ -69,10 +60,3 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
-  prisma-migrator:
-    image:
-      name: migrator
-      command:
-        - index.handler
-    events:
-      - httpApi: '*'

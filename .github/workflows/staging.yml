@@ -18,9 +18,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.STAG_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.STAG_SECRET_ACCESS_KEY_ID }}
-          aws-region: ${{ secrets.STAG_REGION }}
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.REGION }}
 
       - name: Serverless Install
         run: npm install -g serverless@^3
@@ -28,4 +28,4 @@ jobs:
       - name: Serverless Deploy
         run: npx serverless
         env:
-          DATABASE_URL: ${{ secrets.STAG_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

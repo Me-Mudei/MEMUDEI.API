@@ -1,0 +1,32 @@
+service: prisma-migrator
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  timeout: 30
+  memorySize: 512
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  ecr:
+    images:
+      migrator:
+        path: ./
+  vpc:
+    securityGroupIds:
+      - ${ssm:/me-mudei/infra/vpc/security-group-ids}
+    subnetIds:
+      - ${ssm:/me-mudei/infra/vpc/subnet-ids~split}
+  environment:
+    DATABASE_URL: postgres://me_mudei:postgres@localhost:11229/me_mudei
+
+functions:
+  migrator:
+    image:
+      name: migrator
+      command:
+        - index.handler
+    events:
+      - httpApi: '*'
