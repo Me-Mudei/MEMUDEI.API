@@ -20,14 +20,14 @@ jobs:
 
       - uses: noliran/branch-based-secrets@v1
         with:
-          secrets: LOG_LEVEL,DATABASE_URL,AUTH_VENDOR,AUTH_AUDIENCE,AUTH_ISSUER,AUTH_DOMAIN,CLOUD_VENDOR,COULD_ACCESS_KEY_ID,COULD_SECRET_ACCESS_KEY,COULD_REGION,COULD_ENDPOINT,STORAGE_VENDOR,COULD_BUCKET_NAME
-
+          secrets: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION
+          
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets[env.COULD_ACCESS_KEY_ID_NAME] }}
-          aws-secret-access-key: ${{ secrets[env.COULD_SECRET_ACCESS_KEY_NAME] }}
-          aws-region: ${{ secrets[env.COULD_REGION_NAME] }}
+          aws-access-key-id: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME] }}
+          aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME] }}
+          aws-region: ${{ secrets[env.AWS_REGION_NAME] }}
 
       #- name: Serverless Install
       #  run: npm install -g serverless@^3
