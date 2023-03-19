@@ -14,7 +14,7 @@ export const SearchCharges = queryField('search_charges', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.admService.searchCharge(input as any);
+    return ctx.admService.searchCharge(input as any) as any;
   },
 });
 

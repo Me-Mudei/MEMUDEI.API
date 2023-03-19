@@ -2,6 +2,13 @@ service: me-mudei-api
 
 package:
   individually: true
+  exclude:
+    - .env
+    - .env.example
+    - .env.local
+    - .env.test
+    - .env.production
+    - node_modules/**
 
 plugins:
     - serverless-plugin-typescript
@@ -50,7 +57,7 @@ provider:
 
 functions:
   app:
-    handler: src/apollo/src/index-lambda.handler
+    handler: src/apollo/index-lambda.handler
     events:
       - http:
           path: /

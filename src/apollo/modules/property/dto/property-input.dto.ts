@@ -1,9 +1,11 @@
-import { CreatePropertyInput as CoreCreatePropertyInput } from '@me-mudei/core/dist/property/app/dto';
-import { FileInput } from '@me-mudei/core/dist/property/domain/driver';
-import { PropertyStatus as CorePropertyStatus } from '@me-mudei/core/dist/property/domain/entities';
+import { CreatePropertyInput as CoreCreatePropertyInput } from '#property/app';
+import {
+  PropertyStatus as CorePropertyStatus,
+  FileInput,
+} from '#property/domain';
 import { User } from '../../../context';
-import { NexusGenInputs } from 'generated/nexus';
 import { inputObjectType } from 'nexus';
+import { NexusGenInputs } from 'apollo/generated/nexus';
 
 export const CreatePropertyInput = inputObjectType({
   name: 'create_property_input',

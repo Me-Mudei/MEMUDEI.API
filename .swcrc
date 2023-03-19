@@ -6,11 +6,12 @@
     },
     "baseUrl": "./src",
     "paths": {
-      "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"],
-      "#property/*": ["./property/*"],
       "#adm/*": ["./adm/*"],
-      "#auth/*": ["./auth/*"]
+      "#apollo/*": ["./apollo/*"],
+      "#auth/*": ["./auth/*"],
+      "#property/*": ["./property/*"],
+      "#shared/*": ["./shared/*"],
+      "#user/*": ["./user/*"]
     }
   }
 }

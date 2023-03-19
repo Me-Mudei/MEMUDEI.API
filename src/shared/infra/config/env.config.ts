@@ -29,8 +29,8 @@ export function makeConfig(): Config {
   const output = readEnv({
     path:
       !process.env?.NODE_ENV || process.env.NODE_ENV === 'local'
-        ? join(__dirname, '../../../../../../.env')
-        : join(__dirname, `../../../../../../.env.${process.env.NODE_ENV}`),
+        ? join(__dirname, '../../../../.env')
+        : join(__dirname, `../../../../.env.${process.env.NODE_ENV}`),
   });
 
   return {

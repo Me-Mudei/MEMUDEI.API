@@ -14,7 +14,7 @@ export const SearchRules = queryField('search_rules', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.admService.searchRule(input as any);
+    return ctx.admService.searchRule(input as any) as any;
   },
 });
 

@@ -16,7 +16,7 @@ export const SearchPropertyRelationships = queryField(
     shield: isAdmin(),
     args: { input: nullable('search_input') },
     resolve: async (_, { input }, ctx) => {
-      return ctx.admService.searchPropertyRelationship(input as any);
+      return ctx.admService.searchPropertyRelationship(input as any) as any;
     },
   },
 );

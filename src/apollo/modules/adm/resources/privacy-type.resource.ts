@@ -14,7 +14,7 @@ export const SearchPrivacyTypes = queryField('search_privacy_types', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.admService.searchPrivacyType(input as any);
+    return ctx.admService.searchPrivacyType(input as any) as any;
   },
 });
 

@@ -14,7 +14,7 @@ export const SearchFloorPlans = queryField('search_floor_plans', {
   shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.admService.searchFloorPlan(input as any);
+    return ctx.admService.searchFloorPlan(input as any) as any;
   },
 });
 

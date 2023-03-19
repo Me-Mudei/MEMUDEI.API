@@ -15,6 +15,19 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "#shared/*": ["./shared/*"],
+      "#user/*": ["./user/*"],
+      "#property/*": ["./property/*"],
+      "#adm/*": ["./adm/*"],
+      "#apollo/*": ["./apollo/*"],
+      "#auth/*": ["./auth/*"]
+    },
+    "typeRoots": [
+      "./src/apollo/generated",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ]
   }
 }

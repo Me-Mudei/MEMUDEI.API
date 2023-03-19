@@ -34,6 +34,6 @@ export const SearchProperties = queryField('search_properties', {
   shield: canSearchProperty(),
   args: { input: nullable('search_properties_input') },
   resolve: async (_, { input }, ctx) => {
-    return ctx.propertyService.searchProperty(input);
+    return ctx.propertyService.searchProperty(input) as any;
   },
 });

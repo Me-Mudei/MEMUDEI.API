@@ -1,15 +1,20 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./src",
-    "outDir": "./dist",
+    "outDir": ".build",
     "paths": {
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
       "#property/*": ["./property/*"],
       "#adm/*": ["./adm/*"],
       "#auth/*": ["./auth/*"]
-    }
+    },
+    "typeRoots": [
+      "./src/apollo/generated",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ]
   },
   "include": ["./src/"]
 }

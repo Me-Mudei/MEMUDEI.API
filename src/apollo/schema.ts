@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { makeSchema } from 'nexus';
 import { nexusShield, allow } from 'nexus-shield';
+import { join } from 'path';
 import * as TypeModules from './modules';
 
 export default class NexusSchema {
@@ -18,8 +19,8 @@ export default class NexusSchema {
         }),
       ],
       outputs: {
-        schema: __dirname + '/generated/schema.graphql',
-        typegen: __dirname + '/generated/nexus.d.ts',
+        schema: join(__dirname, './generated/schema.graphql'),
+        typegen: join(__dirname, './generated/nexus.ts'),
       },
       contextType: {
         module: require.resolve('./context'),

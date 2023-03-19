@@ -16,7 +16,7 @@ export const SearchCondominiumDetails = queryField(
     shield: isAdmin(),
     args: { input: nullable('search_input') },
     resolve: async (_, { input }, ctx) => {
-      return ctx.admService.searchCondominiumDetail(input as any);
+      return ctx.admService.searchCondominiumDetail(input as any) as any;
     },
   },
 );

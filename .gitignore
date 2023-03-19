@@ -4,7 +4,7 @@ tsconfig.tsbuildinfo
 .docker/zsh/history/.zsh_history
 coverage
 .build/
-**/*/dist
+dist
 **/*/generated
 .DS_Store
 db

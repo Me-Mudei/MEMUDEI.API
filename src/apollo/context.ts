@@ -1,15 +1,15 @@
-import { AdmFacade } from '@me-mudei/core/dist/adm/app/facade';
-import { AuthFacade } from '@me-mudei/core/dist/auth/app/facade';
-import { PropertyFacade } from '@me-mudei/core/dist/property/app/facade';
-import { UserFacade } from '@me-mudei/core/dist/user/app/facade';
+import { AdmFacade } from '#adm/app';
+import { AuthFacade } from '#auth/app';
+import { PropertyFacade } from '#property/app';
+import { UserFacade } from '#user/app';
 import {
   InMemoryFacadeFactory as InMemoryPropertyFacadeFactory,
   PrismaFacadeFactory as PrismaPropertyFacadeFactory,
-} from '@me-mudei/core/property';
+} from '#property/infra';
 import {
   InMemoryFacadeFactory as InMemoryAuthFacadeFactory,
   PrismaFacadeFactory as PrismaAuthFacadeFactory,
-} from '@me-mudei/core/auth';
+} from '#auth/infra';
 
 export interface ContextInput {
   req_id: string;
@@ -63,8 +63,8 @@ export class Context implements Context {
     };
     this.admService = {} as any;
     this.userService = {} as any;
-    this.authService = PrismaAuthFacadeFactory.create({ req });
-    this.propertyService = InMemoryPropertyFacadeFactory.create({ req });
+    this.authService = PrismaAuthFacadeFactory.create({ req } as any);
+    this.propertyService = InMemoryPropertyFacadeFactory.create({ req } as any);
     this.user = { id: 'l5lgcQKhDqoDIOQYPBMj2', role: { name: 'ADMIN' } };
     return this;
   }
