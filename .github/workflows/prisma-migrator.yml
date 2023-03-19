@@ -38,7 +38,6 @@ jobs:
           args: -c "cd prisma && serverless invoke --function migrator"
           entrypoint: /bin/bash
         env: 
-          LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
           DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
 
 
