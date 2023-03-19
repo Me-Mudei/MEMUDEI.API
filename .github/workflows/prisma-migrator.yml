@@ -23,14 +23,14 @@ jobs:
 
       - uses: noliran/branch-based-secrets@v1
         with:
-          secrets: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION, DATABASE_URL
+          secrets: CLOUD_ACCESS_KEY_ID,CLOUD_SECRET_ACCESS_KEY,CLOUD_REGION,DATABASE_URL
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME]}}
-          aws-secret-access-key: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME]}}
-          aws-region: ${{ secrets[env.AWS_REGION_NAME]}}
+          aws-access-key-id: ${{ secrets[env.CLOUD_ACCESS_KEY_ID_NAME]}}
+          aws-secret-access-key: ${{ secrets[env.CLOUD_SECRET_ACCESS_KEY_NAME]}}
+          aws-region: ${{ secrets[env.CLOUD_REGION_NAME]}}
 
       - name: Serverless Deploy
         uses: serverless/github-action@v3.1
