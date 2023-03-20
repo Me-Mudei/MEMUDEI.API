@@ -26,36 +26,27 @@ type Config = {
 };
 
 export function makeConfig(): Config {
-  console.log('process.env', process.env);
-  console.log(join(__dirname, '../../../../.env.development'));
-  const output = readEnv({
-    path:
-      !process.env?.NODE_ENV || process.env.NODE_ENV === 'local'
-        ? join(__dirname, '../../../../.env')
-        : join(__dirname, `../../../../.env.${process.env.NODE_ENV}`),
-  });
-
   return {
-    env: output.parsed.NODE_ENV,
+    env: process.env.NODE_ENV,
     log: {
-      level: output.parsed.LOG_LEVEL,
+      level: process.env.LOG_LEVEL,
     },
     auth: {
-      vendor: output.parsed.AUTH_VENDOR as any,
-      audience: output.parsed.AUTH_AUDIENCE,
-      issuer: output.parsed.AUTH_ISSUER,
-      domain: output.parsed.AUTH_DOMAIN,
+      vendor: process.env.AUTH_VENDOR as any,
+      audience: process.env.AUTH_AUDIENCE,
+      issuer: process.env.AUTH_ISSUER,
+      domain: process.env.AUTH_DOMAIN,
     },
     cloud: {
-      vendor: output.parsed.CLOUD_VENDOR as any,
-      accessKeyId: output.parsed.CLOUD_ACCESS_KEY_ID,
-      secretAccessKey: output.parsed.CLOUD_SECRET_ACCESS_KEY,
-      region: output.parsed.CLOUD_REGION,
-      endpoint: output.parsed.CLOUD_ENDPOINT,
+      vendor: process.env.CLOUD_VENDOR as any,
+      accessKeyId: process.env.CLOUD_ACCESS_KEY_ID,
+      secretAccessKey: process.env.CLOUD_SECRET_ACCESS_KEY,
+      region: process.env.CLOUD_REGION,
+      endpoint: process.env.CLOUD_ENDPOINT,
     },
     storage: {
-      vendor: output.parsed.STORAGE_VENDOR as any,
-      bucket: output.parsed.STORAGE_BUCKET,
+      vendor: process.env.STORAGE_VENDOR as any,
+      bucket: process.env.STORAGE_BUCKET,
     },
   };
 }
