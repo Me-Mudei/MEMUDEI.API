@@ -26,6 +26,8 @@ type Config = {
 };
 
 export function makeConfig(): Config {
+  console.log('process.env', process.env);
+  console.log(join(__dirname, '../../../../.env.development'));
   const output = readEnv({
     path:
       !process.env?.NODE_ENV || process.env.NODE_ENV === 'local'
