@@ -17,17 +17,13 @@
     "noFallthroughCasesInSwitch": false,
     "allowJs": true,
     "paths": {
-      "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"],
-      "#property/*": ["./property/*"],
-      "#adm/*": ["./adm/*"],
-      "#apollo/*": ["./apollo/*"],
-      "#auth/*": ["./auth/*"]
+      "#shared/*": ["./src/shared/*"],
+      "#user/*": ["./src/user/*"],
+      "#property/*": ["./src/property/*"],
+      "#adm/*": ["./src/adm/*"],
+      "#apollo/*": ["./src/apollo/*"],
+      "#auth/*": ["./src/auth/*"]
     },
-    "typeRoots": [
-      "./src/apollo/generated",
-      "./node_modules/@types",
-      "../../node_modules/@types"
-    ]
+    "typeRoots": ["./src/apollo/generated", "./node_modules/@types"]
   }
 }

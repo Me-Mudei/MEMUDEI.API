@@ -12,3 +12,6 @@ tmp
 **/*.env
 **/*.env.*
 !**/*.env.*example
+# Ignore lock files
+yarn.lock
+package-lock.json

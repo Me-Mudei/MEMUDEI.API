@@ -1,7 +1,7 @@
 import { APIGatewayEvent, Callback, Context as AwsContext } from 'aws-lambda';
-import NexusSchema from './schema';
-import ApolloLambdaServer from './server/apollo-lambda.server';
-import { Context } from './context';
+import NexusSchema from './apollo/schema';
+import ApolloLambdaServer from './apollo/server/apollo-lambda.server';
+import { Context } from './apollo/context';
 
 const schema = NexusSchema.makeSchema();
 const context = new Context();
