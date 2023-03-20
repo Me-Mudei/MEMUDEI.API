@@ -1,15 +1,15 @@
-import { AdmFacade } from '#adm/app';
-import { AuthFacade } from '#auth/app';
-import { PropertyFacade } from '#property/app';
-import { UserFacade } from '#user/app';
+import { AdmFacade } from '../adm/app';
+import { AuthFacade } from '../auth/app';
+import { PropertyFacade } from '../property/app';
+import { UserFacade } from '../user/app';
 import {
   InMemoryFacadeFactory as InMemoryPropertyFacadeFactory,
   PrismaFacadeFactory as PrismaPropertyFacadeFactory,
-} from '#property/infra';
+} from '../property/infra';
 import {
   InMemoryFacadeFactory as InMemoryAuthFacadeFactory,
   PrismaFacadeFactory as PrismaAuthFacadeFactory,
-} from '#auth/infra';
+} from '../auth/infra';
 
 export interface ContextInput {
   req_id: string;

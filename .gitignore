@@ -9,7 +9,7 @@ dist
 .DS_Store
 db
 tmp
-**/*.env
+**/*.env*
 **/*.env.*
 !**/*.env.*example
 # Ignore lock files

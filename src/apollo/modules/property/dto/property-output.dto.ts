@@ -1,4 +1,4 @@
-import { CreatePropertyOutput as CoreCreatePropertyOutput } from '#property/app';
+import { CreatePropertyOutput as CoreCreatePropertyOutput } from '../../../../property/app';
 import { NexusGenEnums, NexusGenObjects } from 'apollo/generated/nexus';
 import { objectType } from 'nexus';
 
