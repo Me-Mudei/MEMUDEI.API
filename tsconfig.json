@@ -7,14 +7,11 @@
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
       "#property/*": ["./property/*"],
+      "#apollo/*": ["./apollo/*"],
       "#adm/*": ["./adm/*"],
       "#auth/*": ["./auth/*"]
     },
-    "typeRoots": [
-      "./src/apollo/generated",
-      "./node_modules/@types",
-      "../../node_modules/@types"
-    ]
+    "typeRoots": ["./apollo/generated", "./node_modules/@types"]
   },
-  "include": ["./src/"]
+  "include": ["./src"]
 }

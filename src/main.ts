@@ -11,6 +11,7 @@ export const handler = async (
   ctx: AwsContext,
   callback: Callback<any>,
 ) => {
+  console.log(__dirname);
   const server = new ApolloLambdaServer(schema, context);
   const handler = await server.listen();
   return handler(
