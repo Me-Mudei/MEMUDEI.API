@@ -2,8 +2,6 @@ service: me-mudei-api
 
 package:
   individually: true
-  include:
-    - src/**/*
 
 plugins:
   - serverless-plugin-typescript
