@@ -8,6 +8,7 @@ export const handler = async (
   ctx: AwsContext,
   callback: Callback<any>,
 ) => {
+  console.log('__dirname');
   console.log(__dirname);
   const schema = NexusSchema.makeSchema();
   const context = new Context();
