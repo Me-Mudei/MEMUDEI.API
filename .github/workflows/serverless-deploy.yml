@@ -49,6 +49,6 @@ jobs:
           CLOUD_ACCESS_KEY_ID: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME] }}
           CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME] }}
           CLOUD_REGION: ${{ secrets[env.AWS_REGION_NAME] }}
-          #CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
+          CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
           STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
           STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
