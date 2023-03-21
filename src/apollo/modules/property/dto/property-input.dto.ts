@@ -1,11 +1,11 @@
-import { CreatePropertyInput as CoreCreatePropertyInput } from '../../../../property/app';
+import { CreatePropertyInput as CoreCreatePropertyInput } from '#property/app';
 import {
   PropertyStatus as CorePropertyStatus,
   FileInput,
-} from '../../../../property/domain';
+} from '#property/domain';
 import { User } from '../../../context';
 import { inputObjectType } from 'nexus';
-import { NexusGenInputs } from 'apollo/generated/nexus';
+import { NexusGenInputs } from '#apollo/generated/nexus';
 
 export const CreatePropertyInput = inputObjectType({
   name: 'create_property_input',

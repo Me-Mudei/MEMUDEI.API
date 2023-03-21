@@ -30,88 +30,88 @@
     "#user/infra": "./src/user/infra/index.js"
   },
   "exports": {
-    "./shared/app": "./.build/shared/app/index.js",
-    "./shared/domain": "./.build/shared/domain/index.js",
-    "./shared/infra": "./.build/shared/infra/index.js",
-    "./user/app": "./.build/user/app/index.js",
-    "./user/domain": "./.build/user/domain/index.js",
-    "./user/infra": "./.build/user/infra/index.js",
-    "./user": "./.build/user/index.js",
-    "./property/app": "./.build/property/app/index.js",
-    "./property/domain": "./.build/property/domain/index.js",
-    "./property/infra": "./.build/property/infra/index.js",
-    "./property": "./.build/property/index.js",
-    "./adm/app": "./.build/adm/app/index.js",
-    "./adm/domain": "./.build/adm/domain/index.js",
-    "./adm/infra": "./.build/adm/infra/index.js",
-    "./adm": "./.build/adm/index.js",
-    "./apollo": "./.build/apollo/index.js",
-    "./auth/app": "./.build/auth/app/index.js",
-    "./auth/domain": "./.build/auth/domain/index.js",
-    "./auth/infra": "./.build/auth/infra/index.js",
-    "./auth": "./.build/auth/index.js"
+    "./shared/app": "./.build/src/shared/app/index.js",
+    "./shared/domain": "./.build/src/shared/domain/index.js",
+    "./shared/infra": "./.build/src/shared/infra/index.js",
+    "./user/app": "./.build/src/user/app/index.js",
+    "./user/domain": "./.build/src/user/domain/index.js",
+    "./user/infra": "./.build/src/user/infra/index.js",
+    "./user": "./.build/src/user/index.js",
+    "./property/app": "./.build/src/property/app/index.js",
+    "./property/domain": "./.build/src/property/domain/index.js",
+    "./property/infra": "./.build/src/property/infra/index.js",
+    "./property": "./.build/src/property/index.js",
+    "./adm/app": "./.build/src/adm/app/index.js",
+    "./adm/domain": "./.build/src/adm/domain/index.js",
+    "./adm/infra": "./.build/src/adm/infra/index.js",
+    "./adm": "./.build/src/adm/index.js",
+    "./apollo": "./.build/src/apollo/index.js",
+    "./auth/app": "./.build/src/auth/app/index.js",
+    "./auth/domain": "./.build/src/auth/domain/index.js",
+    "./auth/infra": "./.build/src/auth/infra/index.js",
+    "./auth": "./.build/src/auth/index.js"
   },
   "typesVersions": {
     ">=4.0": {
       "shared/app": [
-        "./.build/shared/app/index.d.ts"
+        "./.build/src/shared/app/index.d.ts"
       ],
       "shared/domain": [
-        "./.build/shared/domain/index.d.ts"
+        "./.build/src/shared/domain/index.d.ts"
       ],
       "shared/infra": [
-        "./.build/shared/infra/index.d.ts"
+        "./.build/src/shared/infra/index.d.ts"
       ],
       "user/app": [
-        "./.build/user/app/index.d.ts"
+        "./.build/src/user/app/index.d.ts"
       ],
       "user/domain": [
-        "./.build/user/domain/index.d.ts"
+        "./.build/src/user/domain/index.d.ts"
       ],
       "user/infra": [
-        "./.build/user/infra/index.d.ts"
+        "./.build/src/user/infra/index.d.ts"
       ],
       "user": [
-        "./.build/user/index.d.ts"
+        "./.build/src/user/index.d.ts"
       ],
       "property/app": [
-        "./.build/property/app/index.d.ts"
+        "./.build/src/property/app/index.d.ts"
       ],
       "property/domain": [
-        "./.build/property/domain/index.d.ts"
+        "./.build/src/property/domain/index.d.ts"
       ],
       "property/infra": [
-        "./.build/property/infra/index.d.ts"
+        "./.build/src/property/infra/index.d.ts"
       ],
       "property": [
-        "./.build/property/index.d.ts"
+        "./.build/src/property/index.d.ts"
       ],
       "adm/app": [
-        "./.build/adm/app/index.d.ts"
+        "./.build/src/adm/app/index.d.ts"
       ],
       "adm/domain": [
-        "./.build/adm/domain/index.d.ts"
+        "./.build/src/adm/domain/index.d.ts"
       ],
       "adm/infra": [
-        "./.build/adm/infra/index.d.ts"
+        "./.build/src/adm/infra/index.d.ts"
       ],
       "adm": [
-        "./.build/adm/index.d.ts"
+        "./.build/src/adm/index.d.ts"
       ],
       "apollo": [
-        "./.build/apollo/index.d.ts"
+        "./.build/src/apollo/index.d.ts"
       ],
       "auth/app": [
-        "./.build/auth/app/index.d.ts"
+        "./.build/src/auth/app/index.d.ts"
       ],
       "auth/domain": [
-        "./.build/auth/domain/index.d.ts"
+        "./.build/src/auth/domain/index.d.ts"
       ],
       "auth/infra": [
-        "./.build/auth/infra/index.d.ts"
+        "./.build/src/auth/infra/index.d.ts"
       ],
       "auth": [
-        "./.build/auth/index.d.ts"
+        "./.build/src/auth/index.d.ts"
       ]
     }
   },
@@ -135,14 +135,15 @@
     "lint": "npx eslint \"src/**/*.ts\" --fix",
     "prepare": "husky install",
     "nexus:generate": "ts-node --transpile-only -e 'import NexusSchema from \"./src/apollo/schema.ts\"; NexusSchema.makeSchema()'",
-    "prisma:generate": "prisma generate",
+    "migrate:reset": "prisma migrate reset",
+    "migrate:create": "prisma migrate dev --create-only",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "prisma db seed",
-    "prisma:reset": "prisma migrate reset",
-    "prisma:migration": "prisma migrate dev"
+    "prisma:generate": "prisma generate"
   },
   "prisma": {
-    "seed": "ts-node src/shared/infra/database/prisma/seed.ts"
+    "seed": "ts-node ./prisma/seed.ts"
   },
   "repository": {
     "type": "git",
@@ -185,7 +186,6 @@
   },
   "dependencies": {
     "@apollo/server": "^4.0.2",
-    "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.0",
     "@as-integrations/aws-lambda": "^1.0.1",
     "@aws-sdk/client-s3": "^3.294.0",
     "@prisma/client": "^4",
@@ -193,7 +193,6 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "file-type": "^18.0.0",
     "graphql": "^16",
     "graphql-scalars": "^1.19.0",
     "graphql-upload": "^13.0.0",

@@ -1,4 +1,4 @@
-import { UniqueEntityId } from 'shared/domain/value-objects';
+import { UniqueEntityId } from '#shared/domain';
 import { Entity } from '../../entity';
 import { InMemorySearchableRepository } from '../in-memory.repository';
 import { SearchParams, SearchResult } from '../repository-contracts';

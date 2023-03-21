@@ -1,17 +1,30 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "./src",
     "outDir": ".build",
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "es2017",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true,
     "paths": {
-      "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"],
-      "#property/*": ["./property/*"],
-      "#apollo/*": ["./apollo/*"],
-      "#adm/*": ["./adm/*"],
-      "#auth/*": ["./auth/*"]
+      "#shared/*": ["./src/shared/*"],
+      "#user/*": ["./src/user/*"],
+      "#property/*": ["./src/property/*"],
+      "#adm/*": ["./src/adm/*"],
+      "#apollo/*": ["./src/apollo/*"],
+      "#auth/*": ["./src/auth/*"]
     },
-    "typeRoots": ["./apollo/generated", "./node_modules/@types"]
-  },
-  "include": ["./src"]
+    "typeRoots": ["./src/apollo/generated", "./node_modules/@types"]
+  }
 }
