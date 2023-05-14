@@ -1,0 +1,14 @@
+version: '3'
+services:
+  memudei-db:
+    container_name: memudei-db
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: local_user
+      POSTGRES_PASSWORD: MqzYqy2DpbKZFQj5qM-xF
+      POSTGRES_DB: memudei-db
+    ports:
+      - 11996:5432
+    volumes:
+      - ./.docker/db:/var/lib/postgresql/data

@@ -1,1 +1,3 @@
-export * from './infra/factory';
+export * from './app';
+export * from './domain';
+export * from './infra';

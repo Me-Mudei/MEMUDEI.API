@@ -6,6 +6,7 @@ package:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
+  - serverless-dotenv-plugin
 custom:
   node-env:
     prod: "production"
@@ -15,7 +16,9 @@ custom:
     port: 3000
     stage: local
   serverlessPluginTypescript:
-    tsConfigFileLocation: 'tsconfig.build.json'
+    tsConfigFileLocation: 'tsconfig.json'
+
+useDotenv: true
 
 provider:
   name: aws
@@ -33,18 +36,19 @@ provider:
     NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
     SLS_DEBUG: "*"
     LOG_LEVEL: info
+    DATABASE_VENDOR: ${env:DATABASE_VENDOR}
     DATABASE_URL: ${env:DATABASE_URL}
     AUTH_VENDOR: ${env:AUTH_VENDOR}
     AUTH_AUDIENCE: ${env:AUTH_AUDIENCE}
     AUTH_ISSUER: ${env:AUTH_ISSUER}
     AUTH_DOMAIN: ${env:AUTH_DOMAIN}
     CLOUD_VENDOR: ${env:CLOUD_VENDOR}
-    CLOUD_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
-    CLOUD_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-    CLOUD_REGION: ${env:AWS_REGION}
+    CLOUD_ACCESS_KEY_ID: ${env:CLOUD_ACCESS_KEY_ID}
+    CLOUD_SECRET_ACCESS_KEY: ${env:CLOUD_SECRET_ACCESS_KEY}
+    CLOUD_REGION: ${env:CLOUD_REGION}
     CLOUD_ENDPOINT: ${env:CLOUD_ENDPOINT}
     STORAGE_VENDOR: ${env:STORAGE_VENDOR}
-    STORAGE_BUCKET: ${env:STORAGE_BUCKET}
+    STORAGE_BUCKET: ${env:STORAGE_BUCKET}    
 
 functions:
   app:

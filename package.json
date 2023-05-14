@@ -3,159 +3,49 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "directories": {
     "doc": "docs"
   },
   "imports": {
-    "#shared/*": "./src/shared/*.js",
-    "#shared/app": "./src/shared/app/index.js",
-    "#shared/domain": "./src/shared/domain/index.js",
-    "#shared/infra": "./src/shared/infra/index.js",
-    "#property/*": "./src/property/*.js",
-    "#property/app": "./src/property/app/index.js",
-    "#property/domain": "./src/property/domain/index.js",
-    "#property/infra": "./src/property/infra/index.js",
-    "#adm/*": "./src/adm/*.js",
-    "#adm/app": "./src/adm/app/index.js",
-    "#adm/domain": "./src/adm/domain/index.js",
-    "#adm/infra": "./src/adm/infra/index.js",
-    "#auth/*": "./src/auth/*.js",
-    "#auth/app": "./src/auth/app/index.js",
-    "#auth/domain": "./src/auth/domain/index.js",
-    "#auth/infra": "./src/auth/infra/index.js",
-    "#apollo/*": "./src/apollo/*.js",
-    "#user/*": "./src/user/*.js",
-    "#user/app": "./src/user/app/index.js",
-    "#user/domain": "./src/user/domain/index.js",
-    "#user/infra": "./src/user/infra/index.js"
+    "#shared/*": "./src/shared/*/index.js",
+    "#property/*": "./src/property/*/index.js",
+    "#adm/*": "./src/adm/*/index.js",
+    "#auth/*": "./src/auth/*/index.js",
+    "#apollo/*": "./src/apollo/*/index.js",
+    "#user/*": "./src/user/*/index.js"
   },
   "exports": {
-    "./shared/app": "./.build/src/shared/app/index.js",
-    "./shared/domain": "./.build/src/shared/domain/index.js",
-    "./shared/infra": "./.build/src/shared/infra/index.js",
-    "./user/app": "./.build/src/user/app/index.js",
-    "./user/domain": "./.build/src/user/domain/index.js",
-    "./user/infra": "./.build/src/user/infra/index.js",
+    "./shared": "./.build/src/shared/index.js",
     "./user": "./.build/src/user/index.js",
-    "./property/app": "./.build/src/property/app/index.js",
-    "./property/domain": "./.build/src/property/domain/index.js",
-    "./property/infra": "./.build/src/property/infra/index.js",
     "./property": "./.build/src/property/index.js",
-    "./adm/app": "./.build/src/adm/app/index.js",
-    "./adm/domain": "./.build/src/adm/domain/index.js",
-    "./adm/infra": "./.build/src/adm/infra/index.js",
     "./adm": "./.build/src/adm/index.js",
     "./apollo": "./.build/src/apollo/index.js",
-    "./auth/app": "./.build/src/auth/app/index.js",
-    "./auth/domain": "./.build/src/auth/domain/index.js",
-    "./auth/infra": "./.build/src/auth/infra/index.js",
     "./auth": "./.build/src/auth/index.js"
   },
-  "typesVersions": {
-    ">=4.0": {
-      "shared/app": [
-        "./.build/src/shared/app/index.d.ts"
-      ],
-      "shared/domain": [
-        "./.build/src/shared/domain/index.d.ts"
-      ],
-      "shared/infra": [
-        "./.build/src/shared/infra/index.d.ts"
-      ],
-      "user/app": [
-        "./.build/src/user/app/index.d.ts"
-      ],
-      "user/domain": [
-        "./.build/src/user/domain/index.d.ts"
-      ],
-      "user/infra": [
-        "./.build/src/user/infra/index.d.ts"
-      ],
-      "user": [
-        "./.build/src/user/index.d.ts"
-      ],
-      "property/app": [
-        "./.build/src/property/app/index.d.ts"
-      ],
-      "property/domain": [
-        "./.build/src/property/domain/index.d.ts"
-      ],
-      "property/infra": [
-        "./.build/src/property/infra/index.d.ts"
-      ],
-      "property": [
-        "./.build/src/property/index.d.ts"
-      ],
-      "adm/app": [
-        "./.build/src/adm/app/index.d.ts"
-      ],
-      "adm/domain": [
-        "./.build/src/adm/domain/index.d.ts"
-      ],
-      "adm/infra": [
-        "./.build/src/adm/infra/index.d.ts"
-      ],
-      "adm": [
-        "./.build/src/adm/index.d.ts"
-      ],
-      "apollo": [
-        "./.build/src/apollo/index.d.ts"
-      ],
-      "auth/app": [
-        "./.build/src/auth/app/index.d.ts"
-      ],
-      "auth/domain": [
-        "./.build/src/auth/domain/index.d.ts"
-      ],
-      "auth/infra": [
-        "./.build/src/auth/infra/index.d.ts"
-      ],
-      "auth": [
-        "./.build/src/auth/index.d.ts"
-      ]
-    }
-  },
   "scripts": {
-    "prestart:lambda": "npm run build",
-    "start:lambda": "npx sls offline --stage local",
-    "prestart:apollo": "npm run build",
-    "start:apollo": "npm run nexus:generate && ts-node-dev --no-notify --respawn --transpile-only src/apollo",
-    "build": "npm run nexus:generate && tsc -b ./tsconfig.json",
-    "build:w": "npm run nexus:generate && tsc -b ./tsconfig.json -w",
+    "predev": "docker-compose up -d && yarn build",
+    "dev": "npx sls offline --stage local",
+    "build": "yarn generate && tsc -b ./tsconfig.json",
+    "generate": "yarn nexus:generate && yarn prisma:generate",
     "clean": "rm -rf .build",
-    "clean:tsc": "rm tsconfig.tsbuildinfo",
-    "ts-node": "ts-node",
-    "tsc": "tsc",
-    "tsc:check": "npm run tsc -- --noEmit",
-    "test": "npm run nexus:generate && jest",
-    "test:cov": "npm run test -- --coverage",
-    "cti": "cti",
-    "cti:make": "sh ./cti.sh",
+    "test": "yarn generate && jest",
+    "test:cov": "yarn test -- --coverage",
     "format": "npx prettier --write \"src/**/*.ts\"",
     "lint": "npx eslint \"src/**/*.ts\" --fix",
     "prepare": "husky install",
     "nexus:generate": "ts-node --transpile-only -e 'import NexusSchema from \"./src/apollo/schema.ts\"; NexusSchema.makeSchema()'",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
     "migrate:reset": "prisma migrate reset",
     "migrate:create": "prisma migrate dev --create-only",
-    "migrate:dev": "prisma migrate dev",
-    "migrate:deploy": "prisma migrate deploy",
-    "prisma:studio": "prisma studio",
-    "prisma:generate": "prisma generate"
+    "migrate:deploy": "prisma migrate deploy"
   },
   "prisma": {
     "seed": "ts-node ./prisma/seed.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/urieloliveira/MeMudeiBackend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/urieloliveira/MeMudeiBackend/issues"
-  },
-  "homepage": "https://github.com/urieloliveira/MeMudeiBackend#readme",
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -177,6 +67,7 @@
     "jest": "^29",
     "prettier": "^2.7.1",
     "serverless": "^3.22.0",
+    "serverless-dotenv-plugin": "^6.0.0",
     "serverless-offline": "^11.0.1",
     "serverless-plugin-monorepo": "^0.11.0",
     "serverless-plugin-typescript": "^2.1.4",
