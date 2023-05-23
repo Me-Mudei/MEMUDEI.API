@@ -1,4 +1,7 @@
-import { CreatePropertyInput as CoreCreatePropertyInput } from '#property/app';
+import {
+  CreatePropertyInput as CoreCreatePropertyInput,
+  UpdatePropertyInput as CoreUpdatePropertyInput,
+} from '#property/app';
 import {
   PropertyStatus as CorePropertyStatus,
   FileInput,
@@ -27,6 +30,38 @@ export const CreatePropertyInput = inputObjectType({
     t.nonNull.list.nonNull.field('rules', { type: 'rule_input' });
     t.nullable.list.nonNull.upload('photos');
     t.nonNull.list.nonNull.field('charges', { type: 'charge_input' });
+  },
+});
+
+export const updatePropertyInput = inputObjectType({
+  name: 'update_property_input',
+  definition(t) {
+    t.nullable.string('title');
+    t.nullable.string('description');
+    t.nullable.field('status', { type: 'property_status' });
+    t.nullable.field('address', { type: 'address_input' });
+    t.nullable.string('property_type');
+    t.nullable.string('property_relationship');
+    t.nullable.string('privacy_type');
+    t.nullable.list.nonNull.field('floor_plans', { type: 'floor_plan_input' });
+    t.nullable.list.nonNull.field('property_details', {
+      type: 'property_detail_input',
+    });
+    t.nullable.list.nonNull.field('condominium_details', {
+      type: 'condominium_detail_input',
+    });
+    t.nullable.list.nonNull.field('rules', { type: 'rule_input' });
+    t.nullable.field('update_photos', { type: 'update_photos' });
+    t.nullable.list.nonNull.field('charges', { type: 'charge_input' });
+  },
+});
+
+export const UpdatePhotos = inputObjectType({
+  name: 'update_photos',
+  definition(t) {
+    t.nullable.list.nonNull.upload('add');
+    t.nullable.list.nonNull.string('remove');
+    t.nullable.string('cover');
   },
 });
 
@@ -129,6 +164,26 @@ export class CreatePropertyInputMapper {
     let photos: FileInput[] = [];
     if (input.property.photos) {
       photos = await Promise.all(input.property.photos.map((photo) => photo));
+    }
+    return {
+      ...input.property,
+      user_id: input.user.id,
+      photos,
+      status: input.property.status as CorePropertyStatus,
+    };
+  }
+}
+
+export class UpdatePropertyInputMapper {
+  static async toInput(input: {
+    property: NexusGenInputs['update_property_input'];
+    user: User;
+  }): Promise<CoreUpdatePropertyInput> {
+    let photos: FileInput[] = [];
+    if (input.property.update_photos.add) {
+      photos = await Promise.all(
+        input.property.update_photos.add.map((photo) => photo),
+      );
     }
     return {
       ...input.property,

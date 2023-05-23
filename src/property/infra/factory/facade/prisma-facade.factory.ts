@@ -1,5 +1,6 @@
 import {
   CreatePropertyUseCase,
+  UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertyUseCase,
 } from '../../../app/use-cases';
@@ -28,6 +29,11 @@ export class PrismaFacadeFactory {
       driver,
       broker,
     );
+    const updatePropertyUseCase = new UpdatePropertyUseCase(
+      repositoryFactory,
+      driver,
+      broker,
+    );
     const getPropertyUseCase = new GetPropertyUseCase(
       repositoryFactory,
       broker,
@@ -39,6 +45,7 @@ export class PrismaFacadeFactory {
 
     return new PropertyFacade({
       createProperty: createPropertyUseCase,
+      updateProperty: updatePropertyUseCase,
       getProperty: getPropertyUseCase,
       searchProperty: searchPropertyUseCase,
     });

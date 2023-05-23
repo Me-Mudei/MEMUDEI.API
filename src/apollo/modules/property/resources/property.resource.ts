@@ -1,14 +1,20 @@
 import { mutationField, queryField, nullable, nonNull } from 'nexus';
 import {
   canCreateProperty,
+  canWriteProperty,
   canReadProperty,
   canSearchProperty,
 } from '../rules';
-import { CreatePropertyInputMapper, CreatePropertyOutputMapper } from '../dto';
+import {
+  CreatePropertyInputMapper,
+  CreatePropertyOutputMapper,
+  UpdatePropertyInputMapper,
+  UpdatePropertyOutputMapper,
+} from '../dto';
 
 export const CreateProperty = mutationField('create_property', {
   type: 'create_property_output',
-  shield: canCreateProperty(),
+  //shield: canCreateProperty(),
   args: { input: nonNull('create_property_input') },
   resolve: async (_, args, ctx) => {
     const input = await CreatePropertyInputMapper.toInput({
@@ -17,6 +23,20 @@ export const CreateProperty = mutationField('create_property', {
     });
     const output = await ctx.propertyService.createProperty(input);
     return CreatePropertyOutputMapper.toOutput(output);
+  },
+});
+
+export const UploadImage = mutationField('update_property', {
+  type: 'update_property_output',
+  //shield: canWriteProperty(),
+  args: { input: nonNull('update_property_input') },
+  resolve: async (_, args, ctx) => {
+    const input = await UpdatePropertyInputMapper.toInput({
+      property: args.input,
+      user: ctx.user,
+    });
+    const output = await ctx.propertyService.updateProperty(input);
+    return UpdatePropertyOutputMapper.toOutput(output);
   },
 });
 

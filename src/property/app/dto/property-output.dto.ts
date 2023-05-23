@@ -7,6 +7,8 @@ export type CreatePropertyOutput = {
   updated_at: Date;
 };
 
+export type UpdatePropertyOutput = CreatePropertyOutput;
+
 export class CreatePropertyOutputMapper {
   static toOutput(property: any): CreatePropertyOutput {
     return {
@@ -15,6 +17,12 @@ export class CreatePropertyOutputMapper {
       created_at: property.created_at,
       updated_at: property.updated_at,
     };
+  }
+}
+
+export class UpdatePropertyOutputMapper {
+  static toOutput(property: any): UpdatePropertyOutput {
+    return CreatePropertyOutputMapper.toOutput(property);
   }
 }
 

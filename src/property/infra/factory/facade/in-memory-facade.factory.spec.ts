@@ -11,6 +11,7 @@ describe('InMemoryFacadeFactory unit tests', () => {
     });
     expect(facade).toBeInstanceOf(PropertyFacade);
     expect(facade).toHaveProperty('createProperty');
+    expect(facade).toHaveProperty('updateProperty');
     expect(facade).toHaveProperty('getProperty');
     expect(facade).toHaveProperty('searchProperty');
   });

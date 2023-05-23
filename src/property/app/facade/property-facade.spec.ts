@@ -1,6 +1,7 @@
 import { Broker } from '#shared/infra';
 import {
   CreatePropertyUseCase,
+  UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertyUseCase,
 } from '../use-cases';
@@ -25,6 +26,11 @@ describe('PropertyFacade Unit tests', () => {
     driver = new InMemoryDriver();
     broker = new Broker();
     useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
+    const mockUpdateUseCase = new UpdatePropertyUseCase(
+      repositoryFactory,
+      driver,
+      broker,
+    );
     const mockGetUseCase = new GetPropertyUseCase(repositoryFactory, broker);
     const mockSearchUseCase = new SearchPropertyUseCase(
       repositoryFactory,
@@ -32,6 +38,7 @@ describe('PropertyFacade Unit tests', () => {
     );
     facade = new PropertyFacade({
       createProperty: useCase,
+      updateProperty: mockUpdateUseCase,
       getProperty: mockGetUseCase,
       searchProperty: mockSearchUseCase,
     } as any);
