@@ -21,9 +21,8 @@ export class UpdatePropertyUseCase
     this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 
-  async execute(input: UpdatePropertyInput): Promise<UpdatePropertyOutput> {
+  async execute(_input: UpdatePropertyInput): Promise<UpdatePropertyOutput> {
     this.logger.info({ message: 'Start Property Use Case' });
-    console.log(input);
     return {
       id: new UniqueEntityId().value,
       created_at: new Date(),

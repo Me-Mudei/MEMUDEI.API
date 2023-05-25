@@ -50,7 +50,11 @@ export class Context implements Context {
 
     const token = req.headers.authorization;
     if (token) {
-      this.user = await this.authService.authenticate({ token });
+      try {
+        this.user = await this.authService.authenticate({ token });
+      } catch (error) {
+        console.log('error', error);
+      }
     }
     return this;
   }

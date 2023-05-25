@@ -24,6 +24,9 @@ export class AuthenticateUserUseCase
     this.logger.info({ message: 'Start Authenticate User Use Case' });
     const authenticate = await this._authGateway.decodeToken(input.token);
     const user = await this._userRepository.findByEmail(authenticate.email);
+    if (!user) {
+      throw new Error('User not found');
+    }
     return AuthenticateUserOutputMapper.toOutput(user);
   }
 }

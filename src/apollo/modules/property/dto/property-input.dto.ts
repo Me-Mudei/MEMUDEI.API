@@ -36,6 +36,7 @@ export const CreatePropertyInput = inputObjectType({
 export const updatePropertyInput = inputObjectType({
   name: 'update_property_input',
   definition(t) {
+    t.nonNull.string('id');
     t.nullable.string('title');
     t.nullable.string('description');
     t.nullable.field('status', { type: 'property_status' });
@@ -180,7 +181,7 @@ export class UpdatePropertyInputMapper {
     user: User;
   }): Promise<CoreUpdatePropertyInput> {
     let photos: FileInput[] = [];
-    if (input.property.update_photos.add) {
+    if (input.property?.update_photos && input.property.update_photos.add) {
       photos = await Promise.all(
         input.property.update_photos.add.map((photo) => photo),
       );
@@ -188,7 +189,6 @@ export class UpdatePropertyInputMapper {
     return {
       ...input.property,
       user_id: input.user.id,
-      photos,
       status: input.property.status as CorePropertyStatus,
     };
   }

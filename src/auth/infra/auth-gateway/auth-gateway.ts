@@ -35,7 +35,7 @@ export class AuthGateway {
   }
 
   async decodeToken(token: string) {
-    const res = await new Promise<Session>((resolve, reject) => {
+    return new Promise<Session>((resolve, reject) => {
       verify(
         token.replace('Bearer ', ''),
         this.getKey,
@@ -54,6 +54,5 @@ export class AuthGateway {
         },
       );
     });
-    return res;
   }
 }
