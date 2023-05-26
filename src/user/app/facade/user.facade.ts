@@ -1,21 +1,9 @@
+import { CreateUserInput, UserOutput } from '../dto';
 import { CreateUserUseCase } from '../use-cases';
 
 export interface UserFacadeProps {
   createUseCase: CreateUserUseCase;
 }
-
-export type CreateUserFacadeInput = {
-  name: string;
-  email: string;
-};
-
-export type UserFacadeOutput = {
-  id: string;
-  name: string;
-  email: string;
-  created_at: Date;
-  updated_at: Date;
-};
 
 export class UserFacade {
   private _createUseCase: CreateUserUseCase;
@@ -23,7 +11,7 @@ export class UserFacade {
   constructor(readonly props: UserFacadeProps) {
     this._createUseCase = props.createUseCase;
   }
-  async createUser(input: CreateUserFacadeInput): Promise<UserFacadeOutput> {
+  async createUser(input: CreateUserInput): Promise<UserOutput> {
     return this._createUseCase.execute(input);
   }
 }

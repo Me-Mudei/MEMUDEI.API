@@ -3,17 +3,11 @@ import { AuthFacade } from '#auth/app';
 import { PropertyFacade } from '#property/app';
 import { UserFacade } from '#user/app';
 import {
-  InMemoryFacadeFactory as InMemoryPropertyFacadeFactory,
-  PrismaFacadeFactory as PrismaPropertyFacadeFactory,
+  PropertyFacadeFactory,
+  PropertyInMemoryFacadeFactory,
 } from '#property/infra';
-import {
-  InMemoryFacadeFactory as InMemoryAuthFacadeFactory,
-  PrismaFacadeFactory as PrismaAuthFacadeFactory,
-} from '#auth/infra';
-import {
-  InMemoryFacadeFactory as InMemoryUserFacadeFactory,
-  PrismaFacadeFactory as PrismaUserFacadeFactory,
-} from '#user/infra';
+import { AuthFacadeFactory } from '#auth/infra';
+import { UserFacadeFactory, UserInMemoryFacadeFactory } from '#user/infra';
 
 export interface ContextInput {
   req_id: string;
@@ -28,7 +22,10 @@ export interface Context {
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
-  user_id?: string;
+  user?: {
+    id: string;
+    permissions: string[];
+  };
   getContext(req: ContextInput): Promise<Context>;
   getTestContext(): Context;
 }
@@ -38,39 +35,38 @@ export class Context implements Context {
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
-  user_id?: string;
-  permissions?: string[];
+  user?: {
+    id: string;
+    permissions: string[];
+  };
   async getContext(req: ContextInput) {
     this.admService = {} as any;
-    this.authService = PrismaAuthFacadeFactory.create(req);
-    this.propertyService = PrismaPropertyFacadeFactory.create(req);
-    this.userService = PrismaUserFacadeFactory.create(req);
+    this.authService = AuthFacadeFactory.create();
+    this.userService = UserFacadeFactory.create();
+    this.propertyService = PropertyFacadeFactory.create();
 
     const token = req.headers.authorization;
     if (token) {
       try {
-        const { permissions } = await this.authService.authenticate({ token });
-        console.log('permissions', permissions);
-        this.permissions = permissions;
+        const { permissions, user_id } = await this.authService.authenticate({
+          token,
+        });
+        this.user = { permissions, id: user_id };
       } catch (error) {
         console.log('error', error);
       }
     }
-    this.user_id = 'l5lgcQKhDqoDIOQYPBMj2';
     return this;
   }
   getTestContext() {
-    const req = {
-      req_id: 'test',
-      req_path: 'test',
-      req_method: 'test',
-      req_ua: 'test',
-    };
     this.admService = {} as any;
-    this.userService = InMemoryUserFacadeFactory.create({ req } as any);
-    this.authService = PrismaAuthFacadeFactory.create({ req } as any);
-    this.propertyService = InMemoryPropertyFacadeFactory.create({ req } as any);
-    this.user_id = 'l5lgcQKhDqoDIOQYPBMj2';
+    this.authService = AuthFacadeFactory.create();
+    this.userService = UserInMemoryFacadeFactory.create();
+    this.propertyService = PropertyInMemoryFacadeFactory.create();
+    this.user = {
+      id: 'l5lgcQKhDqoDIOQYPBMj2',
+      permissions: ['all'],
+    };
     return this;
   }
 }

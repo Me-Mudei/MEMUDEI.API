@@ -18,6 +18,7 @@ export class CreateUserUseCase implements UseCase<CreateUserInput, UserOutput> {
     const user = new User({
       email: input.email,
       name: input.name,
+      external_id: input.external_id,
     });
     await this.userRepository.insert(user);
     await this.broker.publish(new UserCreated(user));

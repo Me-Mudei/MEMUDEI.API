@@ -4,7 +4,7 @@ import {
   UserSearchParams,
   UserSearchResult,
 } from '../../domain/repository';
-import { PrismaClient } from '#shared/infra';
+import { Prisma, PrismaClient } from '#shared/infra';
 import { UniqueEntityId } from '#shared/domain';
 
 export class UserPrismaRepository implements UserRepository {
@@ -16,6 +16,7 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
+        external_id: entity.props.external_id,
       },
     });
   }
@@ -24,10 +25,7 @@ export class UserPrismaRepository implements UserRepository {
     const user = await this.prisma.user.findFirst({
       where: { id: id.toString() },
     });
-    return new User({
-      email: user.email,
-      name: user.name,
-    });
+    return this.toEntity(user);
   }
 
   async findManyById(ids: (string | UniqueEntityId)[]): Promise<User[]> {
@@ -38,24 +36,12 @@ export class UserPrismaRepository implements UserRepository {
         },
       },
     });
-    return users.map(
-      (user) =>
-        new User({
-          email: user.email,
-          name: user.name,
-        }),
-    );
+    return users.map((user) => this.toEntity(user));
   }
 
   async findAll(): Promise<User[]> {
     const users = await this.prisma.user.findMany();
-    return users.map(
-      (user) =>
-        new User({
-          email: user.email,
-          name: user.name,
-        }),
-    );
+    return users.map((user) => this.toEntity(user));
   }
 
   async update(entity: User): Promise<void> {
@@ -64,6 +50,7 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
+        external_id: entity.props.external_id,
       },
     });
   }
@@ -96,19 +83,26 @@ export class UserPrismaRepository implements UserRepository {
     });
 
     return new UserSearchResult({
-      items: users.map(
-        (user) =>
-          new User({
-            email: user.email,
-            name: user.name,
-          }),
-      ),
+      items: users.map((user) => this.toEntity(user)),
       current_page: props.page,
       per_page: props.per_page,
       total: users.length,
       filter: props.filter,
       sort: props.sort,
       sort_dir: props.sort_dir,
+    });
+  }
+
+  private toEntity(
+    user: Prisma.userGetPayload<Prisma.userFindUniqueArgs>,
+  ): User {
+    return new User({
+      id: new UniqueEntityId(user.id),
+      external_id: user.external_id,
+      name: user.name,
+      email: user.email,
+      created_at: new Date(user.created_at),
+      updated_at: new Date(user.updated_at),
     });
   }
 }

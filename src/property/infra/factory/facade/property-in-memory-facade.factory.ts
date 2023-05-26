@@ -5,21 +5,12 @@ import {
   SearchPropertyUseCase,
 } from '../../../app/use-cases';
 import { PropertyFacade } from '../../../app/facade';
-import { Broker, ReqLoggerProps, WinstonLogger } from '#shared/infra';
+import { Broker } from '#shared/infra';
 import { InMemoryRepositoryFactory } from '../repository';
 import { InMemoryDriver } from '../../driver';
 
-export class InMemoryFacadeFactory {
-  static create(req: ReqLoggerProps) {
-    new WinstonLogger({
-      svc: 'testSvc',
-      req: {
-        req_id: req.req_id,
-        req_path: req.req_path,
-        req_method: req.req_method,
-        req_ua: req.req_ua,
-      },
-    });
+export class PropertyInMemoryFacadeFactory {
+  static create() {
     const repositoryFactory = new InMemoryRepositoryFactory();
     const driver = new InMemoryDriver();
     const broker = new Broker();

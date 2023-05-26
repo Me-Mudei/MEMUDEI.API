@@ -86,7 +86,7 @@ describe('PropertyResource', () => {
       authenticate: jest.fn(),
       authorize: jest.fn(),
     } as any;
-    context.user_id = 'MgxO159FtDCCYQYULEhBy';
+    context.user.id = 'MgxO159FtDCCYQYULEhBy';
     const res = await client.executeOperation(
       {
         query: `mutation CreateProperty($input: create_property_input!) {

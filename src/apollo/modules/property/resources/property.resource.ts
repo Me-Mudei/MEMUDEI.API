@@ -19,7 +19,7 @@ export const CreateProperty = mutationField('create_property', {
   resolve: async (_, args, ctx) => {
     const input = await CreatePropertyInputMapper.toInput({
       property: args.input,
-      user_id: ctx.user_id,
+      user_id: ctx.user.id,
     });
     const output = await ctx.propertyService.createProperty(input);
     return CreatePropertyOutputMapper.toOutput(output);
@@ -33,7 +33,7 @@ export const UploadImage = mutationField('update_property', {
   resolve: async (_, args, ctx) => {
     const input = await UpdatePropertyInputMapper.toInput({
       property: args.input,
-      user_id: ctx.user_id,
+      user_id: ctx.user.id,
     });
     const output = await ctx.propertyService.updateProperty(input);
     return UpdatePropertyOutputMapper.toOutput(output);

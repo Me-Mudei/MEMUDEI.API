@@ -1,9 +1,10 @@
 import { Entity, UniqueEntityId } from '#shared/domain';
 
 export type UserProps = {
-  email: string;
-  name: string;
   id?: UniqueEntityId;
+  name: string;
+  email: string;
+  external_id?: string;
   created_at?: Date;
   updated_at?: Date;
 };

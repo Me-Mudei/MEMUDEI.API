@@ -1,4 +1,4 @@
 // created from 'create-ts-index'
 
-export * from './user-in-memory-facade.factory';
-export * from './user-facade.factory';
+export * from './auth-in-memory-facade.factory';
+export * from './auth-facade.factory';

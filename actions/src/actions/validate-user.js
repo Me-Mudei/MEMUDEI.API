@@ -19,6 +19,9 @@ export default async (event, api) => {
       api.access.deny(`Access to ${event.client.name} is not allowed.`);
     }
   } catch (error) {
-    api.access.deny(`Access to ${event.client.name} is not allowed.`);
+    api.access.deny(
+      'INTERNAL_SERVER_ERROR',
+      'Ocorrreu um erro interno ao registrar o usuário. Por favor, tente novamente.',
+    );
   }
 };
