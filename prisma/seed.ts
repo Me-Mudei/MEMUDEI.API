@@ -10,7 +10,7 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      id: 'MgxO159FtDCCYQYULEhBy',
+      external_id: 'MgxO159FtDCCYQYULEhBy',
       name: 'Jhon Doe',
       email: 'jhon.doe@memudei.me',
     },

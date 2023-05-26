@@ -10,6 +10,7 @@ generator prisma_client {
 
 model user {
     id          String     @id @default(nanoid()) @db.Char(21)
+    external_id String     @unique @default(nanoid())
     email       String     @unique
     name        String
     disabled_at DateTime?

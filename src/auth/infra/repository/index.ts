@@ -1,4 +1,4 @@
 // created from 'create-ts-index'
 
-export * from './in-memory';
-export * from './prisma';
+export * from './user-in-memory.repository';
+export * from './user-prisma.repository';

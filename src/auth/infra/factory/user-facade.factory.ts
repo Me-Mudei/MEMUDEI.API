@@ -1,13 +1,9 @@
-import {
-  AuthenticateUserUseCase,
-  AuthorizeUserUseCase,
-  AuthFacade,
-} from '../../app';
-import { ReqLoggerProps, WinstonLogger } from '#shared/infra';
-import { UserInMemoryRepository } from '../repository';
+import { AuthenticateUserUseCase, AuthFacade } from '../../app';
+import { ReqLoggerProps, WinstonLogger, Connection } from '#shared/infra';
+import { UserPrismaRepository } from '../repository';
 import { AuthGateway } from '../auth-gateway';
 
-export class InMemoryFacadeFactory {
+export class UserFacadeFactory {
   static create(req: ReqLoggerProps) {
     new WinstonLogger({
       svc: 'testSvc',
@@ -18,18 +14,17 @@ export class InMemoryFacadeFactory {
         req_ua: req.req_ua,
       },
     });
-    const userRepository = new UserInMemoryRepository();
+    const prisma = Connection.getInstance();
+    const userRepository = new UserPrismaRepository(prisma);
     const authGateway = new AuthGateway();
 
     const authenticateUserUseCase = new AuthenticateUserUseCase(
       authGateway,
       userRepository,
     );
-    const authorizeUserUseCase = new AuthorizeUserUseCase(userRepository);
 
     return new AuthFacade({
       authenticateUser: authenticateUserUseCase,
-      authorizeUser: authorizeUserUseCase,
     });
   }
 }
