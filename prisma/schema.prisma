@@ -9,58 +9,16 @@ generator prisma_client {
 }
 
 model user {
-    id              String        @id @default(nanoid()) @db.Char(21)
-    email           String        @unique
-    name            String
-    role_id         String        @db.Char(21)
-    role            role          @relation(fields: [role_id], references: [id])
-    disabled_at     DateTime?
-    deleted_at      DateTime?
-    created_at      DateTime      @default(now())
-    updated_at      DateTime      @updatedAt
-    calendar        calendar[]
-    properties      property[]
-    event           event[]
-    organization    organization? @relation(fields: [organization_id], references: [id])
-    organization_id String?       @db.Char(21)
-}
-
-model organization {
-    id         String   @id @default(nanoid()) @db.Char(21)
-    name       String?
-    members    user[]
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-}
-
-model role {
-    id          String            @id @default(nanoid()) @db.Char(21)
-    name        String            @unique
-    description String?
-    created_at  DateTime          @default(now())
-    updated_at  DateTime          @updatedAt
-    users       user[]
-    permissions role_permission[]
-}
-
-model role_permission {
-    role_id       String     @db.Char(21)
-    role          role       @relation(fields: [role_id], references: [id])
-    permission_id String     @db.Char(21)
-    permission    permission @relation(fields: [permission_id], references: [id])
-    created_at    DateTime   @default(now())
-    updated_at    DateTime   @updatedAt
-
-    @@id([role_id, permission_id])
-}
-
-model permission {
-    id          String            @id @default(nanoid()) @db.Char(21)
-    name        String            @unique
-    description String?
-    created_at  DateTime          @default(now())
-    updated_at  DateTime          @updatedAt
-    roles       role_permission[]
+    id          String     @id @default(nanoid()) @db.Char(21)
+    email       String     @unique
+    name        String
+    disabled_at DateTime?
+    deleted_at  DateTime?
+    created_at  DateTime   @default(now())
+    updated_at  DateTime   @updatedAt
+    calendar    calendar[]
+    properties  property[]
+    event       event[]
 }
 
 model property {

@@ -10,12 +10,12 @@
     "doc": "docs"
   },
   "imports": {
-    "#shared/*": "./src/shared/*/index.js",
-    "#property/*": "./src/property/*/index.js",
-    "#adm/*": "./src/adm/*/index.js",
-    "#auth/*": "./src/auth/*/index.js",
-    "#apollo/*": "./src/apollo/*/index.js",
-    "#user/*": "./src/user/*/index.js"
+    "#shared/*": "./.build/src/shared/*/index.js",
+    "#property/*": "./.build/src/property/*/index.js",
+    "#adm/*": "./.build/src/adm/*/index.js",
+    "#auth/*": "./.build/src/auth/*/index.js",
+    "#apollo/*": "./.build/src/apollo/*/index.js",
+    "#user/*": "./.build/src/user/*/index.js"
   },
   "exports": {
     "./shared": "./.build/src/shared/index.js",
@@ -28,6 +28,8 @@
   "scripts": {
     "predev": "docker-compose up -d && yarn build",
     "dev": "npx sls offline --stage local",
+    "prestart:apollo": "yarn build",
+    "start:apollo": "yarn nexus:generate && ts-node-dev --no-notify --respawn --transpile-only src/apollo",
     "build": "yarn generate && tsc -b ./tsconfig.json",
     "generate": "yarn nexus:generate && yarn prisma:generate",
     "clean": "rm -rf .build",

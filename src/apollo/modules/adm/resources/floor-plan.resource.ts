@@ -1,5 +1,4 @@
 import { mutationField, queryField, nullable, nonNull, list } from 'nexus';
-import { isAdmin } from '../../shared/rules';
 
 export const GetFloorPlan = queryField('get_floor_plan', {
   type: 'floor_plan_output',
@@ -11,7 +10,6 @@ export const GetFloorPlan = queryField('get_floor_plan', {
 
 export const SearchFloorPlans = queryField('search_floor_plans', {
   type: 'pagination_output',
-  shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.searchFloorPlan(input as any) as any;
@@ -20,7 +18,6 @@ export const SearchFloorPlans = queryField('search_floor_plans', {
 
 export const CreateFloorPlan = mutationField('create_floor_plan', {
   type: 'floor_plan_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('create_floor_plan_input')) },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.createFloorPlan(input as any);
@@ -29,7 +26,6 @@ export const CreateFloorPlan = mutationField('create_floor_plan', {
 
 export const UpdateFloorPlan = mutationField('update_floor_plan', {
   type: 'floor_plan_output',
-  shield: isAdmin(),
   args: { input: nonNull('update_floor_plan_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.updateFloorPlan(input as any);
@@ -38,7 +34,6 @@ export const UpdateFloorPlan = mutationField('update_floor_plan', {
 
 export const DeleteFloorPlan = mutationField('delete_floor_plans', {
   type: 'floor_plan_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('delete_floor_plan_input')) },
   resolve: async (_, { input }, ctx) => {
     await ctx.admService.deleteFloorPlan(input as any);

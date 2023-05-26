@@ -6,7 +6,6 @@ export const UserOutput = objectType({
     t.nonNull.string('id');
     t.nonNull.string('name');
     t.nonNull.string('email');
-    t.nonNull.string('role_name');
     t.nonNull.date('created_at');
     t.nonNull.date('updated_at');
   },

@@ -3,7 +3,6 @@ import { Entity, UniqueEntityId } from '#shared/domain';
 export type UserProps = {
   email: string;
   name: string;
-  role_name: string;
   id?: UniqueEntityId;
   created_at?: Date;
   updated_at?: Date;

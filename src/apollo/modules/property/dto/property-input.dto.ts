@@ -6,7 +6,6 @@ import {
   PropertyStatus as CorePropertyStatus,
   FileInput,
 } from '#property/domain';
-import { User } from '../../../context';
 import { inputObjectType } from 'nexus';
 import { NexusGenInputs } from '#apollo/generated/nexus';
 
@@ -160,7 +159,7 @@ export const PropertySearchInput = inputObjectType({
 export class CreatePropertyInputMapper {
   static async toInput(input: {
     property: NexusGenInputs['create_property_input'];
-    user: User;
+    user_id: string;
   }): Promise<CoreCreatePropertyInput> {
     let photos: FileInput[] = [];
     if (input.property.photos) {
@@ -168,7 +167,7 @@ export class CreatePropertyInputMapper {
     }
     return {
       ...input.property,
-      user_id: input.user.id,
+      user_id: input.user_id,
       photos,
       status: input.property.status as CorePropertyStatus,
     };
@@ -178,7 +177,7 @@ export class CreatePropertyInputMapper {
 export class UpdatePropertyInputMapper {
   static async toInput(input: {
     property: NexusGenInputs['update_property_input'];
-    user: User;
+    user_id: string;
   }): Promise<CoreUpdatePropertyInput> {
     let photos: FileInput[] = [];
     if (input.property?.update_photos && input.property.update_photos.add) {
@@ -188,7 +187,7 @@ export class UpdatePropertyInputMapper {
     }
     return {
       ...input.property,
-      user_id: input.user.id,
+      user_id: input.user_id,
       status: input.property.status as CorePropertyStatus,
     };
   }

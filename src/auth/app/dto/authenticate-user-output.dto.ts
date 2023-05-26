@@ -1,19 +1,13 @@
-import { User } from '../../domain';
+import { Session } from '#auth/infra';
 
 export type AuthenticateUserOutput = {
-  id: string;
-  role: {
-    name: string;
-  };
+  permissions: string[];
 };
 
 export class AuthenticateUserOutputMapper {
-  static toOutput(item: User): AuthenticateUserOutput {
+  static toOutput(session: Session): AuthenticateUserOutput {
     return {
-      id: item.id,
-      role: {
-        name: item.role.name,
-      },
+      permissions: session.permissions,
     };
   }
 }

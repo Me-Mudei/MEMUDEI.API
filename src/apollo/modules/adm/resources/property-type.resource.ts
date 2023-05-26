@@ -1,5 +1,4 @@
 import { mutationField, queryField, nullable, nonNull, list } from 'nexus';
-import { isAdmin } from '../../shared/rules';
 
 export const GetPropertyType = queryField('get_property_type', {
   type: 'property_type_output',
@@ -11,7 +10,6 @@ export const GetPropertyType = queryField('get_property_type', {
 
 export const SearchPropertyTypes = queryField('search_property_types', {
   type: 'pagination_output',
-  shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.searchPropertyType(input as any) as any;
@@ -20,7 +18,6 @@ export const SearchPropertyTypes = queryField('search_property_types', {
 
 export const CreatePropertyType = mutationField('create_property_type', {
   type: 'property_type_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('create_property_type_input')) },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.createPropertyType(input as any);
@@ -29,7 +26,6 @@ export const CreatePropertyType = mutationField('create_property_type', {
 
 export const UpdatePropertyType = mutationField('update_property_type', {
   type: 'property_type_output',
-  shield: isAdmin(),
   args: { input: nonNull('update_property_type_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.updatePropertyType(input as any);
@@ -38,7 +34,6 @@ export const UpdatePropertyType = mutationField('update_property_type', {
 
 export const DeletePropertyType = mutationField('delete_property_types', {
   type: 'property_type_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('delete_property_type_input')) },
   resolve: async (_, { input }, ctx) => {
     await ctx.admService.deletePropertyType(input as any);

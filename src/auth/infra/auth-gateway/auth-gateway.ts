@@ -3,22 +3,14 @@ import jwksClient from 'jwks-rsa';
 import { configEnv } from '#shared/infra';
 
 export type Session = {
-  given_name: string;
-  family_name: string;
-  nickname: string;
-  name: string;
-  picture: string;
-  locale: string;
-  updated_at: string;
-  email: string;
-  email_verified: boolean;
   iss: string;
-  aud: string;
+  aud: string[];
+  sub: string;
   iat: number;
   exp: number;
-  sub: string;
-  sid: string;
-  nonce: string;
+  azp: string;
+  scope: string;
+  permissions: string[];
 };
 export class AuthGateway {
   private getKey(header: any, callback: any) {

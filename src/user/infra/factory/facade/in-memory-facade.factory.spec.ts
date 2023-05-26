@@ -12,7 +12,6 @@ describe('InMemoryFacadeFactory Unit tests', () => {
     await facade.createUser({
       name: 'Test',
       email: 'tes@test.com',
-      role_name: 'TEST',
     });
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);
   });

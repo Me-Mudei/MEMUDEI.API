@@ -1,4 +1,3 @@
-import { UserOutput } from '../dto';
 import { CreateUserUseCase } from '../use-cases';
 
 export interface UserFacadeProps {
@@ -8,14 +7,12 @@ export interface UserFacadeProps {
 export type CreateUserFacadeInput = {
   name: string;
   email: string;
-  role_name: string;
 };
 
 export type UserFacadeOutput = {
   id: string;
   name: string;
   email: string;
-  role_name: string;
   created_at: Date;
   updated_at: Date;
 };

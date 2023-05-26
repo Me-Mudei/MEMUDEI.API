@@ -21,7 +21,6 @@ describe('UserFacade Unit tests', () => {
     await facade.createUser({
       name: 'Test',
       email: 'tes@test.com',
-      role_name: 'TEST',
     });
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);
     expect(spyUseCaseExecute).toHaveBeenCalledTimes(1);

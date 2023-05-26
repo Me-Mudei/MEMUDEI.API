@@ -10,6 +10,10 @@ import {
   InMemoryFacadeFactory as InMemoryAuthFacadeFactory,
   PrismaFacadeFactory as PrismaAuthFacadeFactory,
 } from '#auth/infra';
+import {
+  InMemoryFacadeFactory as InMemoryUserFacadeFactory,
+  PrismaFacadeFactory as PrismaUserFacadeFactory,
+} from '#user/infra';
 
 export interface ContextInput {
   req_id: string;
@@ -19,19 +23,12 @@ export interface ContextInput {
   headers: any;
 }
 
-export type User = {
-  id: string;
-  role: {
-    name: string;
-  };
-};
-
 export interface Context {
   admService: AdmFacade;
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
-  user?: User;
+  user_id?: string;
   getContext(req: ContextInput): Promise<Context>;
   getTestContext(): Context;
 }
@@ -41,21 +38,25 @@ export class Context implements Context {
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
-  user?: User;
+  user_id?: string;
+  permissions?: string[];
   async getContext(req: ContextInput) {
     this.admService = {} as any;
     this.authService = PrismaAuthFacadeFactory.create(req);
     this.propertyService = PrismaPropertyFacadeFactory.create(req);
-    this.userService = {} as any;
+    this.userService = PrismaUserFacadeFactory.create(req);
 
     const token = req.headers.authorization;
     if (token) {
       try {
-        this.user = await this.authService.authenticate({ token });
+        const { permissions } = await this.authService.authenticate({ token });
+        console.log('permissions', permissions);
+        this.permissions = permissions;
       } catch (error) {
         console.log('error', error);
       }
     }
+    this.user_id = 'l5lgcQKhDqoDIOQYPBMj2';
     return this;
   }
   getTestContext() {
@@ -66,10 +67,10 @@ export class Context implements Context {
       req_ua: 'test',
     };
     this.admService = {} as any;
-    this.userService = {} as any;
+    this.userService = InMemoryUserFacadeFactory.create({ req } as any);
     this.authService = PrismaAuthFacadeFactory.create({ req } as any);
     this.propertyService = InMemoryPropertyFacadeFactory.create({ req } as any);
-    this.user = { id: 'l5lgcQKhDqoDIOQYPBMj2', role: { name: 'ADMIN' } };
+    this.user_id = 'l5lgcQKhDqoDIOQYPBMj2';
     return this;
   }
 }

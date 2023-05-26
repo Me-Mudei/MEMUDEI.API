@@ -16,16 +16,6 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
-        role: {
-          connectOrCreate: {
-            where: {
-              name: entity.props.role_name,
-            },
-            create: {
-              name: entity.props.role_name,
-            },
-          },
-        },
       },
     });
   }
@@ -33,14 +23,10 @@ export class UserPrismaRepository implements UserRepository {
   async findById(id: string | UniqueEntityId): Promise<User> {
     const user = await this.prisma.user.findFirst({
       where: { id: id.toString() },
-      include: {
-        role: true,
-      },
     });
     return new User({
       email: user.email,
       name: user.name,
-      role_name: user.role.name,
     });
   }
 
@@ -51,32 +37,23 @@ export class UserPrismaRepository implements UserRepository {
           in: ids.map((id) => id.toString()),
         },
       },
-      include: {
-        role: true,
-      },
     });
     return users.map(
       (user) =>
         new User({
           email: user.email,
           name: user.name,
-          role_name: user?.role.name,
         }),
     );
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.prisma.user.findMany({
-      include: {
-        role: true,
-      },
-    });
+    const users = await this.prisma.user.findMany();
     return users.map(
       (user) =>
         new User({
           email: user.email,
           name: user.name,
-          role_name: user?.role.name,
         }),
     );
   }
@@ -116,9 +93,6 @@ export class UserPrismaRepository implements UserRepository {
           },
         }),
       },
-      include: {
-        role: true,
-      },
     });
 
     return new UserSearchResult({
@@ -127,7 +101,6 @@ export class UserPrismaRepository implements UserRepository {
           new User({
             email: user.email,
             name: user.name,
-            role_name: user?.role.name,
           }),
       ),
       current_page: props.page,

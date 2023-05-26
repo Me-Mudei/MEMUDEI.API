@@ -1,92 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
-  await prisma.role.createMany({
-    data: [
-      {
-        name: 'admin',
-        description: 'Admin manager',
-      },
-      {
-        name: 'tester',
-        description: 'Tester manager',
-      },
-    ],
-    skipDuplicates: true,
-  });
-
-  await prisma.permission.createMany({
-    data: [
-      { name: 'user:read', description: 'Read user' },
-      { name: 'user:write', description: 'Write user' },
-      { name: 'user:delete', description: 'Delete user' },
-      { name: 'user:create', description: 'Create user' },
-      { name: 'property:create', description: 'Create property' },
-      { name: 'property:read', description: 'Read property' },
-      { name: 'property:write', description: 'Write property' },
-      { name: 'property:delete', description: 'Delete property' },
-    ],
-    skipDuplicates: true,
-  });
-
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'user:read' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'user:write' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'user:delete' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'user:create' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'property:create' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'property:read' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'property:write' } },
-    },
-  });
-  await prisma.role_permission.create({
-    data: {
-      role: { connect: { name: 'admin' } },
-      permission: { connect: { name: 'property:delete' } },
-    },
-  });
-
   await prisma.user.create({
     data: {
       name: 'Uriel Guy',
       email: 'uriel.guy@memudei.me',
-      role: {
-        connect: {
-          name: 'admin',
-        },
-      },
     },
   });
 
@@ -95,11 +13,6 @@ async function main() {
       id: 'MgxO159FtDCCYQYULEhBy',
       name: 'Jhon Doe',
       email: 'jhon.doe@memudei.me',
-      role: {
-        connect: {
-          name: 'tester',
-        },
-      },
     },
   });
 

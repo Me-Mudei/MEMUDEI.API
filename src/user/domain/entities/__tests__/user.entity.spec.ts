@@ -6,12 +6,10 @@ describe('User Unit Tests', () => {
     let user = new User({
       name: 'Jhon Doe',
       email: 'jhon.doe@test.com',
-      role_name: 'TEST',
     });
     expect(user.props).toStrictEqual({
       name: 'Jhon Doe',
       email: 'jhon.doe@test.com',
-      role_name: 'TEST',
     });
     expect(user.id).toBeDefined();
     expect(user.created_at).toBeInstanceOf(Date);
@@ -23,7 +21,6 @@ describe('User Unit Tests', () => {
     user = new User({
       name: 'Jhon Doe',
       email: 'jhon.doe@test.com',
-      role_name: 'TEST',
       id,
       created_at,
       updated_at,
@@ -31,7 +28,6 @@ describe('User Unit Tests', () => {
     expect(user.props).toStrictEqual({
       name: 'Jhon Doe',
       email: 'jhon.doe@test.com',
-      role_name: 'TEST',
       id,
       created_at,
       updated_at,

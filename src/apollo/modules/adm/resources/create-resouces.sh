@@ -10,7 +10,6 @@ for (( j=0; j<${length}; j++ ));
 do
 cat <<EOF >> ${FILE_NAME[j]}.resource.ts
 import { mutationField, queryField, nullable, nonNull, list } from 'nexus';
-import { isAdmin } from '../../shared/rules';
 
 export const Get${CLASS_NAME[j]} = queryField('get_${VALUE_NAME[j]}', {
   type: '${VALUE_NAME[j]}_output',
@@ -22,7 +21,6 @@ export const Get${CLASS_NAME[j]} = queryField('get_${VALUE_NAME[j]}', {
 
 export const Search${CLASS_NAME[j]} = queryField('search_${VALUE_NAME[j]}', {
   type: 'pagination_output',
-  shield: isAdmin(),
   args: { input: nullable('search_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.search${CLASS_NAME[j]}(input as any);
@@ -31,7 +29,6 @@ export const Search${CLASS_NAME[j]} = queryField('search_${VALUE_NAME[j]}', {
 
 export const Create${CLASS_NAME[j]} = mutationField('create_${VALUE_NAME[j]}', {
   type: '${VALUE_NAME[j]}_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('create_${VALUE_NAME[j]}_input')) },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.create${CLASS_NAME[j]}(input as any);
@@ -40,7 +37,6 @@ export const Create${CLASS_NAME[j]} = mutationField('create_${VALUE_NAME[j]}', {
 
 export const Update${CLASS_NAME[j]} = mutationField('update_${VALUE_NAME[j]}', {
   type: '${VALUE_NAME[j]}_output',
-  shield: isAdmin(),
   args: { input: nonNull('update_${VALUE_NAME[j]}_input') },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.update${CLASS_NAME[j]}(input as any);
@@ -49,7 +45,6 @@ export const Update${CLASS_NAME[j]} = mutationField('update_${VALUE_NAME[j]}', {
 
 export const Delete${CLASS_NAME[j]} = mutationField('delete_${VALUE_NAME[j]}s', {
   type: '${VALUE_NAME[j]}_output',
-  shield: isAdmin(),
   args: { input: list(nonNull('delete_${VALUE_NAME[j]}_input')) },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.delete${CLASS_NAME[j]}(input as any);

@@ -5,6 +5,5 @@ export const CreateUserInput = inputObjectType({
   definition(t) {
     t.nonNull.string('email');
     t.nonNull.string('name');
-    t.nonNull.string('role_name');
   },
 });

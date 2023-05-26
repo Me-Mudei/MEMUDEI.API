@@ -21,7 +21,6 @@ describe('CreateUserUseCase Unit Tests', () => {
     await useCase.execute({
       email: 'test@test.com',
       name: 'test',
-      role_name: 'TEST',
     });
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
     expect(spyBrokerPublish).toHaveBeenCalledTimes(1);
@@ -29,7 +28,6 @@ describe('CreateUserUseCase Unit Tests', () => {
     await useCase.execute({
       email: 'test@test.com',
       name: 'test',
-      role_name: 'TEST',
     });
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(2);
     expect(spyBrokerPublish).toHaveBeenCalledTimes(2);

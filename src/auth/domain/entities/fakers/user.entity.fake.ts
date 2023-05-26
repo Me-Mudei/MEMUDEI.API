@@ -1,8 +1,6 @@
 import { User } from '../user.entity';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
-import { Role } from '../role.entity';
-import { RoleFakeBuilder } from './role.entity.fake';
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -12,8 +10,6 @@ export class UserFakeBuilder<TBuild = any> {
   private _updated_at = undefined;
   private _email: PropOrFactory<string> = (_index) =>
     this.chance.email({ domain: 'memudei.me' });
-  private _role: PropOrFactory<Role> = (_index) =>
-    RoleFakeBuilder.aRole().build();
 
   private countObjs: number;
 
@@ -52,11 +48,6 @@ export class UserFakeBuilder<TBuild = any> {
     return this;
   }
 
-  withRole(valueOrFactory: PropOrFactory<Role>) {
-    this._role = valueOrFactory;
-    return this;
-  }
-
   build(): TBuild {
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
@@ -71,7 +62,6 @@ export class UserFakeBuilder<TBuild = any> {
             updated_at: this.callFactory(this._updated_at, index),
           }),
           email: this.callFactory(this._email, index),
-          role: this.callFactory(this._role, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
