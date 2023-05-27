@@ -124,7 +124,7 @@ async function main() {
       { key: 'cleaning', name: 'Limpeza' },
       { key: 'security', name: 'Segurança' },
       { key: 'parking', name: 'Estacionamento' },
-      { key: 'other', name: 'Outros' },
+      { key: 'others', name: 'Outros' },
     ],
   });
 }
