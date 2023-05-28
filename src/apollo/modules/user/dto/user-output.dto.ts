@@ -11,6 +11,17 @@ export const UserOutput = objectType({
   },
 });
 
+export const UsersPaginationOutput = objectType({
+  name: 'users_pagination_output',
+  definition(t) {
+    t.nonNull.list.field('items', { type: 'user_output' });
+    t.nonNull.int('total');
+    t.nonNull.int('current_page');
+    t.nonNull.int('last_page');
+    t.nonNull.int('per_page');
+  },
+});
+
 export const ValidateUserOutput = objectType({
   name: 'validate_user_output',
   definition(t) {

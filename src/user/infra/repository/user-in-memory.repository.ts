@@ -12,12 +12,45 @@ export class UserInMemoryRepository
     items: User[],
     filter: UserFilter,
   ): Promise<User[]> {
-    if (!filter) {
+    if (!filter || Object.keys(filter).length === 0) {
       return items;
     }
+    for (const key in filter) {
+      if (!filter[key]) {
+        continue;
+      }
+      items = this[`${key}_filter`](items, filter[key]);
+    }
+    return items;
+  }
 
-    return items.filter((i) => {
-      return i.props.name.toLowerCase().includes(filter.toLowerCase());
+  name_filter(items: User[], name: string): User[] {
+    if (name.length < 3) return items;
+    return items.filter((item) => {
+      return item.name.toLowerCase().includes(name.toLowerCase());
+    });
+  }
+
+  email_filter(items: User[], email: string): User[] {
+    if (email.length < 3) return items;
+    return items.filter((item) => {
+      return item.email.toLowerCase().includes(email.toLowerCase());
+    });
+  }
+
+  external_id_filter(items: User[], external_id: string): User[] {
+    if (external_id.length < 3) return items;
+    return items.filter((item) => {
+      return item.external_id.toLowerCase().includes(external_id.toLowerCase());
+    });
+  }
+
+  property_id_filter(items: User[], property_id: string): User[] {
+    if (property_id.length < 3) return items;
+    return items.filter((item) => {
+      return (item as any).properties.some((property) =>
+        property.id.includes(property_id),
+      );
     });
   }
 

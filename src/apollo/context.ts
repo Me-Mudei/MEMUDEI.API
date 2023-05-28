@@ -53,7 +53,7 @@ export class Context implements Context {
         });
         this.user = { permissions, id: user_id };
       } catch (error) {
-        console.log('error', error);
+        //console.log('error', error);
       }
     }
     return this;

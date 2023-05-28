@@ -87,6 +87,21 @@ export abstract class InMemorySearchableRepository<
     });
   }
 
+  async findFirst(props: SearchParams<Filter>): Promise<E | null> {
+    const itemsFiltered = await this.applyFilter(this.items, props.filter);
+    const itemsSorted = await this.applySort(
+      itemsFiltered,
+      props.sort,
+      props.sort_dir,
+    );
+    const itemsPaginated = await this.applyPaginate(
+      itemsSorted,
+      props.page,
+      props.per_page,
+    );
+    return itemsPaginated[0] || null;
+  }
+
   protected abstract applyFilter(
     items: E[],
     filter: Filter | null,

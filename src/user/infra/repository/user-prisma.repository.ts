@@ -1,5 +1,6 @@
 import { User } from '../../domain/entities';
 import {
+  UserFilter,
   UserRepository,
   UserSearchParams,
   UserSearchResult,
@@ -73,13 +74,7 @@ export class UserPrismaRepository implements UserRepository {
           ? { [props.sort]: props.sort_dir }
           : { created_at: 'asc' }),
       },
-      where: {
-        ...(props.filter && {
-          name: {
-            contains: `${props.filter}`,
-          },
-        }),
-      },
+      where: this.applyFilters(props.filter),
     });
 
     return new UserSearchResult({
@@ -93,6 +88,16 @@ export class UserPrismaRepository implements UserRepository {
     });
   }
 
+  async findFirst(props: UserSearchParams): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: this.applyFilters(props.filter),
+    });
+    if (!user) {
+      return null;
+    }
+    return this.toEntity(user);
+  }
+
   private toEntity(
     user: Prisma.userGetPayload<Prisma.userFindUniqueArgs>,
   ): User {
@@ -104,5 +109,47 @@ export class UserPrismaRepository implements UserRepository {
       created_at: new Date(user.created_at),
       updated_at: new Date(user.updated_at),
     });
+  }
+
+  private applyFilters(filter: UserFilter): Prisma.userWhereInput {
+    let where: Prisma.userWhereInput = {};
+    if (!filter || Object.keys(filter).length === 0) {
+      return where;
+    }
+    for (const key in filter) {
+      if (!filter[key]) {
+        continue;
+      }
+      where = this[`${key}_filter`](where, filter[key]);
+    }
+    return where;
+  }
+
+  name_filter(
+    where: Prisma.userWhereInput,
+    name: string,
+  ): Prisma.userWhereInput {
+    return { ...where, name: { contains: name, mode: 'insensitive' } };
+  }
+
+  email_filter(
+    where: Prisma.userWhereInput,
+    email: string,
+  ): Prisma.userWhereInput {
+    return { ...where, email: { contains: email } };
+  }
+
+  external_id_filter(
+    where: Prisma.userWhereInput,
+    external_id: string,
+  ): Prisma.userWhereInput {
+    return { ...where, external_id: { contains: external_id } };
+  }
+
+  property_id_filter(
+    where: Prisma.userWhereInput,
+    property_id: string,
+  ): Prisma.userWhereInput {
+    return { ...where, properties: { some: { id: property_id } } };
   }
 }

@@ -1,6 +1,10 @@
 import { UserFacade } from '../../app/facade';
 import { Broker, Connection } from '#shared/infra';
-import { CreateUserUseCase } from '../../app/use-cases';
+import {
+  CreateUserUseCase,
+  FindFirstUserUseCase,
+  SearchUsersUseCase,
+} from '../../app/use-cases';
 import { UserCreatedSendConfirmationHandler } from '../../app/handlers';
 import { UserPrismaRepository } from '../repository';
 
@@ -12,9 +16,13 @@ export class UserFacadeFactory {
 
     broker.register(new UserCreatedSendConfirmationHandler());
     const createUserUseCase = new CreateUserUseCase(userRepository, broker);
+    const findFirstUserUseCase = new FindFirstUserUseCase(userRepository);
+    const serachUserUseCase = new SearchUsersUseCase(userRepository);
 
     return new UserFacade({
       createUseCase: createUserUseCase,
+      findFirstUseCase: findFirstUserUseCase,
+      searchUseCase: serachUserUseCase,
     });
   }
 }

@@ -1,10 +1,16 @@
 import { Broker } from '#shared/infra';
 import { UserInMemoryRepository } from '../../infra';
-import { CreateUserUseCase } from '../use-cases';
+import {
+  CreateUserUseCase,
+  FindFirstUserUseCase,
+  SearchUsersUseCase,
+} from '../use-cases';
 import { UserFacade } from './user.facade';
 
 describe('UserFacade Unit tests', () => {
   let useCase: CreateUserUseCase;
+  let mockFindFirstUser: FindFirstUserUseCase;
+  let mockSearchUsers: SearchUsersUseCase;
   let repository: UserInMemoryRepository;
   let broker: Broker;
   let facade: UserFacade;
@@ -13,7 +19,13 @@ describe('UserFacade Unit tests', () => {
     repository = new UserInMemoryRepository();
     broker = new Broker();
     useCase = new CreateUserUseCase(repository, broker);
-    facade = new UserFacade({ createUseCase: useCase });
+    mockFindFirstUser = new FindFirstUserUseCase(repository);
+    mockSearchUsers = new SearchUsersUseCase(repository);
+    facade = new UserFacade({
+      createUseCase: useCase,
+      findFirstUseCase: mockFindFirstUser,
+      searchUseCase: mockSearchUsers,
+    });
   });
   it('should create a user facade', async () => {
     const spyFacadeCreate = jest.spyOn(facade, 'createUser');

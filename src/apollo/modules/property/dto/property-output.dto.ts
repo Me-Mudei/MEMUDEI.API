@@ -48,6 +48,14 @@ export const PropertyOutput = objectType({
     t.nonNull.list.nonNull.field('rules', { type: 'property_rule_output' });
     t.nonNull.list.nullable.field('photos', { type: 'photo_output' });
     t.nonNull.list.nonNull.field('charges', { type: 'property_charge_output' });
+    t.nullable.field('owner', {
+      type: 'user_output',
+      resolve: async (root, _args, ctx) => {
+        return ctx.userService.findFirstUser({
+          filter: { property_id: root.id },
+        });
+      },
+    });
     t.nonNull.date('created_at');
     t.nonNull.date('updated_at');
   },
