@@ -4,6 +4,7 @@ import {
   CreateUserUseCase,
   FindFirstUserUseCase,
   SearchUsersUseCase,
+  ValidateUserUseCase,
 } from '../use-cases';
 import { UserFacade } from './user.facade';
 
@@ -11,6 +12,7 @@ describe('UserFacade Unit tests', () => {
   let useCase: CreateUserUseCase;
   let mockFindFirstUser: FindFirstUserUseCase;
   let mockSearchUsers: SearchUsersUseCase;
+  let mockValidateUser: ValidateUserUseCase;
   let repository: UserInMemoryRepository;
   let broker: Broker;
   let facade: UserFacade;
@@ -21,10 +23,12 @@ describe('UserFacade Unit tests', () => {
     useCase = new CreateUserUseCase(repository, broker);
     mockFindFirstUser = new FindFirstUserUseCase(repository);
     mockSearchUsers = new SearchUsersUseCase(repository);
+    mockValidateUser = new ValidateUserUseCase(repository);
     facade = new UserFacade({
       createUseCase: useCase,
       findFirstUseCase: mockFindFirstUser,
       searchUseCase: mockSearchUsers,
+      validateUseCase: mockValidateUser,
     });
   });
   it('should create a user facade', async () => {

@@ -19,10 +19,7 @@ export const SearchUsers = queryField('search_users', {
 export const ValidateUser = queryField('validate_user', {
   type: 'validate_user_output',
   args: { input: nonNull('validate_user_input') },
-  resolve: async (_, _args, _ctx) => {
-    //return await ctx.userService.validateUser(input);
-    return {
-      already_exists: false,
-    };
+  resolve: async (_, { input }, ctx) => {
+    return await ctx.userService.validateUser(input);
   },
 });

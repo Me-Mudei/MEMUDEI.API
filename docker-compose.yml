@@ -12,3 +12,15 @@ services:
       - 11996:5432
     volumes:
       - ./.docker/db:/var/lib/postgresql/data
+  s3-localstack:
+    container_name: s3-localstack
+    image: localstack/localstack
+    restart: always
+    environment:
+      - SERVICES=s3
+    ports:
+      - 4566:4566
+      - 4571:4571
+    volumes:
+      - "./.docker/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - ./.docker/localstack:/var/lib/localstack

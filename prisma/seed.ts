@@ -1,21 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
-  await prisma.user.create({
-    data: {
-      name: 'Uriel Guy',
-      email: 'uriel.guy@memudei.me',
-    },
-  });
-
-  await prisma.user.create({
-    data: {
-      external_id: 'MgxO159FtDCCYQYULEhBy',
-      name: 'Jhon Doe',
-      email: 'jhon.doe@memudei.me',
-    },
-  });
-
   await prisma.privacy_type.createMany({
     data: [
       { key: 'entire_property', name: 'Imóvel inteiro' },
