@@ -1,23 +1,19 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
-import { InMemoryRepositoryFactory, InMemoryDriver } from '#property/infra';
+import { InMemoryRepositoryFactory } from '#property/infra';
 import { Broker } from '#shared/infra';
 import { PropertyStatus, RepositoryFactory } from '#property/domain';
-import { Driver } from '#property/domain/driver/driver-contracts';
-import { createReadStream } from 'fs';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
-  let driver: Driver;
   let broker: Broker;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
-    driver = new InMemoryDriver();
     broker = new Broker();
-    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
+    useCase = new CreatePropertyUseCase(repositoryFactory, broker);
   });
 
   it('should create a property', async () => {
@@ -91,15 +87,7 @@ describe('CreatePropertyUseCase Unit Tests', () => {
           allowed: true,
         },
       ],
-      photos: [
-        {
-          filename: 'unit-use-case-upload-test.txt',
-          mimetype: 'text/plain',
-          encoding: '7bit',
-          createReadStream: () =>
-            createReadStream(`${__dirname}/unit-use-case-upload-test.txt`),
-        },
-      ],
+      file_ids: [new UniqueEntityId().value],
       charges: [
         {
           key: chance.word({ length: 10 }),
@@ -126,8 +114,5 @@ describe('CreatePropertyUseCase Unit Tests', () => {
     expect(property.created_at).toBeInstanceOf(Date);
     expect(property.updated_at).toBeInstanceOf(Date);
     expect(spyRepositoryInsert).toHaveBeenCalledTimes(1);
-    createPropertyProps.photos.map((photo) =>
-      driver.delete(photo.filename, property.id),
-    );
   });
 });

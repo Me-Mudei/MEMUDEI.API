@@ -4,7 +4,6 @@ import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
 import { PropertyRepository } from '../../domain/repository';
 import { RepositoryFactory } from '../../domain/factory';
 import { UpdatePropertyInput, UpdatePropertyOutput } from '../dto';
-import { Driver } from '../../domain/driver';
 import { PropertyStatus } from '../../domain/entities';
 
 export class UpdatePropertyUseCase
@@ -14,7 +13,6 @@ export class UpdatePropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly driver: Driver,
     readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();

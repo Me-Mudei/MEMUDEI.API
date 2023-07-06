@@ -8,27 +8,21 @@ import {
 import { PropertyFacade } from './property.facade';
 import { InMemoryRepositoryFactory } from '../../infra';
 import { RepositoryFactory } from '../../domain';
-import { Driver } from '../../domain/driver/driver-contracts';
-import { InMemoryDriver } from '../../infra/driver/in-memory.driver';
-import { createReadStream } from 'fs';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 
 describe('PropertyFacade Unit tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
-  let driver: Driver;
   let broker: Broker;
   let facade: PropertyFacade;
 
   beforeEach(() => {
     repositoryFactory = new InMemoryRepositoryFactory();
-    driver = new InMemoryDriver();
     broker = new Broker();
-    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
+    useCase = new CreatePropertyUseCase(repositoryFactory, broker);
     const mockUpdateUseCase = new UpdatePropertyUseCase(
       repositoryFactory,
-      driver,
       broker,
     );
     const mockGetUseCase = new GetPropertyUseCase(repositoryFactory, broker);
@@ -100,15 +94,7 @@ describe('PropertyFacade Unit tests', () => {
           allowed: false,
         },
       ],
-      photos: [
-        {
-          filename: 'facade-upload-test.txt',
-          mimetype: 'text/plain',
-          encoding: '7bit',
-          createReadStream: () =>
-            createReadStream(`${__dirname}/facade-upload-test.txt`),
-        },
-      ],
+      photos: [new UniqueEntityId().value],
       charges: [
         {
           key: chance.word({ length: 10 }),

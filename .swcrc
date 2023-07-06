@@ -11,7 +11,8 @@
       "#auth/*": ["./auth/*"],
       "#property/*": ["./property/*"],
       "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"]
+      "#user/*": ["./user/*"],
+      "#file/*": ["./file/*"]
     }
   }
 }

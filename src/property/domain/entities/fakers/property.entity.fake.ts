@@ -48,6 +48,9 @@ export class PropertyFakeBuilder<TBuild = any> {
     CondominiumDetailFakeBuilder.theCondominiumDetails(3).build();
   private _rules: PropOrFactory<Rule[]> = (_index) =>
     RuleFakeBuilder.theRules(3).build();
+  private _file_ids: PropOrFactory<UniqueEntityId[] | null> = (_index) => [
+    new UniqueEntityId(),
+  ];
   private _photos: PropOrFactory<Photo[] | null> = (_index) =>
     PhotoFakeBuilder.thePhotos(3).build();
   private _charges: PropOrFactory<Charge[]> = (_index) =>
@@ -134,6 +137,10 @@ export class PropertyFakeBuilder<TBuild = any> {
     this._rules = valueOrFactory;
     return this;
   }
+  withFileIds(valueOrFactory: PropOrFactory<UniqueEntityId[] | null>) {
+    this._file_ids = valueOrFactory;
+    return this;
+  }
   withPhotos(valueOrFactory: PropOrFactory<Photo[] | null>) {
     this._photos = valueOrFactory;
     return this;
@@ -178,6 +185,7 @@ export class PropertyFakeBuilder<TBuild = any> {
           ),
           rules: this.callFactory(this._rules, index),
           photos: this.callFactory(this._photos, index),
+          file_ids: this.callFactory(this._file_ids, index),
           charges: this.callFactory(this._charges, index),
           user_id: this.callFactory(this._user_id, index),
         }),
@@ -225,6 +233,9 @@ export class PropertyFakeBuilder<TBuild = any> {
   }
   get rules() {
     return this.getValue('rules');
+  }
+  get file_ids() {
+    return this.getValue('file_ids');
   }
   get photos() {
     return this.getValue('photos');

@@ -8,12 +8,10 @@ import {
   CreatePropertyOutput,
   CreatePropertyOutputMapper,
 } from '../dto';
-import { Driver } from '../../domain/driver';
 import {
   Address,
   Charge,
   FloorPlan,
-  Photo,
   Property,
   CondominiumDetail,
   PropertyDetail,
@@ -27,7 +25,6 @@ export class CreatePropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly driver: Driver,
     readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
@@ -91,19 +88,9 @@ export class CreatePropertyUseCase
       rules: rules,
       charges: charges,
       user_id: new UniqueEntityId(input.user_id),
+      file_ids: input.file_ids.map((file_id) => new UniqueEntityId(file_id)),
     });
-    const files = await this.driver.uploadMany(input.photos, `${property.id}`);
-    this.logger.info({ message: 'Files uploaded' });
-    const photos = files.map((file) => {
-      return new Photo({
-        file: file.filename,
-        name: file.filename,
-        type: file.mimetype.split('/')[0],
-        subtype: file.mimetype.split('/')[1],
-        url: file.url,
-      });
-    });
-    property.photos = photos;
+
     await this.propertyRepository.insert(property);
     return CreatePropertyOutputMapper.toOutput(property);
   }

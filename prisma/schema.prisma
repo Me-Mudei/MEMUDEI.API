@@ -38,7 +38,6 @@ model property {
     created_at               DateTime                         @default(now())
     updated_at               DateTime                         @updatedAt
     address                  address?
-    photos                   photo[]
     property_schedule        event[]
     condominium_details      properties_condominium_details[]
     rules                    properties_rules[]
@@ -240,16 +239,15 @@ model properties_charges {
     @@id([property_id, charge_key])
 }
 
-model photo {
-    id          String    @id @default(nanoid()) @db.Char(21)
-    url         String
-    file        String
-    name        String
-    type        String
-    subtype     String
-    description String?
-    created_at  DateTime  @default(now())
-    updated_at  DateTime  @updatedAt
-    properties  property? @relation(fields: [property_id], references: [id])
-    property_id String?   @db.Char(21)
+model file {
+    id           String   @id @default(nanoid()) @db.Char(21)
+    url          String
+    file         String
+    name         String
+    type         String
+    subtype      String
+    description  String?
+    created_at   DateTime @default(now())
+    updated_at   DateTime @updatedAt
+    reference_id String   @db.Char(21)
 }

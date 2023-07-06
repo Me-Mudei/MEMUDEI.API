@@ -1,25 +1,21 @@
 import { CreatePropertyUseCase } from '../../create-property.use-case';
 import { PrismaRepositoryFactory } from '#property/infra';
 import { Broker } from '#shared/infra';
-import { RepositoryFactory, Driver, PropertyStatus } from '#property/domain';
+import { RepositoryFactory, PropertyStatus } from '#property/domain';
 //import { AwsS3Driver } from '#property/infra';
-import { InMemoryDriver } from '#property/infra';
 
-import { createReadStream } from 'fs';
 import { Chance } from 'chance';
 import { UniqueEntityId } from '#shared/domain';
 
 describe('CreatePropertyUseCase Unit Tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
-  let driver: Driver;
   let broker: Broker;
 
   beforeEach(() => {
     repositoryFactory = new PrismaRepositoryFactory();
-    driver = new InMemoryDriver();
     broker = new Broker();
-    useCase = new CreatePropertyUseCase(repositoryFactory, driver, broker);
+    useCase = new CreatePropertyUseCase(repositoryFactory, broker);
   });
 
   it('should create a property', async () => {
@@ -81,15 +77,7 @@ describe('CreatePropertyUseCase Unit Tests', () => {
           allowed: false,
         },
       ],
-      photos: [
-        {
-          filename: 'int-use-case-upload-test.txt',
-          mimetype: 'text/plain',
-          encoding: '7bit',
-          createReadStream: () =>
-            createReadStream(`${__dirname}/int-use-case-upload-test.txt`),
-        },
-      ],
+      file_ids: [new UniqueEntityId().value],
       charges: [
         {
           key: chance.word({ length: 10 }),

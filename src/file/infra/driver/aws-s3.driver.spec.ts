@@ -1,4 +1,4 @@
-import { Driver, FileInput } from '#property/domain';
+import { Driver, FileInput } from '../../domain';
 import { configEnv } from '#shared/infra';
 import { createReadStream } from 'fs';
 import { AwsS3Driver } from './aws-s3.driver';

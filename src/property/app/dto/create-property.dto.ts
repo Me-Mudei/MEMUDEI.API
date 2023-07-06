@@ -1,4 +1,3 @@
-import { FileInput } from '../../domain/driver';
 import { PropertyStatus } from '../../domain/entities';
 
 export type CreatePropertyInput = {
@@ -13,7 +12,7 @@ export type CreatePropertyInput = {
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
   rules: RuleInput[];
-  photos?: FileInput[];
+  file_ids?: string[];
   charges: ChargeInput[];
   user_id: string;
 };

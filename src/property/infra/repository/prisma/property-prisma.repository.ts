@@ -68,19 +68,9 @@ export class PropertyPrismaRepository implements PropertyRepository {
           },
         },
         photos: {
-          createMany: {
-            data: entity.photos.map((photo) => ({
-              id: photo.id,
-              url: photo.url,
-              file: photo.file,
-              name: photo.name,
-              subtype: photo.subtype,
-              type: photo.type,
-              description: photo.description,
-              created_at: photo.created_at,
-              updated_at: photo.updated_at,
-            })),
-          },
+          connect: entity.file_ids.map((file) => ({
+            id: file,
+          })),
         },
         floor_plans: {
           createMany: {

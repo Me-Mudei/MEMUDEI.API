@@ -15,11 +15,13 @@
     "#adm/*": "./.build/src/adm/*/index.js",
     "#auth/*": "./.build/src/auth/*/index.js",
     "#apollo/*": "./.build/src/apollo/*/index.js",
-    "#user/*": "./.build/src/user/*/index.js"
+    "#user/*": "./.build/src/user/*/index.js",
+    "#file/*": "./.build/src/file/*/index.js"
   },
   "exports": {
     "./shared": "./.build/src/shared/index.js",
     "./user": "./.build/src/user/index.js",
+    "./file": "./.build/src/file/index.js",
     "./property": "./.build/src/property/index.js",
     "./adm": "./.build/src/adm/index.js",
     "./apollo": "./.build/src/apollo/index.js",

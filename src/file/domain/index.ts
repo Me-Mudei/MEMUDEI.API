@@ -1,4 +1,5 @@
 // created from 'create-ts-index'
 
-export * from './factory';
+export * from './entities';
 export * from './repository';
+export * from './driver';
