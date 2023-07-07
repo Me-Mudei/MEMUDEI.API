@@ -2,6 +2,7 @@ import { APIGatewayEvent, Context } from 'aws-lambda';
 import Busboy from 'busboy';
 import { FileInMemoryFacadeFactory } from './infra';
 import { Readable } from 'node:stream';
+import { ReadStream } from 'node:tty';
 
 const fileFacadeFactory = FileInMemoryFacadeFactory.create();
 
@@ -55,7 +56,8 @@ export const parser = (event: any) =>
 export const handler = async (event: APIGatewayEvent, context: Context) => {
   await parser(event);
   const file: Buffer = (event.body as any).file;
-  const stream: ReadStream = await fileFacadeFactory.uploadFile({
+  const stream = Readable.from(file);
+  await fileFacadeFactory.uploadFile({
     reference_type: 'property',
     files: [
       {
