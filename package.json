@@ -28,11 +28,9 @@
     "./auth": "./src/auth/index.js"
   },
   "scripts": {
-    "predev": "docker-compose up -d && yarn build",
-    "dev": "npx sls offline --stage local",
-    "prestart:apollo": "yarn build",
-    "start:apollo": "yarn nexus:generate && ts-node-dev --no-notify --respawn --transpile-only src/apollo",
+    "dev": "yarn build && npx sls offline --stage local",
     "build": "yarn generate && tsc -b ./tsconfig.json",
+    "dc:up": "docker-compose up -d",
     "generate": "yarn nexus:generate && yarn prisma:generate",
     "clean": "rm -rf .build",
     "test": "yarn generate && jest",
