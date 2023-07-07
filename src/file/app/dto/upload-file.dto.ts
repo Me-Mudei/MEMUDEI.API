@@ -8,8 +8,7 @@ export type UploadFileInput = {
 export type UploadFileOutput = {
   id: string;
   url: string;
-  file: string;
-  name: string;
+  filename: string;
   type: string;
   subtype: string;
   description?: string;

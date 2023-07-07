@@ -10,8 +10,7 @@ export class FilePrismaRepository implements FileRepository {
       data: files.map((file) => ({
         id: file.id,
         url: file.url,
-        file: file.file,
-        name: file.name,
+        filename: file.filename,
         subtype: file.subtype,
         type: file.type,
         description: file.description,
@@ -47,8 +46,7 @@ export class FilePrismaRepository implements FileRepository {
     return new File({
       id: new UniqueEntityId(file.id),
       url: file.url,
-      file: file.file,
-      name: file.name,
+      filename: file.filename,
       subtype: file.subtype,
       type: file.type,
       description: file.description,

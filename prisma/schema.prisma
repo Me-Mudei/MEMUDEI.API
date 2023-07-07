@@ -243,8 +243,7 @@ model properties_charges {
 model file {
     id          String             @id @default(nanoid()) @db.Char(21)
     url         String
-    file        String
-    name        String
+    filename    String
     type        String
     subtype     String
     description String?

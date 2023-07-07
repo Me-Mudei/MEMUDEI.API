@@ -25,8 +25,7 @@ export class UploadFileUseCase
     this.logger.info({ message: 'Files uploaded' });
     const files = filesUploaded.map((file) => {
       return new File({
-        file: file.filename,
-        name: file.filename,
+        filename: file.filename,
         type: file.mimetype.split('/')[0],
         subtype: file.mimetype.split('/')[1],
         url: file.url,
@@ -38,8 +37,7 @@ export class UploadFileUseCase
       return {
         id: file.id.toString(),
         url: file.url,
-        file: file.file,
-        name: file.name,
+        filename: file.filename,
         type: file.type,
         subtype: file.subtype,
         description: file.description,

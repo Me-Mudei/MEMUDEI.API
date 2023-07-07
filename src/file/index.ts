@@ -1,10 +1,18 @@
 import { APIGatewayEvent, Context } from 'aws-lambda';
 import Busboy from 'busboy';
-import { FileInMemoryFacadeFactory } from './infra';
-import { Readable } from 'node:stream';
-import { ReadStream } from 'node:tty';
+import { FileFacadeFactory } from './infra';
+import { UploadFileInput } from './app';
+import { BadRequestError } from '#shared/domain';
 
-const fileFacadeFactory = FileInMemoryFacadeFactory.create();
+type ResultFile = {
+  file?: Buffer;
+  filename?: string;
+  encoding?: string;
+  mimetype?: string;
+  type?: UploadFileInput['reference_type'];
+};
+
+const fileFacadeFactory = FileFacadeFactory.create();
 
 const getContentType = (event: any) => {
   const contentType = event.headers['content-type'];
@@ -17,30 +25,25 @@ const getContentType = (event: any) => {
 export const parser = (event: any) =>
   new Promise((resolve, reject) => {
     const busboy = Busboy({
-      headers: {
-        'content-type': getContentType(event),
-      },
+      headers: { 'content-type': getContentType(event) },
     });
 
-    const result: any = {
-      file: '',
-      filename: '',
-      contentType: '',
-    };
+    const result: ResultFile = {};
 
-    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    busboy.on('file', (_, file, fileData) => {
       file.on('data', (data) => {
         result.file = data;
       });
 
       file.on('end', () => {
-        result.filename = filename;
-        result.contentType = mimetype;
+        result.filename = fileData.filename;
+        result.encoding = fileData.encoding;
+        result.mimetype = fileData.mimeType;
       });
     });
 
-    busboy.on('field', (fieldname, value) => {
-      result[fieldname] = value;
+    busboy.on('field', (name, value) => {
+      result[name] = value;
     });
 
     busboy.on('error', (error: any) => reject(error));
@@ -53,23 +56,56 @@ export const parser = (event: any) =>
     busboy.end();
   });
 
-export const handler = async (event: APIGatewayEvent, context: Context) => {
-  await parser(event);
-  const file: Buffer = (event.body as any).file;
-  const stream = Readable.from(file);
-  await fileFacadeFactory.uploadFile({
-    reference_type: 'property',
-    files: [
-      {
-        filename: 'test',
-        mimetype: 'image/png',
-        encoding: 'base64',
-        createReadStream: () => stream as any,
-      },
-    ],
-  });
+const validateFile = (body: { [key: string]: any }): ResultFile => {
+  if (!body.file) {
+    throw new BadRequestError('File not found');
+  }
+  if (!body.filename) {
+    throw new BadRequestError('Filename not found');
+  }
+  if (!body.mimetype) {
+    throw new BadRequestError('Mimetype not found');
+  }
+  if (!body.type) {
+    throw new BadRequestError('Type not found');
+  }
+  return body as ResultFile;
+};
 
-  return {
-    statusCode: 200,
-  };
+export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
+  try {
+    await parser(event);
+    const file = validateFile(event.body as any);
+    const output = await fileFacadeFactory.uploadFile({
+      reference_type: file.type,
+      files: [
+        {
+          filename: file.filename,
+          mimetype: file.mimetype,
+          createReadStream: () => file.file,
+        },
+      ],
+    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(output),
+      contentType: 'application/json',
+    };
+  } catch (error) {
+    const statusCode =
+      error.name === 'BadRequestError' ? 400 : error.statusCode ?? 500;
+    const errorBody = {
+      errors: [
+        {
+          type: error.name || 'InternalServerError',
+          message: error.message,
+        },
+      ],
+    };
+    return {
+      statusCode,
+      body: JSON.stringify(errorBody),
+      contentType: 'application/json',
+    };
+  }
 };

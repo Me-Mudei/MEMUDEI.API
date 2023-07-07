@@ -31,7 +31,6 @@ export class AwsS3Driver implements Driver {
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      encoding: file.encoding,
       url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${folder}/${file.filename}`,
     };
   }

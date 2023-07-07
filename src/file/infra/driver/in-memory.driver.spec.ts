@@ -12,7 +12,6 @@ describe('InMemoryDriver Unit tests', () => {
     const file: FileInput = {
       filename: 'upload-file-test.txt',
       mimetype: 'text/plain',
-      encoding: '7bit',
       createReadStream: () =>
         createReadStream(`${__dirname}/upload-file-test.txt`),
     };
@@ -20,7 +19,6 @@ describe('InMemoryDriver Unit tests', () => {
     expect(res).toEqual({
       filename: file.filename,
       mimetype: file.mimetype,
-      encoding: file.encoding,
       url: `${__dirname}/tmp/uploads/${file.filename}`,
     });
   });

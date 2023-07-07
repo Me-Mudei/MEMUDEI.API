@@ -13,7 +13,6 @@ describe('AwsS3Driver Unit tests', () => {
     const file: FileInput = {
       filename: 'upload-file-test.txt',
       mimetype: 'text/plain',
-      encoding: '7bit',
       createReadStream: () =>
         createReadStream(`${__dirname}/upload-file-test.txt`),
     };
@@ -21,7 +20,6 @@ describe('AwsS3Driver Unit tests', () => {
     expect(res).toEqual({
       filename: file.filename,
       mimetype: file.mimetype,
-      encoding: file.encoding,
       url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/uploads/${file.filename}`,
     });
   });

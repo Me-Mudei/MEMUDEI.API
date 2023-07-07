@@ -15,7 +15,6 @@ export class InMemoryDriver implements Driver {
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      encoding: file.encoding,
       url: `${path}/${file.filename}`,
     };
   }

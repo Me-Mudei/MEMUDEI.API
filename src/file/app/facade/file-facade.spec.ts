@@ -27,7 +27,6 @@ describe('FileFacade Unit tests', () => {
         {
           filename: 'facade-upload-test.txt',
           mimetype: 'text/plain',
-          encoding: '7bit',
           createReadStream: () =>
             createReadStream(`${__dirname}/facade-upload-test.txt`),
         },

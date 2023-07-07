@@ -1,16 +1,15 @@
 import { ReadStream } from 'fs';
+import { Readable } from 'stream';
 
 export type FileInput = {
   filename: string;
   mimetype: string;
-  encoding: string;
-  createReadStream: () => ReadStream;
+  createReadStream: () => ReadStream | Buffer | Readable;
 };
 
 export type FileOutput = {
   filename: string;
   mimetype: string;
-  encoding: string;
   url: string;
 };
 
