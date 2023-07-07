@@ -1,11 +1,7 @@
 import { APIGatewayEvent, Context } from 'aws-lambda';
-import {
-  FileInMemoryFacadeFactory,
-  BusboyUploadProcessor,
-  BusboyBody,
-} from './infra';
+import { FileFacadeFactory, BusboyUploadProcessor, BusboyBody } from './infra';
 
-const fileFacadeFactory = FileInMemoryFacadeFactory.create();
+const fileFacadeFactory = FileFacadeFactory.create();
 
 export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
   try {
