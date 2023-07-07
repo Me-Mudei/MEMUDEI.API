@@ -64,7 +64,7 @@ export const handler = async (event: APIGatewayEvent, context: Context) => {
         filename: 'test',
         mimetype: 'image/png',
         encoding: 'base64',
-        createReadStream: () => stream,
+        createReadStream: () => stream as any,
       },
     ],
   });
