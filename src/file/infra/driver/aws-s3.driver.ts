@@ -5,6 +5,7 @@ import {
   FileInput,
   FileOutput,
 } from '../../domain/driver/driver-contracts';
+import { nanoid } from 'nanoid';
 
 export class AwsS3Driver implements Driver {
   private s3: S3;
@@ -21,9 +22,11 @@ export class AwsS3Driver implements Driver {
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
+    const hash = nanoid();
+    const fileName = `${folder}/${hash}-${file.filename}`;
     const command = new PutObjectCommand({
       Bucket: configEnv.storage.bucket,
-      Key: `${folder}/${file.filename}`,
+      Key: fileName,
       Body: file.createReadStream(),
       ACL: 'public-read',
     });
@@ -31,7 +34,7 @@ export class AwsS3Driver implements Driver {
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${folder}/${file.filename}`,
+      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`,
     };
   }
 

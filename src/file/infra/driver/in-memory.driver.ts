@@ -11,7 +11,15 @@ export class InMemoryDriver implements Driver {
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
     const path = `${__dirname}/tmp/${folder}`;
     if (!existsSync(path)) mkdirSync(path, { recursive: true });
-    file.createReadStream().pipe(createWriteStream(`${path}/${file.filename}`));
+    const resultFile = file.createReadStream();
+    if (resultFile instanceof Buffer) {
+      return {
+        filename: file.filename,
+        mimetype: file.mimetype,
+        url: `${path}/${file.filename}`,
+      };
+    }
+    resultFile.pipe(createWriteStream(`${path}/${file.filename}`));
     return {
       filename: file.filename,
       mimetype: file.mimetype,

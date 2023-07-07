@@ -9,6 +9,10 @@ type ResultFile = {
   filename?: string;
   encoding?: string;
   mimetype?: string;
+};
+
+type ResultBody = {
+  files?: ResultFile[];
   type?: UploadFileInput['reference_type'];
 };
 
@@ -28,17 +32,20 @@ export const parser = (event: any) =>
       headers: { 'content-type': getContentType(event) },
     });
 
-    const result: ResultFile = {};
+    const result: ResultBody = {
+      files: [],
+    };
 
     busboy.on('file', (_, file, fileData) => {
       file.on('data', (data) => {
-        result.file = data;
-      });
-
-      file.on('end', () => {
-        result.filename = fileData.filename;
-        result.encoding = fileData.encoding;
-        result.mimetype = fileData.mimeType;
+        file.on('end', () => {
+          result.files.push({
+            file: data,
+            filename: fileData.filename,
+            encoding: fileData.encoding,
+            mimetype: fileData.mimeType,
+          });
+        });
       });
     });
 
@@ -56,35 +63,38 @@ export const parser = (event: any) =>
     busboy.end();
   });
 
-const validateFile = (body: { [key: string]: any }): ResultFile => {
-  if (!body.file) {
-    throw new BadRequestError('File not found');
-  }
-  if (!body.filename) {
-    throw new BadRequestError('Filename not found');
-  }
-  if (!body.mimetype) {
-    throw new BadRequestError('Mimetype not found');
+const validateFile = (body: { [key: string]: any }): ResultBody => {
+  if (!body.files || body.files?.length === 0) {
+    throw new BadRequestError('Files not found');
   }
   if (!body.type) {
     throw new BadRequestError('Type not found');
   }
-  return body as ResultFile;
+  body.files.forEach((file: any) => {
+    if (!file.filename) {
+      throw new BadRequestError('Filename not found');
+    }
+    if (!file.file) {
+      throw new BadRequestError(`File not found - ${file.filename}`);
+    }
+    if (!file.mimetype) {
+      throw new BadRequestError(`Mimetype not found - ${file.filename}`);
+    }
+  });
+  return body as ResultBody;
 };
 
 export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
   try {
     await parser(event);
-    const file = validateFile(event.body as any);
+    const body = validateFile(event.body as any);
     const output = await fileFacadeFactory.uploadFile({
-      reference_type: file.type,
-      files: [
-        {
-          filename: file.filename,
-          mimetype: file.mimetype,
-          createReadStream: () => file.file,
-        },
-      ],
+      reference_type: body.type,
+      files: body.files.map((file) => ({
+        filename: file.filename,
+        mimetype: file.mimetype,
+        createReadStream: () => file.file,
+      })),
     });
     return {
       statusCode: 200,

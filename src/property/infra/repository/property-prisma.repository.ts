@@ -217,10 +217,9 @@ export class PropertyPrismaRepository implements PropertyRepository {
           file: {
             select: {
               id: true,
-              name: true,
+              filename: true,
               url: true,
               description: true,
-              file: true,
               subtype: true,
               type: true,
               created_at: true,
