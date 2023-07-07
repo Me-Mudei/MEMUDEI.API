@@ -62,3 +62,15 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
+
+  files:
+    handler: src/file/index.handler
+    events:
+      - http:
+          path: /files
+          method: ANY
+          cors: true
+      - http:
+          path: /files/{proxy+}
+          method: ANY
+          cors: true
