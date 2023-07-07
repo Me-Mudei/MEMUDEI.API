@@ -88,7 +88,9 @@ export class CreatePropertyUseCase
       rules: rules,
       charges: charges,
       user_id: new UniqueEntityId(input.user_id),
-      file_ids: input.file_ids.map((file_id) => new UniqueEntityId(file_id)),
+      photo_ids: input?.photo_ids?.map(
+        (file_id) => new UniqueEntityId(file_id),
+      ),
     });
 
     await this.propertyRepository.insert(property);

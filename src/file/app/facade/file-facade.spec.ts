@@ -1,4 +1,3 @@
-import { UniqueEntityId } from '#shared/domain';
 import { createReadStream } from 'fs';
 import { Driver } from '../../domain';
 import { FileInMemoryRepository, InMemoryDriver } from '../../infra';
@@ -23,7 +22,7 @@ describe('FileFacade Unit tests', () => {
     const spyFacadeCreate = jest.spyOn(facade, 'uploadFile');
     const spyUseCaseExecute = jest.spyOn(useCase, 'execute');
     await facade.uploadFile({
-      reference_id: new UniqueEntityId().value,
+      reference_type: 'property',
       files: [
         {
           filename: 'facade-upload-test.txt',

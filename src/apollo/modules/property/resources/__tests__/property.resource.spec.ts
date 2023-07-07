@@ -1,8 +1,5 @@
 import Context from '../../../../context';
 import { ApolloTestContext } from '../../../shared/tests/apollo-test-helper';
-import { Upload } from 'graphql-upload';
-import { createReadStream, readdirSync } from 'fs';
-import { ReadStream } from 'fs-capacitor';
 describe('PropertyResource', () => {
   let client: any;
   let ctx: ApolloTestContext;
@@ -46,7 +43,6 @@ describe('PropertyResource', () => {
   it('should get property', async () => {
     const property = await context.propertyService.createProperty({
       ...makeInput(),
-      photos: [],
       user_id: 'MgxO159FtDCCYQYULEhBy',
     });
     const res = await client.executeOperation(
@@ -68,20 +64,6 @@ describe('PropertyResource', () => {
   });
 
   it('should create property', async () => {
-    const uploads = [] as Upload[];
-    readdirSync(`${__dirname}/photos/`).forEach((filename) => {
-      const file: any = createReadStream(`${__dirname}/photos/${filename}`);
-      const upload = new Upload();
-      upload.promise = new Promise((resolve) =>
-        resolve({
-          filename,
-          mimetype: 'image/jpeg',
-          encoding: '7bit',
-          createReadStream: () => file,
-        }),
-      ); //`${__dirname}/photos/${filename}`
-      uploads.push(upload);
-    });
     context.authService = {
       authenticate: jest.fn(),
       authorize: jest.fn(),
@@ -95,10 +77,7 @@ describe('PropertyResource', () => {
                   }
                 }`,
         variables: {
-          input: {
-            ...makeInput(),
-            photos: uploads,
-          },
+          input: makeInput(),
         },
       },
       { contextValue: context },

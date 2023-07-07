@@ -29,7 +29,7 @@ export type PropertyProps = {
   condominium_details: CondominiumDetail[];
   rules: Rule[];
   photos?: Photo[];
-  file_ids?: UniqueEntityId[];
+  photo_ids?: UniqueEntityId[];
   charges: Charge[];
   user_id: UniqueEntityId;
 };
@@ -47,7 +47,7 @@ export class Property extends Entity<PropertyProps> {
   private _condominium_details: CondominiumDetail[];
   private _rules: Rule[];
   private _photos?: Photo[];
-  private _file_ids?: UniqueEntityId[];
+  private _photo_ids?: UniqueEntityId[];
   private _charges: Charge[];
   private _user_id: UniqueEntityId;
   private _disabled_at?: Date;
@@ -68,7 +68,7 @@ export class Property extends Entity<PropertyProps> {
     this._condominium_details = props.condominium_details;
     this._rules = props.rules;
     this._photos = props.photos;
-    this._file_ids = props.file_ids;
+    this._photo_ids = props.photo_ids;
     this._charges = props.charges;
     this._user_id = props.user_id;
   }
@@ -165,11 +165,11 @@ export class Property extends Entity<PropertyProps> {
   set photos(photos) {
     this._photos = photos;
   }
-  get file_ids() {
-    return this._file_ids;
+  get photo_ids() {
+    return this._photo_ids;
   }
-  set file_ids(file_ids) {
-    this._file_ids = file_ids;
+  set photo_ids(photo_ids) {
+    this._photo_ids = photo_ids;
   }
   get charges() {
     return this._charges;

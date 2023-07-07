@@ -10,22 +10,22 @@
     "doc": "docs"
   },
   "imports": {
-    "#shared/*": "./.build/src/shared/*/index.js",
-    "#property/*": "./.build/src/property/*/index.js",
-    "#adm/*": "./.build/src/adm/*/index.js",
-    "#auth/*": "./.build/src/auth/*/index.js",
-    "#apollo/*": "./.build/src/apollo/*/index.js",
-    "#user/*": "./.build/src/user/*/index.js",
-    "#file/*": "./.build/src/file/*/index.js"
+    "#shared/*": "./src/shared/*/index.js",
+    "#property/*": "./src/property/*/index.js",
+    "#adm/*": "./src/adm/*/index.js",
+    "#auth/*": "./src/auth/*/index.js",
+    "#apollo/*": "./src/apollo/*/index.js",
+    "#user/*": "./src/user/*/index.js",
+    "#file/*": "./src/file/*/index.js"
   },
   "exports": {
-    "./shared": "./.build/src/shared/index.js",
-    "./user": "./.build/src/user/index.js",
-    "./file": "./.build/src/file/index.js",
-    "./property": "./.build/src/property/index.js",
-    "./adm": "./.build/src/adm/index.js",
-    "./apollo": "./.build/src/apollo/index.js",
-    "./auth": "./.build/src/auth/index.js"
+    "./shared": "./src/shared/index.js",
+    "./user": "./src/user/index.js",
+    "./file": "./src/file/index.js",
+    "./property": "./src/property/index.js",
+    "./adm": "./src/adm/index.js",
+    "./apollo": "./src/apollo/index.js",
+    "./auth": "./src/auth/index.js"
   },
   "scripts": {
     "predev": "docker-compose up -d && yarn build",
@@ -84,13 +84,13 @@
     "@as-integrations/aws-lambda": "^1.0.1",
     "@aws-sdk/client-s3": "^3.294.0",
     "@prisma/client": "^4",
+    "@types/express": "^4.17.17",
     "chance": "^1.1.9",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "graphql": "^16",
     "graphql-scalars": "^1.19.0",
-    "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^3.0.1",
     "lodash": "^4.17.21",

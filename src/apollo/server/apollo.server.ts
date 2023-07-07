@@ -10,7 +10,6 @@ import { GraphQLSchema } from 'graphql';
 import { Context } from '../context';
 import Server from './server.interface';
 import { nanoid } from 'nanoid';
-import { graphqlUploadExpress } from 'graphql-upload';
 
 export default class ApolloServer implements Server<Apollo<Context>> {
   schema: GraphQLSchema;
@@ -37,7 +36,6 @@ export default class ApolloServer implements Server<Apollo<Context>> {
       '/graphql',
       cors<cors.CorsRequest>(),
       json(),
-      graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
       expressMiddleware(this.server, {
         context: async ({ req }) =>
           this.context.getContext({

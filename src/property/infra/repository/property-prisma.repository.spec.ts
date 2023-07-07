@@ -79,7 +79,6 @@ describe('PropertyPrismaRepository', () => {
       prisma.properties_property_details.deleteMany();
     const deleteRules = prisma.properties_rules.deleteMany();
     const deleteAddreses = prisma.address.deleteMany();
-    const deletePhotos = prisma.photo.deleteMany();
     const deleteProperties = prisma.property.deleteMany();
     await prisma.$transaction([
       deleteCharges,
@@ -88,7 +87,6 @@ describe('PropertyPrismaRepository', () => {
       deletePropertyDetails,
       deleteRules,
       deleteAddreses,
-      deletePhotos,
       deleteProperties,
     ]);
   });
@@ -104,7 +102,6 @@ describe('PropertyPrismaRepository', () => {
     const propertiesPropertyDetails =
       await prisma.properties_property_details.findMany();
     const address = await prisma.address.findFirst();
-    const photos = await prisma.photo.findMany();
 
     expect(property).toBeTruthy();
     expect(property?.id).toBe(properties[0].id);
@@ -164,26 +161,6 @@ describe('PropertyPrismaRepository', () => {
       state: properties[0].address.state,
       zip_code: properties[0].address.zip_code,
     });
-    expect(photos).toHaveLength(3);
-    expect(
-      photos.map((photo) => ({
-        id: photo.id,
-        url: photo.url,
-        file: photo.file,
-        type: photo.type,
-        subtype: photo.subtype,
-        name: photo.name,
-      })),
-    ).toEqual(
-      properties[0].photos.map((photo) => ({
-        id: photo.id,
-        url: photo.url,
-        file: photo.file,
-        type: photo.type,
-        subtype: photo.subtype,
-        name: photo.name,
-      })),
-    );
   });
 
   it('find by id a property', async () => {

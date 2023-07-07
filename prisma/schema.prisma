@@ -44,6 +44,7 @@ model property {
     property_details         properties_property_details[]
     floor_plans              properties_floor_plans[]
     charges                  properties_charges[]
+    photos                   properties_files[]
 }
 
 model calendar {
@@ -240,14 +241,25 @@ model properties_charges {
 }
 
 model file {
-    id           String   @id @default(nanoid()) @db.Char(21)
-    url          String
-    file         String
-    name         String
-    type         String
-    subtype      String
-    description  String?
-    created_at   DateTime @default(now())
-    updated_at   DateTime @updatedAt
-    reference_id String   @db.Char(21)
+    id          String             @id @default(nanoid()) @db.Char(21)
+    url         String
+    file        String
+    name        String
+    type        String
+    subtype     String
+    description String?
+    created_at  DateTime           @default(now())
+    updated_at  DateTime           @updatedAt
+    properties  properties_files[]
+}
+
+model properties_files {
+    property_id String   @db.Char(21)
+    property    property @relation(fields: [property_id], references: [id])
+    file_id     String
+    file        file     @relation(fields: [file_id], references: [id])
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+
+    @@id([property_id, file_id])
 }

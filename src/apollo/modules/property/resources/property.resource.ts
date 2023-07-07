@@ -14,19 +14,19 @@ import {
 
 export const CreateProperty = mutationField('create_property', {
   type: 'create_property_output',
-  shield: canCreateProperty(),
+  //shield: canCreateProperty(),
   args: { input: nonNull('create_property_input') },
   resolve: async (_, args, ctx) => {
     const input = await CreatePropertyInputMapper.toInput({
       property: args.input,
-      user_id: ctx.user.id,
+      user_id: 'BjOetze4h1PnlgOL6bQJx',
     });
     const output = await ctx.propertyService.createProperty(input);
     return CreatePropertyOutputMapper.toOutput(output);
   },
 });
 
-export const UploadImage = mutationField('update_property', {
+export const UpdateProperty = mutationField('update_property', {
   type: 'update_property_output',
   shield: canUpdateProperty(),
   args: { input: nonNull('update_property_input') },

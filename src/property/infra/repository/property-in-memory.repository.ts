@@ -1,7 +1,7 @@
 import { InMemorySearchableRepository } from '#shared/domain';
 import { SortDirection } from '#shared/domain';
-import { Property, PropertyStatus } from '../../../domain/entities';
-import { PropertyRepository, PropertyFilter } from '../../../domain/repository';
+import { Property, PropertyStatus } from '../../domain/entities';
+import { PropertyRepository, PropertyFilter } from '../../domain/repository';
 
 export class PropertyInMemoryRepository
   extends InMemorySearchableRepository<Property, PropertyFilter>

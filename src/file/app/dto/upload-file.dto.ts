@@ -1,11 +1,11 @@
 import { FileInput } from '../../domain/driver';
 
 export type UploadFileInput = {
-  reference_id: string;
+  reference_type: 'property';
   files: FileInput[];
 };
 
-export type FileOutput = {
+export type UploadFileOutput = {
   id: string;
   url: string;
   file: string;

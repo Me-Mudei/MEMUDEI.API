@@ -14,10 +14,6 @@ export class FileInMemoryRepository implements FileRepository {
     return this._get(_id);
   }
 
-  async findByReferenceId(reference_id: string): Promise<File[]> {
-    return this.items.filter((i) => i.reference_id === reference_id);
-  }
-
   async update(entity: File): Promise<void> {
     await this._get(entity.id);
     const indexFound = this.items.findIndex((i) => i.id === entity.id);

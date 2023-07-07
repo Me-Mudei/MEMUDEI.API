@@ -8,13 +8,13 @@ import {
   PropertyDetail,
   PropertyStatus,
   Rule,
-} from '../../../domain/entities';
+} from '../../domain/entities';
 import {
   PropertyFilter,
   PropertyRepository,
   PropertySearchParams,
   PropertySearchResult,
-} from '../../../domain/repository';
+} from '../../domain/repository';
 import { PrismaClient, Prisma } from '#shared/infra';
 import { UniqueEntityId, NotFoundError } from '#shared/domain';
 
@@ -66,11 +66,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
               updated_at: charge.updated_at,
             })),
           },
-        },
-        photos: {
-          connect: entity.file_ids.map((file) => ({
-            id: file,
-          })),
         },
         floor_plans: {
           createMany: {
@@ -214,10 +209,26 @@ export class PropertyPrismaRepository implements PropertyRepository {
   private includes(): Prisma.propertyInclude {
     return {
       address: true,
-      photos: true,
       privacy_type: true,
       property_type: true,
       property_relationship: true,
+      photos: {
+        include: {
+          file: {
+            select: {
+              id: true,
+              name: true,
+              url: true,
+              description: true,
+              file: true,
+              subtype: true,
+              type: true,
+              created_at: true,
+              updated_at: true,
+            },
+          },
+        },
+      },
       condominium_details: {
         include: {
           condominium_detail: {
@@ -298,15 +309,15 @@ export class PropertyPrismaRepository implements PropertyRepository {
     const photos = property.photos.map(
       (photo) =>
         new Photo({
-          id: new UniqueEntityId(photo.id),
-          url: photo.url,
-          file: photo.file,
-          name: photo.name,
-          subtype: photo.subtype,
-          type: photo.type,
-          description: photo.description,
-          created_at: photo.created_at,
-          updated_at: photo.updated_at,
+          id: new UniqueEntityId(photo.file.id),
+          url: photo.file.url,
+          file: photo.file.file,
+          name: photo.file.name,
+          subtype: photo.file.subtype,
+          type: photo.file.type,
+          description: photo.file.description,
+          created_at: photo.file.created_at,
+          updated_at: photo.file.updated_at,
         }),
     );
     const floor_plans = property.floor_plans.map(

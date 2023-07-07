@@ -1,11 +1,13 @@
 import { File, FileRepository } from '../../domain';
 import { Driver } from '../../domain/driver';
 
-import { UploadFileInput, FileOutput } from '../dto';
+import { UploadFileInput, UploadFileOutput } from '../dto';
 import { UseCase } from '#shared/app';
 import { LoggerInterface, WinstonLogger } from '#shared/infra';
 
-export class UploadFileUseCase implements UseCase<UploadFileInput, FileOutput> {
+export class UploadFileUseCase
+  implements UseCase<UploadFileInput, UploadFileOutput>
+{
   private logger: LoggerInterface;
   constructor(
     readonly fileRepository: FileRepository,
@@ -14,16 +16,15 @@ export class UploadFileUseCase implements UseCase<UploadFileInput, FileOutput> {
     this.logger = WinstonLogger.getInstance();
   }
 
-  async execute(input: UploadFileInput): Promise<FileOutput> {
+  async execute(input: UploadFileInput): Promise<UploadFileOutput> {
     this.logger.info({ message: 'Start File Use Case' });
     const filesUploaded = await this.driver.uploadMany(
       input.files,
-      `${input.reference_id}`,
+      `${input.reference_type}`,
     );
     this.logger.info({ message: 'Files uploaded' });
     const files = filesUploaded.map((file) => {
       return new File({
-        reference_id: input.reference_id,
         file: file.filename,
         name: file.filename,
         type: file.mimetype.split('/')[0],

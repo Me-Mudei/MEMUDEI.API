@@ -1,4 +1,4 @@
-import { UploadFileInput, FileOutput } from '../dto';
+import { UploadFileInput, UploadFileOutput } from '../dto';
 import { UploadFileUseCase } from '../use-cases';
 
 export interface FileFacadeProps {
@@ -11,7 +11,7 @@ export class FileFacade {
   constructor(readonly props: FileFacadeProps) {
     this._uploadUseCase = props.uploadUseCase;
   }
-  async uploadFile(input: UploadFileInput): Promise<FileOutput> {
+  async uploadFile(input: UploadFileInput): Promise<UploadFileOutput> {
     return this._uploadUseCase.execute(input);
   }
 }

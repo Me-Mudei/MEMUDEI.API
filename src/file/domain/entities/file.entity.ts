@@ -3,7 +3,6 @@ import FileValidatorFactory from '../validators/file.validator';
 
 export type FileProps = {
   id?: UniqueEntityId;
-  reference_id: string;
   file: string;
   name: string;
   type: string;
@@ -15,7 +14,6 @@ export type FileProps = {
 };
 
 export class File extends Entity<FileProps> {
-  private _reference_id: string;
   private _file: string;
   private _name: string;
   private _type: string;
@@ -26,7 +24,6 @@ export class File extends Entity<FileProps> {
   constructor(props: FileProps) {
     File.validate(props);
     super(props);
-    this._reference_id = props.reference_id;
     this._file = props.file;
     this._name = props.name;
     this._type = props.type;
@@ -41,10 +38,6 @@ export class File extends Entity<FileProps> {
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
-  }
-
-  public get reference_id(): string {
-    return this._reference_id;
   }
 
   public get file(): string {

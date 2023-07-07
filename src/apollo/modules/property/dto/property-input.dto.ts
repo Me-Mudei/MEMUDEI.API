@@ -2,10 +2,7 @@ import {
   CreatePropertyInput as CoreCreatePropertyInput,
   UpdatePropertyInput as CoreUpdatePropertyInput,
 } from '#property/app';
-import {
-  PropertyStatus as CorePropertyStatus,
-  FileInput,
-} from '#property/domain';
+import { PropertyStatus as CorePropertyStatus } from '#property/domain';
 import { inputObjectType } from 'nexus';
 import { NexusGenInputs } from '#apollo/generated/nexus';
 
@@ -27,7 +24,7 @@ export const CreatePropertyInput = inputObjectType({
       type: 'condominium_detail_input',
     });
     t.nonNull.list.nonNull.field('rules', { type: 'rule_input' });
-    t.nullable.list.nonNull.upload('photos');
+    t.nullable.list.nonNull.string('photo_ids');
     t.nonNull.list.nonNull.field('charges', { type: 'charge_input' });
   },
 });
@@ -51,17 +48,8 @@ export const updatePropertyInput = inputObjectType({
       type: 'condominium_detail_input',
     });
     t.nullable.list.nonNull.field('rules', { type: 'rule_input' });
-    t.nullable.field('update_photos', { type: 'update_photos' });
+    t.nullable.list.nonNull.string('photo_ids');
     t.nullable.list.nonNull.field('charges', { type: 'charge_input' });
-  },
-});
-
-export const UpdatePhotos = inputObjectType({
-  name: 'update_photos',
-  definition(t) {
-    t.nullable.list.nonNull.upload('add');
-    t.nullable.list.nonNull.string('remove');
-    t.nullable.string('cover');
   },
 });
 
@@ -161,14 +149,9 @@ export class CreatePropertyInputMapper {
     property: NexusGenInputs['create_property_input'];
     user_id: string;
   }): Promise<CoreCreatePropertyInput> {
-    let photos: FileInput[] = [];
-    if (input.property.photos) {
-      photos = await Promise.all(input.property.photos.map((photo) => photo));
-    }
     return {
       ...input.property,
       user_id: input.user_id,
-      photos,
       status: input.property.status as CorePropertyStatus,
     };
   }
@@ -179,12 +162,6 @@ export class UpdatePropertyInputMapper {
     property: NexusGenInputs['update_property_input'];
     user_id: string;
   }): Promise<CoreUpdatePropertyInput> {
-    let photos: FileInput[] = [];
-    if (input.property?.update_photos && input.property.update_photos.add) {
-      photos = await Promise.all(
-        input.property.update_photos.add.map((photo) => photo),
-      );
-    }
     return {
       ...input.property,
       user_id: input.user_id,

@@ -12,7 +12,7 @@ export type CreatePropertyInput = {
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
   rules: RuleInput[];
-  file_ids?: string[];
+  photo_ids?: string[];
   charges: ChargeInput[];
   user_id: string;
 };
