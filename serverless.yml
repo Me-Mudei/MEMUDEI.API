@@ -22,11 +22,6 @@ provider:
     subnetIds:
       - subnet-02f16aeed6f53b362
       - subnet-0299b2dde70727453
-  #ecr:
-  #  # In this section you can define images that will be built locally and uploaded to ECR
-  #  images:
-  #    migrator:
-  #      path: ./prisma/Dockerfile
   environment:
     NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
     SLS_DEBUG: "*"
@@ -79,11 +74,3 @@ functions:
           path: /files/{proxy+}
           method: ANY
           cors: true
-
-  #migrator-docker:
-  #  image:
-  #    name: migrator
-  #    command:
-  #      - index.handler
-  #  events:
-  #    - httpApi: '*'

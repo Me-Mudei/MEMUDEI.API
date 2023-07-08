@@ -22,6 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      - name: Run production migration
+        run: npm run migrate:deploy
+        env:
+          DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
