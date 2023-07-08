@@ -35,6 +35,7 @@ jobs:
           args: deploy --stage dev --region ${{ secrets[env.AWS_REGION_NAME] }}
         env:
           LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
+          DATABASE_VENDOR: POSTGRES
           DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
           AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
           AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
