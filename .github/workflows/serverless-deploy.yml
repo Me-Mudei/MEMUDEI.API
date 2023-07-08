@@ -32,7 +32,7 @@ jobs:
       - name: Serverless Deploy
         uses: serverless/github-action@v3.1
         with:
-          args: -c "sls deploy --stage dev --region ${{ secrets[env.AWS_REGION_NAME] }} && sls invoke --function migrator-docker --stage dev --region ${{ secrets[env.AWS_REGION_NAME] }}"
+          args: deploy --stage dev --region ${{ secrets[env.AWS_REGION_NAME] }}
         env:
           LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
           DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
