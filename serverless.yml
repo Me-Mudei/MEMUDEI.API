@@ -18,10 +18,10 @@ provider:
   memorySize: 512
   vpc:
     securityGroupIds:
-      - sg-0e629da5711e30609
+      - sg-03763e1decd9b33c1
     subnetIds:
-      - subnet-02f16aeed6f53b362
-      - subnet-0299b2dde70727453
+      - subnet-0092e97c895b7d744
+      - subnet-03d5de196c98498eb
   environment:
     NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
     SLS_DEBUG: "*"
