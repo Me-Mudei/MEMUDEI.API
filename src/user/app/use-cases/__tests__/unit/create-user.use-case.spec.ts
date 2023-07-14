@@ -1,5 +1,5 @@
 import { CreateUserUseCase } from '../../create-user.use-case';
-import { UserInMemoryRepository } from '#user/infra/';
+import { Auth, UserInMemoryRepository } from '#user/infra/';
 import { Broker } from '#shared/infra';
 import { UserCreatedSendConfirmationHandler } from '../../../handlers';
 
@@ -7,12 +7,16 @@ describe('CreateUserUseCase Unit Tests', () => {
   let useCase: CreateUserUseCase;
   let repository: UserInMemoryRepository;
   let broker: Broker;
+  let authService: Auth;
 
   beforeEach(() => {
     repository = new UserInMemoryRepository();
     broker = new Broker();
+    authService = {
+      signup: jest.fn(),
+    };
     broker.register(new UserCreatedSendConfirmationHandler());
-    useCase = new CreateUserUseCase(repository, broker);
+    useCase = new CreateUserUseCase(repository, authService, broker);
   });
 
   it('should create a user', async () => {

@@ -1,5 +1,5 @@
 import { Broker } from '#shared/infra';
-import { UserInMemoryRepository } from '../../infra';
+import { Auth, UserInMemoryRepository } from '../../infra';
 import {
   CreateUserUseCase,
   FindFirstUserUseCase,
@@ -16,11 +16,15 @@ describe('UserFacade Unit tests', () => {
   let repository: UserInMemoryRepository;
   let broker: Broker;
   let facade: UserFacade;
+  let authService: Auth;
 
   beforeEach(() => {
     repository = new UserInMemoryRepository();
     broker = new Broker();
-    useCase = new CreateUserUseCase(repository, broker);
+    authService = {
+      signup: jest.fn(),
+    };
+    useCase = new CreateUserUseCase(repository, authService, broker);
     mockFindFirstUser = new FindFirstUserUseCase(repository);
     mockSearchUsers = new SearchUsersUseCase(repository);
     mockValidateUser = new ValidateUserUseCase(repository);

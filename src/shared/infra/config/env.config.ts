@@ -11,6 +11,7 @@ type Config = {
     audience: string;
     issuer: string;
     domain: string;
+    client_id: string;
   };
   cloud: {
     vendor: 'AWS' | 'LOCALSTACK';
@@ -36,6 +37,7 @@ export function makeConfig(): Config {
       audience: process.env.AUTH_AUDIENCE,
       issuer: process.env.AUTH_ISSUER,
       domain: process.env.AUTH_DOMAIN,
+      client_id: process.env.AUTH_CLIENT_ID,
     },
     cloud: {
       vendor: process.env.CLOUD_VENDOR as any,

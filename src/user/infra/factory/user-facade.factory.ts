@@ -8,15 +8,21 @@ import {
 } from '../../app/use-cases';
 import { UserCreatedSendConfirmationHandler } from '../../app/handlers';
 import { UserPrismaRepository } from '../repository';
+import { Auth0Auth } from '../auth';
 
 export class UserFacadeFactory {
   static create() {
     const prisma = Connection.getInstance();
     const userRepository = new UserPrismaRepository(prisma);
     const broker = new Broker();
+    const authService = new Auth0Auth();
 
     broker.register(new UserCreatedSendConfirmationHandler());
-    const createUserUseCase = new CreateUserUseCase(userRepository, broker);
+    const createUserUseCase = new CreateUserUseCase(
+      userRepository,
+      authService,
+      broker,
+    );
     const findFirstUserUseCase = new FindFirstUserUseCase(userRepository);
     const searchUserUseCase = new SearchUsersUseCase(userRepository);
     const validateUserUseCase = new ValidateUserUseCase(userRepository);

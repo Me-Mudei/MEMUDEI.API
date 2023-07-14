@@ -6,6 +6,7 @@ export const CreateUserInput = inputObjectType({
     t.nonNull.string('email');
     t.nonNull.string('name');
     t.nullable.string('external_id');
+    t.nullable.string('password');
   },
 });
 
