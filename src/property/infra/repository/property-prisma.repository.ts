@@ -166,18 +166,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
     let items: Property[];
-    console.log('Search property repository');
-    console.log({
-      take: limit,
-      skip: offset,
-      orderBy: {
-        ...(props.sort && this.sortableFields.includes(props.sort)
-          ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
-      where: this.applyFilters(props.filter),
-      include: this.includes(),
-    });
     const properties = await this.prisma.property.findMany({
       take: limit,
       skip: offset,
