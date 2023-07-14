@@ -45,7 +45,7 @@ custom:
     dev: "development"
     local: "local"
   serverless-offline:
-    port: 3000
+    httpPort: 4000
     stage: local
   serverlessPluginTypescript:
     tsConfigFileLocation: 'tsconfig.json'

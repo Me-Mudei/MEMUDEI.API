@@ -2,7 +2,6 @@ import {
   CreatePropertyOutput as CoreCreatePropertyOutput,
   UpdatePropertyOutput as CoreUpdatePropertyOutput,
 } from '#property/app';
-import { NexusGenEnums, NexusGenObjects } from '#apollo/generated/nexus';
 import { objectType } from 'nexus';
 
 export const CreatePropertyOutput = objectType({
@@ -154,12 +153,10 @@ export const PropertyChargeOutput = objectType({
 });
 
 export class CreatePropertyOutputMapper {
-  static toOutput(
-    property: CoreCreatePropertyOutput,
-  ): NexusGenObjects['create_property_output'] {
+  static toOutput(property: CoreCreatePropertyOutput): any {
     return {
       id: property.id,
-      status: property.status as NexusGenEnums['property_status'],
+      status: property.status as any,
       created_at: property.created_at,
       updated_at: property.updated_at,
     };
@@ -167,12 +164,10 @@ export class CreatePropertyOutputMapper {
 }
 
 export class UpdatePropertyOutputMapper {
-  static toOutput(
-    property: CoreUpdatePropertyOutput,
-  ): NexusGenObjects['update_property_output'] {
+  static toOutput(property: CoreUpdatePropertyOutput): any {
     return {
       id: property.id,
-      status: property.status as NexusGenEnums['property_status'],
+      status: property.status as any,
       created_at: property.created_at,
       updated_at: property.updated_at,
     };

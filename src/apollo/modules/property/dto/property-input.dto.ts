@@ -4,7 +4,6 @@ import {
 } from '#property/app';
 import { PropertyStatus as CorePropertyStatus } from '#property/domain';
 import { inputObjectType } from 'nexus';
-import { NexusGenInputs } from '#apollo/generated/nexus';
 
 export const CreatePropertyInput = inputObjectType({
   name: 'create_property_input',
@@ -146,7 +145,7 @@ export const PropertySearchInput = inputObjectType({
 
 export class CreatePropertyInputMapper {
   static async toInput(input: {
-    property: NexusGenInputs['create_property_input'];
+    property: any;
     user_id: string;
   }): Promise<CoreCreatePropertyInput> {
     return {
@@ -159,7 +158,7 @@ export class CreatePropertyInputMapper {
 
 export class UpdatePropertyInputMapper {
   static async toInput(input: {
-    property: NexusGenInputs['update_property_input'];
+    property: any;
     user_id: string;
   }): Promise<CoreUpdatePropertyInput> {
     return {
