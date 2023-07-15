@@ -1,6 +1,7 @@
-import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { PhotoProps } from '../entities/photo.entity';
+import { ClassValidatorFields } from "#shared/domain";
+import { IsDate, IsOptional } from "class-validator";
+
+import { PhotoProps } from "../entities/photo.entity";
 
 export class PhotoRules {
   @IsDate()

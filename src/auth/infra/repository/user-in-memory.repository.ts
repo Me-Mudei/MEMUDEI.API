@@ -1,5 +1,6 @@
-import { User, UserRepository } from '../../domain';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+
+import { User, UserRepository } from "../../domain";
 
 interface UserRO {
   id: string;
@@ -10,7 +11,7 @@ export class UserInMemoryRepository implements UserRepository {
 
   async findByExternalId(external_id: string): Promise<User> {
     const user = await this.getUser({ external_id });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
     return this.toEntity(user);
   }
 
@@ -21,7 +22,7 @@ export class UserInMemoryRepository implements UserRepository {
   private toEntity(user: UserRO): User {
     return new User({
       id: new UniqueEntityId(user.id),
-      external_id: user.external_id,
+      external_id: user.external_id
     });
   }
 }

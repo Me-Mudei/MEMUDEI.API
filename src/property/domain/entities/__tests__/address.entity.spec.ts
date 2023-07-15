@@ -1,27 +1,28 @@
-import Chance from 'chance';
-import { omit } from 'lodash';
-import { UniqueEntityId } from '#shared/domain';
-import { Address } from '../address.entity';
+import { UniqueEntityId } from "#shared/domain";
+import Chance from "chance";
+import { omit } from "lodash";
 
-describe('Address Unit Tests', () => {
+import { Address } from "../address.entity";
+
+describe("Address Unit Tests", () => {
   const chance = new Chance();
   beforeEach(() => {
     Address.validate = jest.fn();
   });
-  test('constructor of address', () => {
+  test("constructor of address", () => {
     const requiredProps = {
       city: chance.city(),
       state: chance.state(),
       zip_code: chance.postcode(),
       street: chance.street(),
-      district: chance.province(),
+      district: chance.province()
     };
     const address = new Address(requiredProps);
-    const props = omit(address.props, 'created_at', 'updated_at');
+    const props = omit(address.props, "created_at", "updated_at");
     expect(Address.validate).toHaveBeenCalled();
     expect(props).toStrictEqual({
       ...requiredProps,
-      id: expect.any(UniqueEntityId),
+      id: expect.any(UniqueEntityId)
     });
     expect(address.props.created_at).toBeInstanceOf(Date);
 

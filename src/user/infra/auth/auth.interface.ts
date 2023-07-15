@@ -1,4 +1,4 @@
-import { User } from '#user/domain';
+import { User } from "#user/domain";
 
 export type SignupUserInput = {
   email: string;

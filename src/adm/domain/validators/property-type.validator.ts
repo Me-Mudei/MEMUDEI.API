@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { PropertyTypeProps } from '../entities/property-type.entity';
+  MaxLength
+} from "class-validator";
+
+import { PropertyTypeProps } from "../entities/property-type.entity";
 
 export class PropertyTypeRules {
   @MaxLength(50)

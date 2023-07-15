@@ -1,42 +1,42 @@
-import { mutationField, queryField, nullable, nonNull, list } from 'nexus';
+import { mutationField, queryField, nullable, nonNull, list } from "nexus";
 
-export const GetCharge = queryField('get_charge', {
-  type: 'charge_output',
-  args: { input: nonNull('get_charge_input') },
+export const GetCharge = queryField("get_charge", {
+  type: "charge_output",
+  args: { input: nonNull("get_charge_input") },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.getCharge(input as any);
-  },
+  }
 });
 
-export const SearchCharges = queryField('search_charges', {
-  type: 'pagination_output',
-  args: { input: nullable('search_input') },
+export const SearchCharges = queryField("search_charges", {
+  type: "pagination_output",
+  args: { input: nullable("search_input") },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.searchCharge(input as any) as any;
-  },
+  }
 });
 
-export const CreateCharge = mutationField('create_charge', {
-  type: 'charge_output',
-  args: { input: list(nonNull('create_charge_input')) },
+export const CreateCharge = mutationField("create_charge", {
+  type: "charge_output",
+  args: { input: list(nonNull("create_charge_input")) },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.createCharge(input as any);
-  },
+  }
 });
 
-export const UpdateCharge = mutationField('update_charge', {
-  type: 'charge_output',
-  args: { input: nonNull('update_charge_input') },
+export const UpdateCharge = mutationField("update_charge", {
+  type: "charge_output",
+  args: { input: nonNull("update_charge_input") },
   resolve: async (_, { input }, ctx) => {
     return ctx.admService.updateCharge(input as any);
-  },
+  }
 });
 
-export const DeleteCharge = mutationField('delete_charges', {
-  type: 'charge_output',
-  args: { input: list(nonNull('delete_charge_input')) },
+export const DeleteCharge = mutationField("delete_charges", {
+  type: "charge_output",
+  args: { input: list(nonNull("delete_charge_input")) },
   resolve: async (_, { input }, ctx) => {
     await ctx.admService.deleteCharge(input as any);
     return { id: input[0].id };
-  },
+  }
 });

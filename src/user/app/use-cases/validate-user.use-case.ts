@@ -1,8 +1,8 @@
-import { User, UserRepository, UserSearchParams } from '../../domain';
+import { UseCase } from "#shared/app";
+import { LoggerInterface, WinstonLogger } from "#shared/infra";
 
-import { ValidateUserInput, ValidateUserOutput } from '../dto';
-import { UseCase } from '#shared/app';
-import { LoggerInterface, WinstonLogger } from '#shared/infra';
+import { UserRepository, UserSearchParams } from "../../domain";
+import { ValidateUserInput, ValidateUserOutput } from "../dto";
 
 export class ValidateUserUseCase
   implements UseCase<ValidateUserInput, ValidateUserOutput>
@@ -13,14 +13,14 @@ export class ValidateUserUseCase
   }
 
   async execute(input: ValidateUserInput): Promise<ValidateUserOutput> {
-    this.logger.info({ message: 'Start User Use Case' });
+    this.logger.info({ message: "Start User Use Case" });
     const user = await this.userRepository.findFirst(
       new UserSearchParams({
-        filter: { email: input.email },
-      }),
+        filter: { email: input.email }
+      })
     );
     return {
-      already_exists: !!user,
+      already_exists: !!user
     };
   }
 }

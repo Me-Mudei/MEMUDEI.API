@@ -1,20 +1,21 @@
-import { InMemorySearchableRepository } from '#shared/domain';
-import { SortDirection } from '#shared/domain';
-import { FloorPlan } from '../../../domain/entities';
+import { InMemorySearchableRepository } from "#shared/domain";
+import { SortDirection } from "#shared/domain";
+
+import { FloorPlan } from "../../../domain/entities";
 import {
   FloorPlanRepository,
-  FloorPlanFilter,
-} from '../../../domain/repository';
+  FloorPlanFilter
+} from "../../../domain/repository";
 
 export class FloorPlanInMemoryRepository
   extends InMemorySearchableRepository<FloorPlan>
   implements FloorPlanRepository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ["name", "created_at"];
 
   protected async applyFilter(
     items: FloorPlan[],
-    filter: FloorPlanFilter,
+    filter: FloorPlanFilter
   ): Promise<FloorPlan[]> {
     if (!filter) {
       return items;
@@ -28,10 +29,10 @@ export class FloorPlanInMemoryRepository
   protected async applySort(
     items: FloorPlan[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<FloorPlan[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

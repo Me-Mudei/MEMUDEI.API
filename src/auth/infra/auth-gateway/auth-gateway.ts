@@ -1,6 +1,6 @@
-import { verify } from 'jsonwebtoken';
-import jwksClient from 'jwks-rsa';
-import { configEnv } from '#shared/infra';
+import { configEnv } from "#shared/infra";
+import { verify } from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
 
 export type Session = {
   iss: string;
@@ -15,7 +15,7 @@ export type Session = {
 export class AuthGateway {
   private getKey(header: any, callback: any) {
     const client = jwksClient({
-      jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`,
+      jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`
     });
     client.getSigningKey(header.kid, function (error, key) {
       if (error || !key) callback(error, null);
@@ -29,21 +29,21 @@ export class AuthGateway {
   async decodeToken(token: string) {
     return new Promise<Session>((resolve, reject) => {
       verify(
-        token.replace('Bearer ', ''),
+        token.replace("Bearer ", ""),
         this.getKey,
         {
           audience: configEnv.auth.audience,
           issuer: `https://${configEnv.auth.domain}/`,
-          algorithms: ['RS256'],
+          algorithms: ["RS256"]
         },
         (err, decoded: Session) => {
           if (err) {
             return reject(
-              new Error(`Failed to authenticate token: ${err.message}`),
+              new Error(`Failed to authenticate token: ${err.message}`)
             );
           }
           resolve(decoded);
-        },
+        }
       );
     });
   }

@@ -1,11 +1,12 @@
-import { CondominiumDetailRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { CondominiumDetailRepository } from "../../../domain/repository";
 import {
   CondominiumDetailOutput,
-  CondominiumDetailOutputMapper,
-} from '../../dto';
-import { UseCase } from '#shared/app';
+  CondominiumDetailOutputMapper
+} from "../../dto";
 
 export class GetCondominiumDetailUseCase
   implements UseCase<{ id: string }, CondominiumDetailOutput>
@@ -14,7 +15,7 @@ export class GetCondominiumDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.condominiumDetailRepository =
@@ -22,9 +23,9 @@ export class GetCondominiumDetailUseCase
   }
 
   async execute(input: { id: string }): Promise<CondominiumDetailOutput> {
-    this.logger.info({ message: 'Start GetCondominiumDetail Use Case' });
+    this.logger.info({ message: "Start GetCondominiumDetail Use Case" });
     const condominiumDetail = await this.condominiumDetailRepository.findById(
-      input.id,
+      input.id
     );
     return CondominiumDetailOutputMapper.toOutput(condominiumDetail);
   }

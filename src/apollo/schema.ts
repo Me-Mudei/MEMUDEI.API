@@ -1,8 +1,9 @@
-import { GraphQLError } from 'graphql';
-import { makeSchema } from 'nexus';
-import { nexusShield, allow } from 'nexus-shield';
-import { join } from 'path';
-import * as TypeModules from './modules';
+import { GraphQLError } from "graphql";
+import { makeSchema } from "nexus";
+import { nexusShield, allow } from "nexus-shield";
+import { join } from "path";
+
+import * as TypeModules from "./modules";
 
 export default class NexusSchema {
   static makeSchema() {
@@ -10,22 +11,22 @@ export default class NexusSchema {
       types: [TypeModules],
       plugins: [
         nexusShield({
-          defaultError: new GraphQLError('Not Authorized!', {
+          defaultError: new GraphQLError("Not Authorized!", {
             extensions: {
-              code: 'FORBIDDEN',
-            },
+              code: "FORBIDDEN"
+            }
           }),
-          defaultRule: allow,
-        }),
+          defaultRule: allow
+        })
       ],
       outputs: {
-        schema: join(__dirname, './generated/schema.graphql'),
-        typegen: join(__dirname, './generated/nexus.ts'),
+        schema: join(__dirname, "./generated/schema.graphql"),
+        typegen: join(__dirname, "./generated/nexus.ts")
       },
       contextType: {
-        module: require.resolve('./context'),
-        export: 'Context',
-      },
+        module: require.resolve("./context"),
+        export: "Context"
+      }
     });
   }
 }

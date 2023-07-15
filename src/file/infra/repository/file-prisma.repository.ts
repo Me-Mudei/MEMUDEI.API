@@ -1,7 +1,8 @@
-import { File } from '../../domain/entities';
-import { FileRepository } from '../../domain/repository';
-import { Prisma, PrismaClient } from '#shared/infra';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+import { Prisma, PrismaClient } from "#shared/infra";
+
+import { File } from "../../domain/entities";
+import { FileRepository } from "../../domain/repository";
 
 export class FilePrismaRepository implements FileRepository {
   constructor(readonly prisma: PrismaClient) {}
@@ -15,14 +16,14 @@ export class FilePrismaRepository implements FileRepository {
         type: file.type,
         description: file.description,
         created_at: file.created_at,
-        updated_at: file.updated_at,
-      })),
+        updated_at: file.updated_at
+      }))
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<File> {
     const file = await this.prisma.file.findFirst({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
     return this.toEntity(file);
   }
@@ -30,18 +31,18 @@ export class FilePrismaRepository implements FileRepository {
   async update(entity: File): Promise<void> {
     await this.prisma.file.update({
       where: { id: entity.id },
-      data: {},
+      data: {}
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.file.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
   private toEntity(
-    file: Prisma.fileGetPayload<Prisma.fileFindUniqueArgs>,
+    file: Prisma.fileGetPayload<Prisma.fileFindUniqueArgs>
   ): File {
     return new File({
       id: new UniqueEntityId(file.id),
@@ -51,7 +52,7 @@ export class FilePrismaRepository implements FileRepository {
       type: file.type,
       description: file.description,
       created_at: file.created_at,
-      updated_at: file.updated_at,
+      updated_at: file.updated_at
     });
   }
 }

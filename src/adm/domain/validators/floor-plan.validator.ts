@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { FloorPlanProps } from '../entities/floor-plan.entity';
+  MaxLength
+} from "class-validator";
+
+import { FloorPlanProps } from "../entities/floor-plan.entity";
 
 export class FloorPlanRules {
   @MaxLength(50)

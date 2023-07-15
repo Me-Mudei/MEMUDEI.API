@@ -1,14 +1,15 @@
-import { InMemorySearchableRepository } from '#shared/domain';
-import { SortDirection } from '#shared/domain';
-import { Property, PropertyStatus } from '../../domain/entities';
-import { PropertyRepository, PropertyFilter } from '../../domain/repository';
+import { InMemorySearchableRepository } from "#shared/domain";
+import { SortDirection } from "#shared/domain";
+
+import { Property, PropertyStatus } from "../../domain/entities";
+import { PropertyRepository, PropertyFilter } from "../../domain/repository";
 
 export class PropertyInMemoryRepository
   extends InMemorySearchableRepository<Property, PropertyFilter>
   implements PropertyRepository
 {
   static instance: PropertyInMemoryRepository;
-  sortableFields: string[] = ['title', 'created_at'];
+  sortableFields: string[] = ["title", "created_at"];
 
   static getInstance(): PropertyInMemoryRepository {
     if (!PropertyInMemoryRepository.instance) {
@@ -19,31 +20,31 @@ export class PropertyInMemoryRepository
 
   protected async applyFilter(
     items: Property[],
-    filter: PropertyFilter,
+    filter: PropertyFilter
   ): Promise<Property[]> {
     if (!filter || Object.keys(filter).length === 0) {
       return items;
     }
-    const ignoredKeyList = ['max_', 'value_type'];
+    const ignoredKeyList = ["max_", "value_type"];
     for (const key in filter) {
       if (!filter[key] || ignoredKeyList.find((item) => key.includes(item))) {
         continue;
       }
-      if (key.includes('min_')) {
-        const field = key.replace('min_', '');
-        if (field === 'value') {
+      if (key.includes("min_")) {
+        const field = key.replace("min_", "");
+        if (field === "value") {
           items = this[`${field}_filter`](
             items,
             filter[`min_${field}`],
             filter[`max_${field}`],
-            filter.value_type,
+            filter.value_type
           );
           continue;
         }
         items = this[`${field}_filter`](
           items,
           filter[`min_${field}`],
-          filter[`max_${field}`],
+          filter[`max_${field}`]
         );
         continue;
       }
@@ -114,7 +115,7 @@ export class PropertyInMemoryRepository
     items: Property[],
     min: number,
     max: number,
-    key?: string,
+    key?: string
   ): Property[] {
     return items.filter((item) => {
       const chargeFiltered = key
@@ -138,11 +139,11 @@ export class PropertyInMemoryRepository
     items: Property[],
     key: string,
     min: number,
-    max?: number,
+    max?: number
   ): Property[] {
     return items.filter((item) => {
       const floorPlan = item.floor_plans.find(
-        (floorPlan) => floorPlan.key === key,
+        (floorPlan) => floorPlan.key === key
       );
 
       if (!!floorPlan && floorPlan.value >= min) {
@@ -155,24 +156,24 @@ export class PropertyInMemoryRepository
   }
 
   footage_filter(items: Property[], min: number, max: number): Property[] {
-    return this.floor_plans_filter(items, 'footage', min, max);
+    return this.floor_plans_filter(items, "footage", min, max);
   }
 
   qtd_bedrooms_filter(items: Property[], qtd: number): Property[] {
-    return this.floor_plans_filter(items, 'bedrooms', qtd);
+    return this.floor_plans_filter(items, "bedrooms", qtd);
   }
 
   qtd_bathrooms_filter(items: Property[], qtd: number): Property[] {
-    return this.floor_plans_filter(items, 'bathrooms', qtd);
+    return this.floor_plans_filter(items, "bathrooms", qtd);
   }
 
   protected async applySort(
     items: Property[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<Property[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

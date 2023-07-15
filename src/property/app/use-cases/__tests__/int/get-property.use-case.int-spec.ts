@@ -1,10 +1,11 @@
-import { GetPropertyUseCase } from '../../get-property.use-case';
-import { PrismaRepositoryFactory } from '#property/infra';
-import { Broker } from '#shared/infra';
-import { RepositoryFactory } from '#property/domain';
-import { NotFoundError } from '#shared/domain';
+import { RepositoryFactory } from "#property/domain";
+import { PrismaRepositoryFactory } from "#property/infra";
+import { NotFoundError } from "#shared/domain";
+import { Broker } from "#shared/infra";
 
-describe('GetPropertyUseCase Unit Tests', () => {
+import { GetPropertyUseCase } from "../../get-property.use-case";
+
+describe("GetPropertyUseCase Unit Tests", () => {
   let useCase: GetPropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -15,14 +16,14 @@ describe('GetPropertyUseCase Unit Tests', () => {
     useCase = new GetPropertyUseCase(repositoryFactory, broker);
   });
 
-  it('should throws error when entity not found', async () => {
-    await expect(() => useCase.execute({ id: 'fake id' })).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID fake id`),
+  it("should throws error when entity not found", async () => {
+    await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID fake id`)
     );
   });
 
-  it('should create a property', async () => {
-    const input = { id: '9micktlceY2WicUyvJKq3' };
+  it("should create a property", async () => {
+    const input = { id: "9micktlceY2WicUyvJKq3" };
     const property = await useCase.execute(input);
 
     expect(property).toMatchObject(input);

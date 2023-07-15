@@ -1,13 +1,13 @@
-import { AdmFacade } from '#adm/app';
-import { AuthFacade } from '#auth/app';
-import { PropertyFacade } from '#property/app';
-import { UserFacade } from '#user/app';
+import { AdmFacade } from "#adm/app";
+import { AuthFacade } from "#auth/app";
+import { AuthFacadeFactory } from "#auth/infra";
+import { PropertyFacade } from "#property/app";
 import {
   PropertyFacadeFactory,
-  PropertyInMemoryFacadeFactory,
-} from '#property/infra';
-import { AuthFacadeFactory } from '#auth/infra';
-import { UserFacadeFactory, UserInMemoryFacadeFactory } from '#user/infra';
+  PropertyInMemoryFacadeFactory
+} from "#property/infra";
+import { UserFacade } from "#user/app";
+import { UserFacadeFactory, UserInMemoryFacadeFactory } from "#user/infra";
 
 export interface ContextInput {
   req_id: string;
@@ -17,7 +17,7 @@ export interface ContextInput {
   headers: any;
 }
 
-export interface Context {
+export interface ContextInterface {
   admService: AdmFacade;
   userService: UserFacade;
   propertyService: PropertyFacade;
@@ -30,7 +30,7 @@ export interface Context {
   getTestContext(): Context;
 }
 
-export class Context implements Context {
+export class Context implements ContextInterface {
   admService: AdmFacade;
   userService: UserFacade;
   propertyService: PropertyFacade;
@@ -49,11 +49,11 @@ export class Context implements Context {
     if (token) {
       try {
         const { permissions, user_id } = await this.authService.authenticate({
-          token,
+          token
         });
         this.user = { permissions, id: user_id };
       } catch (error) {
-        //console.log('error', error);
+        console.log("error", error);
       }
     }
     return this;
@@ -64,8 +64,8 @@ export class Context implements Context {
     this.userService = UserInMemoryFacadeFactory.create();
     this.propertyService = PropertyInMemoryFacadeFactory.create();
     this.user = {
-      id: 'l5lgcQKhDqoDIOQYPBMj2',
-      permissions: ['all'],
+      id: "l5lgcQKhDqoDIOQYPBMj2",
+      permissions: ["all"]
     };
     return this;
   }

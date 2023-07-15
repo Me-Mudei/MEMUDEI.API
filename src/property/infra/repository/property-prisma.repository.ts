@@ -1,3 +1,6 @@
+import { UniqueEntityId, NotFoundError } from "#shared/domain";
+import { PrismaClient, Prisma } from "#shared/infra";
+
 import {
   Address,
   Charge,
@@ -7,19 +10,17 @@ import {
   Property,
   PropertyDetail,
   PropertyStatus,
-  Rule,
-} from '../../domain/entities';
+  Rule
+} from "../../domain/entities";
 import {
   PropertyFilter,
   PropertyRepository,
   PropertySearchParams,
-  PropertySearchResult,
-} from '../../domain/repository';
-import { PrismaClient, Prisma } from '#shared/infra';
-import { UniqueEntityId, NotFoundError } from '#shared/domain';
+  PropertySearchResult
+} from "../../domain/repository";
 
 export class PropertyPrismaRepository implements PropertyRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   static instance: PropertyPrismaRepository;
 
   constructor(readonly prisma: PrismaClient) {}
@@ -41,8 +42,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
         updated_at: entity.updated_at,
         user: {
           connect: {
-            id: entity.user_id.value,
-          },
+            id: entity.user_id.value
+          }
         },
         address: {
           create: {
@@ -54,8 +55,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
             district: entity.address.district,
             complement: entity.address.complement,
             created_at: entity.address.created_at,
-            updated_at: entity.address.updated_at,
-          },
+            updated_at: entity.address.updated_at
+          }
         },
         charges: {
           createMany: {
@@ -63,9 +64,9 @@ export class PropertyPrismaRepository implements PropertyRepository {
               charge_key: charge.key,
               amount: charge.amount,
               created_at: charge.created_at,
-              updated_at: charge.updated_at,
-            })),
-          },
+              updated_at: charge.updated_at
+            }))
+          }
         },
         floor_plans: {
           createMany: {
@@ -73,24 +74,24 @@ export class PropertyPrismaRepository implements PropertyRepository {
               floor_plan_key: floor_plan.key,
               value: floor_plan.value,
               created_at: floor_plan.created_at,
-              updated_at: floor_plan.updated_at,
-            })),
-          },
+              updated_at: floor_plan.updated_at
+            }))
+          }
         },
         privacy_type: {
           connect: {
-            key: entity.privacy_type,
-          },
+            key: entity.privacy_type
+          }
         },
         property_type: {
           connect: {
-            key: entity.property_type,
-          },
+            key: entity.property_type
+          }
         },
         property_relationship: {
           connect: {
-            key: entity.property_relationship,
-          },
+            key: entity.property_relationship
+          }
         },
         condominium_details: {
           createMany: {
@@ -98,9 +99,9 @@ export class PropertyPrismaRepository implements PropertyRepository {
               condominium_detail_key: condominium_detail.key,
               available: condominium_detail.available,
               created_at: condominium_detail.created_at,
-              updated_at: condominium_detail.updated_at,
-            })),
-          },
+              updated_at: condominium_detail.updated_at
+            }))
+          }
         },
         property_details: {
           createMany: {
@@ -108,9 +109,9 @@ export class PropertyPrismaRepository implements PropertyRepository {
               property_detail_key: property_detail.key,
               available: property_detail.available,
               created_at: property_detail.created_at,
-              updated_at: property_detail.updated_at,
-            })),
-          },
+              updated_at: property_detail.updated_at
+            }))
+          }
         },
         rules: {
           createMany: {
@@ -118,11 +119,11 @@ export class PropertyPrismaRepository implements PropertyRepository {
               rule_key: rule.key,
               allowed: rule.allowed,
               created_at: rule.created_at,
-              updated_at: rule.updated_at,
-            })),
-          },
-        },
-      },
+              updated_at: rule.updated_at
+            }))
+          }
+        }
+      }
     });
   }
 
@@ -130,7 +131,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
     const property = await this.prisma.property
       .findFirstOrThrow({
         where: { id: id.toString() },
-        include: this.includes(),
+        include: this.includes()
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -140,7 +141,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
 
   async findAll(): Promise<Property[]> {
     const properties = await this.prisma.property.findMany({
-      include: this.includes(),
+      include: this.includes()
     });
     return properties.map((property) => this.toEntity(property));
   }
@@ -151,14 +152,14 @@ export class PropertyPrismaRepository implements PropertyRepository {
       data: {
         title: entity.title,
         description: entity.description,
-        status: entity.status,
-      },
+        status: entity.status
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.property.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -172,10 +173,10 @@ export class PropertyPrismaRepository implements PropertyRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
+          : { created_at: "asc" })
       },
       where: this.applyFilters(props.filter),
-      include: this.includes(),
+      include: this.includes()
     });
 
     items = properties.map((property) => this.toEntity(property));
@@ -183,14 +184,14 @@ export class PropertyPrismaRepository implements PropertyRepository {
     if (
       props?.filter &&
       props.filter?.value_type &&
-      props.filter.value_type === 'all' &&
+      props.filter.value_type === "all" &&
       props.filter?.min_value &&
       props.filter?.max_value
     ) {
       items = this.totalValueFilter(
         properties,
         props.filter.min_value,
-        props.filter.max_value,
+        props.filter.max_value
       );
     }
 
@@ -200,8 +201,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
       per_page: props.per_page,
       total: properties.length,
       filter: props.filter,
-      sort: props.sort || 'created_at',
-      sort_dir: props.sort_dir || 'asc',
+      sort: props.sort || "created_at",
+      sort_dir: props.sort_dir || "asc"
     });
   }
 
@@ -222,61 +223,61 @@ export class PropertyPrismaRepository implements PropertyRepository {
               subtype: true,
               type: true,
               created_at: true,
-              updated_at: true,
-            },
-          },
-        },
+              updated_at: true
+            }
+          }
+        }
       },
       condominium_details: {
         include: {
           condominium_detail: {
             select: {
               name: true,
-              description: true,
-            },
-          },
-        },
+              description: true
+            }
+          }
+        }
       },
       property_details: {
         include: {
           property_detail: {
             select: {
               name: true,
-              description: true,
-            },
-          },
-        },
+              description: true
+            }
+          }
+        }
       },
       rules: {
         include: {
           rule: {
             select: {
               name: true,
-              description: true,
-            },
-          },
-        },
+              description: true
+            }
+          }
+        }
       },
       charges: {
         include: {
           charge: {
             select: {
               name: true,
-              description: true,
-            },
-          },
-        },
+              description: true
+            }
+          }
+        }
       },
       floor_plans: {
         include: {
           floor_plan: {
             select: {
               name: true,
-              unit: true,
-            },
-          },
-        },
-      },
+              unit: true
+            }
+          }
+        }
+      }
     };
   }
 
@@ -290,7 +291,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
       district: property.address.district,
       complement: property.address.complement,
       created_at: property.address.created_at,
-      updated_at: property.address.updated_at,
+      updated_at: property.address.updated_at
     });
     const charges = property.charges.map(
       (charge) =>
@@ -301,8 +302,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           description: charge.charge.description,
           amount: charge.amount,
           created_at: charge.created_at,
-          updated_at: charge.updated_at,
-        }),
+          updated_at: charge.updated_at
+        })
     );
     const photos = property.photos.map(
       (photo) =>
@@ -315,8 +316,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           type: photo.file.type,
           description: photo.file.description,
           created_at: photo.file.created_at,
-          updated_at: photo.file.updated_at,
-        }),
+          updated_at: photo.file.updated_at
+        })
     );
     const floor_plans = property.floor_plans.map(
       (floor_plan) =>
@@ -327,8 +328,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           unit: floor_plan.floor_plan.unit,
           value: floor_plan.value,
           created_at: floor_plan.created_at,
-          updated_at: floor_plan.updated_at,
-        }),
+          updated_at: floor_plan.updated_at
+        })
     );
     const condominium_details = property.condominium_details.map(
       (condominium_detail) =>
@@ -339,8 +340,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           description: condominium_detail.condominium_detail.description,
           available: condominium_detail.available,
           created_at: condominium_detail.created_at,
-          updated_at: condominium_detail.updated_at,
-        }),
+          updated_at: condominium_detail.updated_at
+        })
     );
     const property_details = property.property_details.map(
       (property_detail) =>
@@ -351,8 +352,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           description: property_detail.property_detail.description,
           available: property_detail.available,
           created_at: property_detail.created_at,
-          updated_at: property_detail.updated_at,
-        }),
+          updated_at: property_detail.updated_at
+        })
     );
     const rules = property.rules.map(
       (rule) =>
@@ -363,8 +364,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
           description: rule.rule.description,
           allowed: rule.allowed,
           created_at: rule.created_at,
-          updated_at: rule.updated_at,
-        }),
+          updated_at: rule.updated_at
+        })
     );
     return new Property({
       id: new UniqueEntityId(property.id),
@@ -383,19 +384,19 @@ export class PropertyPrismaRepository implements PropertyRepository {
       status: property.status as PropertyStatus,
       user_id: new UniqueEntityId(property.user_id),
       created_at: property.created_at,
-      updated_at: property.updated_at,
+      updated_at: property.updated_at
     });
   }
 
   private totalValueFilter(
     properties: any[],
     min: number,
-    max: number,
+    max: number
   ): Property[] {
     const filteredProperties = properties.filter((property) => {
       const totalValue = property.charges.reduce(
         (total, charge) => total + charge.amount,
-        0,
+        0
       );
       return totalValue >= min && totalValue <= max;
     });
@@ -407,26 +408,26 @@ export class PropertyPrismaRepository implements PropertyRepository {
     if (!filter || Object.keys(filter).length === 0) {
       return where;
     }
-    const ignoredKeyList = ['max_', 'value_type'];
+    const ignoredKeyList = ["max_", "value_type"];
     for (const key in filter) {
       if (!filter[key] || ignoredKeyList.find((item) => key.includes(item))) {
         continue;
       }
-      if (key.includes('min_')) {
-        const field = key.replace('min_', '');
-        if (field === 'value') {
+      if (key.includes("min_")) {
+        const field = key.replace("min_", "");
+        if (field === "value") {
           where = this[`${field}_filter`](
             where,
             filter[`min_${field}`],
             filter[`max_${field}`],
-            filter.value_type,
+            filter.value_type
           );
           continue;
         }
         where = this[`${field}_filter`](
           where,
           filter[`min_${field}`],
-          filter[`max_${field}`],
+          filter[`max_${field}`]
         );
         continue;
       }
@@ -437,7 +438,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
 
   rules_filter(
     where: Prisma.propertyWhereInput,
-    rules: string[],
+    rules: string[]
   ): Prisma.propertyWhereInput {
     return {
       ...where,
@@ -445,17 +446,17 @@ export class PropertyPrismaRepository implements PropertyRepository {
         every: {
           rule: {
             key: {
-              in: rules,
-            },
-          },
-        },
-      },
+              in: rules
+            }
+          }
+        }
+      }
     };
   }
 
   condominium_details_filter(
     where: Prisma.propertyWhereInput,
-    condominiumDetails: string[],
+    condominiumDetails: string[]
   ): Prisma.propertyWhereInput {
     return {
       ...where,
@@ -463,17 +464,17 @@ export class PropertyPrismaRepository implements PropertyRepository {
         every: {
           condominium_detail: {
             key: {
-              in: condominiumDetails,
-            },
-          },
-        },
-      },
+              in: condominiumDetails
+            }
+          }
+        }
+      }
     };
   }
 
   property_details_filter(
     where: Prisma.propertyWhereInput,
-    propertyDetails: string[],
+    propertyDetails: string[]
   ): Prisma.propertyWhereInput {
     return {
       ...where,
@@ -481,41 +482,41 @@ export class PropertyPrismaRepository implements PropertyRepository {
         every: {
           property_detail: {
             key: {
-              in: propertyDetails,
-            },
-          },
-        },
-      },
+              in: propertyDetails
+            }
+          }
+        }
+      }
     };
   }
 
   privacy_type_filter(
     where: Prisma.propertyWhereInput,
-    privacyType: string,
+    privacyType: string
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       privacy_type: {
-        key: privacyType,
-      },
+        key: privacyType
+      }
     };
   }
 
   property_type_filter(
     where: Prisma.propertyWhereInput,
-    propertyType: string,
+    propertyType: string
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       property_type: {
-        key: propertyType,
-      },
+        key: propertyType
+      }
     };
   }
 
   query_filter(
     where: Prisma.propertyWhereInput,
-    query: string,
+    query: string
   ): Prisma.propertyWhereInput {
     return {
       ...where,
@@ -523,80 +524,80 @@ export class PropertyPrismaRepository implements PropertyRepository {
         {
           title: {
             contains: query,
-            mode: 'insensitive',
-          },
+            mode: "insensitive"
+          }
         },
         {
           description: {
             contains: query,
-            mode: 'insensitive',
-          },
+            mode: "insensitive"
+          }
         },
         {
           address: {
             street: {
               contains: query,
-              mode: 'insensitive',
-            },
-          },
+              mode: "insensitive"
+            }
+          }
         },
         {
           address: {
             city: {
               contains: query,
-              mode: 'insensitive',
-            },
-          },
+              mode: "insensitive"
+            }
+          }
         },
         {
           address: {
             district: {
               contains: query,
-              mode: 'insensitive',
-            },
-          },
+              mode: "insensitive"
+            }
+          }
         },
         {
           address: {
             state: {
               contains: query,
-              mode: 'insensitive',
-            },
-          },
+              mode: "insensitive"
+            }
+          }
         },
         {
           address: {
             zip_code: {
               contains: query,
-              mode: 'insensitive',
-            },
-          },
-        },
-      ],
+              mode: "insensitive"
+            }
+          }
+        }
+      ]
     };
   }
 
   id_filter(
     where: Prisma.propertyWhereInput,
-    id: string,
+    id: string
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       id: {
-        contains: id,
-      },
+        contains: id
+      }
     };
   }
 
   status_filter(
     where: Prisma.propertyWhereInput,
-    status: PropertyStatus,
+    status: PropertyStatus
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       status: {
-        equals: status,
-      },
+        equals: status
+      }
     };
   }
 
@@ -604,18 +605,18 @@ export class PropertyPrismaRepository implements PropertyRepository {
     where: Prisma.propertyWhereInput,
     min: number,
     max: number,
-    key: string,
+    key: string
   ): Prisma.propertyWhereInput {
     const amountFilter = { amount: { gte: min, lte: max } };
     const filter =
-      key === 'all'
+      key === "all"
         ? {
             OR: [
-              { charge_key: 'rent', amount: amountFilter.amount },
-              { charge_key: 'condominium', amount: amountFilter.amount },
-              { charge_key: 'iptu', amount: amountFilter.amount },
-              { charge_key: 'other', amount: amountFilter.amount },
-            ],
+              { charge_key: "rent", amount: amountFilter.amount },
+              { charge_key: "condominium", amount: amountFilter.amount },
+              { charge_key: "iptu", amount: amountFilter.amount },
+              { charge_key: "other", amount: amountFilter.amount }
+            ]
           }
         : { charge_key: key, amount: amountFilter.amount };
     return { ...where, charges: { some: filter } };
@@ -624,59 +625,59 @@ export class PropertyPrismaRepository implements PropertyRepository {
   footage_filter(
     where: Prisma.propertyWhereInput,
     min: number,
-    max: number,
+    max: number
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       floor_plans: {
         some: {
           floor_plan_key: {
-            equals: 'footage',
+            equals: "footage"
           },
           value: {
             gte: min,
-            lte: max,
-          },
-        },
-      },
+            lte: max
+          }
+        }
+      }
     };
   }
 
   qtd_bedrooms_filter(
     where: Prisma.propertyWhereInput,
-    qtd: number,
+    qtd: number
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       floor_plans: {
         some: {
           floor_plan_key: {
-            equals: 'bedrooms',
+            equals: "bedrooms"
           },
           value: {
-            gte: qtd,
-          },
-        },
-      },
+            gte: qtd
+          }
+        }
+      }
     };
   }
 
   qtd_bathrooms_filter(
     where: Prisma.propertyWhereInput,
-    qtd: number,
+    qtd: number
   ): Prisma.propertyWhereInput {
     return {
       ...where,
       floor_plans: {
         some: {
           floor_plan_key: {
-            equals: 'bathrooms',
+            equals: "bathrooms"
           },
           value: {
-            gte: qtd,
-          },
-        },
-      },
+            gte: qtd
+          }
+        }
+      }
     };
   }
 }

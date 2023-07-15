@@ -1,7 +1,8 @@
-import { PropertyTypeRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { UseCase } from '#shared/app';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { PropertyTypeRepository } from "../../../domain/repository";
 
 export class DeletePropertyTypeUseCase
   implements UseCase<{ id: string }, void>
@@ -10,7 +11,7 @@ export class DeletePropertyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyTypeRepository =
@@ -18,7 +19,7 @@ export class DeletePropertyTypeUseCase
   }
 
   async execute(input: { id: string }): Promise<void> {
-    this.logger.info({ message: 'Start DeletePropertyType Use Case' });
+    this.logger.info({ message: "Start DeletePropertyType Use Case" });
     await this.propertyTypeRepository.delete(input.id);
   }
 }

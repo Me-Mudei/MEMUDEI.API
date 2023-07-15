@@ -1,5 +1,5 @@
-import { Entity } from '../entity';
-import { UniqueEntityId } from '../value-objects';
+import { Entity } from "../entity";
+import { UniqueEntityId } from "../value-objects";
 
 export interface RepositoryInterface<E extends Entity> {
   insert(entity: E): Promise<void>;
@@ -9,7 +9,7 @@ export interface RepositoryInterface<E extends Entity> {
   delete(id: string | UniqueEntityId): Promise<void>;
 }
 
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = "asc" | "desc";
 
 export type SearchProps<Filter> = {
   page?: number;
@@ -72,7 +72,7 @@ export class SearchParams<Filter> {
 
   private set sort(value: string | null) {
     this._sort =
-      value === null || value === undefined || value === '' ? null : `${value}`;
+      value === null || value === undefined || value === "" ? null : `${value}`;
   }
 
   get sort_dir(): SortDirection | null {
@@ -85,7 +85,7 @@ export class SearchParams<Filter> {
       return;
     }
     const dir = `${value}`.toLowerCase();
-    this._sort_dir = dir !== 'asc' && dir !== 'desc' ? 'asc' : dir;
+    this._sort_dir = dir !== "asc" && dir !== "desc" ? "asc" : dir;
   }
 
   get filter(): Filter | null {
@@ -94,7 +94,7 @@ export class SearchParams<Filter> {
 
   private set filter(value: Filter | null) {
     this._filter =
-      value === null || value === undefined || (value as unknown) === ''
+      value === null || value === undefined || (value as unknown) === ""
         ? null
         : value;
   }
@@ -140,7 +140,7 @@ export class SearchResult<E extends Entity = Entity, Filter = any> {
       last_page: this.last_page,
       sort: this.sort,
       sort_dir: this.sort_dir,
-      filter: this.filter,
+      filter: this.filter
     };
   }
 }
@@ -149,7 +149,7 @@ export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
   SearchInput = SearchParams<Filter>,
-  SearchOutput = SearchResult<E, Filter>,
+  SearchOutput = SearchResult<E, Filter>
 > extends RepositoryInterface<E> {
   sortableFields: string[];
   search(props: SearchInput): Promise<SearchOutput>;

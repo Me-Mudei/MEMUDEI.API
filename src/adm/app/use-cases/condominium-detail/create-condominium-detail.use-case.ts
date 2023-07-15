@@ -1,13 +1,14 @@
-import { CondominiumDetailRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { CondominiumDetail } from '../../../domain/entities';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { CondominiumDetail } from "../../../domain/entities";
+import { RepositoryFactory } from "../../../domain/factory";
+import { CondominiumDetailRepository } from "../../../domain/repository";
 import {
   CreateCondominiumDetailInput,
   CondominiumDetailOutput,
-  CondominiumDetailOutputMapper,
-} from '../../dto';
-import { UseCase } from '#shared/app';
+  CondominiumDetailOutputMapper
+} from "../../dto";
 
 export class CreateCondominiumDetailUseCase
   implements UseCase<CreateCondominiumDetailInput, CondominiumDetailOutput>
@@ -16,7 +17,7 @@ export class CreateCondominiumDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.condominiumDetailRepository =
@@ -24,13 +25,13 @@ export class CreateCondominiumDetailUseCase
   }
 
   async execute(
-    input: CreateCondominiumDetailInput,
+    input: CreateCondominiumDetailInput
   ): Promise<CondominiumDetailOutput> {
-    this.logger.info({ message: 'Start CreateCondominiumDetail Use Case' });
+    this.logger.info({ message: "Start CreateCondominiumDetail Use Case" });
     const condominiumDetail = new CondominiumDetail({
       key: input.key,
       name: input.name,
-      description: input.description,
+      description: input.description
     });
     await this.condominiumDetailRepository.insert(condominiumDetail);
     return CondominiumDetailOutputMapper.toOutput(condominiumDetail);

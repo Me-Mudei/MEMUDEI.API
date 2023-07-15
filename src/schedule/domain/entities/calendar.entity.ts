@@ -1,6 +1,8 @@
-import { Schedule, Weekday, User } from './';
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import CalendarValidatorFactory from '../validators/calendar.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import CalendarValidatorFactory from "../validators/calendar.validator";
+
+import { Schedule, Weekday } from "./";
 
 export type CalendarProps = {
   id?: UniqueEntityId;
@@ -54,7 +56,7 @@ export class Calendar extends Entity<CalendarProps> {
           }
           return this.events
             .map((event) =>
-              event.overlapSchedule(schedule, this.schedule_duration),
+              event.overlapSchedule(schedule, this.schedule_duration)
             )
             .includes(false);
         }

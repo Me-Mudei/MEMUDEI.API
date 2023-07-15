@@ -1,7 +1,7 @@
-import { FileInput } from '../../domain/driver';
+import { FileInput } from "../../domain/driver";
 
 export type UploadFileInput = {
-  reference_type: 'property';
+  reference_type: "property";
   files: FileInput[];
 };
 

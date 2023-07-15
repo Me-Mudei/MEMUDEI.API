@@ -1,14 +1,16 @@
-import { Broker } from '#shared/infra';
-import { Auth, UserInMemoryRepository } from '../../infra';
+import { Broker } from "#shared/infra";
+
+import { Auth, UserInMemoryRepository } from "../../infra";
 import {
   CreateUserUseCase,
   FindFirstUserUseCase,
   SearchUsersUseCase,
-  ValidateUserUseCase,
-} from '../use-cases';
-import { UserFacade } from './user.facade';
+  ValidateUserUseCase
+} from "../use-cases";
 
-describe('UserFacade Unit tests', () => {
+import { UserFacade } from "./user.facade";
+
+describe("UserFacade Unit tests", () => {
   let useCase: CreateUserUseCase;
   let mockFindFirstUser: FindFirstUserUseCase;
   let mockSearchUsers: SearchUsersUseCase;
@@ -22,7 +24,7 @@ describe('UserFacade Unit tests', () => {
     repository = new UserInMemoryRepository();
     broker = new Broker();
     authService = {
-      signup: jest.fn(),
+      signup: jest.fn()
     };
     useCase = new CreateUserUseCase(repository, authService, broker);
     mockFindFirstUser = new FindFirstUserUseCase(repository);
@@ -32,15 +34,15 @@ describe('UserFacade Unit tests', () => {
       createUseCase: useCase,
       findFirstUseCase: mockFindFirstUser,
       searchUseCase: mockSearchUsers,
-      validateUseCase: mockValidateUser,
+      validateUseCase: mockValidateUser
     });
   });
-  it('should create a user facade', async () => {
-    const spyFacadeCreate = jest.spyOn(facade, 'createUser');
-    const spyUseCaseExecute = jest.spyOn(useCase, 'execute');
+  it("should create a user facade", async () => {
+    const spyFacadeCreate = jest.spyOn(facade, "createUser");
+    const spyUseCaseExecute = jest.spyOn(useCase, "execute");
     await facade.createUser({
-      name: 'Test',
-      email: 'tes@test.com',
+      name: "Test",
+      email: "tes@test.com"
     });
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);
     expect(spyUseCaseExecute).toHaveBeenCalledTimes(1);

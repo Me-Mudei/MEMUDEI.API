@@ -1,13 +1,14 @@
-import { PropertyTypeRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { PropertyType } from '../../../domain/entities';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { PropertyType } from "../../../domain/entities";
+import { RepositoryFactory } from "../../../domain/factory";
+import { PropertyTypeRepository } from "../../../domain/repository";
 import {
   CreatePropertyTypeInput,
   PropertyTypeOutput,
-  PropertyTypeOutputMapper,
-} from '../../dto';
-import { UseCase } from '#shared/app';
+  PropertyTypeOutputMapper
+} from "../../dto";
 
 export class CreatePropertyTypeUseCase
   implements UseCase<CreatePropertyTypeInput, PropertyTypeOutput>
@@ -16,7 +17,7 @@ export class CreatePropertyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyTypeRepository =
@@ -24,11 +25,11 @@ export class CreatePropertyTypeUseCase
   }
 
   async execute(input: CreatePropertyTypeInput): Promise<PropertyTypeOutput> {
-    this.logger.info({ message: 'Start CreatePropertyType Use Case' });
+    this.logger.info({ message: "Start CreatePropertyType Use Case" });
     const propertyType = new PropertyType({
       key: input.key,
       name: input.name,
-      description: input.description,
+      description: input.description
     });
     await this.propertyTypeRepository.insert(propertyType);
     return PropertyTypeOutputMapper.toOutput(propertyType);

@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { PrivacyTypeProps } from '../entities/privacy-type.entity';
+  MaxLength
+} from "class-validator";
+
+import { PrivacyTypeProps } from "../entities/privacy-type.entity";
 
 export class PrivacyTypeRules {
   @MaxLength(50)

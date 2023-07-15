@@ -1,4 +1,4 @@
-import { PropertyStatus } from '../../domain/entities';
+import { PropertyStatus } from "../../domain/entities";
 
 export type CreatePropertyInput = {
   title: string;

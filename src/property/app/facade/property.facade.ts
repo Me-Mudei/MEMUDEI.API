@@ -1,19 +1,20 @@
-import { PropertyFilter, PropertyStatus } from '#property/domain';
-import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
+import { PropertyFilter } from "#property/domain";
+import { SearchInputDto, PaginationOutputDto } from "#shared/app/";
+
 import {
   CreatePropertyInput,
   UpdatePropertyInput,
   CreatePropertyOutput,
   UpdatePropertyOutput,
-  PropertyOutput,
-} from '../dto';
-import { PropertyCreatedSendConfirmationHandler } from '../handlers';
+  PropertyOutput
+} from "../dto";
+import { PropertyCreatedSendConfirmationHandler } from "../handlers";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
-  SearchPropertyUseCase,
-} from '../use-cases';
+  SearchPropertyUseCase
+} from "../use-cases";
 
 export interface PropertyFacadeProps {
   createProperty: CreatePropertyUseCase;
@@ -35,16 +36,16 @@ export class PropertyFacade {
     this._searchProperty = props.searchProperty;
   }
   async createProperty(
-    input: CreatePropertyInput,
+    input: CreatePropertyInput
   ): Promise<CreatePropertyOutput> {
     this._createProperty.broker.register(
-      new PropertyCreatedSendConfirmationHandler(),
+      new PropertyCreatedSendConfirmationHandler()
     );
     return this._createProperty.execute(input);
   }
 
   async updateProperty(
-    input: UpdatePropertyInput,
+    input: UpdatePropertyInput
   ): Promise<UpdatePropertyOutput> {
     return this._updateProperty.execute(input);
   }
@@ -54,7 +55,7 @@ export class PropertyFacade {
   }
 
   async searchProperty(
-    input: SearchInputDto<PropertyFilter>,
+    input: SearchInputDto<PropertyFilter>
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     return this._searchProperty.execute(input);
   }

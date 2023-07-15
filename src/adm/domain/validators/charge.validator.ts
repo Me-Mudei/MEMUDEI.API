@@ -1,13 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { ChargeProps } from '../entities/charge.entity';
+  MaxLength
+} from "class-validator";
+
+import { ChargeProps } from "../entities/charge.entity";
 
 export class ChargeRules {
   @MaxLength(50)

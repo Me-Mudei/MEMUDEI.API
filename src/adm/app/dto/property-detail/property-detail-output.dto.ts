@@ -1,4 +1,4 @@
-import { PropertyDetail } from '../../../domain';
+import { PropertyDetail } from "../../../domain";
 
 export type PropertyDetailOutput = {
   id: string;

@@ -1,4 +1,4 @@
-import { RepositoryFactory } from '../../../domain/factory';
+import { RepositoryFactory } from "../../../domain/factory";
 import {
   CondominiumDetailInMemoryRepository,
   PrivacyTypeInMemoryRepository,
@@ -7,8 +7,8 @@ import {
   PropertyTypeInMemoryRepository,
   RuleInMemoryRepository,
   ChargeInMemoryRepository,
-  FloorPlanInMemoryRepository,
-} from '../../repository';
+  FloorPlanInMemoryRepository
+} from "../../repository";
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {
   createPropertyTypeRepository() {

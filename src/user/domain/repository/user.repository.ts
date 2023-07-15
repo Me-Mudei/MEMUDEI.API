@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
-} from '#shared/domain';
-import { User } from '../entities';
+  SearchResult as DefaultSearchResult
+} from "#shared/domain";
+
+import { User } from "../entities";
 
 export type UserFilter = {
   id?: string;

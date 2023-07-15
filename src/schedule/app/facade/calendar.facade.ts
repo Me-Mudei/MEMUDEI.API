@@ -1,17 +1,18 @@
-import { PaginationOutputDto } from '#shared/app/dto/pagination-output.dto';
-import { SearchInputDto } from '#shared/app/dto/search-input.dto';
+import { PaginationOutputDto } from "#shared/app/dto/pagination-output.dto";
+import { SearchInputDto } from "#shared/app/dto/search-input.dto";
+
 import {
   CreateCalendarInput,
   CalendarOutput,
-  UpdateCalendarInput,
-} from '../dto';
+  UpdateCalendarInput
+} from "../dto";
 import {
   GetCalendarUseCase,
   SearchCalendarUseCase,
   CreateCalendarUseCase,
   UpdateCalendarUseCase,
-  DeleteCalendarUseCase,
-} from '../use-cases';
+  DeleteCalendarUseCase
+} from "../use-cases";
 
 export interface CalendarFacadeProps {
   getCalendar: GetCalendarUseCase;
@@ -39,7 +40,7 @@ export class CalendarFacade {
     return this._getCalendar.execute(input);
   }
   async searchCalendar(
-    input: SearchInputDto,
+    input: SearchInputDto
   ): Promise<PaginationOutputDto<CalendarOutput>> {
     return this._searchCalendar.execute(input);
   }

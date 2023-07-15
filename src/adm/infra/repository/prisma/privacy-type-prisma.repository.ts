@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient } from "#shared/infra";
+
 import {
   PrivacyType,
   PrivacyTypeRepository,
   PrivacyTypeSearchParams,
-  PrivacyTypeSearchResult,
-} from '../../../domain';
-import { PrismaClient } from '#shared/infra';
+  PrivacyTypeSearchResult
+} from "../../../domain";
 
 export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: PrivacyType): Promise<void> {
@@ -19,15 +20,15 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<PrivacyType> {
     const privacyType = await this.prisma.privacy_type
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -40,12 +41,12 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
     const privacyType = await this.prisma.privacy_type.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return privacyType.map((condominiumDetail) =>
-      this.toEntity(condominiumDetail),
+      this.toEntity(condominiumDetail)
     );
   }
 
@@ -60,19 +61,19 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
       data: {
         key: entity.key,
         name: entity.name,
-        description: entity.description,
-      },
+        description: entity.description
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.privacy_type.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
   async search(
-    props: PrivacyTypeSearchParams,
+    props: PrivacyTypeSearchParams
   ): Promise<PrivacyTypeSearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
@@ -83,8 +84,8 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new PrivacyTypeSearchResult({
       items: privacyTypes.map((privacyType) => this.toEntity(privacyType)),
@@ -93,7 +94,7 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
       total: privacyTypes.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -104,7 +105,7 @@ export class PrivacyTypePrismaRepository implements PrivacyTypeRepository {
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

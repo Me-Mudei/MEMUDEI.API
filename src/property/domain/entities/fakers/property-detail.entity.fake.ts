@@ -1,6 +1,7 @@
-import { PropertyDetail } from '../property-detail.entity';
-import { Chance } from 'chance';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+import { Chance } from "chance";
+
+import { PropertyDetail } from "../property-detail.entity";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -69,62 +70,62 @@ export class PropertyDetailFakeBuilder<TBuild = any> {
       (_, index) =>
         new PropertyDetail({
           ...(this._id && {
-            id: this.callFactory(this._id, index),
+            id: this.callFactory(this._id, index)
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index),
+            created_at: this.callFactory(this._created_at, index)
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index),
+            updated_at: this.callFactory(this._updated_at, index)
           }),
           key: this.callFactory(this._key, index),
           available: this.callFactory(this._available, index),
           name: this.callFactory(this._name, index),
-          description: this.callFactory(this._description, index),
-        }),
+          description: this.callFactory(this._description, index)
+        })
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
   get id() {
-    return this.getValue('id');
+    return this.getValue("id");
   }
   get key() {
-    return this.getValue('key');
+    return this.getValue("key");
   }
 
   get available() {
-    return this.getValue('available');
+    return this.getValue("available");
   }
   get name() {
-    return this.getValue('name');
+    return this.getValue("name");
   }
 
   get description() {
-    return this.getValue('description');
+    return this.getValue("description");
   }
 
   get created_at() {
-    return this.getValue('created_at');
+    return this.getValue("created_at");
   }
 
   get updated_at() {
-    return this.getValue('updated_at');
+    return this.getValue("updated_at");
   }
 
   private getValue(prop) {
-    const optional = ['id', 'created_at', 'updated_at'];
+    const optional = ["id", "created_at", "updated_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(
-        `PropertyDetail ${prop} not have a factory, use 'with' methods`,
+        `PropertyDetail ${prop} not have a factory, use 'with' methods`
       );
     }
     return this.callFactory(this[privateProp], 0);
   }
 
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
-    return typeof factoryOrValue === 'function'
+    return typeof factoryOrValue === "function"
       ? factoryOrValue(index)
       : factoryOrValue;
   }

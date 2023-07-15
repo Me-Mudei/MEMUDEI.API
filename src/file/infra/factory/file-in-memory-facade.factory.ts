@@ -1,7 +1,7 @@
-import { FileFacade } from '../../app/facade';
-import { UploadFileUseCase } from '../../app/use-cases';
-import { FileInMemoryRepository } from '../repository';
-import { InMemoryDriver } from '../driver';
+import { FileFacade } from "../../app/facade";
+import { UploadFileUseCase } from "../../app/use-cases";
+import { InMemoryDriver } from "../driver";
+import { FileInMemoryRepository } from "../repository";
 
 export class FileInMemoryFacadeFactory {
   static create() {
@@ -11,7 +11,7 @@ export class FileInMemoryFacadeFactory {
     const uploadFileUseCase = new UploadFileUseCase(userRepository, driver);
 
     return new FileFacade({
-      uploadUseCase: uploadFileUseCase,
+      uploadUseCase: uploadFileUseCase
     });
   }
 }

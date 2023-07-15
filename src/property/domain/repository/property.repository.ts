@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams,
-  SearchResult,
-} from '#shared/domain';
-import { Property } from '../entities';
+  SearchResult
+} from "#shared/domain";
+
+import { Property } from "../entities";
 
 export type PropertyFilter = {
   id?: string;

@@ -1,6 +1,6 @@
-import { AuthenticateUserUseCase, AuthFacade } from '../../app';
-import { UserInMemoryRepository } from '../repository';
-import { AuthGateway } from '../auth-gateway';
+import { AuthenticateUserUseCase, AuthFacade } from "../../app";
+import { AuthGateway } from "../auth-gateway";
+import { UserInMemoryRepository } from "../repository";
 
 export class AuthInMemoryFacadeFactory {
   static create() {
@@ -9,11 +9,11 @@ export class AuthInMemoryFacadeFactory {
 
     const authenticateUserUseCase = new AuthenticateUserUseCase(
       authGateway,
-      userRepository,
+      userRepository
     );
 
     return new AuthFacade({
-      authenticateUser: authenticateUserUseCase,
+      authenticateUser: authenticateUserUseCase
     });
   }
 }

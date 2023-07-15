@@ -1,5 +1,6 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import FileValidatorFactory from '../validators/file.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import FileValidatorFactory from "../validators/file.validator";
 
 export type FileProps = {
   id?: UniqueEntityId;

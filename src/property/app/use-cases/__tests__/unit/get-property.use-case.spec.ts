@@ -1,10 +1,11 @@
-import { GetPropertyUseCase } from '../../get-property.use-case';
-import { InMemoryRepositoryFactory } from '#property/infra';
-import { Broker } from '#shared/infra';
-import { PropertyFakeBuilder, RepositoryFactory } from '#property/domain';
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { PropertyFakeBuilder, RepositoryFactory } from "#property/domain";
+import { InMemoryRepositoryFactory } from "#property/infra";
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { Broker } from "#shared/infra";
 
-describe('GetPropertyUseCase Unit Tests', () => {
+import { GetPropertyUseCase } from "../../get-property.use-case";
+
+describe("GetPropertyUseCase Unit Tests", () => {
   let useCase: GetPropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -15,21 +16,21 @@ describe('GetPropertyUseCase Unit Tests', () => {
     useCase = new GetPropertyUseCase(repositoryFactory, broker);
   });
 
-  it('should throws error when entity not found', async () => {
-    await expect(() => useCase.execute({ id: 'fake id' })).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID fake id`),
+  it("should throws error when entity not found", async () => {
+    await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID fake id`)
     );
   });
 
-  it('should get a property', async () => {
+  it("should get a property", async () => {
     const spyRepositoryFindById = jest.spyOn(
-      useCase['propertyRepository'],
-      'findById',
+      useCase["propertyRepository"],
+      "findById"
     );
-    const id = new UniqueEntityId('9micktlceY2WicUyvJKq3');
-    useCase['propertyRepository']['items'] = [
+    const id = new UniqueEntityId("9micktlceY2WicUyvJKq3");
+    useCase["propertyRepository"]["items"] = [
       PropertyFakeBuilder.theProperties(5).build(),
-      PropertyFakeBuilder.aProperty().withId(id).build(),
+      PropertyFakeBuilder.aProperty().withId(id).build()
     ];
     const response = await useCase.execute({ id: id.value });
     expect(response.id).toBe(id.value);

@@ -1,9 +1,10 @@
-import { createWriteStream, existsSync, mkdirSync, rmdir } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, rmdir } from "fs";
+
 import {
   Driver,
   FileInput,
-  FileOutput,
-} from '../../domain/driver/driver-contracts';
+  FileOutput
+} from "../../domain/driver/driver-contracts";
 
 export class InMemoryDriver implements Driver {
   private files: FileInput[] = [];
@@ -16,14 +17,14 @@ export class InMemoryDriver implements Driver {
       return {
         filename: file.filename,
         mimetype: file.mimetype,
-        url: `${path}/${file.filename}`,
+        url: `${path}/${file.filename}`
       };
     }
     resultFile.pipe(createWriteStream(`${path}/${file.filename}`));
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      url: `${path}/${file.filename}`,
+      url: `${path}/${file.filename}`
     };
   }
 

@@ -1,8 +1,8 @@
-import { LoggerInterface, WinstonLogger } from '#shared/infra';
-import { UseCase } from '#shared/app';
-import { UserRepository } from '../../domain/repository';
-import { AuthenticateUserInput, AuthenticateUserOutput } from '../dto';
-import { AuthGateway } from '../../infra';
+import { UseCase } from "#shared/app";
+
+import { UserRepository } from "../../domain/repository";
+import { AuthGateway } from "../../infra";
+import { AuthenticateUserInput, AuthenticateUserOutput } from "../dto";
 
 export class AuthenticateUserUseCase
   implements UseCase<AuthenticateUserInput, AuthenticateUserOutput>
@@ -19,7 +19,7 @@ export class AuthenticateUserUseCase
     const user = await this._userRepository.findByExternalId(authenticate.sub);
     return {
       permissions: authenticate.permissions,
-      user_id: user.id,
+      user_id: user.id
     };
   }
 }

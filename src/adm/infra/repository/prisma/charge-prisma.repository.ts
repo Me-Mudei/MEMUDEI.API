@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient } from "#shared/infra";
+
 import {
   Charge,
   ChargeRepository,
   ChargeSearchParams,
-  ChargeSearchResult,
-} from '../../../domain';
-import { PrismaClient } from '#shared/infra';
+  ChargeSearchResult
+} from "../../../domain";
 
 export class ChargePrismaRepository implements ChargeRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Charge): Promise<void> {
@@ -19,15 +20,15 @@ export class ChargePrismaRepository implements ChargeRepository {
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<Charge> {
     const charge = await this.prisma.charge
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -40,9 +41,9 @@ export class ChargePrismaRepository implements ChargeRepository {
     const charges = await this.prisma.charge.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return charges.map((charge) => this.toEntity(charge));
   }
@@ -58,14 +59,14 @@ export class ChargePrismaRepository implements ChargeRepository {
       data: {
         key: entity.key,
         name: entity.name,
-        description: entity.description,
-      },
+        description: entity.description
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.charge.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -79,8 +80,8 @@ export class ChargePrismaRepository implements ChargeRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new ChargeSearchResult({
       items: charges.map((charge) => this.toEntity(charge)),
@@ -89,7 +90,7 @@ export class ChargePrismaRepository implements ChargeRepository {
       total: charges.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -100,7 +101,7 @@ export class ChargePrismaRepository implements ChargeRepository {
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

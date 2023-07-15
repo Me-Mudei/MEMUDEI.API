@@ -1,4 +1,4 @@
-import { Calendar } from '../../../domain/entities';
+import { Calendar } from "../../../domain/entities";
 
 export type CalendarOutput = {
   id: string;
@@ -11,7 +11,7 @@ export class CalendarOutputMapper {
     return {
       id: schedule.id,
       created_at: schedule.created_at,
-      updated_at: schedule.updated_at,
+      updated_at: schedule.updated_at
     };
   }
 }

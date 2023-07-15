@@ -1,6 +1,7 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
-import { File } from '../../domain/entities';
-import { FileRepository } from '../../domain/repository';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+
+import { File } from "../../domain/entities";
+import { FileRepository } from "../../domain/repository";
 
 export class FileInMemoryRepository implements FileRepository {
   items: File[] = [];

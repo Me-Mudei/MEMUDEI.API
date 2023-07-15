@@ -1,6 +1,8 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import WeekdayValidatorFactory from '../validators/weekday.validator';
-import { Hour } from './hour.entity';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import WeekdayValidatorFactory from "../validators/weekday.validator";
+
+import { Hour } from "./hour.entity";
 
 export type WeekdayProps = {
   id?: UniqueEntityId;

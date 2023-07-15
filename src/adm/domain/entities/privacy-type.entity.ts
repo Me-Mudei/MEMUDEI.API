@@ -1,5 +1,6 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import PrivacyTypeValidatorFactory from '../validators/privacy-type.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import PrivacyTypeValidatorFactory from "../validators/privacy-type.validator";
 
 export type PrivacyTypeProps = {
   id?: UniqueEntityId;

@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
-} from '#shared/domain';
-import { PropertyRelationship } from '../entities';
+  SearchResult as DefaultSearchResult
+} from "#shared/domain";
+
+import { PropertyRelationship } from "../entities";
 
 export type PropertyRelationshipFilter = string;
 

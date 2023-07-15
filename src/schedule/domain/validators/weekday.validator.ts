@@ -1,6 +1,7 @@
-import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { WeekdayProps } from '../entities/weekday.entity';
+import { ClassValidatorFields } from "#shared/domain";
+import { IsDate, IsOptional } from "class-validator";
+
+import { WeekdayProps } from "../entities/weekday.entity";
 
 export class WeekdayRules {
   @IsDate()

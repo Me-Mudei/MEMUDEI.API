@@ -1,11 +1,12 @@
-import { configEnv } from '#shared/infra';
-import { PutObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import { configEnv } from "#shared/infra";
+import { nanoid } from "nanoid";
+
 import {
   Driver,
   FileInput,
-  FileOutput,
-} from '../../domain/driver/driver-contracts';
-import { nanoid } from 'nanoid';
+  FileOutput
+} from "../../domain/driver/driver-contracts";
 
 export class AwsS3Driver implements Driver {
   private s3: S3;
@@ -13,11 +14,11 @@ export class AwsS3Driver implements Driver {
     this.s3 = new S3({
       credentials: {
         accessKeyId: configEnv.cloud.accessKeyId,
-        secretAccessKey: configEnv.cloud.secretAccessKey,
+        secretAccessKey: configEnv.cloud.secretAccessKey
       },
-      forcePathStyle: configEnv.cloud.vendor === 'LOCALSTACK',
+      forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
       region: configEnv.cloud.region,
-      endpoint: configEnv.cloud.endpoint,
+      endpoint: configEnv.cloud.endpoint
     });
   }
 
@@ -28,13 +29,13 @@ export class AwsS3Driver implements Driver {
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
-      ACL: 'public-read',
+      ACL: "public-read"
     });
     await this.s3.send(command);
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`,
+      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
     };
   }
 
@@ -56,7 +57,7 @@ export class AwsS3Driver implements Driver {
   async delete(id: string, folder?: string): Promise<void> {
     await this.s3.deleteObject({
       Bucket: process.env.AWS_BUCKET,
-      Key: `${folder}/${id}`,
+      Key: `${folder}/${id}`
     });
   }
 }

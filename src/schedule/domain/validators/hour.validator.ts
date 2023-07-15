@@ -1,6 +1,7 @@
-import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { HourProps } from '../entities/hour.entity';
+import { ClassValidatorFields } from "#shared/domain";
+import { IsDate, IsOptional } from "class-validator";
+
+import { HourProps } from "../entities/hour.entity";
 
 export class HourRules {
   @IsDate()

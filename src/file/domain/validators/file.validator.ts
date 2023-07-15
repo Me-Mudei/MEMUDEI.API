@@ -1,6 +1,7 @@
-import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { FileProps } from '../entities/file.entity';
+import { ClassValidatorFields } from "#shared/domain";
+import { IsDate, IsOptional } from "class-validator";
+
+import { FileProps } from "../entities/file.entity";
 
 export class FileRules {
   @IsDate()

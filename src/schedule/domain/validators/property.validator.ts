@@ -1,6 +1,7 @@
-import { IsDate, IsOptional } from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { PropertyProps } from '../entities/property.entity';
+import { ClassValidatorFields } from "#shared/domain";
+import { IsDate, IsOptional } from "class-validator";
+
+import { PropertyProps } from "../entities/property.entity";
 
 export class PropertyRules {
   @IsDate()

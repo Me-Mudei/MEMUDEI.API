@@ -1,6 +1,7 @@
-import { Address } from '../address.entity';
-import { Chance } from 'chance';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+import { Chance } from "chance";
+
+import { Address } from "../address.entity";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -84,63 +85,63 @@ export class AddressFakeBuilder<TBuild = any> {
       (_, index) =>
         new Address({
           ...(this._id && {
-            id: this.callFactory(this._id, index),
+            id: this.callFactory(this._id, index)
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index),
+            created_at: this.callFactory(this._created_at, index)
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index),
+            updated_at: this.callFactory(this._updated_at, index)
           }),
           zip_code: this.callFactory(this._zip_code, index),
           complement: this.callFactory(this._complement, index),
           city: this.callFactory(this._city, index),
           state: this.callFactory(this._state, index),
           street: this.callFactory(this._street, index),
-          district: this.callFactory(this._district, index),
-        }),
+          district: this.callFactory(this._district, index)
+        })
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
   get id() {
-    return this.getValue('id');
+    return this.getValue("id");
   }
 
   get zip_code() {
-    return this.getValue('zip_code');
+    return this.getValue("zip_code");
   }
 
   get complement() {
-    return this.getValue('complement');
+    return this.getValue("complement");
   }
 
   get city() {
-    return this.getValue('city');
+    return this.getValue("city");
   }
 
   get state() {
-    return this.getValue('state');
+    return this.getValue("state");
   }
 
   get street() {
-    return this.getValue('street');
+    return this.getValue("street");
   }
 
   get district() {
-    return this.getValue('district');
+    return this.getValue("district");
   }
 
   get created_at() {
-    return this.getValue('created_at');
+    return this.getValue("created_at");
   }
 
   get updated_at() {
-    return this.getValue('updated_at');
+    return this.getValue("updated_at");
   }
 
   private getValue(prop) {
-    const optional = ['id', 'created_at', 'updated_at'];
+    const optional = ["id", "created_at", "updated_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(`Address ${prop} not have a factory, use 'with' methods`);
@@ -149,7 +150,7 @@ export class AddressFakeBuilder<TBuild = any> {
   }
 
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
-    return typeof factoryOrValue === 'function'
+    return typeof factoryOrValue === "function"
       ? factoryOrValue(index)
       : factoryOrValue;
   }

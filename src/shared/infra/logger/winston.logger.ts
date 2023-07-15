@@ -1,15 +1,17 @@
 //Instance Winston
+import { nanoid } from "nanoid";
+import { createLogger, format, addColors, transports, Logger } from "winston";
+
+import { configEnv } from "../config";
+
 import {
   DefaultInput,
   ErrorInput,
   LoggerInterface,
   logLevels,
   LoggerProps,
-  logColors,
-} from './logger.interface';
-import { createLogger, format, addColors, transports, Logger } from 'winston';
-import { nanoid } from 'nanoid';
-import { configEnv } from '../config';
+  logColors
+} from "./logger.interface";
 
 export class WinstonLogger implements LoggerInterface {
   private static instance: WinstonLogger;
@@ -41,7 +43,7 @@ export class WinstonLogger implements LoggerInterface {
         req_id: this.req_id,
         req_path: this.req_path,
         req_method: this.req_method,
-        req_ua: this.req_ua,
+        req_ua: this.req_ua
       },
       format: format.combine(
         format.colorize(),
@@ -50,13 +52,13 @@ export class WinstonLogger implements LoggerInterface {
         format.printf((info) => {
           const { timestamp, level, ...args } = info;
 
-          const ts = timestamp.slice(0, 19).replace('T', ' ');
+          const ts = timestamp.slice(0, 19).replace("T", " ");
           return `${ts} [${level}]: ${
-            Object.keys(args).length ? JSON.stringify(args) : ''
+            Object.keys(args).length ? JSON.stringify(args) : ""
           }`;
-        }),
+        })
       ),
-      transports: [new transports.Console({ level: configEnv.log.level })],
+      transports: [new transports.Console({ level: configEnv.log.level })]
     });
     WinstonLogger.instance = this;
   }
@@ -66,11 +68,11 @@ export class WinstonLogger implements LoggerInterface {
       WinstonLogger.instance = new WinstonLogger({
         req: {
           req_id: nanoid(),
-          req_method: 'DIRECT',
-          req_path: 'DIRECT',
-          req_ua: 'TEST',
+          req_method: "DIRECT",
+          req_path: "DIRECT",
+          req_ua: "TEST"
         },
-        svc: 'TEST',
+        svc: "TEST"
       });
     }
     return WinstonLogger.instance;
@@ -78,8 +80,8 @@ export class WinstonLogger implements LoggerInterface {
 
   private setCaller() {
     const err = new Error();
-    const caller_line = err.stack.split('\n')[3];
-    this.caller = caller_line.split(' ')[6];
+    const caller_line = err.stack.split("\n")[3];
+    this.caller = caller_line.split(" ")[6];
   }
 
   info(input: DefaultInput) {
@@ -116,9 +118,9 @@ export class WinstonLogger implements LoggerInterface {
     this.err_code = input.err_code;
     this.err_category = input.err_category;
     this.logger.log({
-      level: 'critical',
+      level: "critical",
       ...input,
-      caller: this.caller,
+      caller: this.caller
     });
   }
 }

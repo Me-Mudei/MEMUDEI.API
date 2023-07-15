@@ -1,7 +1,8 @@
-import { LoggerInterface, WinstonLogger, configEnv } from '#shared/infra';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Auth, SignupUserInput } from './auth.interface';
-import { User } from '#user/domain';
+import { LoggerInterface, WinstonLogger, configEnv } from "#shared/infra";
+import { User } from "#user/domain";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
+
+import { Auth, SignupUserInput } from "./auth.interface";
 
 type SignupInput = {
   client_id: string;
@@ -50,20 +51,20 @@ export class Auth0Auth implements Auth {
       `${this.baseUrl}dbconnections/signup`,
       {
         client_id: configEnv.auth.client_id,
-        connection: 'Username-Password-Authentication',
+        connection: "Username-Password-Authentication",
         email: input.email,
-        password: input.password,
+        password: input.password
       },
       {
         headers: {
-          content_type: 'application/json',
-        },
-      },
+          content_type: "application/json"
+        }
+      }
     );
     return new User({
       external_id: `auth0|${res.data._id}`,
       email: res.data.email,
-      name: input.name,
+      name: input.name
     });
   }
 }

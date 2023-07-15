@@ -1,8 +1,10 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import ScheduleValidatorFactory from '../validators/schedule.validator';
-import { Calendar, Property, User } from './';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
 
-export type ScheduleStatus = 'pending' | 'approved' | 'rejected';
+import ScheduleValidatorFactory from "../validators/schedule.validator";
+
+import { Calendar, Property, User } from "./";
+
+export type ScheduleStatus = "pending" | "approved" | "rejected";
 
 export type ScheduleProps = {
   id?: UniqueEntityId;
@@ -28,7 +30,7 @@ export class Schedule extends Entity<ScheduleProps> {
     super(props);
     this._start = props.start;
     this._obs = props.obs;
-    this._status = props.status || 'pending';
+    this._status = props.status || "pending";
     this._property = props.property;
     this._scheduler = props.scheduler;
   }

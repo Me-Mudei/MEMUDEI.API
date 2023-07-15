@@ -1,14 +1,16 @@
-import { PropertyFilter } from '#property/domain';
-import { Entity } from '../entity';
-import { NotFoundError } from '../errors';
-import { UniqueEntityId } from '../value-objects';
+import { PropertyFilter } from "#property/domain";
+
+import { Entity } from "../entity";
+import { NotFoundError } from "../errors";
+import { UniqueEntityId } from "../value-objects";
+
 import {
   RepositoryInterface,
   SearchableRepositoryInterface,
   SearchParams,
   SearchResult,
-  SortDirection,
-} from './repository-contracts';
+  SortDirection
+} from "./repository-contracts";
 
 export abstract class InMemoryRepository<E extends Entity>
   implements RepositoryInterface<E>
@@ -57,7 +59,7 @@ export abstract class InMemoryRepository<E extends Entity>
 
 export abstract class InMemorySearchableRepository<
     E extends Entity,
-    Filter = any,
+    Filter = any
   >
   extends InMemoryRepository<E>
   implements SearchableRepositoryInterface<E, Filter>
@@ -69,12 +71,12 @@ export abstract class InMemorySearchableRepository<
     const itemsSorted = await this.applySort(
       itemsFiltered,
       props.sort,
-      props.sort_dir,
+      props.sort_dir
     );
     const itemsPaginated = await this.applyPaginate(
       itemsSorted,
       props.page,
-      props.per_page,
+      props.per_page
     );
     return new SearchResult({
       items: itemsPaginated,
@@ -83,7 +85,7 @@ export abstract class InMemorySearchableRepository<
       per_page: props.per_page,
       sort: props.sort,
       sort_dir: props.sort_dir,
-      filter: props.filter,
+      filter: props.filter
     });
   }
 
@@ -92,25 +94,25 @@ export abstract class InMemorySearchableRepository<
     const itemsSorted = await this.applySort(
       itemsFiltered,
       props.sort,
-      props.sort_dir,
+      props.sort_dir
     );
     const itemsPaginated = await this.applyPaginate(
       itemsSorted,
       props.page,
-      props.per_page,
+      props.per_page
     );
     return itemsPaginated[0] || null;
   }
 
   protected abstract applyFilter(
     items: E[],
-    filter: Filter | null,
+    filter: Filter | null
   ): Promise<E[]>;
 
   protected async applySort(
     items: E[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<E[]> {
     if (!sort || !this.sortableFields.includes(sort)) {
       return items;
@@ -118,11 +120,11 @@ export abstract class InMemorySearchableRepository<
 
     return [...items].sort((a, b) => {
       if (a.props[sort] < b.props[sort]) {
-        return sort_dir === 'asc' ? -1 : 1;
+        return sort_dir === "asc" ? -1 : 1;
       }
 
       if (a.props[sort] > b.props[sort]) {
-        return sort_dir === 'asc' ? 1 : -1;
+        return sort_dir === "asc" ? 1 : -1;
       }
 
       return 0;
@@ -131,8 +133,8 @@ export abstract class InMemorySearchableRepository<
 
   protected async applyPaginate(
     items: E[],
-    page: SearchParams<PropertyFilter>['page'],
-    per_page: SearchParams<PropertyFilter>['per_page'],
+    page: SearchParams<PropertyFilter>["page"],
+    per_page: SearchParams<PropertyFilter>["per_page"]
   ): Promise<E[]> {
     const start = (page - 1) * per_page; // 1 * 15 = 15
     const limit = start + per_page; // 15 + 15 = 30

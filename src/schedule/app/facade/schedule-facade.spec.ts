@@ -1,15 +1,17 @@
-import { Broker } from '#shared/infra';
+import { Broker } from "#shared/infra";
+
+import { RepositoryFactory } from "../../domain";
+import { InMemoryRepositoryFactory } from "../../infra";
 import {
   CreateScheduleUseCase,
   GetScheduleUseCase,
   SearchScheduleUseCase,
-  UpdateScheduleUseCase,
-} from '../use-cases';
-import { ScheduleFacade } from './schedule.facade';
-import { InMemoryRepositoryFactory } from '../../infra';
-import { RepositoryFactory } from '../../domain';
+  UpdateScheduleUseCase
+} from "../use-cases";
 
-describe('ScheduleFacade Unit tests', () => {
+import { ScheduleFacade } from "./schedule.facade";
+
+describe("ScheduleFacade Unit tests", () => {
   let createSchedule: CreateScheduleUseCase;
   let getSchedule: GetScheduleUseCase;
   let updateSchedule: UpdateScheduleUseCase;
@@ -29,14 +31,14 @@ describe('ScheduleFacade Unit tests', () => {
       createSchedule,
       getSchedule,
       searchSchedule,
-      updateSchedule,
+      updateSchedule
     });
   });
-  it('should create a schedule facade', async () => {
-    const spyFacadeCreate = jest.spyOn(facade, 'createSchedule');
-    const spyUseCaseExecute = jest.spyOn(createSchedule, 'execute');
+  it("should create a schedule facade", async () => {
+    const spyFacadeCreate = jest.spyOn(facade, "createSchedule");
+    const spyUseCaseExecute = jest.spyOn(createSchedule, "execute");
     const createScheduleProps = {
-      date: new Date(),
+      date: new Date()
     };
     await facade.createSchedule(createScheduleProps as any);
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);

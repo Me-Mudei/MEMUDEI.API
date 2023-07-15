@@ -1,14 +1,15 @@
-import { Property, PropertyStatus } from '../property.entity';
-import { Chance } from 'chance';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+import { Chance } from "chance";
+
 import {
   Address,
   FloorPlan,
   PropertyDetail,
   CondominiumDetail,
   Rule,
-  Charge,
-} from '../';
+  Charge
+} from "../";
+import { Property, PropertyStatus } from "../property.entity";
 
 import {
   AddressFakeBuilder,
@@ -16,8 +17,8 @@ import {
   PropertyDetailFakeBuilder,
   CondominiumDetailFakeBuilder,
   RuleFakeBuilder,
-  ChargeFakeBuilder,
-} from './';
+  ChargeFakeBuilder
+} from "./";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -144,13 +145,13 @@ export class PropertyFakeBuilder<TBuild = any> {
       (_, index) =>
         new Property({
           ...(this._id && {
-            id: this.callFactory(this._id, index),
+            id: this.callFactory(this._id, index)
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index),
+            created_at: this.callFactory(this._created_at, index)
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index),
+            updated_at: this.callFactory(this._updated_at, index)
           }),
           title: this.callFactory(this._title, index),
           description: this.callFactory(this._description, index),
@@ -159,84 +160,84 @@ export class PropertyFakeBuilder<TBuild = any> {
           property_type: this.callFactory(this._property_type, index),
           property_relationship: this.callFactory(
             this._property_relationship,
-            index,
+            index
           ),
           privacy_type: this.callFactory(this._privacy_type, index),
           floor_plans: this.callFactory(this._floor_plans, index),
           property_details: this.callFactory(this._property_details, index),
           condominium_details: this.callFactory(
             this._condominium_details,
-            index,
+            index
           ),
           rules: this.callFactory(this._rules, index),
           charges: this.callFactory(this._charges, index),
-          user_id: this.callFactory(this._user_id, index),
-        }),
+          user_id: this.callFactory(this._user_id, index)
+        })
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
   get id() {
-    return this.getValue('id');
+    return this.getValue("id");
   }
   get created_at() {
-    return this.getValue('created_at');
+    return this.getValue("created_at");
   }
   get updated_at() {
-    return this.getValue('updated_at');
+    return this.getValue("updated_at");
   }
   get title() {
-    return this.getValue('title');
+    return this.getValue("title");
   }
 
   get description() {
-    return this.getValue('description');
+    return this.getValue("description");
   }
 
   get address() {
-    return this.getValue('address');
+    return this.getValue("address");
   }
   get property_type() {
-    return this.getValue('property_type');
+    return this.getValue("property_type");
   }
   get property_relationship() {
-    return this.getValue('property_relationship');
+    return this.getValue("property_relationship");
   }
   get privacy_type() {
-    return this.getValue('privacy_type');
+    return this.getValue("privacy_type");
   }
   get floor_plans() {
-    return this.getValue('floor_plans');
+    return this.getValue("floor_plans");
   }
   get property_details() {
-    return this.getValue('property_details');
+    return this.getValue("property_details");
   }
   get condominium_details() {
-    return this.getValue('condominium_details');
+    return this.getValue("condominium_details");
   }
   get rules() {
-    return this.getValue('rules');
+    return this.getValue("rules");
   }
   get charges() {
-    return this.getValue('charges');
+    return this.getValue("charges");
   }
   get user_id() {
-    return this.getValue('user_id');
+    return this.getValue("user_id");
   }
 
   private getValue(prop) {
-    const optional = ['id', 'created_at', 'updated_at'];
+    const optional = ["id", "created_at", "updated_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(
-        `Property ${prop} not have a factory, use 'with' methods`,
+        `Property ${prop} not have a factory, use 'with' methods`
       );
     }
     return this.callFactory(this[privateProp], 0);
   }
 
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
-    return typeof factoryOrValue === 'function'
+    return typeof factoryOrValue === "function"
       ? factoryOrValue(index)
       : factoryOrValue;
   }

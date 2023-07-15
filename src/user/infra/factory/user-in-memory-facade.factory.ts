@@ -1,14 +1,15 @@
-import { UserFacade } from '../../app/facade';
-import { Broker } from '#shared/infra';
+import { Broker } from "#shared/infra";
+
+import { UserFacade } from "../../app/facade";
+import { UserCreatedSendConfirmationHandler } from "../../app/handlers";
 import {
   CreateUserUseCase,
   FindFirstUserUseCase,
   SearchUsersUseCase,
-  ValidateUserUseCase,
-} from '../../app/use-cases';
-import { UserCreatedSendConfirmationHandler } from '../../app/handlers';
-import { UserInMemoryRepository } from '../repository';
-import { Auth0Auth } from '../auth';
+  ValidateUserUseCase
+} from "../../app/use-cases";
+import { Auth0Auth } from "../auth";
+import { UserInMemoryRepository } from "../repository";
 
 export class UserInMemoryFacadeFactory {
   static create() {
@@ -20,7 +21,7 @@ export class UserInMemoryFacadeFactory {
     const createUserUseCase = new CreateUserUseCase(
       userRepository,
       authService,
-      broker,
+      broker
     );
     const findFirstUserUseCase = new FindFirstUserUseCase(userRepository);
     const searchUserUseCase = new SearchUsersUseCase(userRepository);
@@ -30,7 +31,7 @@ export class UserInMemoryFacadeFactory {
       createUseCase: createUserUseCase,
       findFirstUseCase: findFirstUserUseCase,
       searchUseCase: searchUserUseCase,
-      validateUseCase: validateUserUseCase,
+      validateUseCase: validateUserUseCase
     });
   }
 }

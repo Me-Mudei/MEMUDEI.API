@@ -1,4 +1,4 @@
-import { Rule } from '../../../domain';
+import { Rule } from "../../../domain";
 
 export type RuleOutput = {
   id: string;

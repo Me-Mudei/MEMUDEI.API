@@ -1,8 +1,9 @@
-import { PrivacyTypeRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { PrivacyTypeOutput, PrivacyTypeOutputMapper } from '../../dto';
-import { UseCase } from '#shared/app';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { PrivacyTypeRepository } from "../../../domain/repository";
+import { PrivacyTypeOutput, PrivacyTypeOutputMapper } from "../../dto";
 
 export class GetPrivacyTypeUseCase
   implements UseCase<{ id: string }, PrivacyTypeOutput>
@@ -11,7 +12,7 @@ export class GetPrivacyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.privacyTypeRepository =
@@ -19,7 +20,7 @@ export class GetPrivacyTypeUseCase
   }
 
   async execute(input: { id: string }): Promise<PrivacyTypeOutput> {
-    this.logger.info({ message: 'Start GetPrivacyType Use Case' });
+    this.logger.info({ message: "Start GetPrivacyType Use Case" });
     const privacyType = await this.privacyTypeRepository.findById(input.id);
     return PrivacyTypeOutputMapper.toOutput(privacyType);
   }

@@ -1,6 +1,8 @@
-import { nanoid } from 'nanoid';
-import { ValueObject } from './value-object';
-import { InvalidNanoidError } from '../errors';
+import { nanoid } from "nanoid";
+
+import { InvalidNanoidError } from "../errors";
+
+import { ValueObject } from "./value-object";
 
 export class UniqueEntityId extends ValueObject<string> {
   constructor(readonly id?: string) {

@@ -2,10 +2,12 @@ import {
   Entity,
   EntityValidationError,
   NotFoundError,
-  UniqueEntityId,
-} from '#shared/domain';
-import UserValidatorFactory from '../validators/user.validator';
-import { Calendar } from './';
+  UniqueEntityId
+} from "#shared/domain";
+
+import UserValidatorFactory from "../validators/user.validator";
+
+import { Calendar } from "./";
 
 export type UserProps = {
   id?: UniqueEntityId;
@@ -32,13 +34,13 @@ export class User extends Entity<UserProps> {
 
   public findCalendarIsActive(): Calendar {
     if (this.calendars.length === 0) {
-      throw new NotFoundError('Calendar not found');
+      throw new NotFoundError("Calendar not found");
     }
     const calendar = this.calendars.find(
-      (calendar) => calendar.is_active === true,
+      (calendar) => calendar.is_active === true
     );
     if (!calendar) {
-      throw new NotFoundError('Calendar not found');
+      throw new NotFoundError("Calendar not found");
     }
     return calendar;
   }

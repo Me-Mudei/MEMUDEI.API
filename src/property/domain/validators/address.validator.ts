@@ -1,14 +1,14 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
-  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { AddressProps } from '../entities/address.entity';
+  MaxLength
+} from "class-validator";
+
+import { AddressProps } from "../entities/address.entity";
 
 export class AddressRules {
   @MaxLength(8)
@@ -57,7 +57,7 @@ export class AddressRules {
     district,
     complement,
     created_at,
-    updated_at,
+    updated_at
   }: AddressProps) {
     Object.assign(this, {
       zip_code,
@@ -67,7 +67,7 @@ export class AddressRules {
       district,
       complement,
       created_at,
-      updated_at,
+      updated_at
     });
   }
 }

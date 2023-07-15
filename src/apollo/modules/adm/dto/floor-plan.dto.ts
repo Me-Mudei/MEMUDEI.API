@@ -1,39 +1,39 @@
-import { objectType, inputObjectType } from 'nexus';
+import { objectType, inputObjectType } from "nexus";
 
 export const FloorPlanOutput = objectType({
-  name: 'floor_plan_output',
+  name: "floor_plan_output",
   definition(t) {
-    t.nonNull.string('id');
-  },
+    t.nonNull.string("id");
+  }
 });
 
 export const GetFloorPlanInput = inputObjectType({
-  name: 'get_floor_plan_input',
+  name: "get_floor_plan_input",
   definition(t) {
-    t.nonNull.string('id');
-  },
+    t.nonNull.string("id");
+  }
 });
 
 export const CreateFloorPlanInput = inputObjectType({
-  name: 'create_floor_plan_input',
+  name: "create_floor_plan_input",
   definition(t) {
-    t.nonNull.string('name');
-    t.nullable.string('unit');
-  },
+    t.nonNull.string("name");
+    t.nullable.string("unit");
+  }
 });
 
 export const UpdateFloorPlanInput = inputObjectType({
-  name: 'update_floor_plan_input',
+  name: "update_floor_plan_input",
   definition(t) {
-    t.nonNull.string('id');
-    t.nullable.string('name');
-    t.nullable.string('unit');
-  },
+    t.nonNull.string("id");
+    t.nullable.string("name");
+    t.nullable.string("unit");
+  }
 });
 
 export const DeleteFloorPlanInput = inputObjectType({
-  name: 'delete_floor_plan_input',
+  name: "delete_floor_plan_input",
   definition(t) {
-    t.nonNull.string('id');
-  },
+    t.nonNull.string("id");
+  }
 });

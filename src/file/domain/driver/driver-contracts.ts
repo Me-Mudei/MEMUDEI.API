@@ -1,5 +1,5 @@
-import { ReadStream } from 'fs';
-import { Readable } from 'stream';
+import { ReadStream } from "fs";
+import { Readable } from "stream";
 
 export type FileInput = {
   filename: string;

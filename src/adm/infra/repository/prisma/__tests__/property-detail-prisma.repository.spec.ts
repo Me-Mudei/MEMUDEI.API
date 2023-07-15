@@ -1,17 +1,18 @@
-import { UniqueEntityId } from '#shared/domain';
-import { Connection, PrismaClient } from '#shared/infra';
-import { PropertyDetailPrismaRepository } from '../property-detail-prisma.repository';
+import { UniqueEntityId } from "#shared/domain";
+import { Connection, PrismaClient } from "#shared/infra";
 
-describe('PropertyDetailRepository Unit tests', () => {
+import { PropertyDetailPrismaRepository } from "../property-detail-prisma.repository";
+
+describe("PropertyDetailRepository Unit tests", () => {
   let prisma: PrismaClient;
 
   beforeEach(() => {
     prisma = Connection.getInstance();
   });
-  it('should find by many ids a property detail', async () => {
+  it("should find by many ids a property detail", async () => {
     const propertyDetailRepository = new PropertyDetailPrismaRepository(prisma);
     const propertyDetails = await propertyDetailRepository.findManyById([
-      new UniqueEntityId('PIpRG6rRuZFNIEtBsYdyT'),
+      new UniqueEntityId("PIpRG6rRuZFNIEtBsYdyT")
     ]);
     expect(propertyDetails.length).toBe(1);
   });

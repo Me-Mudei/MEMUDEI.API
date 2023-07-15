@@ -1,4 +1,4 @@
-import { PropertyRepository } from '../repository';
+import { PropertyRepository } from "../repository";
 
 export interface RepositoryFactory {
   createPropertyRepository(): PropertyRepository;

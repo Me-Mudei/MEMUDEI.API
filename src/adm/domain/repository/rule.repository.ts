@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
-} from '#shared/domain';
-import { Rule } from '../entities';
+  SearchResult as DefaultSearchResult
+} from "#shared/domain";
+
+import { Rule } from "../entities";
 
 export type RuleFilter = string;
 
