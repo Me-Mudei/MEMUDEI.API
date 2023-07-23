@@ -8,3 +8,4 @@ export * from "./property-detail.validator";
 export * from "./property.validator";
 export * from "./rule.validator";
 export * from "./photo.validator";
+export * from "./location.validator";

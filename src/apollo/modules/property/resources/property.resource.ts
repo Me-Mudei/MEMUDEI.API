@@ -9,17 +9,18 @@ import {
 import {
   canUpdateProperty,
   canReadProperty,
-  canSearchProperty
+  canSearchProperty,
+  canCreateProperty
 } from "../rules";
 
 export const CreateProperty = mutationField("create_property", {
   type: "create_property_output",
-  //shield: canCreateProperty(),
+  shield: canCreateProperty(),
   args: { input: nonNull("create_property_input") },
   resolve: async (_, args, ctx) => {
     const input = await CreatePropertyInputMapper.toInput({
       property: args.input,
-      user_id: "BjOetze4h1PnlgOL6bQJx"
+      user_id: ctx.user.id
     });
     const output = await ctx.propertyService.createProperty(input);
     return CreatePropertyOutputMapper.toOutput(output);
@@ -54,8 +55,6 @@ export const SearchProperties = queryField("search_properties", {
   shield: canSearchProperty(),
   args: { input: nullable("search_properties_input") },
   resolve: async (_, { input }, ctx) => {
-    const res = await ctx.propertyService.searchProperty(input);
-    console.log(res);
-    return res as any;
+    return ctx.propertyService.searchProperty(input) as any;
   }
 });

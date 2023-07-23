@@ -6,6 +6,7 @@ import {
   Charge,
   CondominiumDetail,
   FloorPlan,
+  Location,
   Photo,
   Property,
   PropertyDetail,
@@ -52,6 +53,16 @@ export class PropertyPrismaRepository implements PropertyRepository {
             state: entity.address.state,
             city: entity.address.city,
             street: entity.address.street,
+            country: entity.address.country,
+            location: {
+              create: {
+                id: entity.address.location.id,
+                lat: entity.address.location.lat,
+                lng: entity.address.location.lng,
+                created_at: entity.address.location.created_at,
+                updated_at: entity.address.location.updated_at
+              }
+            },
             district: entity.address.district,
             complement: entity.address.complement,
             created_at: entity.address.created_at,
@@ -120,6 +131,13 @@ export class PropertyPrismaRepository implements PropertyRepository {
               allowed: rule.allowed,
               created_at: rule.created_at,
               updated_at: rule.updated_at
+            }))
+          }
+        },
+        photos: {
+          createMany: {
+            data: entity.photo_ids.map((file_id) => ({
+              file_id: file_id.id
             }))
           }
         }
@@ -208,10 +226,20 @@ export class PropertyPrismaRepository implements PropertyRepository {
 
   private includes(): Prisma.propertyInclude {
     return {
-      address: true,
       privacy_type: true,
       property_type: true,
       property_relationship: true,
+      address: {
+        include: {
+          location: {
+            select: {
+              id: true,
+              lat: true,
+              lng: true
+            }
+          }
+        }
+      },
       photos: {
         include: {
           file: {
@@ -282,12 +310,18 @@ export class PropertyPrismaRepository implements PropertyRepository {
   }
 
   private toEntity(property: any): Property {
+    const location = new Location({
+      lat: property.address.location.lat,
+      lng: property.address.location.lng
+    });
     const address = new Address({
       id: new UniqueEntityId(property.address.id),
       zip_code: property.address.zip_code,
       state: property.address.state,
       city: property.address.city,
       street: property.address.street,
+      country: property.address.country,
+      location,
       district: property.address.district,
       complement: property.address.complement,
       created_at: property.address.created_at,
@@ -310,8 +344,8 @@ export class PropertyPrismaRepository implements PropertyRepository {
         new Photo({
           id: new UniqueEntityId(photo.file.id),
           url: photo.file.url,
-          file: photo.file.file,
-          name: photo.file.name,
+          file: photo.file.filename,
+          name: photo.file.filename,
           subtype: photo.file.subtype,
           type: photo.file.type,
           description: photo.file.description,

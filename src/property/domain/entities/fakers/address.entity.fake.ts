@@ -2,6 +2,9 @@ import { UniqueEntityId } from "#shared/domain";
 import { Chance } from "chance";
 
 import { Address } from "../address.entity";
+import { Location } from "../location.entity";
+
+import { LocationFakeBuilder } from "./location.entity.fake";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -16,7 +19,10 @@ export class AddressFakeBuilder<TBuild = any> {
   private _city: PropOrFactory<string> = (_index) => this.chance.city();
   private _state: PropOrFactory<string> = (_index) => this.chance.state();
   private _street: PropOrFactory<string> = (_index) => this.chance.street();
+  private _country: PropOrFactory<string> = (_index) => this.chance.country();
   private _district: PropOrFactory<string> = (_index) => this.chance.province();
+  private _location: PropOrFactory<Location> = (_index) =>
+    LocationFakeBuilder.aLocation().build();
 
   private countObjs: number;
 
@@ -75,8 +81,18 @@ export class AddressFakeBuilder<TBuild = any> {
     return this;
   }
 
+  whitCountry(valueOrFactory: PropOrFactory<string>) {
+    this._country = valueOrFactory;
+    return this;
+  }
+
   whitDistrict(valueOrFactory: PropOrFactory<string>) {
     this._district = valueOrFactory;
+    return this;
+  }
+
+  whitLocation(valueOrFactory: PropOrFactory<Location>) {
+    this._location = valueOrFactory;
     return this;
   }
 
@@ -98,6 +114,8 @@ export class AddressFakeBuilder<TBuild = any> {
           city: this.callFactory(this._city, index),
           state: this.callFactory(this._state, index),
           street: this.callFactory(this._street, index),
+          country: this.callFactory(this._country, index),
+          location: this.callFactory(this._location, index),
           district: this.callFactory(this._district, index)
         })
     );
@@ -126,6 +144,14 @@ export class AddressFakeBuilder<TBuild = any> {
 
   get street() {
     return this.getValue("street");
+  }
+
+  get country() {
+    return this.getValue("country");
+  }
+
+  get location() {
+    return this.getValue("location");
   }
 
   get district() {

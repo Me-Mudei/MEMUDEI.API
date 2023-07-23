@@ -15,9 +15,9 @@ export type PropertyFilter = {
   property_details?: string[];
   condominium_details?: string[];
   rules?: string[];
-  //lat?: number;
-  //lng?: number;
-  //distance?: number;
+  lat?: number;
+  lng?: number;
+  radius?: number;
   value_type?: string;
   min_value?: number;
   max_value?: number;

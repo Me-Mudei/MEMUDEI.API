@@ -61,7 +61,13 @@ export class PropertyOutputMapper {
         state: property.address.state,
         street: property.address.street,
         district: property.address.district,
-        complement: property.address.complement
+        complement: property.address.complement,
+        country: property.address.country,
+        location: {
+          id: property.address.location.id,
+          lat: property.address.location.lat,
+          lng: property.address.location.lng
+        }
       },
       property_type: property.property_type,
       property_relationship: property.property_relationship,
@@ -122,8 +128,16 @@ export type AddressOutput = {
   city: string;
   state: string;
   street: string;
-  district: string;
+  country: string;
+  district?: string;
   complement?: string;
+  location: LocationOutput;
+};
+
+export type LocationOutput = {
+  id: string;
+  lat: number;
+  lng: number;
 };
 
 export type FloorPlanOutput = {

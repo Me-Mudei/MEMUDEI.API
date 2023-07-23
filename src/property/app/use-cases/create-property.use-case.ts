@@ -9,7 +9,8 @@ import {
   Property,
   CondominiumDetail,
   PropertyDetail,
-  Rule
+  Rule,
+  Location
 } from "../../domain/entities";
 import { RepositoryFactory } from "../../domain/factory";
 import { PropertyRepository } from "../../domain/repository";
@@ -34,11 +35,17 @@ export class CreatePropertyUseCase
 
   async execute(input: CreatePropertyInput): Promise<CreatePropertyOutput> {
     this.logger.info({ message: "Start Property Use Case" });
+    const location = new Location({
+      lat: input.address.location.lat,
+      lng: input.address.location.lng
+    });
     const address = new Address({
       zip_code: input.address.zip_code,
       city: input.address.city,
       state: input.address.state,
       street: input.address.street,
+      country: input.address.country,
+      location,
       district: input.address.district,
       complement: input.address.complement
     });

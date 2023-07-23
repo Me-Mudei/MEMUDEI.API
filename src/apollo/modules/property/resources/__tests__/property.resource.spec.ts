@@ -94,6 +94,11 @@ describe("PropertyResource", () => {
       city: "São Paulo",
       state: "SP",
       street: "Rua dos Pinheiros",
+      country: "BR",
+      location: {
+        lat: -23.566697,
+        lng: -46.6941707
+      },
       district: "Pinheiros"
     },
     property_type: "apartment",

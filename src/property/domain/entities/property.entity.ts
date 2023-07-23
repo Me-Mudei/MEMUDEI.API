@@ -12,7 +12,11 @@ import { Rule } from "./rule.entity";
 
 export enum PropertyStatus {
   PENDING = "pending",
-  COMPLETE = "complete"
+  IN_PROGRESS = "in_progress",
+  PUBLISHED = "published",
+  REJECTED = "rejected",
+  UNPUBLISHED = "unpublished",
+  DEACTIVATED = "deactivated"
 }
 
 export type PropertyProps = {

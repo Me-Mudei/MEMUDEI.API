@@ -7,3 +7,4 @@ export * from "./floor-plan.entity.fake";
 export * from "./property-detail.entity.fake";
 export * from "./property.entity.fake";
 export * from "./rule.entity.fake";
+export * from "./location.entity.fake";

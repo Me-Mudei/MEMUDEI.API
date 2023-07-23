@@ -67,8 +67,8 @@ describe("PropertyInMemoryRepository", () => {
     const filter = PropertyStatus.PENDING;
     const items = [
       faker.withStatus(PropertyStatus.PENDING).build(),
-      faker.withStatus(PropertyStatus.COMPLETE).build(),
-      faker.withStatus(PropertyStatus.COMPLETE).build()
+      faker.withStatus(PropertyStatus.PUBLISHED).build(),
+      faker.withStatus(PropertyStatus.PUBLISHED).build()
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -299,7 +299,7 @@ describe("PropertyInMemoryRepository", () => {
         .withPrivacyTypeKey(privacyTypeKey)
         .withPropertyTypeKey(propertyTypeKey)
         .withPropertyRelationshipKey(propertyRelationshipKey)
-        .withStatus(PropertyStatus.COMPLETE)
+        .withStatus(PropertyStatus.PUBLISHED)
         .withTitle("title")
         .build(),
       PropertyFakeBuilder.aProperty().build(),
@@ -317,7 +317,7 @@ describe("PropertyInMemoryRepository", () => {
       max_footage: 50,
       qtd_bedrooms: 2,
       qtd_bathrooms: 2,
-      status: PropertyStatus.COMPLETE,
+      status: PropertyStatus.PUBLISHED,
       privacy_type: privacyTypeKey,
       condominium_details: ["pool"],
       rules: ["smoking"],

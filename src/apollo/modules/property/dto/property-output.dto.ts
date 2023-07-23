@@ -79,8 +79,19 @@ export const AddressOutput = objectType({
     t.nonNull.string("city");
     t.nonNull.string("state");
     t.nonNull.string("street");
-    t.nonNull.string("district");
+    t.nonNull.string("country");
+    t.nonNull.field("location", { type: "location_output" });
+    t.nullable.string("district");
     t.nullable.string("complement");
+  }
+});
+
+export const LocationOutput = objectType({
+  name: "location_output",
+  definition(t) {
+    t.nonNull.string("id");
+    t.nonNull.float("lat");
+    t.nonNull.float("lng");
   }
 });
 

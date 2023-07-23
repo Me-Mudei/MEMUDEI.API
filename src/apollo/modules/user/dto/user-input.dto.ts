@@ -5,8 +5,16 @@ export const CreateUserInput = inputObjectType({
   definition(t) {
     t.nonNull.string("email");
     t.nonNull.string("name");
-    t.nullable.string("external_id");
     t.nullable.string("password");
+  }
+});
+
+export const CreateUserByAuthInput = inputObjectType({
+  name: "create_user_by_auth_input",
+  definition(t) {
+    t.nonNull.string("email");
+    t.nonNull.string("name");
+    t.nonNull.string("external_id");
   }
 });
 

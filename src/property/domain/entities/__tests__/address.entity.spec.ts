@@ -1,8 +1,8 @@
-import { UniqueEntityId } from "#shared/domain";
 import Chance from "chance";
 import { omit } from "lodash";
 
 import { Address } from "../address.entity";
+import { AddressFakeBuilder } from "../fakers";
 
 describe("Address Unit Tests", () => {
   const chance = new Chance();
@@ -10,20 +10,10 @@ describe("Address Unit Tests", () => {
     Address.validate = jest.fn();
   });
   test("constructor of address", () => {
-    const requiredProps = {
-      city: chance.city(),
-      state: chance.state(),
-      zip_code: chance.postcode(),
-      street: chance.street(),
-      district: chance.province()
-    };
-    const address = new Address(requiredProps);
+    const address = AddressFakeBuilder.aAddress().build();
     const props = omit(address.props, "created_at", "updated_at");
     expect(Address.validate).toHaveBeenCalled();
-    expect(props).toStrictEqual({
-      ...requiredProps,
-      id: expect.any(UniqueEntityId)
-    });
+    expect(address.props).toMatchObject(props);
     expect(address.props.created_at).toBeInstanceOf(Date);
 
     /* let created_at = new Date(); //string

@@ -66,8 +66,18 @@ export const AddressInput = inputObjectType({
     t.nonNull.string("city");
     t.nonNull.string("state");
     t.nonNull.string("street");
-    t.nonNull.string("district");
+    t.nonNull.string("country");
+    t.nonNull.field("location", { type: "location_input" });
+    t.nullable.string("district");
     t.nullable.string("complement");
+  }
+});
+
+export const LocationInput = inputObjectType({
+  name: "location_input",
+  definition(t) {
+    t.nonNull.float("lat");
+    t.nonNull.float("lng");
   }
 });
 

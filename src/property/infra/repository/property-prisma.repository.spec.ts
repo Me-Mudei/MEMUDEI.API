@@ -60,7 +60,7 @@ describe("PropertyPrismaRepository", () => {
       .withPrivacyTypeKey(privacyTypeKey)
       .withPropertyTypeKey(propertyTypeKey)
       .withPropertyRelationshipKey(propertyRelationshipKey)
-      .withStatus(PropertyStatus.COMPLETE)
+      .withStatus(PropertyStatus.PUBLISHED)
       .withTitle("title")
       .withUserId(new UniqueEntityId("MgxO159FtDCCYQYULEhBy"))
       .build()
@@ -330,7 +330,7 @@ describe("PropertyPrismaRepository", () => {
     await repository.insert(properties[0]);
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { status: PropertyStatus.COMPLETE }
+        filter: { status: PropertyStatus.PUBLISHED }
       })
     );
     expect(items).toMatchObject({
@@ -339,7 +339,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { status: PropertyStatus.COMPLETE }
+      filter: { status: PropertyStatus.PUBLISHED }
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -547,7 +547,7 @@ describe("PropertyPrismaRepository", () => {
       max_footage: 50,
       qtd_bedrooms: 2,
       qtd_bathrooms: 2,
-      status: PropertyStatus.COMPLETE,
+      status: PropertyStatus.PUBLISHED,
       privacy_type: privacyTypeKey,
       condominium_details: ['pool'],
       rules: ['smoking'],
@@ -582,7 +582,7 @@ describe("PropertyPrismaRepository", () => {
         .withPrivacyTypeKey(privacyTypeKey)
         .withPropertyTypeKey(propertyTypeKey)
         .withPropertyRelationshipKey(propertyRelationshipKey)
-        .withStatus(PropertyStatus.COMPLETE)
+        .withStatus(PropertyStatus.PUBLISHED)
         .withTitle("title")
         .withCreatedAt(new Date("2020-01-01"))
         .withUserId(new UniqueEntityId("MgxO159FtDCCYQYULEhBy"))
@@ -617,7 +617,7 @@ describe("PropertyPrismaRepository", () => {
         .withPrivacyTypeKey(privacyTypeKey)
         .withPropertyTypeKey(propertyTypeKey)
         .withPropertyRelationshipKey(propertyRelationshipKey)
-        .withStatus(PropertyStatus.COMPLETE)
+        .withStatus(PropertyStatus.PUBLISHED)
         .withTitle("a")
         .withUserId(new UniqueEntityId("MgxO159FtDCCYQYULEhBy"))
         .build(),
