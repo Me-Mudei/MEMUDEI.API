@@ -1,4 +1,5 @@
 import {
+  Charge,
   ChargeFakeBuilder,
   CondominiumDetailFakeBuilder,
   FloorPlanFakeBuilder,
@@ -16,6 +17,59 @@ describe("PropertyInMemoryRepository", () => {
 
   beforeEach(() => {
     repository = new PropertyInMemoryRepository();
+  });
+
+  it("should be create a new property", async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const item = faker.build();
+    await repository.insert(item);
+    const itemFound = await repository.findById(item.id);
+    expect(itemFound).toStrictEqual(item);
+  });
+
+  it("should be update a property", async () => {
+    const faker = PropertyFakeBuilder.aProperty();
+    const item = faker.build();
+    await repository.insert(item);
+    let itemFound = await repository.findById(item.id);
+    expect(itemFound).toStrictEqual(item);
+
+    const itemUpdated = {
+      id: item.id,
+      title: "title updated",
+      charge: {
+        update: [
+          {
+            key: item.charges[0].key,
+            amount: 2000
+          }
+        ],
+        insert: [
+          new Charge({
+            key: "test",
+            amount: 1000
+          })
+        ]
+      }
+    };
+    await repository.update(itemUpdated);
+    itemFound = await repository.findById(item.id);
+    expect(itemFound).toMatchObject({
+      id: itemUpdated.id,
+      title: itemUpdated.title
+    });
+    expect(itemFound.charges).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          key: itemUpdated.charge.update[0].key,
+          amount: itemUpdated.charge.update[0].amount
+        }),
+        expect.objectContaining({
+          key: itemUpdated.charge.insert[0].key,
+          amount: itemUpdated.charge.insert[0].amount
+        })
+      ])
+    );
   });
 
   it("filter is null", async () => {

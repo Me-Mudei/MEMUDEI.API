@@ -1,3 +1,4 @@
+import { UpdatePropertyInput } from "#property/app";
 import { UniqueEntityId, NotFoundError } from "#shared/domain";
 import { PrismaClient, Prisma } from "#shared/infra";
 
@@ -71,22 +72,26 @@ export class PropertyPrismaRepository implements PropertyRepository {
         },
         charges: {
           createMany: {
-            data: entity.charges.map((charge) => ({
-              charge_key: charge.key,
-              amount: charge.amount,
-              created_at: charge.created_at,
-              updated_at: charge.updated_at
-            }))
+            data:
+              entity.charges.map((charge) => ({
+                charge_key: charge.key,
+                amount: charge.amount,
+                created_at: charge.created_at,
+                updated_at: charge.updated_at
+              })) ?? [],
+            skipDuplicates: true
           }
         },
         floor_plans: {
           createMany: {
-            data: entity.floor_plans.map((floor_plan) => ({
-              floor_plan_key: floor_plan.key,
-              value: floor_plan.value,
-              created_at: floor_plan.created_at,
-              updated_at: floor_plan.updated_at
-            }))
+            data:
+              entity.floor_plans.map((floor_plan) => ({
+                floor_plan_key: floor_plan.key,
+                value: floor_plan.value,
+                created_at: floor_plan.created_at,
+                updated_at: floor_plan.updated_at
+              })) ?? [],
+            skipDuplicates: true
           }
         },
         privacy_type: {
@@ -106,39 +111,47 @@ export class PropertyPrismaRepository implements PropertyRepository {
         },
         condominium_details: {
           createMany: {
-            data: entity.condominium_details.map((condominium_detail) => ({
-              condominium_detail_key: condominium_detail.key,
-              available: condominium_detail.available,
-              created_at: condominium_detail.created_at,
-              updated_at: condominium_detail.updated_at
-            }))
+            data:
+              entity.condominium_details.map((condominium_detail) => ({
+                condominium_detail_key: condominium_detail.key,
+                available: condominium_detail.available,
+                created_at: condominium_detail.created_at,
+                updated_at: condominium_detail.updated_at
+              })) ?? [],
+            skipDuplicates: true
           }
         },
         property_details: {
           createMany: {
-            data: entity.property_details.map((property_detail) => ({
-              property_detail_key: property_detail.key,
-              available: property_detail.available,
-              created_at: property_detail.created_at,
-              updated_at: property_detail.updated_at
-            }))
+            data:
+              entity.property_details.map((property_detail) => ({
+                property_detail_key: property_detail.key,
+                available: property_detail.available,
+                created_at: property_detail.created_at,
+                updated_at: property_detail.updated_at
+              })) ?? [],
+            skipDuplicates: true
           }
         },
         rules: {
           createMany: {
-            data: entity.rules.map((rule) => ({
-              rule_key: rule.key,
-              allowed: rule.allowed,
-              created_at: rule.created_at,
-              updated_at: rule.updated_at
-            }))
+            data:
+              entity.rules.map((rule) => ({
+                rule_key: rule.key,
+                allowed: rule.allowed,
+                created_at: rule.created_at,
+                updated_at: rule.updated_at
+              })) ?? [],
+            skipDuplicates: true
           }
         },
         photos: {
           createMany: {
-            data: entity.photo_ids.map((file_id) => ({
-              file_id: file_id.id
-            }))
+            data:
+              entity.photo_ids?.map((file_id) => ({
+                file_id: file_id.id
+              })) ?? [],
+            skipDuplicates: true
           }
         }
       }
@@ -164,15 +177,212 @@ export class PropertyPrismaRepository implements PropertyRepository {
     return properties.map((property) => this.toEntity(property));
   }
 
-  async update(entity: Property): Promise<void> {
+  async update(entity: UpdatePropertyInput): Promise<void> {
     await this.prisma.property.update({
       where: { id: entity.id },
       data: {
         title: entity.title,
         description: entity.description,
-        status: entity.status
+        status: entity.status,
+        user: entity.user_id && {
+          connect: {
+            id: entity.user_id
+          }
+        },
+        address: {
+          update: {
+            city: entity?.address?.city,
+            complement: entity?.address?.complement,
+            country: entity?.address?.country,
+            district: entity?.address?.district,
+            state: entity?.address?.state,
+            street: entity?.address?.street,
+            zip_code: entity?.address?.zip_code,
+            location: {
+              update: {
+                lat: entity?.address?.location?.lat,
+                lng: entity?.address?.location?.lng
+              }
+            }
+          }
+        },
+        charges: {
+          deleteMany: entity.charge?.remove && {
+            charge_key: {
+              in: entity.charge.remove
+            }
+          },
+          createMany: entity.charge?.insert && {
+            data: entity.charge.insert.map((charge) => ({
+              charge_key: charge.key,
+              amount: charge.amount
+            })),
+            skipDuplicates: true
+          }
+        },
+        floor_plans: {
+          deleteMany: entity.floor_plan?.remove && {
+            floor_plan_key: {
+              in: entity.floor_plan.remove
+            }
+          },
+          createMany: entity.floor_plan?.insert && {
+            data: entity.floor_plan.insert.map((floor_plan) => ({
+              floor_plan_key: floor_plan.key,
+              value: floor_plan.value
+            })),
+            skipDuplicates: true
+          }
+        },
+        privacy_type: entity?.privacy_type && {
+          connect: {
+            key: entity.privacy_type
+          }
+        },
+        property_type: entity?.property_type && {
+          connect: {
+            key: entity.property_type
+          }
+        },
+        property_relationship: entity?.property_relationship && {
+          connect: {
+            key: entity.property_relationship
+          }
+        },
+        condominium_details: {
+          deleteMany: entity.condominium_detail?.remove && {
+            condominium_detail_key: {
+              in: entity.condominium_detail.remove
+            }
+          },
+          createMany: entity.condominium_detail?.insert && {
+            data: entity.condominium_detail.insert.map(
+              (condominium_detail) => ({
+                condominium_detail_key: condominium_detail.key,
+                available: condominium_detail.available
+              })
+            ),
+            skipDuplicates: true
+          }
+        },
+        property_details: {
+          deleteMany: entity.property_detail?.remove && {
+            property_detail_key: {
+              in: entity.property_detail.remove
+            }
+          },
+          createMany: entity.property_detail?.insert && {
+            data: entity.property_detail.insert.map((property_detail) => ({
+              property_detail_key: property_detail.key,
+              available: property_detail.available
+            })),
+            skipDuplicates: true
+          }
+        },
+        rules: {
+          deleteMany: entity.rule?.remove && {
+            rule_key: {
+              in: entity.rule.remove
+            }
+          },
+          createMany: entity.rule?.insert && {
+            data: entity.rule.insert.map((rule) => ({
+              rule_key: rule.key,
+              allowed: rule.allowed
+            })),
+            skipDuplicates: true
+          }
+        },
+        photos: {
+          deleteMany: entity.photo?.remove && {
+            file_id: {
+              in: entity.photo.remove
+            }
+          },
+          createMany: entity.photo?.insert && {
+            data: entity.photo.insert.map((photo_id) => ({
+              file_id: photo_id
+            })),
+            skipDuplicates: true
+          }
+        }
       }
     });
+    if (entity.charge.update) {
+      for (const charge of entity.charge.update) {
+        await this.prisma.properties_charges.update({
+          where: {
+            property_id_charge_key: {
+              charge_key: charge.key,
+              property_id: entity.id
+            }
+          },
+          data: {
+            amount: charge.amount
+          }
+        });
+      }
+    }
+    if (entity.floor_plan.update) {
+      for (const floor_plan of entity.floor_plan.update) {
+        await this.prisma.properties_floor_plans.update({
+          where: {
+            property_id_floor_plan_key: {
+              floor_plan_key: floor_plan.key,
+              property_id: entity.id
+            }
+          },
+          data: {
+            value: floor_plan.value
+          }
+        });
+      }
+    }
+    if (entity.condominium_detail.update) {
+      for (const condominium_detail of entity.condominium_detail.update) {
+        await this.prisma.properties_condominium_details.update({
+          where: {
+            property_id_condominium_detail_key: {
+              condominium_detail_key: condominium_detail.key,
+              property_id: entity.id
+            }
+          },
+          data: {
+            available: condominium_detail.available
+          }
+        });
+      }
+    }
+    if (entity.property_detail.update) {
+      for (const property_detail of entity.property_detail.update) {
+        await this.prisma.properties_property_details.update({
+          where: {
+            property_id_property_detail_key: {
+              property_detail_key: property_detail.key,
+              property_id: entity.id
+            }
+          },
+          data: {
+            available: property_detail.available
+          }
+        });
+      }
+    }
+    if (entity.rule.update) {
+      for (const rule of entity.rule.update) {
+        await this.prisma.properties_rules.update({
+          where: {
+            property_id_rule_key: {
+              rule_key: rule.key,
+              property_id: entity.id
+            }
+          },
+          data: {
+            allowed: rule.allowed
+          }
+        });
+      }
+    }
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {

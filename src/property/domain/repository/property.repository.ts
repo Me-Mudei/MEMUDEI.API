@@ -1,3 +1,4 @@
+import { UpdatePropertyInput } from "#property/app";
 import {
   SearchableRepositoryInterface,
   SearchParams,
@@ -34,9 +35,12 @@ export class PropertySearchResult extends SearchResult<
   PropertyFilter
 > {}
 
-export type PropertyRepository = SearchableRepositoryInterface<
-  Property,
-  PropertyFilter,
-  PropertySearchParams,
-  PropertySearchResult
->;
+export interface PropertyRepository
+  extends SearchableRepositoryInterface<
+    Property,
+    PropertyFilter,
+    PropertySearchParams,
+    PropertySearchResult
+  > {
+  update(property: UpdatePropertyInput): Promise<void>;
+}
