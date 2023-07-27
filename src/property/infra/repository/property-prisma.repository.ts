@@ -308,7 +308,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         }
       }
     });
-    if (entity.charge.update) {
+    if (entity.charge?.update) {
       for (const charge of entity.charge.update) {
         await this.prisma.properties_charges.update({
           where: {
@@ -323,7 +323,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         });
       }
     }
-    if (entity.floor_plan.update) {
+    if (entity.floor_plan?.update) {
       for (const floor_plan of entity.floor_plan.update) {
         await this.prisma.properties_floor_plans.update({
           where: {
@@ -338,7 +338,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         });
       }
     }
-    if (entity.condominium_detail.update) {
+    if (entity.condominium_detail?.update) {
       for (const condominium_detail of entity.condominium_detail.update) {
         await this.prisma.properties_condominium_details.update({
           where: {
@@ -353,7 +353,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         });
       }
     }
-    if (entity.property_detail.update) {
+    if (entity.property_detail?.update) {
       for (const property_detail of entity.property_detail.update) {
         await this.prisma.properties_property_details.update({
           where: {
@@ -368,7 +368,7 @@ export class PropertyPrismaRepository implements PropertyRepository {
         });
       }
     }
-    if (entity.rule.update) {
+    if (entity.rule?.update) {
       for (const rule of entity.rule.update) {
         await this.prisma.properties_rules.update({
           where: {

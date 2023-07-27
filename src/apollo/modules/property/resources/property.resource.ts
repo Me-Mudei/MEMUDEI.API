@@ -33,8 +33,7 @@ export const UpdateProperty = mutationField("update_property", {
   args: { input: nonNull("update_property_input") },
   resolve: async (_, args, ctx) => {
     const input = await UpdatePropertyInputMapper.toInput({
-      property: args.input,
-      user_id: ctx.user.id
+      property: args.input
     });
     const output = await ctx.propertyService.updateProperty(input);
     return UpdatePropertyOutputMapper.toOutput(output);

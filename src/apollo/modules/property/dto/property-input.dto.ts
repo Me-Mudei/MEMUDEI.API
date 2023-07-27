@@ -1,7 +1,4 @@
-import {
-  CreatePropertyInput as CoreCreatePropertyInput,
-  UpdatePropertyInput as CoreUpdatePropertyInput
-} from "#property/app";
+import { CreatePropertyInput as CoreCreatePropertyInput } from "#property/app";
 import { PropertyStatus as CorePropertyStatus } from "#property/domain";
 import { inputObjectType } from "nexus";
 
@@ -11,44 +8,88 @@ export const CreatePropertyInput = inputObjectType({
     t.nonNull.string("title");
     t.nonNull.string("description");
     t.nullable.field("status", { type: "property_status" });
-    t.nonNull.field("address", { type: "address_input" });
+    t.nonNull.field("address", { type: "create_property_address_input" });
     t.nonNull.string("property_type");
     t.nonNull.string("property_relationship");
     t.nonNull.string("privacy_type");
-    t.nonNull.list.nonNull.field("floor_plans", { type: "floor_plan_input" });
+    t.nonNull.list.nonNull.field("floor_plans", {
+      type: "create_property_floor_plan_input"
+    });
     t.nonNull.list.nonNull.field("property_details", {
-      type: "property_detail_input"
+      type: "create_property_property_detail_input"
     });
     t.nonNull.list.nonNull.field("condominium_details", {
-      type: "condominium_detail_input"
+      type: "create_property_condominium_detail_input"
     });
-    t.nonNull.list.nonNull.field("rules", { type: "rule_input" });
+    t.nonNull.list.nonNull.field("rules", {
+      type: "create_property_rule_input"
+    });
     t.nullable.list.nonNull.string("photo_ids");
-    t.nonNull.list.nonNull.field("charges", { type: "charge_input" });
+    t.nonNull.list.nonNull.field("charges", {
+      type: "create_property_charge_input"
+    });
   }
 });
 
-export const updatePropertyInput = inputObjectType({
-  name: "update_property_input",
+export const CreatePropertyAddressInput = inputObjectType({
+  name: "create_property_address_input",
   definition(t) {
-    t.nonNull.string("id");
-    t.nullable.string("title");
-    t.nullable.string("description");
-    t.nullable.field("status", { type: "property_status" });
-    t.nullable.field("address", { type: "address_input" });
-    t.nullable.string("property_type");
-    t.nullable.string("property_relationship");
-    t.nullable.string("privacy_type");
-    t.nullable.list.nonNull.field("floor_plans", { type: "floor_plan_input" });
-    t.nullable.list.nonNull.field("property_details", {
-      type: "property_detail_input"
-    });
-    t.nullable.list.nonNull.field("condominium_details", {
-      type: "condominium_detail_input"
-    });
-    t.nullable.list.nonNull.field("rules", { type: "rule_input" });
-    t.nullable.list.nonNull.string("photo_ids");
-    t.nullable.list.nonNull.field("charges", { type: "charge_input" });
+    t.nonNull.string("zip_code");
+    t.nonNull.string("city");
+    t.nonNull.string("state");
+    t.nonNull.string("street");
+    t.nonNull.string("country");
+    t.nonNull.field("location", { type: "create_address_location_input" });
+    t.nullable.string("district");
+    t.nullable.string("complement");
+  }
+});
+
+export const CreateAddressLocationInput = inputObjectType({
+  name: "create_address_location_input",
+  definition(t) {
+    t.nonNull.float("lat");
+    t.nonNull.float("lng");
+  }
+});
+
+export const CreatePropertyFloorPlanInput = inputObjectType({
+  name: "create_property_floor_plan_input",
+  definition(t) {
+    t.nonNull.string("key");
+    t.nonNull.int("value");
+  }
+});
+
+export const CreatePropertyPropertyDetailInput = inputObjectType({
+  name: "create_property_property_detail_input",
+  definition(t) {
+    t.nonNull.string("key");
+    t.nonNull.boolean("available");
+  }
+});
+
+export const CreatePropertyCondominiumDetailInput = inputObjectType({
+  name: "create_property_condominium_detail_input",
+  definition(t) {
+    t.nonNull.string("key");
+    t.nonNull.boolean("available");
+  }
+});
+
+export const CreatePropertyRuleInput = inputObjectType({
+  name: "create_property_rule_input",
+  definition(t) {
+    t.nonNull.string("key");
+    t.nonNull.boolean("allowed");
+  }
+});
+
+export const CreatePropertyChargeInput = inputObjectType({
+  name: "create_property_charge_input",
+  definition(t) {
+    t.nonNull.string("key");
+    t.nonNull.int("amount");
   }
 });
 
@@ -56,68 +97,6 @@ export const GetPropertyInput = inputObjectType({
   name: "get_property_input",
   definition(t) {
     t.nonNull.string("id");
-  }
-});
-
-export const AddressInput = inputObjectType({
-  name: "address_input",
-  definition(t) {
-    t.nonNull.string("zip_code");
-    t.nonNull.string("city");
-    t.nonNull.string("state");
-    t.nonNull.string("street");
-    t.nonNull.string("country");
-    t.nonNull.field("location", { type: "location_input" });
-    t.nullable.string("district");
-    t.nullable.string("complement");
-  }
-});
-
-export const LocationInput = inputObjectType({
-  name: "location_input",
-  definition(t) {
-    t.nonNull.float("lat");
-    t.nonNull.float("lng");
-  }
-});
-
-export const FloorPlanInput = inputObjectType({
-  name: "floor_plan_input",
-  definition(t) {
-    t.nonNull.string("key");
-    t.nonNull.int("value");
-  }
-});
-
-export const PropertyDetailInput = inputObjectType({
-  name: "property_detail_input",
-  definition(t) {
-    t.nonNull.string("key");
-    t.nonNull.boolean("available");
-  }
-});
-
-export const CondominiumDetailInput = inputObjectType({
-  name: "condominium_detail_input",
-  definition(t) {
-    t.nonNull.string("key");
-    t.nonNull.boolean("available");
-  }
-});
-
-export const RuleInput = inputObjectType({
-  name: "rule_input",
-  definition(t) {
-    t.nonNull.string("key");
-    t.nonNull.boolean("allowed");
-  }
-});
-
-export const ChargeInput = inputObjectType({
-  name: "charge_input",
-  definition(t) {
-    t.nonNull.string("key");
-    t.nonNull.int("amount");
   }
 });
 
@@ -158,19 +137,6 @@ export class CreatePropertyInputMapper {
     property: any;
     user_id: string;
   }): Promise<CoreCreatePropertyInput> {
-    return {
-      ...input.property,
-      user_id: input.user_id,
-      status: input.property.status as CorePropertyStatus
-    };
-  }
-}
-
-export class UpdatePropertyInputMapper {
-  static async toInput(input: {
-    property: any;
-    user_id: string;
-  }): Promise<CoreUpdatePropertyInput> {
     return {
       ...input.property,
       user_id: input.user_id,
