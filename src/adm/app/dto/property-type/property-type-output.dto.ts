@@ -1,4 +1,4 @@
-import { PropertyType } from '../../../domain';
+import { PropertyType } from "../../../domain";
 
 export type PropertyTypeOutput = {
   id: string;

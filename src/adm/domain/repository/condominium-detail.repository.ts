@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
-} from '#shared/domain';
-import { CondominiumDetail } from '../entities';
+  SearchResult as DefaultSearchResult
+} from "#shared/domain";
+
+import { CondominiumDetail } from "../entities";
 
 export type CondominiumDetailFilter = string;
 

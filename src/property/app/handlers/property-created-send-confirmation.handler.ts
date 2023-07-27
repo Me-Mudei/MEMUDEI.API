@@ -1,9 +1,9 @@
-import { PropertyCreated } from '../../domain/events';
+import { PropertyCreated } from "../../domain/events";
 
 export class PropertyCreatedSendConfirmationHandler {
-  name = 'PropertyCreated';
+  name = "PropertyCreated";
 
   async handle(event: PropertyCreated): Promise<void> {
-    console.log('EVENT HANDLE', event);
+    console.log("EVENT HANDLE", event);
   }
 }

@@ -1,8 +1,9 @@
-import { DomainEvent } from '#shared/infra';
-import { Schedule } from '../entities';
+import { DomainEvent } from "#shared/infra";
+
+import { Schedule } from "../entities";
 
 export class ScheduleCreated implements DomainEvent {
-  name = 'ScheduleCreated';
+  name = "ScheduleCreated";
 
   constructor(readonly property: Schedule) {}
 }

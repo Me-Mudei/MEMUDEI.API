@@ -22,12 +22,12 @@ export interface ErrorInput extends DefaultInput {
 }
 
 export type levelType =
-  | 'info'
-  | 'debug'
-  | 'error'
-  | 'warn'
-  | 'process'
-  | 'critical';
+  | "info"
+  | "debug"
+  | "error"
+  | "warn"
+  | "process"
+  | "critical";
 
 export const logLevels = {
   info: 5,
@@ -35,16 +35,16 @@ export const logLevels = {
   debug: 3,
   error: 2,
   process: 1,
-  critical: 0,
+  critical: 0
 };
 
 export const logColors = {
-  info: 'green',
-  warn: 'yellow',
-  debug: 'blue',
-  error: 'red',
-  process: 'magenta',
-  critical: 'bgRed',
+  info: "green",
+  warn: "yellow",
+  debug: "blue",
+  error: "red",
+  process: "magenta",
+  critical: "bgRed"
 };
 export interface LoggerInterface {
   critical(input: ErrorInput): void;

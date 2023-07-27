@@ -1,13 +1,7 @@
-import { UseCase } from '#shared/app';
-import { UniqueEntityId } from '#shared/domain';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { PropertyRepository } from '../../domain/repository';
-import { RepositoryFactory } from '../../domain/factory';
-import {
-  CreatePropertyInput,
-  CreatePropertyOutput,
-  CreatePropertyOutputMapper,
-} from '../dto';
+import { UseCase } from "#shared/app";
+import { UniqueEntityId } from "#shared/domain";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
 import {
   Address,
   Charge,
@@ -16,7 +10,15 @@ import {
   CondominiumDetail,
   PropertyDetail,
   Rule,
-} from '../../domain/entities';
+  Location
+} from "../../domain/entities";
+import { RepositoryFactory } from "../../domain/factory";
+import { PropertyRepository } from "../../domain/repository";
+import {
+  CreatePropertyInput,
+  CreatePropertyOutput,
+  CreatePropertyOutputMapper
+} from "../dto";
 
 export class CreatePropertyUseCase
   implements UseCase<CreatePropertyInput, CreatePropertyOutput>
@@ -25,52 +27,58 @@ export class CreatePropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 
   async execute(input: CreatePropertyInput): Promise<CreatePropertyOutput> {
-    this.logger.info({ message: 'Start Property Use Case' });
+    this.logger.info({ message: "Start Property Use Case" });
+    const location = new Location({
+      lat: input.address.location.lat,
+      lng: input.address.location.lng
+    });
     const address = new Address({
       zip_code: input.address.zip_code,
       city: input.address.city,
       state: input.address.state,
       street: input.address.street,
+      country: input.address.country,
+      location,
       district: input.address.district,
-      complement: input.address.complement,
+      complement: input.address.complement
     });
     const propertyDetails = input.property_details.map((propertyDetail) => {
       return new PropertyDetail({
         key: propertyDetail.key,
-        available: propertyDetail.available,
+        available: propertyDetail.available
       });
     });
     const floorPlans = input.floor_plans.map((floorPlan) => {
       return new FloorPlan({
         key: floorPlan.key,
-        value: floorPlan.value,
+        value: floorPlan.value
       });
     });
     const charges = input.charges.map((charge) => {
       return new Charge({
         key: charge.key,
-        amount: charge.amount,
+        amount: charge.amount
       });
     });
     const condominiumDetails = input.condominium_details.map(
       (condominiumDetail) => {
         return new CondominiumDetail({
           key: condominiumDetail.key,
-          available: condominiumDetail.available,
+          available: condominiumDetail.available
         });
-      },
+      }
     );
     const rules = input.rules.map((rule) => {
       return new Rule({
         key: rule.key,
-        allowed: rule.allowed,
+        allowed: rule.allowed
       });
     });
 
@@ -88,9 +96,7 @@ export class CreatePropertyUseCase
       rules: rules,
       charges: charges,
       user_id: new UniqueEntityId(input.user_id),
-      photo_ids: input?.photo_ids?.map(
-        (file_id) => new UniqueEntityId(file_id),
-      ),
+      photo_ids: input?.photo_ids?.map((file_id) => new UniqueEntityId(file_id))
     });
 
     await this.propertyRepository.insert(property);

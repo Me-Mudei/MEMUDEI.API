@@ -1,5 +1,8 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import AddressValidatorFactory from '../validators/address.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import AddressValidatorFactory from "../validators/address.validator";
+
+import { Location } from "./location.entity";
 
 export type AddressProps = {
   id?: UniqueEntityId;
@@ -7,7 +10,9 @@ export type AddressProps = {
   city: string;
   state: string;
   street: string;
-  district: string;
+  country: string;
+  location: Location;
+  district?: string;
   complement?: string;
   created_at?: Date;
   updated_at?: Date;
@@ -18,7 +23,9 @@ export class Address extends Entity<AddressProps> {
   private _city: string;
   private _state: string;
   private _street: string;
-  private _district: string;
+  private _country: string;
+  private _location: Location;
+  private _district?: string;
   private _complement?: string;
 
   constructor(props: AddressProps) {
@@ -28,6 +35,8 @@ export class Address extends Entity<AddressProps> {
     this._city = props.city;
     this._state = props.state;
     this._street = props.street;
+    this._country = props.country;
+    this._location = props.location;
     this._district = props.district;
     this._complement = props.complement;
   }
@@ -70,6 +79,22 @@ export class Address extends Entity<AddressProps> {
 
   public set street(_street: string) {
     this._street = _street;
+  }
+
+  public get country(): string {
+    return this._country;
+  }
+
+  public set country(_country: string) {
+    this._country = _country;
+  }
+
+  public get location(): Location {
+    return this._location;
+  }
+
+  public set location(_location: Location) {
+    this._location = _location;
   }
 
   public get district(): string {

@@ -1,16 +1,17 @@
 import {
-  PropertyDetailRepository,
-  PropertyDetailSearchParams,
-} from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { PropertyDetailOutput, PropertyDetailOutputMapper } from '../../dto';
-import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
-  PaginationOutputMapper,
-} from '#shared/app';
+  PaginationOutputMapper
+} from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import {
+  PropertyDetailRepository,
+  PropertyDetailSearchParams
+} from "../../../domain/repository";
+import { PropertyDetailOutput, PropertyDetailOutputMapper } from "../../dto";
 
 export class SearchPropertyDetailUseCase
   implements UseCase<SearchInputDto, PaginationOutputDto<PropertyDetailOutput>>
@@ -19,7 +20,7 @@ export class SearchPropertyDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyDetailRepository =
@@ -27,13 +28,13 @@ export class SearchPropertyDetailUseCase
   }
 
   async execute(
-    input: SearchInputDto,
+    input: SearchInputDto
   ): Promise<PaginationOutputDto<PropertyDetailOutput>> {
-    this.logger.info({ message: 'Start SearchPropertyDetail Use Case' });
+    this.logger.info({ message: "Start SearchPropertyDetail Use Case" });
     const params = new PropertyDetailSearchParams(input);
     const propertyDetail = await this.propertyDetailRepository.search(params);
     const items = propertyDetail.items.map((propertyDetail) =>
-      PropertyDetailOutputMapper.toOutput(propertyDetail),
+      PropertyDetailOutputMapper.toOutput(propertyDetail)
     );
 
     return PaginationOutputMapper.toOutput(items, propertyDetail);

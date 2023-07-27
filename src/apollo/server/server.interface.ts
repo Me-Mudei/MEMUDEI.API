@@ -1,5 +1,6 @@
-import Context from '../context';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema } from "graphql";
+
+import Context from "../context";
 
 export default interface Server<T> {
   schema: GraphQLSchema;

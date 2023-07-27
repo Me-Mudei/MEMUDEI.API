@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
   IsOptional,
-  IsString,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { PropertyDetailProps } from '../entities/property-detail.entity';
+  IsString
+} from "class-validator";
+
+import { PropertyDetailProps } from "../entities/property-detail.entity";
 
 export class PropertyDetailRules {
   @IsString()

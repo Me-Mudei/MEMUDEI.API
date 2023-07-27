@@ -1,4 +1,4 @@
-import { FloorPlan } from '../../../domain';
+import { FloorPlan } from "../../../domain";
 
 export type FloorPlanOutput = {
   id: string;

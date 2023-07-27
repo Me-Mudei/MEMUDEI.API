@@ -1,5 +1,5 @@
-import { RepositoryFactory } from '../../../domain/factory';
-import { PropertyInMemoryRepository } from '../../repository';
+import { RepositoryFactory } from "../../../domain/factory";
+import { PropertyInMemoryRepository } from "../../repository";
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {
   createPropertyRepository() {

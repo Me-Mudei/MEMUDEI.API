@@ -1,4 +1,4 @@
-import { Entity, UniqueEntityId } from '#shared/domain';
+import { Entity, UniqueEntityId } from "#shared/domain";
 
 export type UserProps = {
   id?: UniqueEntityId;

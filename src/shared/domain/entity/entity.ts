@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '../value-objects';
+import { UniqueEntityId } from "../value-objects";
 
 export interface DefaultProps {
   id?: UniqueEntityId;
@@ -34,7 +34,7 @@ export abstract class Entity<Props extends DefaultProps = any> {
   }
 
   toJSON(): Required<
-    { id: string; created_at: Date; updated_at: Date } & Omit<Props, 'id'>
+    { id: string; created_at: Date; updated_at: Date } & Omit<Props, "id">
   > {
     const { id, created_at, updated_at, ...args } = this.props;
     Object.keys(args).forEach((key) => {
@@ -54,9 +54,9 @@ export abstract class Entity<Props extends DefaultProps = any> {
       id: this.id,
       created_at: this.created_at,
       updated_at: this.updated_at,
-      ...args,
+      ...args
     } as unknown as Required<
-      { id: string; created_at: Date; updated_at: Date } & Omit<Props, 'id'>
+      { id: string; created_at: Date; updated_at: Date } & Omit<Props, "id">
     >;
   }
 }

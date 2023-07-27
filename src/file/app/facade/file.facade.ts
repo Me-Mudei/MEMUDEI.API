@@ -1,5 +1,5 @@
-import { UploadFileInput, UploadFileOutput } from '../dto';
-import { UploadFileUseCase } from '../use-cases';
+import { UploadFileInput, UploadFileOutput } from "../dto";
+import { UploadFileUseCase } from "../use-cases";
 
 export interface FileFacadeProps {
   uploadUseCase: UploadFileUseCase;

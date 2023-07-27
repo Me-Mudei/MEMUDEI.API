@@ -1,11 +1,12 @@
-import { PropertyRelationshipRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { PropertyRelationshipRepository } from "../../../domain/repository";
 import {
   PropertyRelationshipOutput,
-  PropertyRelationshipOutputMapper,
-} from '../../dto';
-import { UseCase } from '#shared/app';
+  PropertyRelationshipOutputMapper
+} from "../../dto";
 
 export class GetPropertyRelationshipUseCase
   implements UseCase<{ id: string }, PropertyRelationshipOutput>
@@ -14,7 +15,7 @@ export class GetPropertyRelationshipUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRelationshipRepository =
@@ -22,7 +23,7 @@ export class GetPropertyRelationshipUseCase
   }
 
   async execute(input: { id: string }): Promise<PropertyRelationshipOutput> {
-    this.logger.info({ message: 'Start GetPropertyRelationship Use Case' });
+    this.logger.info({ message: "Start GetPropertyRelationship Use Case" });
     const propertyRelationship =
       await this.propertyRelationshipRepository.findById(input.id);
     return PropertyRelationshipOutputMapper.toOutput(propertyRelationship);

@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient } from "#shared/infra";
+
 import {
   Rule,
   RuleRepository,
   RuleSearchParams,
-  RuleSearchResult,
-} from '../../../domain';
-import { PrismaClient } from '#shared/infra';
+  RuleSearchResult
+} from "../../../domain";
 
 export class RulePrismaRepository implements RuleRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Rule): Promise<void> {
@@ -19,15 +20,15 @@ export class RulePrismaRepository implements RuleRepository {
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<Rule> {
     const rule = await this.prisma.rule
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -40,9 +41,9 @@ export class RulePrismaRepository implements RuleRepository {
     const rules = await this.prisma.rule.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return rules.map((rule) => this.toEntity(rule));
   }
@@ -58,14 +59,14 @@ export class RulePrismaRepository implements RuleRepository {
       data: {
         key: entity.key,
         name: entity.name,
-        description: entity.description,
-      },
+        description: entity.description
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.rule.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -79,8 +80,8 @@ export class RulePrismaRepository implements RuleRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new RuleSearchResult({
       items: rules.map((rule) => this.toEntity(rule)),
@@ -89,7 +90,7 @@ export class RulePrismaRepository implements RuleRepository {
       total: rules.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -100,7 +101,7 @@ export class RulePrismaRepository implements RuleRepository {
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

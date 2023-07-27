@@ -1,10 +1,10 @@
-import { RepositoryFactory } from '../../../domain/factory';
+import { RepositoryFactory } from "../../../domain/factory";
 import {
   ScheduleInMemoryRepository,
   CalendarInMemoryRepository,
   PropertyInMemoryRepository,
-  UserInMemoryRepository,
-} from '../../repository';
+  UserInMemoryRepository
+} from "../../repository";
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {
   createScheduleRepository() {

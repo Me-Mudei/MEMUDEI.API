@@ -1,7 +1,8 @@
-import { AuthenticateUserUseCase, AuthFacade } from '../../app';
-import { Connection } from '#shared/infra';
-import { UserPrismaRepository } from '../repository';
-import { AuthGateway } from '../auth-gateway';
+import { Connection } from "#shared/infra";
+
+import { AuthenticateUserUseCase, AuthFacade } from "../../app";
+import { AuthGateway } from "../auth-gateway";
+import { UserPrismaRepository } from "../repository";
 
 export class AuthFacadeFactory {
   static create() {
@@ -11,11 +12,11 @@ export class AuthFacadeFactory {
 
     const authenticateUserUseCase = new AuthenticateUserUseCase(
       authGateway,
-      userRepository,
+      userRepository
     );
 
     return new AuthFacade({
-      authenticateUser: authenticateUserUseCase,
+      authenticateUser: authenticateUserUseCase
     });
   }
 }

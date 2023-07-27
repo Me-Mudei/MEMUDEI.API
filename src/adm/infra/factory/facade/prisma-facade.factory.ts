@@ -1,3 +1,6 @@
+import { Broker, ReqLoggerProps, WinstonLogger } from "#shared/infra";
+
+import { AdmFacade } from "../../../app/facade";
 import {
   GetPropertyTypeUseCase,
   SearchPropertyTypeUseCase,
@@ -38,22 +41,20 @@ import {
   SearchFloorPlanUseCase,
   CreateFloorPlanUseCase,
   UpdateFloorPlanUseCase,
-  DeleteFloorPlanUseCase,
-} from '../../../app/use-cases';
-import { AdmFacade } from '../../../app/facade';
-import { Broker, ReqLoggerProps, WinstonLogger } from '#shared/infra';
-import { PrismaRepositoryFactory } from '../repository';
+  DeleteFloorPlanUseCase
+} from "../../../app/use-cases";
+import { PrismaRepositoryFactory } from "../repository";
 
 export class PrismaFacadeFactory {
   static create(req: ReqLoggerProps) {
     new WinstonLogger({
-      svc: 'testSvc',
+      svc: "testSvc",
       req: {
         req_id: req.req_id,
         req_path: req.req_path,
         req_method: req.req_method,
-        req_ua: req.req_ua,
-      },
+        req_ua: req.req_ua
+      }
     });
     const repositoryFactory = new PrismaRepositoryFactory();
 
@@ -61,27 +62,27 @@ export class PrismaFacadeFactory {
 
     const getPropertyTypeUseCase = new GetPropertyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchPropertyTypeUseCase = new SearchPropertyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createPropertyTypeUseCase = new CreatePropertyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updatePropertyTypeUseCase = new UpdatePropertyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deletePropertyTypeUseCase = new DeletePropertyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const getPropertyRelationshipUseCase = new GetPropertyRelationshipUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchPropertyRelationshipUseCase =
       new SearchPropertyRelationshipUseCase(repositoryFactory, broker);
@@ -93,63 +94,63 @@ export class PrismaFacadeFactory {
       new DeletePropertyRelationshipUseCase(repositoryFactory, broker);
     const getPrivacyTypeUseCase = new GetPrivacyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchPrivacyTypeUseCase = new SearchPrivacyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createPrivacyTypeUseCase = new CreatePrivacyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updatePrivacyTypeUseCase = new UpdatePrivacyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deletePrivacyTypeUseCase = new DeletePrivacyTypeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const getPropertyDetailUseCase = new GetPropertyDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchPropertyDetailUseCase = new SearchPropertyDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createPropertyDetailUseCase = new CreatePropertyDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updatePropertyDetailUseCase = new UpdatePropertyDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deletePropertyDetailUseCase = new DeletePropertyDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const getCondominiumDetailUseCase = new GetCondominiumDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchCondominiumDetailUseCase = new SearchCondominiumDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createCondominiumDetailUseCase = new CreateCondominiumDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updateCondominiumDetailUseCase = new UpdateCondominiumDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deleteCondominiumDetailUseCase = new DeleteCondominiumDetailUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const getRuleUseCase = new GetRuleUseCase(repositoryFactory, broker);
     const searchRuleUseCase = new SearchRuleUseCase(repositoryFactory, broker);
@@ -159,39 +160,39 @@ export class PrismaFacadeFactory {
     const getChargeUseCase = new GetChargeUseCase(repositoryFactory, broker);
     const searchChargeUseCase = new SearchChargeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createChargeUseCase = new CreateChargeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updateChargeUseCase = new UpdateChargeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deleteChargeUseCase = new DeleteChargeUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const getFloorPlanUseCase = new GetFloorPlanUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const searchFloorPlanUseCase = new SearchFloorPlanUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const createFloorPlanUseCase = new CreateFloorPlanUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const updateFloorPlanUseCase = new UpdateFloorPlanUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
     const deleteFloorPlanUseCase = new DeleteFloorPlanUseCase(
       repositoryFactory,
-      broker,
+      broker
     );
 
     return new AdmFacade({
@@ -234,7 +235,7 @@ export class PrismaFacadeFactory {
       searchFloorPlan: searchFloorPlanUseCase,
       createFloorPlan: createFloorPlanUseCase,
       updateFloorPlan: updateFloorPlanUseCase,
-      deleteFloorPlan: deleteFloorPlanUseCase,
+      deleteFloorPlan: deleteFloorPlanUseCase
     });
   }
 }

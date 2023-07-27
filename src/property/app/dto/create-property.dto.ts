@@ -1,4 +1,4 @@
-import { PropertyStatus } from '../../domain/entities';
+import { PropertyStatus } from "../../domain/entities";
 
 export type CreatePropertyInput = {
   title: string;
@@ -22,8 +22,15 @@ export type AddressInput = {
   city: string;
   state: string;
   street: string;
-  district: string;
+  country: string;
+  location: LocationInput;
+  district?: string;
   complement?: string;
+};
+
+export type LocationInput = {
+  lat: number;
+  lng: number;
 };
 
 export type FloorPlanInput = {

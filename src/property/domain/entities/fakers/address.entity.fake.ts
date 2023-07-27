@@ -1,6 +1,10 @@
-import { Address } from '../address.entity';
-import { Chance } from 'chance';
-import { UniqueEntityId } from '#shared/domain';
+import { UniqueEntityId } from "#shared/domain";
+import { Chance } from "chance";
+
+import { Address } from "../address.entity";
+import { Location } from "../location.entity";
+
+import { LocationFakeBuilder } from "./location.entity.fake";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -15,7 +19,10 @@ export class AddressFakeBuilder<TBuild = any> {
   private _city: PropOrFactory<string> = (_index) => this.chance.city();
   private _state: PropOrFactory<string> = (_index) => this.chance.state();
   private _street: PropOrFactory<string> = (_index) => this.chance.street();
+  private _country: PropOrFactory<string> = (_index) => this.chance.country();
   private _district: PropOrFactory<string> = (_index) => this.chance.province();
+  private _location: PropOrFactory<Location> = (_index) =>
+    LocationFakeBuilder.aLocation().build();
 
   private countObjs: number;
 
@@ -74,8 +81,18 @@ export class AddressFakeBuilder<TBuild = any> {
     return this;
   }
 
+  whitCountry(valueOrFactory: PropOrFactory<string>) {
+    this._country = valueOrFactory;
+    return this;
+  }
+
   whitDistrict(valueOrFactory: PropOrFactory<string>) {
     this._district = valueOrFactory;
+    return this;
+  }
+
+  whitLocation(valueOrFactory: PropOrFactory<Location>) {
+    this._location = valueOrFactory;
     return this;
   }
 
@@ -84,63 +101,73 @@ export class AddressFakeBuilder<TBuild = any> {
       (_, index) =>
         new Address({
           ...(this._id && {
-            id: this.callFactory(this._id, index),
+            id: this.callFactory(this._id, index)
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index),
+            created_at: this.callFactory(this._created_at, index)
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index),
+            updated_at: this.callFactory(this._updated_at, index)
           }),
           zip_code: this.callFactory(this._zip_code, index),
           complement: this.callFactory(this._complement, index),
           city: this.callFactory(this._city, index),
           state: this.callFactory(this._state, index),
           street: this.callFactory(this._street, index),
-          district: this.callFactory(this._district, index),
-        }),
+          country: this.callFactory(this._country, index),
+          location: this.callFactory(this._location, index),
+          district: this.callFactory(this._district, index)
+        })
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
   get id() {
-    return this.getValue('id');
+    return this.getValue("id");
   }
 
   get zip_code() {
-    return this.getValue('zip_code');
+    return this.getValue("zip_code");
   }
 
   get complement() {
-    return this.getValue('complement');
+    return this.getValue("complement");
   }
 
   get city() {
-    return this.getValue('city');
+    return this.getValue("city");
   }
 
   get state() {
-    return this.getValue('state');
+    return this.getValue("state");
   }
 
   get street() {
-    return this.getValue('street');
+    return this.getValue("street");
+  }
+
+  get country() {
+    return this.getValue("country");
+  }
+
+  get location() {
+    return this.getValue("location");
   }
 
   get district() {
-    return this.getValue('district');
+    return this.getValue("district");
   }
 
   get created_at() {
-    return this.getValue('created_at');
+    return this.getValue("created_at");
   }
 
   get updated_at() {
-    return this.getValue('updated_at');
+    return this.getValue("updated_at");
   }
 
   private getValue(prop) {
-    const optional = ['id', 'created_at', 'updated_at'];
+    const optional = ["id", "created_at", "updated_at"];
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(`Address ${prop} not have a factory, use 'with' methods`);
@@ -149,7 +176,7 @@ export class AddressFakeBuilder<TBuild = any> {
   }
 
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
-    return typeof factoryOrValue === 'function'
+    return typeof factoryOrValue === "function"
       ? factoryOrValue(index)
       : factoryOrValue;
   }

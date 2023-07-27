@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient } from "#shared/infra";
+
 import {
   Calendar,
   CalendarRepository,
   CalendarSearchParams,
-  CalendarSearchResult,
-} from '../../../domain';
-import { PrismaClient } from '#shared/infra';
+  CalendarSearchResult
+} from "../../../domain";
 
 export class CalendarPrismaRepository implements CalendarRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Calendar): Promise<void> {
@@ -19,8 +20,8 @@ export class CalendarPrismaRepository implements CalendarRepository {
         is_active: entity.is_active,
         expired_at: entity.expired_at,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
 
     this.prisma.weekday.createMany({
@@ -30,15 +31,15 @@ export class CalendarPrismaRepository implements CalendarRepository {
         day: weekday.day,
         available_hours: weekday.hours.map((hour) => hour.value),
         created_at: weekday.created_at,
-        updated_at: weekday.updated_at,
-      })),
+        updated_at: weekday.updated_at
+      }))
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<Calendar> {
     const calendar = await this.prisma.calendar
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -51,9 +52,9 @@ export class CalendarPrismaRepository implements CalendarRepository {
     const calendars = await this.prisma.calendar.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return calendars.map((calendar) => this.toEntity(calendar));
   }
@@ -66,13 +67,13 @@ export class CalendarPrismaRepository implements CalendarRepository {
   async update(entity: Calendar): Promise<void> {
     await this.prisma.calendar.update({
       where: { id: entity.id },
-      data: {},
+      data: {}
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.calendar.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -86,8 +87,8 @@ export class CalendarPrismaRepository implements CalendarRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new CalendarSearchResult({
       items: calendars.map((calendar) => this.toEntity(calendar)),
@@ -96,7 +97,7 @@ export class CalendarPrismaRepository implements CalendarRepository {
       total: calendars.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -104,7 +105,7 @@ export class CalendarPrismaRepository implements CalendarRepository {
     return new Calendar({
       id: new UniqueEntityId(entity.id),
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

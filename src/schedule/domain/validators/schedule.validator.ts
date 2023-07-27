@@ -1,14 +1,16 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  ValidateNested,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { ScheduleProps } from '../entities/schedule.entity';
-import { UserRules, PropertyRules, CalendarRules } from './';
+  ValidateNested
+} from "class-validator";
+
+import { ScheduleProps } from "../entities/schedule.entity";
+
+import { UserRules, PropertyRules, CalendarRules } from "./";
 
 export class ScheduleRules {
   @IsDate()
@@ -19,7 +21,7 @@ export class ScheduleRules {
   @IsOptional()
   obs: string;
 
-  @IsEnum(['pending', 'approved', 'rejected'])
+  @IsEnum(["pending", "approved", "rejected"])
   @IsOptional()
   status: string;
 

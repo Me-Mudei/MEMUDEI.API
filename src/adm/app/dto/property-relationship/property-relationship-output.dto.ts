@@ -1,4 +1,4 @@
-import { PropertyRelationship } from '../../../domain';
+import { PropertyRelationship } from "../../../domain";
 
 export type PropertyRelationshipOutput = {
   id: string;

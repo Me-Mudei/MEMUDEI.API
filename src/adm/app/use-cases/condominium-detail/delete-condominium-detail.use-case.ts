@@ -1,7 +1,8 @@
-import { CondominiumDetailRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { UseCase } from '#shared/app';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { CondominiumDetailRepository } from "../../../domain/repository";
 
 export class DeleteCondominiumDetailUseCase
   implements UseCase<{ id: string }, void>
@@ -10,7 +11,7 @@ export class DeleteCondominiumDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.condominiumDetailRepository =
@@ -18,7 +19,7 @@ export class DeleteCondominiumDetailUseCase
   }
 
   async execute(input: { id: string }): Promise<void> {
-    this.logger.info({ message: 'Start DeleteCondominiumDetail Use Case' });
+    this.logger.info({ message: "Start DeleteCondominiumDetail Use Case" });
     await this.condominiumDetailRepository.delete(input.id);
   }
 }

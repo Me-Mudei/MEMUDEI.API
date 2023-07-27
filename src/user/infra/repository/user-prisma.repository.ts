@@ -1,15 +1,16 @@
-import { User } from '../../domain/entities';
+import { UniqueEntityId } from "#shared/domain";
+import { Prisma, PrismaClient } from "#shared/infra";
+
+import { User } from "../../domain/entities";
 import {
   UserFilter,
   UserRepository,
   UserSearchParams,
-  UserSearchResult,
-} from '../../domain/repository';
-import { Prisma, PrismaClient } from '#shared/infra';
-import { UniqueEntityId } from '#shared/domain';
+  UserSearchResult
+} from "../../domain/repository";
 
 export class UserPrismaRepository implements UserRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
 
   constructor(readonly prisma: PrismaClient) {}
   async insert(entity: User): Promise<void> {
@@ -17,14 +18,14 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
-        external_id: entity.props.external_id,
-      },
+        external_id: entity.props.external_id
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<User> {
     const user = await this.prisma.user.findFirst({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
     return this.toEntity(user);
   }
@@ -33,9 +34,9 @@ export class UserPrismaRepository implements UserRepository {
     const users = await this.prisma.user.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return users.map((user) => this.toEntity(user));
   }
@@ -51,14 +52,14 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: entity.props.email,
         name: entity.props.name,
-        external_id: entity.props.external_id,
-      },
+        external_id: entity.props.external_id
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.user.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -72,9 +73,9 @@ export class UserPrismaRepository implements UserRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
+          : { created_at: "asc" })
       },
-      where: this.applyFilters(props.filter),
+      where: this.applyFilters(props.filter)
     });
 
     return new UserSearchResult({
@@ -84,13 +85,13 @@ export class UserPrismaRepository implements UserRepository {
       total: users.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
   async findFirst(props: UserSearchParams): Promise<User | null> {
     const user = await this.prisma.user.findFirst({
-      where: this.applyFilters(props.filter),
+      where: this.applyFilters(props.filter)
     });
     if (!user) {
       return null;
@@ -99,7 +100,7 @@ export class UserPrismaRepository implements UserRepository {
   }
 
   private toEntity(
-    user: Prisma.userGetPayload<Prisma.userFindUniqueArgs>,
+    user: Prisma.userGetPayload<Prisma.userFindUniqueArgs>
   ): User {
     return new User({
       id: new UniqueEntityId(user.id),
@@ -107,7 +108,7 @@ export class UserPrismaRepository implements UserRepository {
       name: user.name,
       email: user.email,
       created_at: new Date(user.created_at),
-      updated_at: new Date(user.updated_at),
+      updated_at: new Date(user.updated_at)
     });
   }
 
@@ -127,28 +128,28 @@ export class UserPrismaRepository implements UserRepository {
 
   name_filter(
     where: Prisma.userWhereInput,
-    name: string,
+    name: string
   ): Prisma.userWhereInput {
-    return { ...where, name: { contains: name, mode: 'insensitive' } };
+    return { ...where, name: { contains: name, mode: "insensitive" } };
   }
 
   email_filter(
     where: Prisma.userWhereInput,
-    email: string,
+    email: string
   ): Prisma.userWhereInput {
     return { ...where, email: { contains: email } };
   }
 
   external_id_filter(
     where: Prisma.userWhereInput,
-    external_id: string,
+    external_id: string
   ): Prisma.userWhereInput {
     return { ...where, external_id: { contains: external_id } };
   }
 
   property_id_filter(
     where: Prisma.userWhereInput,
-    property_id: string,
+    property_id: string
   ): Prisma.userWhereInput {
     return { ...where, properties: { some: { id: property_id } } };
   }

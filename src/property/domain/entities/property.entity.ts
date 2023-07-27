@@ -1,16 +1,22 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import { Address } from './address.entity';
-import { FloorPlan } from './floor-plan.entity';
-import { PropertyDetail } from './property-detail.entity';
-import { CondominiumDetail } from './condominium-detail.entity';
-import { Rule } from './rule.entity';
-import { Photo } from './photo.entity';
-import { Charge } from './charge.entity';
-import PropertyValidatorFactory from '../validators/property.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import PropertyValidatorFactory from "../validators/property.validator";
+
+import { Address } from "./address.entity";
+import { Charge } from "./charge.entity";
+import { CondominiumDetail } from "./condominium-detail.entity";
+import { FloorPlan } from "./floor-plan.entity";
+import { Photo } from "./photo.entity";
+import { PropertyDetail } from "./property-detail.entity";
+import { Rule } from "./rule.entity";
 
 export enum PropertyStatus {
-  PENDING = 'pending',
-  COMPLETE = 'complete',
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  PUBLISHED = "published",
+  REJECTED = "rejected",
+  UNPUBLISHED = "unpublished",
+  DEACTIVATED = "deactivated"
 }
 
 export type PropertyProps = {

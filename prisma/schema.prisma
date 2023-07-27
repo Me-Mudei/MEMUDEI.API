@@ -92,12 +92,24 @@ model address {
     city        String
     state       String
     street      String
-    district    String
+    country     String
+    district    String?
     complement  String?
+    location    location @relation(fields: [location_id], references: [id])
+    location_id String   @unique @db.Char(21)
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
     property_id String   @unique @db.Char(21)
     property    property @relation(fields: [property_id], references: [id])
+}
+
+model location {
+    id         String   @id @default(nanoid()) @db.Char(21)
+    lat         Float
+    lng         Float
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    address    address?
 }
 
 model property_type {

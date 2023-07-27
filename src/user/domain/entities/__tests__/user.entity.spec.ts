@@ -1,15 +1,16 @@
-import { UniqueEntityId } from '#shared/domain';
-import { User } from '../user.entity';
+import { UniqueEntityId } from "#shared/domain";
 
-describe('User Unit Tests', () => {
-  test('constructor of user', () => {
+import { User } from "../user.entity";
+
+describe("User Unit Tests", () => {
+  test("constructor of user", () => {
     let user = new User({
-      name: 'Jhon Doe',
-      email: 'jhon.doe@test.com',
+      name: "Jhon Doe",
+      email: "jhon.doe@test.com"
     });
     expect(user.props).toStrictEqual({
-      name: 'Jhon Doe',
-      email: 'jhon.doe@test.com',
+      name: "Jhon Doe",
+      email: "jhon.doe@test.com"
     });
     expect(user.id).toBeDefined();
     expect(user.created_at).toBeInstanceOf(Date);
@@ -19,18 +20,18 @@ describe('User Unit Tests', () => {
     const created_at = new Date();
     const updated_at = new Date();
     user = new User({
-      name: 'Jhon Doe',
-      email: 'jhon.doe@test.com',
+      name: "Jhon Doe",
+      email: "jhon.doe@test.com",
       id,
       created_at,
-      updated_at,
+      updated_at
     });
     expect(user.props).toStrictEqual({
-      name: 'Jhon Doe',
-      email: 'jhon.doe@test.com',
+      name: "Jhon Doe",
+      email: "jhon.doe@test.com",
       id,
       created_at,
-      updated_at,
+      updated_at
     });
 
     expect(user.id).toBe(id.value);

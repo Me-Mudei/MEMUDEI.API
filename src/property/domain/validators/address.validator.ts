@@ -1,22 +1,21 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
-  IsNumber,
-  IsNumberString,
   IsOptional,
   IsString,
-  MaxLength,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { AddressProps } from '../entities/address.entity';
+  MaxLength
+} from "class-validator";
+
+import { AddressProps } from "../entities/address.entity";
 
 export class AddressRules {
-  @MaxLength(8)
-  @IsNumberString()
+  @MaxLength(9)
+  @IsString()
   @IsNotEmpty()
   zip_code: string;
 
-  @MaxLength(25)
+  @MaxLength(50)
   @IsString()
   @IsNotEmpty()
   city: string;
@@ -26,15 +25,20 @@ export class AddressRules {
   @IsNotEmpty()
   state: string;
 
-  @MaxLength(25)
+  @MaxLength(255)
   @IsString()
   @IsNotEmpty()
   street: string;
 
   @MaxLength(25)
   @IsString()
+  @IsNotEmpty()
+  country: string;
+
+  @MaxLength(25)
+  @IsString()
   @IsOptional()
-  district: string;
+  district?: string;
 
   @MaxLength(50)
   @IsString()
@@ -54,20 +58,22 @@ export class AddressRules {
     city,
     state,
     street,
+    country,
     district,
     complement,
     created_at,
-    updated_at,
+    updated_at
   }: AddressProps) {
     Object.assign(this, {
       zip_code,
       city,
       state,
       street,
+      country,
       district,
       complement,
       created_at,
-      updated_at,
+      updated_at
     });
   }
 }

@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { ChargeProps } from '../entities/charge.entity';
+  IsString
+} from "class-validator";
+
+import { ChargeProps } from "../entities/charge.entity";
 
 export class ChargeRules {
   @IsString()

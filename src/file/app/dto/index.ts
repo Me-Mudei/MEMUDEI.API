@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './upload-file.dto';
+export * from "./upload-file.dto";

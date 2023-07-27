@@ -1,4 +1,4 @@
-import { PropertyStatus } from '../../domain/entities';
+import { PropertyStatus } from "../../domain/entities";
 
 export type CreatePropertyOutput = {
   id: string;
@@ -15,7 +15,7 @@ export class CreatePropertyOutputMapper {
       id: property.id,
       status: property.status,
       created_at: property.created_at,
-      updated_at: property.updated_at,
+      updated_at: property.updated_at
     };
   }
 }
@@ -62,6 +62,12 @@ export class PropertyOutputMapper {
         street: property.address.street,
         district: property.address.district,
         complement: property.address.complement,
+        country: property.address.country,
+        location: {
+          id: property.address.location.id,
+          lat: property.address.location.lat,
+          lng: property.address.location.lng
+        }
       },
       property_type: property.property_type,
       property_relationship: property.property_relationship,
@@ -71,14 +77,14 @@ export class PropertyOutputMapper {
         key: floorPlan.key,
         name: floorPlan.name,
         value: floorPlan.value,
-        unit: floorPlan.unit,
+        unit: floorPlan.unit
       })),
       property_details: property.property_details.map((propertyDetail) => ({
         id: propertyDetail.id,
         key: propertyDetail.key,
         name: propertyDetail.name,
         available: propertyDetail.available,
-        description: propertyDetail.description,
+        description: propertyDetail.description
       })),
       condominium_details: property.condominium_details.map(
         (condominiumDetail) => ({
@@ -86,22 +92,22 @@ export class PropertyOutputMapper {
           key: condominiumDetail.key,
           name: condominiumDetail.name,
           available: condominiumDetail.available,
-          description: condominiumDetail.description,
-        }),
+          description: condominiumDetail.description
+        })
       ),
       rules: property.rules.map((rule) => ({
         id: rule.id,
         key: rule.key,
         name: rule.name,
         allowed: rule.allowed,
-        description: rule.description,
+        description: rule.description
       })),
       charges: property.charges.map((charge) => ({
         id: charge.id,
         key: charge.key,
         name: charge.name,
         amount: charge.amount,
-        description: charge.description,
+        description: charge.description
       })),
       photos: property.photos.map((photo) => ({
         id: photo.id,
@@ -110,8 +116,8 @@ export class PropertyOutputMapper {
         name: photo.name,
         type: photo.type,
         subtype: photo.subtype,
-        url: photo.url,
-      })),
+        url: photo.url
+      }))
     };
   }
 }
@@ -122,8 +128,16 @@ export type AddressOutput = {
   city: string;
   state: string;
   street: string;
-  district: string;
+  country: string;
+  district?: string;
   complement?: string;
+  location: LocationOutput;
+};
+
+export type LocationOutput = {
+  id: string;
+  lat: number;
+  lng: number;
 };
 
 export type FloorPlanOutput = {

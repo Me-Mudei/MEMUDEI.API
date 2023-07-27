@@ -1,8 +1,9 @@
-import { PropertyTypeRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { PropertyTypeOutput, PropertyTypeOutputMapper } from '../../dto';
-import { UseCase } from '#shared/app';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { PropertyTypeRepository } from "../../../domain/repository";
+import { PropertyTypeOutput, PropertyTypeOutputMapper } from "../../dto";
 
 export class GetPropertyTypeUseCase
   implements UseCase<{ id: string }, PropertyTypeOutput>
@@ -11,7 +12,7 @@ export class GetPropertyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyTypeRepository =
@@ -19,7 +20,7 @@ export class GetPropertyTypeUseCase
   }
 
   async execute(input: { id: string }): Promise<PropertyTypeOutput> {
-    this.logger.info({ message: 'Start GetPropertyType Use Case' });
+    this.logger.info({ message: "Start GetPropertyType Use Case" });
     const propertyType = await this.propertyTypeRepository.findById(input.id);
     return PropertyTypeOutputMapper.toOutput(propertyType);
   }

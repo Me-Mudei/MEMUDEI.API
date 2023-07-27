@@ -1,5 +1,6 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import PropertyTypeValidatorFactory from '../validators/property-type.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import PropertyTypeValidatorFactory from "../validators/property-type.validator";
 
 export type PropertyTypeProps = {
   id?: UniqueEntityId;

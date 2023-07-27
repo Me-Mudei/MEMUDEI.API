@@ -1,14 +1,15 @@
-import { PrivacyTypeRepository } from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import { UseCase } from '#shared/app';
+import { UseCase } from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import { PrivacyTypeRepository } from "../../../domain/repository";
 
 export class DeletePrivacyTypeUseCase implements UseCase<{ id: string }, void> {
   privacyTypeRepository: PrivacyTypeRepository;
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.privacyTypeRepository =
@@ -16,7 +17,7 @@ export class DeletePrivacyTypeUseCase implements UseCase<{ id: string }, void> {
   }
 
   async execute(input: { id: string }): Promise<void> {
-    this.logger.info({ message: 'Start DeletePrivacyType Use Case' });
+    this.logger.info({ message: "Start DeletePrivacyType Use Case" });
     await this.privacyTypeRepository.delete(input.id);
   }
 }

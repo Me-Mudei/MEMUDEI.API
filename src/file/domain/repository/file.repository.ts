@@ -1,4 +1,4 @@
-import { File } from '../entities';
+import { File } from "../entities";
 
 export interface FileRepository {
   insert(files: File[]): Promise<void>;

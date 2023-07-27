@@ -1,4 +1,4 @@
-import { PrivacyType } from '../../../domain';
+import { PrivacyType } from "../../../domain";
 
 export type PrivacyTypeOutput = {
   id: string;

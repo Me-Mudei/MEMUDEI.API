@@ -1,4 +1,4 @@
-import { Schedule, ScheduleStatus } from '../../domain/entities';
+import { Schedule, ScheduleStatus } from "../../domain/entities";
 
 export type ScheduleOutput = {
   id: string;
@@ -13,7 +13,7 @@ export class ScheduleOutputMapper {
       id: schedule.id,
       status: schedule.status,
       created_at: schedule.created_at,
-      updated_at: schedule.updated_at,
+      updated_at: schedule.updated_at
     };
   }
 }

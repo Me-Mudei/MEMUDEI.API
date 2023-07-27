@@ -1,2 +1,2 @@
-export * from './dto';
-export * from './user.resource';
+export * from "./dto";
+export * from "./user.resource";

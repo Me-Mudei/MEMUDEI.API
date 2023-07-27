@@ -1,4 +1,4 @@
-import { CondominiumDetail } from '../../../domain';
+import { CondominiumDetail } from "../../../domain";
 
 export type CondominiumDetailOutput = {
   id: string;

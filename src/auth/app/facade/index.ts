@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from './auth.facade';
+export * from "./auth.facade";

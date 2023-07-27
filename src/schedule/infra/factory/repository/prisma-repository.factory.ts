@@ -1,9 +1,10 @@
-import { RepositoryFactory } from '../../../domain/factory';
+import { Connection, PrismaClient } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
 import {
   SchedulePrismaRepository,
-  CalendarPrismaRepository,
-} from '../../repository';
-import { Connection, PrismaClient } from '#shared/infra';
+  CalendarPrismaRepository
+} from "../../repository";
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   private prisma: PrismaClient;

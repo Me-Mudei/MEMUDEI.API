@@ -1,5 +1,6 @@
-import { Entity, EntityValidationError, UniqueEntityId } from '#shared/domain';
-import ChargeValidatorFactory from '../validators/charge.validator';
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
+
+import ChargeValidatorFactory from "../validators/charge.validator";
 
 export type ChargeProps = {
   id?: UniqueEntityId;

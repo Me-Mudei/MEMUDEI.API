@@ -1,9 +1,10 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult,
-} from '#shared/domain';
-import { PrivacyType } from '../entities';
+  SearchResult as DefaultSearchResult
+} from "#shared/domain";
+
+import { PrivacyType } from "../entities";
 
 export type PrivacyTypeFilter = string;
 

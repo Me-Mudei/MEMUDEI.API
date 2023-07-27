@@ -1,8 +1,9 @@
-import { FileFacade } from '../../app/facade';
-import { Connection } from '#shared/infra';
-import { UploadFileUseCase } from '../../app/use-cases';
-import { FilePrismaRepository } from '../repository';
-import { AwsS3Driver } from '../driver';
+import { Connection } from "#shared/infra";
+
+import { FileFacade } from "../../app/facade";
+import { UploadFileUseCase } from "../../app/use-cases";
+import { AwsS3Driver } from "../driver";
+import { FilePrismaRepository } from "../repository";
 
 export class FileFacadeFactory {
   static create() {
@@ -13,7 +14,7 @@ export class FileFacadeFactory {
     const uploadFileUseCase = new UploadFileUseCase(userRepository, driver);
 
     return new FileFacade({
-      uploadUseCase: uploadFileUseCase,
+      uploadUseCase: uploadFileUseCase
     });
   }
 }

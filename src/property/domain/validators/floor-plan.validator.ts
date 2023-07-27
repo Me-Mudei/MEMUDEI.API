@@ -1,12 +1,13 @@
+import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
-} from 'class-validator';
-import { ClassValidatorFields } from '#shared/domain';
-import { FloorPlanProps } from '../entities/floor-plan.entity';
+  IsString
+} from "class-validator";
+
+import { FloorPlanProps } from "../entities/floor-plan.entity";
 
 export class FloorPlanRules {
   @IsString()

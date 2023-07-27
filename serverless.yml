@@ -32,6 +32,7 @@ provider:
     AUTH_AUDIENCE: ${env:AUTH_AUDIENCE}
     AUTH_ISSUER: ${env:AUTH_ISSUER}
     AUTH_DOMAIN: ${env:AUTH_DOMAIN}
+    AUTH_CLIENT_ID: ${env:AUTH_CLIENT_ID}
     CLOUD_VENDOR: ${env:CLOUD_VENDOR}
     CLOUD_ACCESS_KEY_ID: ${env:CLOUD_ACCESS_KEY_ID}
     CLOUD_SECRET_ACCESS_KEY: ${env:CLOUD_SECRET_ACCESS_KEY}
@@ -68,9 +69,9 @@ functions:
     events:
       - http:
           path: /files
-          method: ANY
+          method: POST
           cors: true
       - http:
           path: /files/{proxy+}
-          method: ANY
+          method: POST
           cors: true

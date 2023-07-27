@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient } from "#shared/infra";
+
 import {
   PropertyType,
   PropertyTypeRepository,
   PropertyTypeSearchParams,
-  PropertyTypeSearchResult,
-} from '../../../domain';
-import { PrismaClient } from '#shared/infra';
+  PropertyTypeSearchResult
+} from "../../../domain";
 
 export class PropertyTypePrismaRepository implements PropertyTypeRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: PropertyType): Promise<void> {
@@ -19,15 +20,15 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<PropertyType> {
     const propertyType = await this.prisma.property_type
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -37,14 +38,14 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
   }
 
   async findManyById(
-    ids: (string | UniqueEntityId)[],
+    ids: (string | UniqueEntityId)[]
   ): Promise<PropertyType[]> {
     const propertyTypes = await this.prisma.property_type.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return propertyTypes.map((propertyType) => this.toEntity(propertyType));
   }
@@ -60,19 +61,19 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
       data: {
         key: entity.key,
         name: entity.name,
-        description: entity.description,
-      },
+        description: entity.description
+      }
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.property_type.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
   async search(
-    props: PropertyTypeSearchParams,
+    props: PropertyTypeSearchParams
   ): Promise<PropertyTypeSearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
@@ -83,8 +84,8 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new PropertyTypeSearchResult({
       items: propertyTypes.map((propertyType) => this.toEntity(propertyType)),
@@ -93,7 +94,7 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
       total: propertyTypes.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -104,7 +105,7 @@ export class PropertyTypePrismaRepository implements PropertyTypeRepository {
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

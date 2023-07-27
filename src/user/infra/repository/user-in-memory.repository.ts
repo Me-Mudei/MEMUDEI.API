@@ -1,16 +1,17 @@
-import { InMemorySearchableRepository, SortDirection } from '#shared/domain';
-import { User } from '../../domain/entities';
-import { UserRepository, UserFilter } from '../../domain/repository';
+import { InMemorySearchableRepository, SortDirection } from "#shared/domain";
+
+import { User } from "../../domain/entities";
+import { UserRepository, UserFilter } from "../../domain/repository";
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<User>
   implements UserRepository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ["name", "created_at"];
 
   protected async applyFilter(
     items: User[],
-    filter: UserFilter,
+    filter: UserFilter
   ): Promise<User[]> {
     if (!filter || Object.keys(filter).length === 0) {
       return items;
@@ -49,7 +50,7 @@ export class UserInMemoryRepository
     if (property_id.length < 3) return items;
     return items.filter((item) => {
       return (item as any).properties.some((property) =>
-        property.id.includes(property_id),
+        property.id.includes(property_id)
       );
     });
   }
@@ -57,10 +58,10 @@ export class UserInMemoryRepository
   protected async applySort(
     items: User[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<User[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

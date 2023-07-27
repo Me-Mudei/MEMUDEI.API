@@ -1,17 +1,18 @@
-import { PaginationOutputDto, SearchInputDto } from '#shared/app';
-import { UserFilter } from '#user/domain';
+import { PaginationOutputDto, SearchInputDto } from "#shared/app";
+import { UserFilter } from "#user/domain";
+
 import {
   CreateUserInput,
   UserOutput,
   ValidateUserInput,
-  ValidateUserOutput,
-} from '../dto';
+  ValidateUserOutput
+} from "../dto";
 import {
   CreateUserUseCase,
   FindFirstUserUseCase,
   SearchUsersUseCase,
-  ValidateUserUseCase,
-} from '../use-cases';
+  ValidateUserUseCase
+} from "../use-cases";
 
 export interface UserFacadeProps {
   createUseCase: CreateUserUseCase;
@@ -41,7 +42,7 @@ export class UserFacade {
   }
 
   async searchUsers(
-    input: SearchInputDto<UserFilter>,
+    input: SearchInputDto<UserFilter>
   ): Promise<PaginationOutputDto<UserOutput>> {
     return this._searchUseCase.execute(input);
   }

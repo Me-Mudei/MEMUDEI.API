@@ -1,14 +1,15 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+
 import {
   Schedule,
   ScheduleRepository,
   ScheduleSearchParams,
-  ScheduleSearchResult,
-} from '../../../domain';
+  ScheduleSearchResult
+} from "../../../domain";
 //import { PrismaClient } from '#shared/infra';
 
 export class SchedulePrismaRepository implements ScheduleRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: any) {}
 
   async insert(entity: any): Promise<void> {
@@ -23,15 +24,15 @@ export class SchedulePrismaRepository implements ScheduleRepository {
         property_id: entity.property.id,
         scheduler_id: entity.scheduler.id,
         created_at: entity.created_at,
-        updated_at: entity.updated_at,
-      },
+        updated_at: entity.updated_at
+      }
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<Schedule> {
     const schedule = await this.prisma.schedule
       .findFirstOrThrow({
-        where: { id: id.toString() },
+        where: { id: id.toString() }
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -44,9 +45,9 @@ export class SchedulePrismaRepository implements ScheduleRepository {
     const schedules = await this.prisma.schedule.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString()),
-        },
-      },
+          in: ids.map((id) => id.toString())
+        }
+      }
     });
     return schedules.map((schedule) => this.toEntity(schedule));
   }
@@ -59,13 +60,13 @@ export class SchedulePrismaRepository implements ScheduleRepository {
   async update(entity: Schedule): Promise<void> {
     await this.prisma.schedule.update({
       where: { id: entity.id },
-      data: {},
+      data: {}
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.schedule.delete({
-      where: { id: id.toString() },
+      where: { id: id.toString() }
     });
   }
 
@@ -79,8 +80,8 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
-      },
+          : { created_at: "asc" })
+      }
     });
     return new ScheduleSearchResult({
       items: schedules.map((schedule) => this.toEntity(schedule)),
@@ -89,7 +90,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       total: schedules.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir,
+      sort_dir: props.sort_dir
     });
   }
 
@@ -98,7 +99,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       id: new UniqueEntityId(entity.id),
       start: entity.start,
       created_at: entity.created_at,
-      updated_at: entity.updated_at,
+      updated_at: entity.updated_at
     });
   }
 }

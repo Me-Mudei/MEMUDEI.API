@@ -1,0 +1,68 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "import-helpers",
+    "eslint-plugin-prettier",
+    "unused-imports"
+  ],
+  "parserOptions": {
+    "project": ["tsconfig.json"],
+    "sourceType": "module"
+  },
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    //"@typescript-eslint/interface-name-prefix": "off",
+    //"@typescript-eslint/explicit-function-return-type": "off",
+    //"@typescript-eslint/explicit-module-boundary-types": "off",
+    //"@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "unused-imports/no-unused-vars": "off",
+    "import-helpers/order-imports": [
+      "error",
+      {
+        "newlinesBetween": "always",
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "bracketSpacing": true,
+        "semi": true,
+        "useTabs": false,
+        "bracketSameLine": false,
+        "singleQuote": false,
+        "trailingComma": "none"
+      }
+    ],
+    "@typescript-eslint/no-unnecessary-type-constraint": "off"
+  }
+}

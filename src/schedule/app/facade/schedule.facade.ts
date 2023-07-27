@@ -1,17 +1,18 @@
-import { PaginationOutputDto } from '#shared/app/dto/pagination-output.dto';
-import { SearchInputDto } from '#shared/app/dto/search-input.dto';
+import { PaginationOutputDto } from "#shared/app/dto/pagination-output.dto";
+import { SearchInputDto } from "#shared/app/dto/search-input.dto";
+
 import {
   CreateScheduleInput,
   ScheduleOutput,
-  UpdateScheduleInput,
-} from '../dto';
-import { ScheduleCreatedSendConfirmationHandler } from '../handlers';
+  UpdateScheduleInput
+} from "../dto";
+import { ScheduleCreatedSendConfirmationHandler } from "../handlers";
 import {
   GetScheduleUseCase,
   SearchScheduleUseCase,
   CreateScheduleUseCase,
-  UpdateScheduleUseCase,
-} from '../use-cases';
+  UpdateScheduleUseCase
+} from "../use-cases";
 
 export interface ScheduleFacadeProps {
   getSchedule: GetScheduleUseCase;
@@ -36,13 +37,13 @@ export class ScheduleFacade {
     return this._getSchedule.execute(input);
   }
   async searchSchedule(
-    input: SearchInputDto,
+    input: SearchInputDto
   ): Promise<PaginationOutputDto<ScheduleOutput>> {
     return this._searchSchedule.execute(input);
   }
   async createSchedule(input: CreateScheduleInput): Promise<ScheduleOutput> {
     this._createSchedule.broker.register(
-      new ScheduleCreatedSendConfirmationHandler(),
+      new ScheduleCreatedSendConfirmationHandler()
     );
     return this._createSchedule.execute(input);
   }

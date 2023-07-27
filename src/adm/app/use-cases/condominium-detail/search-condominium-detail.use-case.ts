@@ -1,19 +1,20 @@
 import {
-  CondominiumDetailRepository,
-  CondominiumDetailSearchParams,
-} from '../../../domain/repository';
-import { RepositoryFactory } from '../../../domain/factory';
-import { Broker, LoggerInterface, WinstonLogger } from '#shared/infra';
-import {
-  CondominiumDetailOutput,
-  CondominiumDetailOutputMapper,
-} from '../../dto';
-import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
-  PaginationOutputMapper,
-} from '#shared/app';
+  PaginationOutputMapper
+} from "#shared/app";
+import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
+import {
+  CondominiumDetailRepository,
+  CondominiumDetailSearchParams
+} from "../../../domain/repository";
+import {
+  CondominiumDetailOutput,
+  CondominiumDetailOutputMapper
+} from "../../dto";
 
 export class SearchCondominiumDetailUseCase
   implements
@@ -23,7 +24,7 @@ export class SearchCondominiumDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
+    readonly broker: Broker
   ) {
     this.logger = WinstonLogger.getInstance();
     this.condominiumDetailRepository =
@@ -31,15 +32,15 @@ export class SearchCondominiumDetailUseCase
   }
 
   async execute(
-    input: SearchInputDto,
+    input: SearchInputDto
   ): Promise<PaginationOutputDto<CondominiumDetailOutput>> {
-    this.logger.info({ message: 'Start SearchCondominiumDetail Use Case' });
+    this.logger.info({ message: "Start SearchCondominiumDetail Use Case" });
     const params = new CondominiumDetailSearchParams(input);
     const condominiumDetail = await this.condominiumDetailRepository.search(
-      params,
+      params
     );
     const items = condominiumDetail.items.map((condominiumDetail) =>
-      CondominiumDetailOutputMapper.toOutput(condominiumDetail),
+      CondominiumDetailOutputMapper.toOutput(condominiumDetail)
     );
 
     return PaginationOutputMapper.toOutput(items, condominiumDetail);

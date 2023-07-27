@@ -1,20 +1,21 @@
-import { InMemorySearchableRepository } from '#shared/domain';
-import { SortDirection } from '#shared/domain';
-import { PropertyDetail } from '../../../domain/entities';
+import { InMemorySearchableRepository } from "#shared/domain";
+import { SortDirection } from "#shared/domain";
+
+import { PropertyDetail } from "../../../domain/entities";
 import {
   PropertyDetailRepository,
-  PropertyDetailFilter,
-} from '../../../domain/repository';
+  PropertyDetailFilter
+} from "../../../domain/repository";
 
 export class PropertyDetailInMemoryRepository
   extends InMemorySearchableRepository<PropertyDetail>
   implements PropertyDetailRepository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ["name", "created_at"];
 
   protected async applyFilter(
     items: PropertyDetail[],
-    filter: PropertyDetailFilter,
+    filter: PropertyDetailFilter
   ): Promise<PropertyDetail[]> {
     if (!filter) {
       return items;
@@ -28,10 +29,10 @@ export class PropertyDetailInMemoryRepository
   protected async applySort(
     items: PropertyDetail[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<PropertyDetail[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

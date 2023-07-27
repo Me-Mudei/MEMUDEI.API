@@ -1,4 +1,6 @@
-import { RepositoryFactory } from '../../../domain/factory';
+import { Connection, PrismaClient } from "#shared/infra";
+
+import { RepositoryFactory } from "../../../domain/factory";
 import {
   PropertyTypePrismaRepository,
   PrivacyTypePrismaRepository,
@@ -7,9 +9,8 @@ import {
   CondominiumDetailPrismaRepository,
   RulePrismaRepository,
   ChargePrismaRepository,
-  FloorPlanPrismaRepository,
-} from '../../repository';
-import { Connection, PrismaClient } from '#shared/infra';
+  FloorPlanPrismaRepository
+} from "../../repository";
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   private prisma: PrismaClient;

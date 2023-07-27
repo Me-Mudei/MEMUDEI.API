@@ -2,11 +2,12 @@ import {
   PaginationOutputDto,
   PaginationOutputMapper,
   SearchInputDto,
-  UseCase,
-} from '#shared/app';
-import { LoggerInterface, WinstonLogger } from '#shared/infra';
-import { UserFilter, UserRepository, UserSearchParams } from '../../domain';
-import { UserOutput, UserOutputMapper } from '../dto';
+  UseCase
+} from "#shared/app";
+import { LoggerInterface, WinstonLogger } from "#shared/infra";
+
+import { UserFilter, UserRepository, UserSearchParams } from "../../domain";
+import { UserOutput, UserOutputMapper } from "../dto";
 
 export class SearchUsersUseCase
   implements
@@ -18,9 +19,9 @@ export class SearchUsersUseCase
   }
 
   async execute(
-    input: SearchInputDto<UserFilter>,
+    input: SearchInputDto<UserFilter>
   ): Promise<PaginationOutputDto<UserOutput>> {
-    this.logger.info({ message: 'Start User Use Case' });
+    this.logger.info({ message: "Start User Use Case" });
     const params = new UserSearchParams(input);
     const result = await this.userRepository.search(params);
     const items = result.items.map((user) => UserOutputMapper.toOutput(user));

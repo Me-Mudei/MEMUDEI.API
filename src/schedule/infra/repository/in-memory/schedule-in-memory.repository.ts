@@ -1,17 +1,18 @@
-import { InMemorySearchableRepository } from '#shared/domain';
-import { SortDirection } from '#shared/domain';
-import { Schedule } from '../../../domain/entities';
-import { ScheduleRepository, ScheduleFilter } from '../../../domain/repository';
+import { InMemorySearchableRepository } from "#shared/domain";
+import { SortDirection } from "#shared/domain";
+
+import { Schedule } from "../../../domain/entities";
+import { ScheduleRepository, ScheduleFilter } from "../../../domain/repository";
 
 export class ScheduleInMemoryRepository
   extends InMemorySearchableRepository<Schedule>
   implements ScheduleRepository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ["name", "created_at"];
 
   protected async applyFilter(
     items: Schedule[],
-    filter: ScheduleFilter,
+    filter: ScheduleFilter
   ): Promise<Schedule[]> {
     if (!filter) {
       return items;
@@ -25,10 +26,10 @@ export class ScheduleInMemoryRepository
   protected async applySort(
     items: Schedule[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<Schedule[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

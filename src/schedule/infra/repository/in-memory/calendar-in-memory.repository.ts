@@ -1,17 +1,18 @@
-import { InMemorySearchableRepository } from '#shared/domain';
-import { SortDirection } from '#shared/domain';
-import { Calendar } from '../../../domain/entities';
-import { CalendarRepository, CalendarFilter } from '../../../domain/repository';
+import { InMemorySearchableRepository } from "#shared/domain";
+import { SortDirection } from "#shared/domain";
+
+import { Calendar } from "../../../domain/entities";
+import { CalendarRepository, CalendarFilter } from "../../../domain/repository";
 
 export class CalendarInMemoryRepository
   extends InMemorySearchableRepository<Calendar>
   implements CalendarRepository
 {
-  sortableFields: string[] = ['name', 'created_at'];
+  sortableFields: string[] = ["name", "created_at"];
 
   protected async applyFilter(
     items: Calendar[],
-    filter: CalendarFilter,
+    filter: CalendarFilter
   ): Promise<Calendar[]> {
     if (!filter) {
       return items;
@@ -25,10 +26,10 @@ export class CalendarInMemoryRepository
   protected async applySort(
     items: Calendar[],
     sort: string | null,
-    sort_dir: SortDirection | null,
+    sort_dir: SortDirection | null
   ): Promise<Calendar[]> {
     return !sort
-      ? super.applySort(items, 'created_at', 'desc')
+      ? super.applySort(items, "created_at", "desc")
       : super.applySort(items, sort, sort_dir);
   }
 }

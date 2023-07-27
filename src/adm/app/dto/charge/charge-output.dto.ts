@@ -1,4 +1,4 @@
-import { Charge } from '../../../domain';
+import { Charge } from "../../../domain";
 
 export type ChargeOutput = {
   id: string;

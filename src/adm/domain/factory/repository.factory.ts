@@ -6,8 +6,8 @@ import {
   CondominiumDetailRepository,
   RuleRepository,
   FloorPlanRepository,
-  ChargeRepository,
-} from '../repository';
+  ChargeRepository
+} from "../repository";
 
 export interface RepositoryFactory {
   createPropertyTypeRepository(): PropertyTypeRepository;

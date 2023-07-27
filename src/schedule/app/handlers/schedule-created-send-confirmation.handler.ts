@@ -1,7 +1,7 @@
-import { ScheduleCreated } from '../../domain/events';
+import { ScheduleCreated } from "../../domain/events";
 
 export class ScheduleCreatedSendConfirmationHandler {
-  name = 'ScheduleCreated';
+  name = "ScheduleCreated";
 
   async handle(event: ScheduleCreated): Promise<void> {
     /**
@@ -15,6 +15,6 @@ export class ScheduleCreatedSendConfirmationHandler {
      * - Property owner contact info
      * - Link to cancel schedule
      */
-    console.log('EVENT HANDLE', event);
+    console.log("EVENT HANDLE", event);
   }
 }

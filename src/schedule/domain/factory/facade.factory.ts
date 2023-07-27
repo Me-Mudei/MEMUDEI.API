@@ -1,4 +1,4 @@
-import { ScheduleFacade, CalendarFacade } from '../../app/facade';
+import { ScheduleFacade, CalendarFacade } from "../../app/facade";
 
 export interface FacadeFactory {
   createScheduleFacade(): ScheduleFacade;
