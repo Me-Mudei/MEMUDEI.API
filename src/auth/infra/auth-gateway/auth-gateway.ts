@@ -17,13 +17,14 @@ export class AuthGateway {
     console.log("START:AuthGateway.getKey");
     const client = jwksClient({
       cache: true,
-      cacheMaxAge: 86400000,
+      cacheMaxEntries: 5,
+      cacheMaxAge: 600000,
       rateLimit: true,
       jwksRequestsPerMinute: 10,
       jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`
     });
     client.getSigningKey(header.kid, function (error, key) {
-      console.log("START:AuthGateway.getKey.getSigningKey");
+      console.log("START:AuthGateway.getSigningKey");
       if (error || !key) callback(error, null);
       if (key) {
         const signingKey = key.getPublicKey();
