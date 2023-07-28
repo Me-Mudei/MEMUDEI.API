@@ -25,6 +25,7 @@ export class AuthGateway {
     });
     console.log("header", header);
     console.log("client", client);
+    console.log("getSigningKey", client.getSigningKey.toString());
     client.getSigningKey(header.kid, function (error, key) {
       console.log("START:AuthGateway.getKey.getSigningKey");
       console.log("error", error);
