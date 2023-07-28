@@ -16,6 +16,8 @@ provider:
   stage: ${opt:stage, 'local'}
   runtime: nodejs16.x
   memorySize: 512
+  httpApi:
+    cors: true
   vpc:
     securityGroupIds:
       - sg-03763e1decd9b33c1
@@ -58,11 +60,9 @@ functions:
       - http:
           path: /
           method: ANY
-          cors: true
       - http:
           path: /{proxy+}
           method: ANY
-          cors: true
 
   files:
     handler: src/file/index.handler
@@ -70,8 +70,6 @@ functions:
       - http:
           path: /files
           method: POST
-          cors: true
       - http:
           path: /files/{proxy+}
           method: POST
-          cors: true
