@@ -37,6 +37,9 @@ export class AuthGateway {
           algorithms: ["RS256"]
         },
         (err, decoded: Session) => {
+          console.log("START:AuthGateway.decodeToken");
+          console.log("err", err);
+          console.log("decoded", decoded);
           if (err) {
             return reject(
               new Error(`Failed to authenticate token: ${err.message}`)
