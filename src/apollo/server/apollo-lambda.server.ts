@@ -21,10 +21,10 @@ export default class ApolloLambdaServer implements Server<Apollo<Context>> {
       schema: this.schema
     });
   }
-  async listen(): Promise<any> {
+  listen() {
     return startServerAndCreateLambdaHandler(
       this.server,
-      handlers.createAPIGatewayProxyEventV2RequestHandler(),
+      handlers.createAPIGatewayProxyEventRequestHandler(),
       {
         context: async ({ event }) => {
           return this.context.getContext({

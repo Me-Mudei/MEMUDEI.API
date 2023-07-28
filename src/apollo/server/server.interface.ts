@@ -6,5 +6,5 @@ export default interface Server<T> {
   schema: GraphQLSchema;
   context: Context;
   server: T;
-  listen(port: number): Promise<void>;
+  listen(port: number): any;
 }
