@@ -48,14 +48,10 @@ export class Context implements ContextInterface {
     const token = req.headers.authorization ?? req.headers.Authorization;
     console.log("headers", JSON.stringify(req.headers));
     if (token) {
-      try {
-        const { permissions, user_id } = await this.authService.authenticate({
-          token
-        });
-        this.user = { permissions, id: user_id };
-      } catch (error) {
-        console.log("error", error);
-      }
+      const { permissions, user_id } = await this.authService.authenticate({
+        token
+      });
+      this.user = { permissions, id: user_id };
     }
     return this;
   }

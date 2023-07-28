@@ -24,12 +24,10 @@ export class AuthGateway {
     });
     client.getSigningKey(header.kid, function (error, key) {
       console.log("START:AuthGateway.getKey.getSigningKey");
-      console.log("error", error);
-      console.log("key", key);
       if (error || !key) callback(error, null);
       if (key) {
         const signingKey = key.getPublicKey();
-        console.log("signingKey", signingKey);
+        console.log("signingKey");
         callback(null, signingKey);
       }
     });
