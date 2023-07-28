@@ -52,7 +52,6 @@ export class Context implements ContextInterface {
         const { permissions, user_id } = await this.authService.authenticate({
           token
         });
-        console.log("permissions", permissions);
         this.user = { permissions, id: user_id };
       } catch (error) {
         console.log("error", error);

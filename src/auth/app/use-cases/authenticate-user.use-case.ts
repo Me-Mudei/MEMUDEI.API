@@ -15,8 +15,12 @@ export class AuthenticateUserUseCase
   }
 
   async execute(input: AuthenticateUserInput): Promise<AuthenticateUserOutput> {
+    console.log("START:AuthenticateUserUseCase");
     const authenticate = await this._authGateway.decodeToken(input.token);
+    console.log("authenticate", authenticate);
     const user = await this._userRepository.findByExternalId(authenticate.sub);
+    console.log("user", user);
+    console.log("END:AuthenticateUserUseCase");
     return {
       permissions: authenticate.permissions,
       user_id: user.id
