@@ -60,9 +60,13 @@ functions:
       - http:
           path: /
           method: ANY
+          cors:
+            origins: '*'
       - http:
           path: /{proxy+}
           method: ANY
+          cors:
+            origins: '*'
 
   files:
     handler: src/file/index.handler
