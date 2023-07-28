@@ -17,8 +17,13 @@ export class AuthGateway {
     console.log("START:AuthGateway.getKey");
     console.log(configEnv.auth.domain);
     const client = jwksClient({
+      cache: true,
+      cacheMaxAge: 86400000,
+      rateLimit: true,
+      jwksRequestsPerMinute: 10,
       jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`
     });
+    console.log("header", header);
     console.log("client", client);
     client.getSigningKey(header.kid, function (error, key) {
       console.log("START:AuthGateway.getKey.getSigningKey");
