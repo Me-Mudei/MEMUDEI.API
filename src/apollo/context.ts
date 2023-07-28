@@ -46,12 +46,13 @@ export class Context implements ContextInterface {
     this.propertyService = PropertyFacadeFactory.create();
 
     const token = req.headers.authorization ?? req.headers.Authorization;
-    console.log("token", token);
+    console.log("headers", JSON.stringify(req.headers));
     if (token) {
       try {
         const { permissions, user_id } = await this.authService.authenticate({
           token
         });
+        console.log("permissions", permissions);
         this.user = { permissions, id: user_id };
       } catch (error) {
         console.log("error", error);
