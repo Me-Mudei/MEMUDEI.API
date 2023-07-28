@@ -27,6 +27,12 @@ export class AuthGateway {
   }
 
   async decodeToken(token: string) {
+    console.log("START:AuthGateway");
+    console.log(token.replace("Bearer ", ""), this.getKey, {
+      audience: configEnv.auth.audience,
+      issuer: `https://${configEnv.auth.domain}/`,
+      algorithms: ["RS256"]
+    });
     return new Promise<Session>((resolve, reject) => {
       verify(
         token.replace("Bearer ", ""),
