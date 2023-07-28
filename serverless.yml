@@ -27,6 +27,7 @@ provider:
   environment:
     NODE_ENV: ${self:custom.node-env.${opt:stage}, 'local'}
     SLS_DEBUG: "*"
+    DEBUG: "jwks"
     LOG_LEVEL: info
     DATABASE_VENDOR: ${env:DATABASE_VENDOR}
     DATABASE_URL: ${env:DATABASE_URL}
