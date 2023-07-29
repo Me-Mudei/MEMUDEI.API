@@ -71,12 +71,12 @@ functions:
     handler: src/main.handler
     events:
       - http:
-          path: /graphql
-          method: POST
+          path: /
+          method: ANY
           cors: true
       - http:
-          path: /graphql/{proxy+}
-          method: POST
+          path: /{proxy+}
+          method: ANY
           cors: true
   files:
     handler: src/file/index.handler
