@@ -24,7 +24,9 @@ export const SearchUsers = queryField("search_users", {
   //shield: canSearchUser(),
   args: { input: nullable("search_users_input") },
   resolve: async (_, { input }, ctx) => {
-    return ctx.userService.searchUsers(input);
+    const res = ctx.userService.searchUsers(input);
+    console.log("res", res);
+    return res;
   }
 });
 
