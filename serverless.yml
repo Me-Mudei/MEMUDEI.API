@@ -54,6 +54,18 @@ custom:
   serverlessPluginTypescript:
     tsConfigFileLocation: 'tsconfig.json'
 
+resources:
+   Resources:
+     GatewayResponseDefault4XX:
+       Type: 'AWS::ApiGateway::GatewayResponse'
+       Properties:
+         ResponseParameters:
+           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+           gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+         ResponseType: DEFAULT_4XX
+         RestApiId:
+           Ref: 'ApiGatewayRestApi'
+
 functions:
   app:
     handler: src/main.handler
@@ -66,7 +78,6 @@ functions:
           path: /graphql/{proxy+}
           method: POST
           cors: true
-
   files:
     handler: src/file/index.handler
     events:
