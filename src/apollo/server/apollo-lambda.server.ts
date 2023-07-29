@@ -34,7 +34,18 @@ export default class ApolloLambdaServer implements Server<Apollo<Context>> {
             req_ua: event.headers["user-agent"],
             headers: event.headers
           });
-        }
+        },
+        // TODO: middleware Access-Control-Allow-Origin
+        middleware: [
+          async (event) => {
+            return async (result) => {
+              result.headers = {
+                ...result.headers,
+                "Access-Control-Allow-Origin": "*"
+              };
+            };
+          }
+        ]
       }
     );
   }
