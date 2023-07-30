@@ -16,50 +16,45 @@ export class AwsS3Driver implements Driver {
         accessKeyId: configEnv.cloud.accessKeyId,
         secretAccessKey: configEnv.cloud.secretAccessKey
       },
-      forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
-      region: configEnv.cloud.region,
-      endpoint:
+      //forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
+      region: configEnv.cloud.region
+      /* endpoint:
         configEnv.cloud.vendor === "LOCALSTACK"
           ? configEnv.cloud.endpoint
-          : undefined
+          : undefined */
     });
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
-    try {
-      console.log("START");
-      const hash = nanoid();
-      const fileName = `${folder}/${hash}-${file.filename}`;
-      console.log("fileName", fileName);
-      const command = new PutObjectCommand({
-        Bucket: configEnv.storage.bucket,
-        Key: fileName,
-        Body: file.createReadStream(),
-        ACL: "public-read"
-      });
-      console.log("command");
-      console.log({
-        Bucket: configEnv.storage.bucket,
-        Key: fileName,
-        Body: file.createReadStream(),
-        ACL: "public-read"
-      });
-      console.log(command);
-      const res = await this.s3.send(command);
-      console.log("res", res);
-      const url =
-        configEnv.cloud.vendor === "LOCALSTACK"
-          ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
-          : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
-      return {
-        filename: file.filename,
-        mimetype: file.mimetype,
-        url
-      };
-    } catch (error) {
-      console.log("error");
-      console.log("error", error);
-    }
+    console.log("START");
+    const hash = nanoid();
+    const fileName = `${folder}/${hash}-${file.filename}`;
+    console.log("fileName", fileName);
+    const command = new PutObjectCommand({
+      Bucket: configEnv.storage.bucket,
+      Key: fileName,
+      Body: file.createReadStream(),
+      ACL: "public-read"
+    });
+    console.log("command");
+    console.log({
+      Bucket: configEnv.storage.bucket,
+      Key: fileName,
+      Body: file.createReadStream(),
+      ACL: "public-read"
+    });
+    console.log(command);
+    const res = await this.s3.send(command);
+    console.log("res", res);
+    const url =
+      configEnv.cloud.vendor === "LOCALSTACK"
+        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
+    return {
+      filename: file.filename,
+      mimetype: file.mimetype,
+      url
+    };
   }
 
   async uploadMany(files: FileInput[], folder: string): Promise<FileOutput[]> {
