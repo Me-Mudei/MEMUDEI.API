@@ -16,6 +16,8 @@ provider:
   stage: ${opt:stage, 'local'}
   runtime: nodejs16.x
   memorySize: 512
+  httpApi:
+    cors: true
   apiGateway:
     binaryMediaTypes:
       - 'multipart/form-data'
@@ -116,12 +118,12 @@ functions:
   app:
     handler: src/main.handler
     events:
-      - httpApi:
-          path: /
+      - http:
+          path: /graphql
           method: ANY
           cors: true
-      - httpApi:
-          path: /{proxy+}
+      - http:
+          path: /graphql/{proxy+}
           method: ANY
           cors: true
   files:
@@ -131,8 +133,6 @@ functions:
       - httpApi:
           path: /files
           method: POST
-          cors: true
       - httpApi:
           path: /files/{proxy+}
           method: POST
-          cors: true
