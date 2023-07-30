@@ -78,7 +78,6 @@ resources:
           BlockPublicPolicy: false
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
-        AccessControl: PublicRead
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
