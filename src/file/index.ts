@@ -1,5 +1,4 @@
 import { AuthFacadeFactory } from "#auth/infra";
-import { UnauthorizedError } from "#shared/domain";
 import { APIGatewayEvent, Context } from "aws-lambda";
 
 import { FileFacadeFactory, BusboyUploadProcessor, BusboyBody } from "./infra";
@@ -11,12 +10,12 @@ export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
   try {
     await BusboyUploadProcessor.parser(event as any);
     const body = event.body as BusboyBody;
-    const token =
-      event.headers["authorization"] || event.headers["Authorization"];
-    const { permissions } = await authService.authenticate({ token });
-    if (!permissions.includes(`upload:${body.type}`)) {
-      throw new UnauthorizedError();
-    }
+    //const token =
+    //  event.headers["authorization"] || event.headers["Authorization"];
+    //const { permissions } = await authService.authenticate({ token });
+    //if (!permissions.includes(`upload:${body.type}`)) {
+    //  throw new UnauthorizedError();
+    //}
     const output = await fileFacadeFactory.uploadFile({
       reference_type: body.type,
       files: body.files.map(({ file, filename, mimetype }) => ({
@@ -28,7 +27,11 @@ export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
     return {
       statusCode: 200,
       body: JSON.stringify(output),
-      contentType: "application/json"
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "content-type": "application/json"
+      }
     };
   } catch (error) {
     const statusCode = {
@@ -49,7 +52,11 @@ export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
     return {
       statusCode: statusCode[error.name] || 500,
       body: JSON.stringify(errorBody),
-      contentType: "application/json"
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "content-type": "application/json"
+      }
     };
   }
 };
