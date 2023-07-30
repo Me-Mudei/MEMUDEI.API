@@ -43,7 +43,7 @@ provider:
     CLOUD_REGION: ${env:CLOUD_REGION}
     CLOUD_ENDPOINT: ${env:CLOUD_ENDPOINT}
     STORAGE_VENDOR: ${env:STORAGE_VENDOR}
-    STORAGE_BUCKET: ${env:STORAGE_BUCKET}
+    STORAGE_BUCKET: ${BucketName}
 custom:
   node-env:
     prod: "production"
@@ -74,6 +74,11 @@ resources:
         OwnershipControls:
           Rules:
             - ObjectOwnership: BucketOwnerPreferred
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
