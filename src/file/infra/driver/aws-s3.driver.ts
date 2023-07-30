@@ -31,7 +31,18 @@ export class AwsS3Driver implements Driver {
       Body: file.createReadStream(),
       ACL: "public-read"
     });
-    await this.s3.send(command);
+    console.log("command", command);
+    console.log({
+      Bucket: configEnv.storage.bucket,
+      Key: fileName,
+      Body: file.createReadStream(),
+      ACL: "public-read"
+    });
+    const res = await this.s3.send(command);
+    console.log("res", res);
+    console.log(
+      `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+    );
     return {
       filename: file.filename,
       mimetype: file.mimetype,
