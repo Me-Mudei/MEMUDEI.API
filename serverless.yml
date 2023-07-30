@@ -71,6 +71,9 @@ resources:
       Properties:
         BucketName: memudei-bucket-${opt:stage, 'local'}
         AccessControl: PublicRead
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: ObjectWriter
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
