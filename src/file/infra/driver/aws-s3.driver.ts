@@ -35,7 +35,8 @@ export class AwsS3Driver implements Driver {
         Body: file.createReadStream(),
         ACL: "public-read"
       });
-      await this.s3.send(command);
+      const res = await this.s3.send(command);
+      console.log("res", res);
       const url =
         configEnv.cloud.vendor === "LOCALSTACK"
           ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
@@ -46,6 +47,7 @@ export class AwsS3Driver implements Driver {
         url
       };
     } catch (error) {
+      console.log("error");
       console.log("error", error);
     }
   }
