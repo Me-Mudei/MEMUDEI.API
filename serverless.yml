@@ -43,7 +43,7 @@ provider:
     CLOUD_REGION: ${env:CLOUD_REGION}
     CLOUD_ENDPOINT: ${env:CLOUD_ENDPOINT}
     STORAGE_VENDOR: ${env:STORAGE_VENDOR}
-    STORAGE_BUCKET: ${BucketName}
+    STORAGE_BUCKET: memudei-bucket-${opt:stage, 'local'}
 custom:
   node-env:
     prod: "production"
