@@ -3,7 +3,7 @@ import { UserCreated } from "../../domain/events";
 export class UserCreatedSendConfirmationHandler {
   name = "UserCreated";
 
-  async handle(event: UserCreated): Promise<void> {
-    console.log("EVENT HANDLE", event);
+  async handle(_event: UserCreated): Promise<void> {
+    //TODO: send email
   }
 }

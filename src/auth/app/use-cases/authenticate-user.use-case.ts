@@ -15,10 +15,8 @@ export class AuthenticateUserUseCase
   }
 
   async execute(input: AuthenticateUserInput): Promise<AuthenticateUserOutput> {
-    console.log("START:AuthenticateUserUseCase");
     const authenticate = await new Promise<Session>((resolve, reject) => {
       this._authGateway.decodeToken(input.token, (err, decoded) => {
-        console.log("START:AuthGateway.decodeToken");
         if (err) reject(err);
         if (decoded) resolve(decoded);
       });

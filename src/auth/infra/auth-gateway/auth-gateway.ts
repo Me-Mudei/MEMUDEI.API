@@ -14,23 +14,19 @@ export type Session = {
 };
 export class AuthGateway {
   private getKey(header: any, callback: any) {
-    console.log("START:AuthGateway.getKey");
     const client = jwksClient({
       jwksUri: `https://${configEnv.auth.domain}/.well-known/jwks.json`
     });
     client.getSigningKey(header.kid, function (error, key) {
-      console.log("START:AuthGateway.getSigningKey");
       if (error || !key) callback(error, null);
       if (key) {
         const signingKey = key.getPublicKey();
-        console.log("signingKey");
         callback(null, signingKey);
       }
     });
   }
 
   decodeToken(token: string, callback?: (err: any, decoded?: Session) => void) {
-    console.log("START:AuthGateway");
     verify(
       token.replace("Bearer ", ""),
       this.getKey,
