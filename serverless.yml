@@ -70,7 +70,6 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: memudei-bucket-${opt:stage, 'local'}
-        AccessControl: PublicRead
         OwnershipControls:
           Rules:
             - ObjectOwnership: BucketOwnerPreferred
@@ -79,6 +78,7 @@ resources:
           BlockPublicPolicy: false
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
+        AccessControl: PublicRead
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
