@@ -18,7 +18,10 @@ export class AwsS3Driver implements Driver {
       },
       forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
       region: configEnv.cloud.region,
-      endpoint: configEnv.cloud.endpoint
+      endpoint:
+        configEnv.cloud.vendor === "LOCALSTACK"
+          ? configEnv.cloud.endpoint
+          : undefined
     });
   }
 
@@ -29,24 +32,17 @@ export class AwsS3Driver implements Driver {
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
-      ACL: "public-read"
+      ACL: "public-read-write"
     });
-    console.log("command", command);
-    console.log({
-      Bucket: configEnv.storage.bucket,
-      Key: fileName,
-      Body: file.createReadStream(),
-      ACL: "public-read"
-    });
-    const res = await this.s3.send(command);
-    console.log("res", res);
-    console.log(
-      `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
-    );
+    await this.s3.send(command);
+    const url =
+      configEnv.cloud.vendor === "LOCALSTACK"
+        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+      url
     };
   }
 
