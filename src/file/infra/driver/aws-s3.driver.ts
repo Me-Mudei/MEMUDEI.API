@@ -26,26 +26,15 @@ export class AwsS3Driver implements Driver {
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
-    console.log("START");
     const hash = nanoid();
     const fileName = `${folder}/${hash}-${file.filename}`;
-    console.log("fileName", fileName);
     const command = new PutObjectCommand({
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
       ACL: "public-read"
     });
-    console.log("command");
-    console.log({
-      Bucket: configEnv.storage.bucket,
-      Key: fileName,
-      Body: file.createReadStream(),
-      ACL: "public-read"
-    });
-    console.log(command);
-    const res = await this.s3.send(command);
-    console.log("res", res);
+    await this.s3.send(command);
     const url =
       configEnv.cloud.vendor === "LOCALSTACK"
         ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`

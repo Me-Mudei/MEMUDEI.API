@@ -59,6 +59,7 @@
     "@types/jest": "^29.1.1",
     "@types/lodash": "^4",
     "@types/node": "^18",
+    "@types/parse-multipart": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "create-ts-index": "^1",
@@ -99,6 +100,8 @@
     "nanoid": "^3.3.4",
     "nexus": "^1",
     "nexus-shield": "^2.2.1",
+    "parse-multipart": "^1.0.4",
+    "parse-multipart-data": "^1.5.0",
     "prisma": "^4",
     "winston": "^3.8.2"
   }

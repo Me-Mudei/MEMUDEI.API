@@ -34,6 +34,8 @@ export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
       }
     };
   } catch (error) {
+    console.log(error);
+    console.log(JSON.stringify(error, null, 2));
     const statusCode = {
       BadRequestError: 400,
       UnauthorizedError: 401,
