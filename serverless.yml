@@ -73,7 +73,7 @@ resources:
         AccessControl: PublicRead
         OwnershipControls:
           Rules:
-            - ObjectOwnership: ObjectWriter
+            - ObjectOwnership: BucketOwnerPreferred
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
