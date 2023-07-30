@@ -26,29 +26,28 @@ export class AwsS3Driver implements Driver {
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
-    const hash = nanoid();
-    const fileName = `${folder}/${hash}-${file.filename}`;
-    console.log({
-      Bucket: configEnv.storage.bucket,
-      Key: fileName,
-      Vendor: configEnv.cloud.vendor
-    });
-    const command = new PutObjectCommand({
-      Bucket: configEnv.storage.bucket,
-      Key: fileName,
-      Body: file.createReadStream(),
-      ACL: "public-read"
-    });
-    await this.s3.send(command);
-    const url =
-      configEnv.cloud.vendor === "LOCALSTACK"
-        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
-        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
-    return {
-      filename: file.filename,
-      mimetype: file.mimetype,
-      url
-    };
+    try {
+      const hash = nanoid();
+      const fileName = `${folder}/${hash}-${file.filename}`;
+      const command = new PutObjectCommand({
+        Bucket: configEnv.storage.bucket,
+        Key: fileName,
+        Body: file.createReadStream(),
+        ACL: "public-read"
+      });
+      await this.s3.send(command);
+      const url =
+        configEnv.cloud.vendor === "LOCALSTACK"
+          ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+          : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
+      return {
+        filename: file.filename,
+        mimetype: file.mimetype,
+        url
+      };
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   async uploadMany(files: FileInput[], folder: string): Promise<FileOutput[]> {
