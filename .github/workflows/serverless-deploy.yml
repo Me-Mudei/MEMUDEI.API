@@ -53,4 +53,4 @@ jobs:
           CLOUD_REGION: ${{ secrets[env.AWS_REGION_NAME] }}
           CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
           STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
-          STORAGE_BUCKET: ${{ secrets[env.COULD_BUCKET_NAME] }}
+          STORAGE_BUCKET: ${{ secrets[env.STORAGE_BUCKET_NAME] }}
