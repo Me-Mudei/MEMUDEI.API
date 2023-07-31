@@ -16,8 +16,6 @@ provider:
   stage: ${opt:stage, 'local'}
   runtime: nodejs16.x
   memorySize: 512
-  httpApi:
-    cors: true
   apiGateway:
     binaryMediaTypes:
       - 'multipart/form-data'
@@ -130,9 +128,11 @@ functions:
     handler: src/file/index.handler
     role: UploadRole
     events:
-      - httpApi:
+      - http:
           path: /files
           method: POST
-      - httpApi:
+          cors: true
+      - http:
           path: /files/{proxy+}
           method: POST
+          cors: true
