@@ -15,19 +15,17 @@ export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
   //if (!permissions.includes(`upload:${body.type}`)) {
   //  throw new UnauthorizedError();
   //}
-  //const output = await fileFacadeFactory.uploadFile({
-  //  reference_type: body.type,
-  //  files: body.files.map(({ file, filename, mimetype }) => ({
-  //    filename: filename,
-  //    mimetype: mimetype,
-  //    createReadStream: () => file
-  //  }))
-  //});
+  const output = await fileFacadeFactory.uploadFile({
+    reference_type: body.type,
+    files: body.files.map(({ file, filename, mimetype }) => ({
+      filename: filename,
+      mimetype: mimetype,
+      createReadStream: () => file
+    }))
+  });
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      type: body.type
-    }),
+    body: JSON.stringify(output),
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
