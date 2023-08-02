@@ -26,25 +26,16 @@ export class AuthGateway {
     });
   }
 
-  async decodeToken(token: string) {
-    return new Promise<Session>((resolve, reject) => {
-      verify(
-        token.replace("Bearer ", ""),
-        this.getKey,
-        {
-          audience: configEnv.auth.audience,
-          issuer: `https://${configEnv.auth.domain}/`,
-          algorithms: ["RS256"]
-        },
-        (err, decoded: Session) => {
-          if (err) {
-            return reject(
-              new Error(`Failed to authenticate token: ${err.message}`)
-            );
-          }
-          resolve(decoded);
-        }
-      );
-    });
+  decodeToken(token: string, callback?: (err: any, decoded?: Session) => void) {
+    verify(
+      token.replace("Bearer ", ""),
+      this.getKey,
+      {
+        audience: configEnv.auth.audience,
+        issuer: `https://${configEnv.auth.domain}/`,
+        algorithms: ["RS256"]
+      },
+      callback
+    );
   }
 }

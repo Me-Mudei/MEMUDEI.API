@@ -52,6 +52,6 @@ export default class ApolloServer implements Server<Apollo<Context>> {
     await new Promise<void>((resolve) =>
       this._httpServer.listen({ port }, resolve)
     );
-    console.log(`🚀 Server ready at http://localhost:${port}/graphql`);
+    console.info(`🚀 Server ready at http://localhost:${port}/graphql`);
   }
 }

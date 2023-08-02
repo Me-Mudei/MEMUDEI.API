@@ -1,5 +1,8 @@
 import { ApolloServer as Apollo } from "@apollo/server";
-import { startServerAndCreateLambdaHandler } from "@as-integrations/aws-lambda";
+import {
+  startServerAndCreateLambdaHandler,
+  handlers
+} from "@as-integrations/aws-lambda";
 import { GraphQLSchema } from "graphql";
 import { nanoid } from "nanoid";
 
@@ -18,17 +21,32 @@ export default class ApolloLambdaServer implements Server<Apollo<Context>> {
       schema: this.schema
     });
   }
-  async listen(): Promise<any> {
-    return startServerAndCreateLambdaHandler(this.server, {
-      context: async ({ event }) => {
-        return this.context.getContext({
-          req_id: nanoid(),
-          req_path: "/graphql",
-          req_method: "POST",
-          req_ua: event.headers["user-agent"],
-          headers: event.headers
-        });
+  listen() {
+    return startServerAndCreateLambdaHandler(
+      this.server,
+      handlers.createAPIGatewayProxyEventRequestHandler(),
+      {
+        context: async ({ event }) => {
+          return this.context.getContext({
+            req_id: nanoid(),
+            req_path: "/graphql",
+            req_method: "POST",
+            req_ua: event.headers["user-agent"],
+            headers: event.headers
+          });
+        },
+        // TODO: middleware Access-Control-Allow-Origin
+        middleware: [
+          async (event) => {
+            return async (result) => {
+              result.headers = {
+                ...result.headers,
+                "Access-Control-Allow-Origin": "*"
+              };
+            };
+          }
+        ]
       }
-    });
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import { S3 } from "@aws-sdk/client-s3";
 import { configEnv } from "#shared/infra";
 import { nanoid } from "nanoid";
 
@@ -16,26 +16,32 @@ export class AwsS3Driver implements Driver {
         accessKeyId: configEnv.cloud.accessKeyId,
         secretAccessKey: configEnv.cloud.secretAccessKey
       },
-      forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
-      region: configEnv.cloud.region,
-      endpoint: configEnv.cloud.endpoint
+      //forcePathStyle: configEnv.cloud.vendor === "LOCALSTACK",
+      region: configEnv.cloud.region
+      /* endpoint:
+        configEnv.cloud.vendor === "LOCALSTACK"
+          ? configEnv.cloud.endpoint
+          : undefined */
     });
   }
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
     const hash = nanoid();
     const fileName = `${folder}/${hash}-${file.filename}`;
-    const command = new PutObjectCommand({
+    await this.s3.putObject({
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
       ACL: "public-read"
     });
-    await this.s3.send(command);
+    const url =
+      configEnv.cloud.vendor === "LOCALSTACK"
+        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
     return {
       filename: file.filename,
       mimetype: file.mimetype,
-      url: `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
+      url
     };
   }
 

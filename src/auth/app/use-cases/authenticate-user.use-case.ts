@@ -1,7 +1,7 @@
 import { UseCase } from "#shared/app";
 
 import { UserRepository } from "../../domain/repository";
-import { AuthGateway } from "../../infra";
+import { AuthGateway, Session } from "../../infra";
 import { AuthenticateUserInput, AuthenticateUserOutput } from "../dto";
 
 export class AuthenticateUserUseCase
@@ -15,7 +15,12 @@ export class AuthenticateUserUseCase
   }
 
   async execute(input: AuthenticateUserInput): Promise<AuthenticateUserOutput> {
-    const authenticate = await this._authGateway.decodeToken(input.token);
+    const authenticate = await new Promise<Session>((resolve, reject) => {
+      this._authGateway.decodeToken(input.token, (err, decoded) => {
+        if (err) reject(err);
+        if (decoded) resolve(decoded);
+      });
+    });
     const user = await this._userRepository.findByExternalId(authenticate.sub);
     return {
       permissions: authenticate.permissions,
