@@ -45,7 +45,7 @@ export class Context implements ContextInterface {
     this.userService = UserFacadeFactory.create();
     this.propertyService = PropertyFacadeFactory.create();
 
-    /* const token = req.headers.authorization ?? req.headers.Authorization;
+    const token = req.headers.authorization ?? req.headers.Authorization;
     if (token) {
       try {
         const { permissions, user_id } = await this.authService.authenticate({
@@ -55,7 +55,7 @@ export class Context implements ContextInterface {
       } catch (error) {
         console.log("error", error);
       }
-    } */
+    }
     return this;
   }
   getTestContext() {
