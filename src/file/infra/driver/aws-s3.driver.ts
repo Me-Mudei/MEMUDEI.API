@@ -28,7 +28,17 @@ export class AwsS3Driver implements Driver {
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
     const hash = nanoid();
     const fileName = `${folder}/${hash}-${file.filename}`;
-    this.s3.putObject({
+    const res = await this.s3.getBucketLogging({
+      Bucket: configEnv.storage.bucket
+    });
+    console.log("BUCKET LOGGING");
+    console.log(res);
+    const location = await this.s3.getBucketLocation({
+      Bucket: configEnv.storage.bucket
+    });
+    console.log("BUCKET LOCATION");
+    console.log(location);
+    await this.s3.putObject({
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
