@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import { S3 } from "@aws-sdk/client-s3";
 import { configEnv } from "#shared/infra";
 import { nanoid } from "nanoid";
 
@@ -28,13 +28,18 @@ export class AwsS3Driver implements Driver {
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
     const hash = nanoid();
     const fileName = `${folder}/${hash}-${file.filename}`;
-    const command = new PutObjectCommand({
+    /* const command = new PutObjectCommand({
+      Bucket: configEnv.storage.bucket,
+      Key: fileName,
+      Body: file.createReadStream(),
+      ACL: "public-read"
+    }); */
+    await this.s3.putObject({
       Bucket: configEnv.storage.bucket,
       Key: fileName,
       Body: file.createReadStream(),
       ACL: "public-read"
     });
-    await this.s3.send(command);
     const url =
       configEnv.cloud.vendor === "LOCALSTACK"
         ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
