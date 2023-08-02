@@ -1,4 +1,5 @@
 import { AuthFacadeFactory } from "#auth/infra";
+import { UnauthorizedError } from "#shared/domain";
 import { APIGatewayEvent, Context } from "aws-lambda";
 
 import { BusboyBody, BusboyUploadProcessor, FileFacadeFactory } from "./infra";
@@ -9,12 +10,12 @@ const authService = AuthFacadeFactory.create();
 export const handler = async (event: APIGatewayEvent, _ctx: Context) => {
   await BusboyUploadProcessor.parser(event as any);
   const body = event.body as BusboyBody;
-  //const token =
-  //  event.headers["authorization"] || event.headers["Authorization"];
-  //const { permissions } = await authService.authenticate({ token });
-  //if (!permissions.includes(`upload:${body.type}`)) {
-  //  throw new UnauthorizedError();
-  //}
+  const token =
+    event.headers["authorization"] || event.headers["Authorization"];
+  const { permissions } = await authService.authenticate({ token });
+  if (!permissions.includes(`upload:${body.type}`)) {
+    throw new UnauthorizedError();
+  }
   const output = await fileFacadeFactory.uploadFile({
     reference_type: body.type,
     files: body.files.map(({ file, filename, mimetype }) => ({
