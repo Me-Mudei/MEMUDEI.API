@@ -69,7 +69,6 @@ functions:
           cors: true
   files:
     handler: src/file/index.handler
-    role: UploadRole
     events:
       - http:
           path: /files
