@@ -268,7 +268,7 @@ model properties_files {
     property    property @relation(fields: [property_id], references: [id])
     file_id     String
     file        file     @relation(fields: [file_id], references: [id])
-    position    Int
+    position    Int?
     description String?
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
