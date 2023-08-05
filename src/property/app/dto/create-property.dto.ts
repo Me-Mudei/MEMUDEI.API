@@ -12,7 +12,7 @@ export type CreatePropertyInput = {
   property_details: PropertyDetailInput[];
   condominium_details: CondominiumDetailInput[];
   rules: RuleInput[];
-  photo_ids?: string[];
+  photos?: PhotoInput[];
   charges: ChargeInput[];
   user_id: string;
 };
@@ -56,4 +56,13 @@ export type RuleInput = {
 export type ChargeInput = {
   key: string;
   amount: number;
+};
+
+export type PhotoInput = {
+  url: string;
+  filename: string;
+  type: string;
+  subtype: string;
+  position: number;
+  description?: string;
 };

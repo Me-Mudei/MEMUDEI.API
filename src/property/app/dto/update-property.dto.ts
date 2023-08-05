@@ -4,6 +4,7 @@ import {
   ChargeInput,
   CondominiumDetailInput,
   FloorPlanInput,
+  PhotoInput,
   PropertyDetailInput,
   RuleInput
 } from "./create-property.dto";
@@ -74,5 +75,12 @@ export type ChargeUpdateInput = {
 
 export type PhotoUpdateInput = {
   remove?: string[];
-  insert?: string[];
+  update?: PhotoUpdate[];
+  insert?: PhotoInput[];
+};
+
+export type PhotoUpdate = {
+  id: string;
+  position: number;
+  description?: string;
 };

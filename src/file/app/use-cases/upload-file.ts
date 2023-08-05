@@ -39,8 +39,7 @@ export class UploadFileUseCase
         url: file.url,
         filename: file.filename,
         type: file.type,
-        subtype: file.subtype,
-        description: file.description
+        subtype: file.subtype
       };
     });
   }

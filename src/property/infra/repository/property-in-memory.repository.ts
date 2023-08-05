@@ -1,4 +1,4 @@
-import { InMemorySearchableRepository, UniqueEntityId } from "#shared/domain";
+import { InMemorySearchableRepository } from "#shared/domain";
 import { SortDirection } from "#shared/domain";
 
 import {
@@ -7,6 +7,7 @@ import {
   CondominiumDetail,
   FloorPlan,
   Location,
+  Photo,
   Property,
   PropertyDetail,
   PropertyStatus,
@@ -157,13 +158,23 @@ export class PropertyInMemoryRepository
       )
       .concat(property.charges.filter(cleanCharges));
 
-    const cleanPhotos = (photo) => !input.photo?.remove?.includes(photo.key);
-    property.photo_ids = input.photo?.insert
+    const cleanPhotos = (photo) => !input.photo?.remove?.includes(photo.id);
+    property.photos = input.photo?.update
       .filter(cleanPhotos)
-      .map((photo_id) => {
-        return new UniqueEntityId(photo_id);
+      .map((photo) => {
+        return new Photo({
+          ...property.photos.find((c) => c.id === photo.id),
+          ...photo
+        });
       })
-      .concat(property.photo_ids.filter(cleanPhotos));
+      .concat(
+        input.photos?.insert.filter(cleanPhotos).map((photos) => {
+          return new Photo({
+            ...photos
+          });
+        })
+      )
+      .concat(property.charges.filter(cleanPhotos));
   }
 
   protected async applyFilter(

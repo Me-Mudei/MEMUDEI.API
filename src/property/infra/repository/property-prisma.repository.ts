@@ -34,6 +34,19 @@ export class PropertyPrismaRepository implements PropertyRepository {
     return PropertyPrismaRepository.instance;
   }
   async insert(entity: Property): Promise<void> {
+    if (entity.photos.length > 0) {
+      await this.prisma.file.createMany({
+        data: entity.photos.map((photo) => ({
+          id: photo.id,
+          url: photo.url,
+          filename: photo.filename,
+          type: photo.type,
+          subtype: photo.subtype,
+          created_at: photo.created_at,
+          updated_at: photo.updated_at
+        }))
+      });
+    }
     await this.prisma.property.create({
       data: {
         id: entity.id,
@@ -148,10 +161,12 @@ export class PropertyPrismaRepository implements PropertyRepository {
         photos: {
           createMany: {
             data:
-              entity.photo_ids?.map((file_id) => ({
-                file_id: file_id.id
-              })) ?? [],
-            skipDuplicates: true
+              entity.photos.length > 0 &&
+              entity.photos.map((photo) => ({
+                file_id: photo.id,
+                position: photo.position,
+                description: photo.description
+              }))
           }
         }
       }
@@ -298,12 +313,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
             file_id: {
               in: entity.photo.remove
             }
-          },
-          createMany: entity.photo?.insert && {
-            data: entity.photo.insert.map((photo_id) => ({
-              file_id: photo_id
-            })),
-            skipDuplicates: true
           }
         }
       }
@@ -383,6 +392,42 @@ export class PropertyPrismaRepository implements PropertyRepository {
         });
       }
     }
+    if (entity.photo?.update) {
+      for (const photo of entity.photo.update) {
+        await this.prisma.properties_files.update({
+          where: {
+            property_id_file_id: {
+              file_id: photo.id,
+              property_id: entity.id
+            }
+          },
+          data: {
+            description: photo.description,
+            position: photo.position
+          }
+        });
+      }
+    }
+    if (entity.photo?.insert) {
+      for (const photo of entity.photo.insert) {
+        const fileUploaded = await this.prisma.file.create({
+          data: {
+            url: photo.url,
+            filename: photo.filename,
+            type: photo.type,
+            subtype: photo.subtype
+          }
+        });
+        await this.prisma.properties_files.create({
+          data: {
+            property_id: entity.id,
+            file_id: fileUploaded.id,
+            description: photo.description,
+            position: photo.position
+          }
+        });
+      }
+    }
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
@@ -457,7 +502,6 @@ export class PropertyPrismaRepository implements PropertyRepository {
               id: true,
               filename: true,
               url: true,
-              description: true,
               subtype: true,
               type: true,
               created_at: true,
@@ -554,13 +598,13 @@ export class PropertyPrismaRepository implements PropertyRepository {
         new Photo({
           id: new UniqueEntityId(photo.file.id),
           url: photo.file.url,
-          file: photo.file.filename,
-          name: photo.file.filename,
+          filename: photo.file.filename,
           subtype: photo.file.subtype,
           type: photo.file.type,
-          description: photo.file.description,
-          created_at: photo.file.created_at,
-          updated_at: photo.file.updated_at
+          description: photo.description,
+          position: photo.position,
+          created_at: photo.created_at,
+          updated_at: photo.updated_at
         })
     );
     const floor_plans = property.floor_plans.map(

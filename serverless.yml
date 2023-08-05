@@ -124,15 +124,3 @@ functions:
           path: /graphql/{proxy+}
           method: ANY
           cors: true
-  files:
-    handler: src/file/index.handler
-    role: UploadRole
-    events:
-      - http:
-          path: /files
-          method: POST
-          cors: true
-      - http:
-          path: /files/{proxy+}
-          method: POST
-          cors: true

@@ -8,7 +8,6 @@ export type FileProps = {
   type: string;
   subtype: string;
   url: string;
-  description?: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -18,7 +17,6 @@ export class File extends Entity<FileProps> {
   private _type: string;
   private _subtype: string;
   private _url: string;
-  private _description?: string;
 
   constructor(props: FileProps) {
     File.validate(props);
@@ -27,7 +25,6 @@ export class File extends Entity<FileProps> {
     this._type = props.type;
     this._subtype = props.subtype;
     this._url = props.url;
-    this._description = props.description;
   }
 
   static validate(props: FileProps) {
@@ -68,13 +65,5 @@ export class File extends Entity<FileProps> {
 
   public set url(_url: string) {
     this._url = _url;
-  }
-
-  public get description(): string {
-    return this._description;
-  }
-
-  public set description(_description: string) {
-    this._description = _description;
   }
 }

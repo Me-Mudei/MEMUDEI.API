@@ -118,7 +118,12 @@ export const UpdatePropertyPhotoInput = inputObjectType({
   name: "update_property_photo_input",
   definition(t) {
     t.nullable.list.nonNull.string("remove");
-    t.nullable.list.nonNull.string("insert");
+    t.nullable.list.nonNull.field("update", {
+      type: "create_property_photo_input"
+    });
+    t.nullable.list.nonNull.field("insert", {
+      type: "create_property_photo_input"
+    });
   }
 });
 

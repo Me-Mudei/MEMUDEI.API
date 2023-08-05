@@ -27,17 +27,17 @@ export class AwsS3Driver implements Driver {
 
   async upload(file: FileInput, folder: string): Promise<FileOutput> {
     const hash = nanoid();
-    const fileName = `${folder}/${hash}-${file.filename}`;
+    const fileName = `${hash}-${file.filename}`;
     await this.s3.putObject({
       Bucket: configEnv.storage.bucket,
-      Key: fileName,
+      Key: `${folder}/${fileName}`,
       Body: file.createReadStream(),
       ACL: "public-read"
     });
     const url =
       configEnv.cloud.vendor === "LOCALSTACK"
-        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${fileName}`
-        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${fileName}`;
+        ? `${configEnv.cloud.endpoint}/${configEnv.storage.bucket}/${folder}/${fileName}`
+        : `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${folder}/${fileName}`;
     return {
       filename: file.filename,
       mimetype: file.mimetype,
@@ -56,14 +56,14 @@ export class AwsS3Driver implements Driver {
     return urls;
   }
 
-  async getUrl(id: string, folder?: string): Promise<string> {
-    return `https://${process.env.AWS_BUCKET}.s3.amazonaws.com/${folder}/${id}`;
+  async getUrl(filename: string, folder?: string): Promise<string> {
+    return `https://${configEnv.storage.bucket}.s3.${configEnv.cloud.region}.amazonaws.com/${folder}/${filename}`;
   }
 
-  async delete(id: string, folder?: string): Promise<void> {
+  async delete(filename: string, folder?: string): Promise<void> {
     await this.s3.deleteObject({
       Bucket: process.env.AWS_BUCKET,
-      Key: `${folder}/${id}`
+      Key: `${folder}/${filename}`
     });
   }
 }
