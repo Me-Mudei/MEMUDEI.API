@@ -68,6 +68,16 @@ resources:
           BlockPublicPolicy: false
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - "GET"
+                - "PUT"
+                - "POST"
+                - "DELETE"
+                - "HEAD"
+              AllowedOrigins:
+                - "*"
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
