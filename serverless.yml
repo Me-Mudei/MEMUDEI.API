@@ -120,9 +120,9 @@ functions:
     events:
       - http:
           path: /files
-          method: ANY
+          method: POST
           cors: true
       - http:
           path: /files/{proxy+}
-          method: ANY
+          method: POST
           cors: true

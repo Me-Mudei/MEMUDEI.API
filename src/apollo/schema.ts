@@ -9,7 +9,6 @@ export default class NexusSchema {
   static makeSchema() {
     return makeSchema({
       types: [TypeModules],
-      shouldGenerateArtifacts: true,
       plugins: [
         nexusShield({
           defaultError: new GraphQLError("Not Authorized!", {
