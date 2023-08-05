@@ -68,6 +68,16 @@ resources:
           BlockPublicPolicy: false
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - "GET"
+                - "PUT"
+                - "POST"
+                - "DELETE"
+                - "HEAD"
+              AllowedOrigins:
+                - "*"
     UploadRole:
       Type: AWS::IAM::Role
       Properties:
@@ -113,16 +123,4 @@ functions:
       - http:
           path: /graphql/{proxy+}
           method: ANY
-          cors: true
-  files:
-    handler: src/file/index.handler
-    role: UploadRole
-    events:
-      - http:
-          path: /files
-          method: POST
-          cors: true
-      - http:
-          path: /files/{proxy+}
-          method: POST
           cors: true

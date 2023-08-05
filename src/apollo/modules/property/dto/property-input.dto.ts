@@ -24,9 +24,11 @@ export const CreatePropertyInput = inputObjectType({
     t.nonNull.list.nonNull.field("rules", {
       type: "create_property_rule_input"
     });
-    t.nullable.list.nonNull.string("photo_ids");
     t.nonNull.list.nonNull.field("charges", {
       type: "create_property_charge_input"
+    });
+    t.nullable.list.nonNull.field("photos", {
+      type: "create_property_photo_input"
     });
   }
 });
@@ -90,6 +92,18 @@ export const CreatePropertyChargeInput = inputObjectType({
   definition(t) {
     t.nonNull.string("key");
     t.nonNull.int("amount");
+  }
+});
+
+export const CreatePropertyPhotoInput = inputObjectType({
+  name: "create_property_photo_input",
+  definition(t) {
+    t.nonNull.string("url");
+    t.nonNull.string("filename");
+    t.nonNull.string("type");
+    t.nonNull.string("subtype");
+    t.nonNull.int("position");
+    t.nullable.string("description");
   }
 });
 

@@ -4,32 +4,32 @@ import PhotoValidatorFactory from "../validators/photo.validator";
 
 export type PhotoProps = {
   id?: UniqueEntityId;
-  file: string;
-  name: string;
+  filename: string;
   type: string;
   subtype: string;
   url: string;
+  position: number;
   description?: string;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class Photo extends Entity<PhotoProps> {
-  private _file: string;
-  private _name: string;
+  private _filename: string;
   private _type: string;
   private _subtype: string;
   private _url: string;
+  private _position: number;
   private _description?: string;
 
   constructor(props: PhotoProps) {
     Photo.validate(props);
     super(props);
-    this._file = props.file;
-    this._name = props.name;
+    this._filename = props.filename;
     this._type = props.type;
     this._subtype = props.subtype;
     this._url = props.url;
+    this._position = props.position;
     this._description = props.description;
   }
 
@@ -41,20 +41,12 @@ export class Photo extends Entity<PhotoProps> {
     }
   }
 
-  public get file(): string {
-    return this._file;
+  public get filename(): string {
+    return this._filename;
   }
 
-  public set file(_file: string) {
-    this._file = _file;
-  }
-
-  public get name(): string {
-    return this._name;
-  }
-
-  public set name(_name: string) {
-    this._name = _name;
+  public set filename(_filename: string) {
+    this._filename = _filename;
   }
 
   public get type(): string {
@@ -79,6 +71,14 @@ export class Photo extends Entity<PhotoProps> {
 
   public set url(_url: string) {
     this._url = _url;
+  }
+
+  public get position(): number {
+    return this._position;
+  }
+
+  public set position(_position: number) {
+    this._position = _position;
   }
 
   public get description(): string {

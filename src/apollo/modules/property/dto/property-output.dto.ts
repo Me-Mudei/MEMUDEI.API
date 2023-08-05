@@ -100,10 +100,10 @@ export const PhotoOutput = objectType({
   definition(t) {
     t.nonNull.string("id");
     t.nonNull.string("url");
-    t.nonNull.string("file");
-    t.nonNull.string("name");
+    t.nonNull.string("filename");
     t.nonNull.string("type");
     t.nonNull.string("subtype");
+    t.nonNull.int("position");
     t.nullable.string("description");
   }
 });

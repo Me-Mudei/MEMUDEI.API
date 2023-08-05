@@ -11,5 +11,4 @@ export type UploadFileOutput = {
   filename: string;
   type: string;
   subtype: string;
-  description?: string;
 }[];

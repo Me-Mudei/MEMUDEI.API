@@ -10,7 +10,8 @@ import {
   CondominiumDetail,
   PropertyDetail,
   Rule,
-  Location
+  Location,
+  Photo
 } from "../../domain/entities";
 import { RepositoryFactory } from "../../domain/factory";
 import { PropertyRepository } from "../../domain/repository";
@@ -49,13 +50,21 @@ export class CreatePropertyUseCase
       district: input.address.district,
       complement: input.address.complement
     });
-    const propertyDetails = input.property_details.map((propertyDetail) => {
+    const property_details = input.property_details.map((propertyDetail) => {
       return new PropertyDetail({
         key: propertyDetail.key,
         available: propertyDetail.available
       });
     });
-    const floorPlans = input.floor_plans.map((floorPlan) => {
+    const condominium_details = input.condominium_details.map(
+      (condominiumDetail) => {
+        return new CondominiumDetail({
+          key: condominiumDetail.key,
+          available: condominiumDetail.available
+        });
+      }
+    );
+    const floor_plans = input.floor_plans.map((floorPlan) => {
       return new FloorPlan({
         key: floorPlan.key,
         value: floorPlan.value
@@ -67,14 +76,6 @@ export class CreatePropertyUseCase
         amount: charge.amount
       });
     });
-    const condominiumDetails = input.condominium_details.map(
-      (condominiumDetail) => {
-        return new CondominiumDetail({
-          key: condominiumDetail.key,
-          available: condominiumDetail.available
-        });
-      }
-    );
     const rules = input.rules.map((rule) => {
       return new Rule({
         key: rule.key,
@@ -82,21 +83,32 @@ export class CreatePropertyUseCase
       });
     });
 
+    const photos = input.photos.map((photo) => {
+      return new Photo({
+        url: photo.url,
+        filename: photo.filename,
+        position: photo.position,
+        type: photo.type,
+        subtype: photo.subtype,
+        description: photo.description
+      });
+    });
+
     const property = new Property({
       title: input.title,
       description: input.description,
       status: input.status,
-      address: address,
       property_type: input.property_type,
       property_relationship: input.property_relationship,
       privacy_type: input.privacy_type,
-      floor_plans: floorPlans,
-      property_details: propertyDetails,
-      condominium_details: condominiumDetails,
-      rules: rules,
-      charges: charges,
-      user_id: new UniqueEntityId(input.user_id),
-      photo_ids: input?.photo_ids?.map((file_id) => new UniqueEntityId(file_id))
+      address,
+      floor_plans,
+      property_details,
+      condominium_details,
+      rules,
+      charges,
+      photos,
+      user_id: new UniqueEntityId(input.user_id)
     });
 
     await this.propertyRepository.insert(property);

@@ -21,6 +21,11 @@ type Config = {
     vendor: "S3";
     bucket: string;
   };
+  crm: {
+    vendor: "HUBSPOT";
+    accessToken: string;
+    developerApiKey: string;
+  };
 };
 
 export function makeConfig(): Config {
@@ -46,6 +51,11 @@ export function makeConfig(): Config {
     storage: {
       vendor: process.env.STORAGE_VENDOR as any,
       bucket: process.env.STORAGE_BUCKET
+    },
+    crm: {
+      vendor: process.env.CRM_VENDOR as any,
+      accessToken: process.env.CRM_ACCESS_TOKEN,
+      developerApiKey: process.env.CRM_API_KEY
     }
   };
 }

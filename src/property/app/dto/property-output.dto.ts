@@ -111,12 +111,12 @@ export class PropertyOutputMapper {
       })),
       photos: property.photos.map((photo) => ({
         id: photo.id,
-        description: photo.description,
-        file: photo.file,
-        name: photo.name,
+        url: photo.url,
+        filename: photo.filename,
         type: photo.type,
         subtype: photo.subtype,
-        url: photo.url
+        description: photo.description,
+        position: photo.position
       }))
     };
   }
@@ -175,10 +175,10 @@ export type PropertyRuleOutput = {
 export type PhotoOutput = {
   id: string;
   url: string;
-  file: string;
-  name: string;
+  filename: string;
   type: string;
   subtype: string;
+  position: number;
   description?: string;
 };
 

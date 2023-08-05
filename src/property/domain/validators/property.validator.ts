@@ -11,12 +11,12 @@ import {
 import { PropertyProps, PropertyStatus } from "../entities/property.entity";
 
 export class PropertyRules {
-  @MaxLength(50)
+  @MaxLength(200)
   @IsString()
   @IsNotEmpty()
   title: string;
 
-  @MaxLength(500)
+  @MaxLength(2000)
   @IsString()
   @IsNotEmpty()
   description: string;

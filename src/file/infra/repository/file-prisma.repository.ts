@@ -14,7 +14,6 @@ export class FilePrismaRepository implements FileRepository {
         filename: file.filename,
         subtype: file.subtype,
         type: file.type,
-        description: file.description,
         created_at: file.created_at,
         updated_at: file.updated_at
       }))
@@ -50,7 +49,6 @@ export class FilePrismaRepository implements FileRepository {
       filename: file.filename,
       subtype: file.subtype,
       type: file.type,
-      description: file.description,
       created_at: file.created_at,
       updated_at: file.updated_at
     });
