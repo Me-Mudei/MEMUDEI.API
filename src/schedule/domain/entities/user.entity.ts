@@ -1,27 +1,26 @@
-import {
-  Entity,
-  EntityValidationError,
-  NotFoundError,
-  UniqueEntityId
-} from "#shared/domain";
+import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
 
 import UserValidatorFactory from "../validators/user.validator";
 
-import { Calendar } from "./";
-
 export type UserProps = {
   id?: UniqueEntityId;
-  calendars?: Calendar[];
+  name: string;
+  email: string;
+  phone: string;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class User extends Entity<UserProps> {
-  private _calendars?: Calendar[];
+  private _name: string;
+  private _email: string;
+  private _phone: string;
   constructor(props: UserProps) {
     User.validate(props);
     super(props);
-    this._calendars = props.calendars;
+    this._name = props.name;
+    this._email = props.email;
+    this._phone = props.phone;
   }
 
   static validate(props: UserProps) {
@@ -32,20 +31,15 @@ export class User extends Entity<UserProps> {
     }
   }
 
-  public findCalendarIsActive(): Calendar {
-    if (this.calendars.length === 0) {
-      throw new NotFoundError("Calendar not found");
-    }
-    const calendar = this.calendars.find(
-      (calendar) => calendar.is_active === true
-    );
-    if (!calendar) {
-      throw new NotFoundError("Calendar not found");
-    }
-    return calendar;
+  get name() {
+    return this._name;
   }
 
-  get calendars(): Calendar[] | undefined {
-    return this._calendars;
+  get email() {
+    return this._email;
+  }
+
+  get phone() {
+    return this._phone;
   }
 }

@@ -1,5 +1,8 @@
-import { UpdatePropertyInput as CoreUpdatePropertyInput } from "#property/app";
-import { inputObjectType } from "nexus";
+import {
+  UpdatePropertyInput as CoreUpdatePropertyInput,
+  UpdatePropertyOutput as CoreUpdatePropertyOutput
+} from "#property/app";
+import { inputObjectType, objectType } from "nexus";
 
 export const updatePropertyInput = inputObjectType({
   name: "update_property_input",
@@ -127,10 +130,31 @@ export const UpdatePropertyPhotoInput = inputObjectType({
   }
 });
 
+export const UpdatePropertyOutput = objectType({
+  name: "update_property_output",
+  definition(t) {
+    t.nonNull.string("id");
+    t.nullable.field("status", { type: "property_status" });
+    t.nonNull.date("created_at");
+    t.nonNull.date("updated_at");
+  }
+});
+
 export class UpdatePropertyInputMapper {
   static async toInput(input: {
     property: any;
   }): Promise<CoreUpdatePropertyInput> {
     return input.property;
+  }
+}
+
+export class UpdatePropertyOutputMapper {
+  static toOutput(property: CoreUpdatePropertyOutput): any {
+    return {
+      id: property.id,
+      status: property.status as any,
+      created_at: property.created_at,
+      updated_at: property.updated_at
+    };
   }
 }

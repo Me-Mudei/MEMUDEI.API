@@ -2,37 +2,36 @@ import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
 
 import ScheduleValidatorFactory from "../validators/schedule.validator";
 
-import { Calendar, Property, User } from "./";
+import { User } from "./";
 
 export type ScheduleStatus = "pending" | "approved" | "rejected";
 
 export type ScheduleProps = {
   id?: UniqueEntityId;
-  start: Date;
-  calendar?: Calendar;
-  obs?: string;
+  property_id: UniqueEntityId;
+  date_time: Date;
+  note?: string;
   status?: ScheduleStatus;
-  property?: Property;
-  scheduler?: User;
+  visitor?: User;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export class Schedule extends Entity<ScheduleProps> {
-  private _start: Date;
-  private _obs?: string;
+  private _property_id?: UniqueEntityId;
+  private _date_time: Date;
+  private _note?: string;
   private _status: ScheduleStatus;
-  private _property?: Property;
-  private _scheduler?: User;
+  private _visitor?: User;
 
   constructor(props: ScheduleProps) {
     Schedule.validate(props);
     super(props);
-    this._start = props.start;
-    this._obs = props.obs;
+    this._date_time = props.date_time;
+    this._note = props.note;
     this._status = props.status || "pending";
-    this._property = props.property;
-    this._scheduler = props.scheduler;
+    this._property_id = props.property_id;
+    this._visitor = props.visitor;
   }
 
   static validate(props: ScheduleProps) {
@@ -43,66 +42,27 @@ export class Schedule extends Entity<ScheduleProps> {
     }
   }
 
-  public available(): boolean {
-    const activeCalendar = this.property.owner.findCalendarIsActive();
-    return activeCalendar.availableToSchedule(this);
+  public get date_time(): Date {
+    return this._date_time;
   }
 
-  public overlapSchedule(other: Schedule, durationInMinutes: number): boolean {
-    const startInMinutes = this.dateToTimeInMinutes(this.start);
-    const endInMinutes = startInMinutes + durationInMinutes;
-    const otherStartInMinutes = this.dateToTimeInMinutes(other.start);
-    const otherEndInMinutes = otherStartInMinutes + durationInMinutes;
-
-    return (
-      (otherStartInMinutes >= startInMinutes &&
-        otherStartInMinutes <= endInMinutes) ||
-      (otherStartInMinutes < startInMinutes &&
-        otherEndInMinutes > startInMinutes)
-    );
-  }
-
-  public dateToTimeInMinutes(date: Date): number {
-    return date.getHours() * 60 + date.getMinutes();
-  }
-
-  public get start(): Date {
-    return this._start;
-  }
-
-  public set start(_start: Date) {
-    this._start = _start;
-  }
-
-  public get obs(): string {
-    return this._obs;
-  }
-
-  public set obs(_obs: string) {
-    this._obs = _obs;
+  public get note(): string {
+    return this._note;
   }
 
   public get status(): ScheduleStatus {
     return this._status;
   }
 
-  public set status(_status: ScheduleStatus) {
-    this._status = _status;
+  public get property_id(): UniqueEntityId {
+    return this._property_id;
   }
 
-  public get property(): Property {
-    return this._property;
+  public get visitor(): User {
+    return this._visitor;
   }
 
-  public set property(_property: Property) {
-    this._property = _property;
-  }
-
-  public get scheduler(): User {
-    return this._scheduler;
-  }
-
-  public set scheduler(_scheduler: User) {
-    this._scheduler = _scheduler;
+  public set visitor(_visitor: User) {
+    this._visitor = _visitor;
   }
 }
