@@ -2,11 +2,11 @@ import { Broker } from "#shared/infra";
 
 import { ScheduleFacade } from "../../../app/facade";
 import { ScheduleVisitUseCase } from "../../../app/use-cases";
-import { PrismaRepositoryFactory } from "../repository";
+import { InMemoryRepositoryFactory } from "../repository";
 
-export class ScheduleFacadeFactory {
+export class ScheduleInMemoryFacadeFactory {
   static create() {
-    const repositoryFactory = new PrismaRepositoryFactory();
+    const repositoryFactory = new InMemoryRepositoryFactory();
     const broker = new Broker();
 
     const scheduleVisitUseCase = new ScheduleVisitUseCase(

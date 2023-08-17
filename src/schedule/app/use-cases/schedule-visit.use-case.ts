@@ -33,7 +33,8 @@ export class ScheduleVisitUseCase
     });
     const schedule = new Schedule({
       property_id: new UniqueEntityId(input.property_id),
-      date_time: new Date(`${input.date}T${input.time}`),
+      date_time: new Date(input.date_time),
+      status: input.status,
       note: input.note,
       visitor
     });

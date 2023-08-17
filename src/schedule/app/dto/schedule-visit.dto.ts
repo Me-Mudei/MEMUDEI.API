@@ -2,12 +2,12 @@ import { ScheduleStatus } from "../../domain/entities";
 
 export type ScheduleVisitInput = {
   property_id: string;
-  date: string;
-  time: string;
+  date_time: string;
+  status?: ScheduleStatus;
   visitor: {
     name: string;
     email: string;
-    phone: string;
+    phone?: string;
   };
   note: string;
 };

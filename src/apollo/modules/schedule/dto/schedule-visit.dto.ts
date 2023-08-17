@@ -5,12 +5,12 @@ import {
 import { inputObjectType, objectType } from "nexus";
 
 export const ScheduleVisitInput = inputObjectType({
-  name: "schedule_property_visit_input",
+  name: "schedule_visit_input",
   definition(t) {
     t.nonNull.string("property_id");
-    t.nonNull.string("date");
-    t.nonNull.string("time");
+    t.nonNull.string("date_time");
     t.nonNull.field("visitor", { type: "visitor_input" });
+    t.nullable.field("status", { type: "schedule_status" });
     t.nullable.string("note");
   }
 });
@@ -19,8 +19,8 @@ export const VisitorInput = inputObjectType({
   name: "visitor_input",
   definition(t) {
     t.nonNull.string("name");
-    t.nonNull.string("phone");
     t.nonNull.string("email");
+    t.nullable.string("phone");
   }
 });
 
@@ -38,8 +38,8 @@ export class ScheduleVisitInputMapper {
   static async toInput(input: any): Promise<CoreScheduleVisitInput> {
     return {
       property_id: input.property_id,
-      date: input.date,
-      time: input.time,
+      date_time: input.date_time,
+      status: input.status as any,
       visitor: {
         name: input.visitor.name,
         phone: input.visitor.phone,

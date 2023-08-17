@@ -4,7 +4,13 @@ import ScheduleValidatorFactory from "../validators/schedule.validator";
 
 import { User } from "./";
 
-export type ScheduleStatus = "pending" | "approved" | "rejected";
+export enum ScheduleStatus {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  REJECTED = "rejected",
+  CANCELLED = "cancelled",
+  FINISHED = "finished"
+}
 
 export type ScheduleProps = {
   id?: UniqueEntityId;
@@ -29,7 +35,7 @@ export class Schedule extends Entity<ScheduleProps> {
     super(props);
     this._date_time = props.date_time;
     this._note = props.note;
-    this._status = props.status || "pending";
+    this._status = props.status || ScheduleStatus.PENDING;
     this._property_id = props.property_id;
     this._visitor = props.visitor;
   }

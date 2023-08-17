@@ -17,5 +17,3 @@ export const canUpdateProperty = generic(
 export const canDeleteProperty = generic(
   chain(isAuthenticated, hasScope("delete:property"))
 );
-
-export const canSchedulePropertyVisit = generic(chain());
