@@ -6,6 +6,11 @@ import {
   PropertyFacadeFactory,
   PropertyInMemoryFacadeFactory
 } from "#property/infra";
+import { ScheduleFacade } from "#schedule/app";
+import {
+  ScheduleFacadeFactory,
+  ScheduleInMemoryFacadeFactory
+} from "#schedule/infra";
 import { UserFacade } from "#user/app";
 import { UserFacadeFactory, UserInMemoryFacadeFactory } from "#user/infra";
 
@@ -22,6 +27,7 @@ export interface ContextInterface {
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
+  scheduleService: ScheduleFacade;
   user?: {
     id: string;
     permissions: string[];
@@ -35,6 +41,7 @@ export class Context implements ContextInterface {
   userService: UserFacade;
   propertyService: PropertyFacade;
   authService: AuthFacade;
+  scheduleService: ScheduleFacade;
   user?: {
     id: string;
     permissions: string[];
@@ -44,6 +51,7 @@ export class Context implements ContextInterface {
     this.authService = AuthFacadeFactory.create();
     this.userService = UserFacadeFactory.create();
     this.propertyService = PropertyFacadeFactory.create();
+    this.scheduleService = ScheduleFacadeFactory.create();
 
     const token = req.headers.authorization ?? req.headers.Authorization;
     if (token) {
@@ -63,6 +71,7 @@ export class Context implements ContextInterface {
     this.authService = AuthFacadeFactory.create();
     this.userService = UserInMemoryFacadeFactory.create();
     this.propertyService = PropertyInMemoryFacadeFactory.create();
+    this.scheduleService = ScheduleInMemoryFacadeFactory.create();
     this.user = {
       id: "l5lgcQKhDqoDIOQYPBMj2",
       permissions: ["all"]

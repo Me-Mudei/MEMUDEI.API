@@ -1,6 +1,5 @@
-import { ScheduleRepository, CalendarRepository } from "../repository";
+import { ScheduleRepository } from "../repository";
 
 export interface RepositoryFactory {
   createScheduleRepository(): ScheduleRepository;
-  createCalendarRepository(): CalendarRepository;
 }

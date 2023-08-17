@@ -23,7 +23,8 @@
       "#property/*": ["./src/property/*"],
       "#adm/*": ["./src/adm/*"],
       "#apollo/*": ["./src/apollo/*"],
-      "#auth/*": ["./src/auth/*"]
+      "#auth/*": ["./src/auth/*"],
+      "#schedule/*": ["./src/schedule/*"],
     },
     "typeRoots": ["./src/apollo/generated", "./node_modules/@types"],
     "preserveConstEnums": true,

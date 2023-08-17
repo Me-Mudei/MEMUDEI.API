@@ -43,6 +43,8 @@ provider:
     CLOUD_ENDPOINT: ${env:CLOUD_ENDPOINT}
     STORAGE_VENDOR: ${env:STORAGE_VENDOR}
     STORAGE_BUCKET: memudei-bucket-${opt:stage, 'local'}
+    CRM_VENDOR: ${env:CRM_VENDOR}
+    CRM_ACCESS_TOKEN: ${env:CRM_ACCESS_TOKEN}
 custom:
   node-env:
     prod: "production"

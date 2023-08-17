@@ -1,42 +1,15 @@
 import { ClassValidatorFields } from "#shared/domain";
-import {
-  IsDate,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested
-} from "class-validator";
+import { IsDate, IsOptional } from "class-validator";
 
 import { ScheduleProps } from "../entities/schedule.entity";
 
-import { UserRules, PropertyRules, CalendarRules } from "./";
-
 export class ScheduleRules {
   @IsDate()
-  @IsNotEmpty()
-  start: Date;
-
-  @IsString()
   @IsOptional()
-  obs: string;
+  created_at: Date;
 
-  @IsEnum(["pending", "approved", "rejected"])
-  @IsOptional()
-  status: string;
-
-  @ValidateNested()
-  @IsOptional()
-  calendar?: CalendarRules;
-
-  @ValidateNested()
-  property: PropertyRules;
-
-  @ValidateNested()
-  scheduler: UserRules;
-
-  constructor({ created_at, start }: ScheduleProps) {
-    Object.assign(this, { created_at, start });
+  constructor(props: ScheduleProps) {
+    Object.assign(this, props);
   }
 }
 

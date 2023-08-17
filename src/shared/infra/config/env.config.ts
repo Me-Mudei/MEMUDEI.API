@@ -24,7 +24,6 @@ type Config = {
   crm: {
     vendor: "HUBSPOT";
     accessToken: string;
-    developerApiKey: string;
   };
 };
 
@@ -54,8 +53,7 @@ export function makeConfig(): Config {
     },
     crm: {
       vendor: process.env.CRM_VENDOR as any,
-      accessToken: process.env.CRM_ACCESS_TOKEN,
-      developerApiKey: process.env.CRM_API_KEY
+      accessToken: process.env.CRM_ACCESS_TOKEN
     }
   };
 }

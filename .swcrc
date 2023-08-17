@@ -12,7 +12,7 @@
       "#property/*": ["./property/*"],
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
-      "#file/*": ["./file/*"]
+      "#schedule/*": ["./schedule/*"]
     }
   }
 }
