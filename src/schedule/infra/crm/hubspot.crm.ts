@@ -13,7 +13,7 @@ export class HubspotCRM implements CRM {
     });
   }
 
-  async createVisitor(visitor: User) {
+  private async createVisitor(visitor: User) {
     const visitorCreated = await this.client.crm.contacts.basicApi.create({
       properties: {
         firstname: visitor.name,
@@ -101,11 +101,6 @@ export class HubspotCRM implements CRM {
         }
       ]
     });
-    return { id: scheduleCreated.id };
-  }
-
-  async deleteVisitor(id: string) {
-    await this.client.crm.contacts.basicApi.archive(id);
   }
 
   async deleteSchedule(id: string) {
