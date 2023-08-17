@@ -1,10 +1,10 @@
 import {
-  SchedulePropertyVisitInput as CoreSchedulePropertyVisitInput,
-  SchedulePropertyVisitOutput as CoreSchedulePropertyVisitOutput
-} from "#property/app";
+  ScheduleVisitInput as CoreScheduleVisitInput,
+  ScheduleVisitOutput as CoreScheduleVisitOutput
+} from "#schedule/app";
 import { inputObjectType, objectType } from "nexus";
 
-export const SchedulePropertyVisitInput = inputObjectType({
+export const ScheduleVisitInput = inputObjectType({
   name: "schedule_property_visit_input",
   definition(t) {
     t.nonNull.string("property_id");
@@ -24,8 +24,8 @@ export const VisitorInput = inputObjectType({
   }
 });
 
-export const SchedulePropertyVisitOutput = objectType({
-  name: "schedule_property_visit_output",
+export const ScheduleVisitOutput = objectType({
+  name: "schedule_visit_output",
   definition(t) {
     t.nonNull.string("id");
     t.nonNull.field("status", { type: "schedule_status" });
@@ -34,8 +34,8 @@ export const SchedulePropertyVisitOutput = objectType({
   }
 });
 
-export class SchedulePropertyVisitInputMapper {
-  static async toInput(input: any): Promise<CoreSchedulePropertyVisitInput> {
+export class ScheduleVisitInputMapper {
+  static async toInput(input: any): Promise<CoreScheduleVisitInput> {
     return {
       property_id: input.property_id,
       date: input.date,
@@ -50,8 +50,8 @@ export class SchedulePropertyVisitInputMapper {
   }
 }
 
-export class SchedulePropertyVisitOutputMapper {
-  static toOutput(schedule: CoreSchedulePropertyVisitOutput): any {
+export class ScheduleVisitOutputMapper {
+  static toOutput(schedule: CoreScheduleVisitOutput): any {
     return {
       id: schedule.id,
       status: schedule.status as any,

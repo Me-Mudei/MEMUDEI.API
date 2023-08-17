@@ -54,8 +54,8 @@ export class Schedule extends Entity<ScheduleProps> {
     return this._status;
   }
 
-  public get property_id(): UniqueEntityId {
-    return this._property_id;
+  public get property_id(): string {
+    return this._property_id.value;
   }
 
   public get visitor(): User {

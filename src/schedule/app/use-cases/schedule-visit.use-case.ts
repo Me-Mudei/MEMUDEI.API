@@ -1,4 +1,6 @@
+import { Schedule, User } from "#schedule/domain";
 import { UseCase } from "#shared/app";
+import { UniqueEntityId } from "#shared/domain";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
 
 import { RepositoryFactory } from "../../domain/factory";
@@ -24,7 +26,18 @@ export class ScheduleVisitUseCase
 
   async execute(input: ScheduleVisitInput): Promise<ScheduleVisitOutput> {
     this.logger.info({ message: "Start Schedule  Visit Use Case" });
-    const schedule = input as any;
+    const visitor = new User({
+      name: input.visitor.name,
+      email: input.visitor.email,
+      phone: input.visitor.phone
+    });
+    const schedule = new Schedule({
+      property_id: new UniqueEntityId(input.property_id),
+      date_time: new Date(`${input.date}T${input.time}`),
+      note: input.note,
+      visitor
+    });
+    await this.scheduleRepository.insert(schedule);
     return ScheduleVisitOutputMapper.toOutput(schedule);
   }
 }

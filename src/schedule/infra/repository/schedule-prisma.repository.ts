@@ -1,28 +1,44 @@
 import { NotFoundError, UniqueEntityId } from "#shared/domain";
-import { PrismaClient } from "#shared/infra";
+import { PrismaClient, Prisma } from "#shared/infra";
 
 import {
   Schedule,
   ScheduleRepository,
   ScheduleSearchParams,
-  ScheduleSearchResult
+  ScheduleSearchResult,
+  User
 } from "../../domain";
 
 export class SchedulePrismaRepository implements ScheduleRepository {
   sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
-  async insert(entity: any): Promise<void> {
-    await this.prisma.event.create({
+  async insert(entity: Schedule): Promise<void> {
+    await this.prisma.schedule.create({
       data: {
         id: entity.id,
-        start: entity.start,
-        end: entity.end,
-        calendar_id: entity.calendar.id,
-        title: entity.title,
-        obs: entity.obs,
-        property_id: entity.property.id,
-        scheduler_id: entity.scheduler.id,
+        status: entity.status,
+        date_time: entity.date_time,
+        note: entity.note,
+        visitor: {
+          connectOrCreate: {
+            where: {
+              email: entity.visitor.email
+            },
+            create: {
+              id: entity.visitor.id,
+              name: entity.visitor.name,
+              email: entity.visitor.email,
+              phone: entity.visitor.phone,
+              type: "lead"
+            }
+          }
+        },
+        property: {
+          connect: {
+            id: entity.property_id
+          }
+        },
         created_at: entity.created_at,
         updated_at: entity.updated_at
       }
@@ -32,7 +48,8 @@ export class SchedulePrismaRepository implements ScheduleRepository {
   async findById(id: string | UniqueEntityId): Promise<Schedule> {
     const schedule = await this.prisma.schedule
       .findFirstOrThrow({
-        where: { id: id.toString() }
+        where: { id: id.toString() },
+        include: this.includes()
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -41,26 +58,20 @@ export class SchedulePrismaRepository implements ScheduleRepository {
     return this.toEntity(schedule);
   }
 
-  async findManyById(ids: (string | UniqueEntityId)[]): Promise<Schedule[]> {
-    const schedules = await this.prisma.schedule.findMany({
-      where: {
-        id: {
-          in: ids.map((id) => id.toString())
-        }
-      }
-    });
-    return schedules.map((schedule) => this.toEntity(schedule));
-  }
-
   async findAll(): Promise<Schedule[]> {
-    const schedules = await this.prisma.schedule.findMany();
+    const schedules = await this.prisma.schedule.findMany({
+      include: this.includes()
+    });
     return schedules.map((schedule) => this.toEntity(schedule));
   }
 
   async update(entity: Schedule): Promise<void> {
     await this.prisma.schedule.update({
       where: { id: entity.id },
-      data: {}
+      data: {
+        date_time: entity.date_time,
+        status: entity.status
+      }
     });
   }
 
@@ -81,7 +92,8 @@ export class SchedulePrismaRepository implements ScheduleRepository {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
           : { created_at: "asc" })
-      }
+      },
+      include: this.includes()
     });
     return new ScheduleSearchResult({
       items: schedules.map((schedule) => this.toEntity(schedule)),
@@ -94,10 +106,28 @@ export class SchedulePrismaRepository implements ScheduleRepository {
     });
   }
 
+  private includes(): Prisma.scheduleInclude {
+    return {
+      visitor: true
+    };
+  }
+
   private toEntity(entity: any): Schedule {
+    const visitor = new User({
+      id: new UniqueEntityId(entity.visitor.id),
+      name: entity.visitor.name,
+      email: entity.visitor.email,
+      phone: entity.visitor.phone,
+      created_at: entity.visitor.created_at,
+      updated_at: entity.visitor.updated_at
+    });
     return new Schedule({
       id: new UniqueEntityId(entity.id),
-      start: entity.start,
+      status: entity.status,
+      date_time: entity.date_time,
+      property_id: new UniqueEntityId(entity.property_id),
+      note: entity.note,
+      visitor,
       created_at: entity.created_at,
       updated_at: entity.updated_at
     });
