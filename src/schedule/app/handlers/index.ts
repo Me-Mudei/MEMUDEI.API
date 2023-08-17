@@ -1,3 +1,3 @@
 // created from 'create-ts-index'
 
-export * from "./schedule-created-send-confirmation.handler";
+export * from "./scheduled-visit-send-to-crm.handler";

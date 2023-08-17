@@ -1,6 +1,6 @@
 import { ScheduleCreated } from "../../domain/events";
 
-export class ScheduleCreatedSendConfirmationHandler {
+export class ScheduledVisitSendToCRMHandler {
   name = "ScheduleCreated";
 
   async handle(_event: ScheduleCreated): Promise<void> {

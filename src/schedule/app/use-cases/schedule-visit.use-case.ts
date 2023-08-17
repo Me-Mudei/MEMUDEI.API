@@ -1,4 +1,4 @@
-import { Schedule, User } from "#schedule/domain";
+import { Schedule, ScheduleCreated, User } from "#schedule/domain";
 import { UseCase } from "#shared/app";
 import { UniqueEntityId } from "#shared/domain";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
@@ -39,6 +39,7 @@ export class ScheduleVisitUseCase
       visitor
     });
     await this.scheduleRepository.insert(schedule);
+    this.broker.publish(new ScheduleCreated(schedule));
     return ScheduleVisitOutputMapper.toOutput(schedule);
   }
 }
