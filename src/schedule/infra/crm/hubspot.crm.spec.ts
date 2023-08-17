@@ -24,6 +24,6 @@ describe("Hubspot CRM", () => {
       status: ScheduleStatus.PENDING
     });
 
-    expect(async () => await crm.createSchedule(schedule)).not.toThrow();
+    await expect(() => crm.createSchedule(schedule)).resolves.not.toThrow();
   });
 });

@@ -1,3 +1,4 @@
+import { PropertyCreated } from "#property/domain";
 import { UseCase } from "#shared/app";
 import { UniqueEntityId } from "#shared/domain";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
@@ -112,6 +113,7 @@ export class CreatePropertyUseCase
     });
 
     await this.propertyRepository.insert(property);
+    await this.broker.publish(new PropertyCreated(property));
     return CreatePropertyOutputMapper.toOutput(property);
   }
 }
