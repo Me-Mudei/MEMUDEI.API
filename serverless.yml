@@ -117,10 +117,10 @@ functions:
     handler: src/main.handler
     events:
       - http:
-          path: /graphql
+          path: /
           method: ANY
           cors: true
       - http:
-          path: /graphql/{proxy+}
+          path: /{proxy+}
           method: ANY
           cors: true
