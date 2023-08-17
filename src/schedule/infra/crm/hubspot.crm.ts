@@ -1,9 +1,10 @@
 import { Client } from "@hubspot/api-client";
+import { Schedule, User } from "#schedule/domain";
 import { configEnv } from "#shared/infra";
 
-import { Crm } from "./crm.interface";
+import { CRM } from "./crm.interface";
 
-export class HubspotCrm implements Crm {
+export class HubspotCRM implements CRM {
   private client: Client;
 
   constructor() {
@@ -12,43 +13,39 @@ export class HubspotCrm implements Crm {
     });
   }
 
-  async createUser(user: any) {
-    const userCreated = await this.client.crm.contacts.basicApi.create({
+  private async createVisitor(visitor: User) {
+    const visitorCreated = await this.client.crm.contacts.basicApi.create({
       properties: {
-        firstname: user.name,
-        email: user.email,
-        phone: user.phone
+        firstname: visitor.name,
+        email: visitor.email,
+        phone: visitor.phone
       },
       associations: []
     });
-    return { id: userCreated.id };
+    return { id: visitorCreated.id };
   }
 
-  async deleteUser(id: string) {
-    await this.client.crm.contacts.basicApi.archive(id);
-  }
-
-  async createProperty(property: any) {
-    const propertyCreated = await this.client.crm.deals.basicApi.create({
+  async createSchedule(schedule: Schedule) {
+    const visitor = await this.createVisitor(schedule.visitor);
+    const scheduleCreated = await this.client.crm.tickets.basicApi.create({
       properties: {
-        nome: property.name,
-        link: property.link
+        data: schedule.date_time.toISOString(),
+        nota: schedule.note
       },
       associations: [
         {
-          to: {
-            id: property.ownerId
-          },
           types: [
             {
-              associationTypeId: 0,
-              associationCategory: "USER_DEFINED"
+              associationCategory: "HUBSPOT_DEFINED",
+              associationTypeId: 1
             }
-          ]
+          ],
+          to: {
+            id: visitor.id
+          }
         }
       ]
     });
-
-    return { id: propertyCreated.id };
+    return { id: scheduleCreated.id };
   }
 }
