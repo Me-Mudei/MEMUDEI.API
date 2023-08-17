@@ -1,277 +1,252 @@
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator prisma_client {
-    provider      = "prisma-client-js"
-    binaryTargets = ["darwin-arm64", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["darwin-arm64", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
 }
 
 model user {
-    id          String     @id @default(nanoid()) @db.Char(21)
-    external_id String     @unique @default(nanoid())
-    email       String     @unique
-    name        String
-    disabled_at DateTime?
-    deleted_at  DateTime?
-    created_at  DateTime   @default(now())
-    updated_at  DateTime   @updatedAt
-    calendar    calendar[]
-    properties  property[]
-    event       event[]
+  id          String     @id @default(nanoid()) @db.Char(21)
+  external_id String?    @unique
+  email       String     @unique
+  name        String
+  phone       String?
+  type        String     @default("deal")
+  disabled_at DateTime?
+  deleted_at  DateTime?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  properties  property[]
+  schedule    schedule[]
 }
 
 model property {
-    id                       String                           @id @default(nanoid()) @db.Char(21)
-    title                    String
-    description              String
-    status                   String
-    user                     user                             @relation(fields: [user_id], references: [id])
-    user_id                  String                           @db.Char(21)
-    property_type            property_type                    @relation(fields: [property_type_id], references: [id])
-    property_type_id         String                           @db.Char(21)
-    property_relationship    property_relationship            @relation(fields: [property_relationship_id], references: [id])
-    property_relationship_id String                           @db.Char(21)
-    privacy_type             privacy_type                     @relation(fields: [privacy_type_id], references: [id])
-    privacy_type_id          String                           @db.Char(21)
-    created_at               DateTime                         @default(now())
-    updated_at               DateTime                         @updatedAt
-    address                  address?
-    property_schedule        event[]
-    condominium_details      properties_condominium_details[]
-    rules                    properties_rules[]
-    property_details         properties_property_details[]
-    floor_plans              properties_floor_plans[]
-    charges                  properties_charges[]
-    photos                   properties_files[]
+  id                       String                           @id @default(nanoid()) @db.Char(21)
+  title                    String
+  description              String
+  status                   String
+  user                     user                             @relation(fields: [user_id], references: [id])
+  user_id                  String                           @db.Char(21)
+  property_type            property_type                    @relation(fields: [property_type_id], references: [id])
+  property_type_id         String                           @db.Char(21)
+  property_relationship    property_relationship            @relation(fields: [property_relationship_id], references: [id])
+  property_relationship_id String                           @db.Char(21)
+  privacy_type             privacy_type                     @relation(fields: [privacy_type_id], references: [id])
+  privacy_type_id          String                           @db.Char(21)
+  created_at               DateTime                         @default(now())
+  updated_at               DateTime                         @updatedAt
+  address                  address?
+  schedule                 schedule[]
+  condominium_details      properties_condominium_details[]
+  rules                    properties_rules[]
+  property_details         properties_property_details[]
+  floor_plans              properties_floor_plans[]
+  charges                  properties_charges[]
+  photos                   properties_files[]
 }
 
-model calendar {
-    id                 String    @id @default(nanoid()) @db.Char(21)
-    is_active          Boolean   @default(false)
-    user_id            String    @db.Char(21)
-    user               user      @relation(fields: [user_id], references: [id])
-    expired_at         DateTime
-    deleted_at         DateTime?
-    created_at         DateTime  @default(now())
-    updated_at         DateTime  @updatedAt
-    available_weekdays weekday[]
-    event              event[]
-}
-
-model weekday {
-    id              String    @id @default(nanoid()) @db.Char(21)
-    day             Int       @unique
-    available_hours Int[]
-    created_at      DateTime  @default(now())
-    updated_at      DateTime  @updatedAt
-    calendar        calendar? @relation(fields: [calendar_id], references: [id])
-    calendar_id     String?   @db.Char(21)
-}
-
-model event {
-    id           String    @id @default(nanoid()) @db.Char(21)
-    title        String
-    obs          String?
-    start        DateTime
-    end          DateTime
-    created_at   DateTime  @default(now())
-    updated_at   DateTime  @updatedAt
-    calendar     calendar? @relation(fields: [calendar_id], references: [id])
-    calendar_id  String?   @db.Char(21)
-    property     property? @relation(fields: [property_id], references: [id])
-    property_id  String?   @db.Char(21)
-    scheduler    user?     @relation(fields: [scheduler_id], references: [id])
-    scheduler_id String?   @db.Char(21)
+model schedule {
+  id          String   @id @default(nanoid()) @db.Char(21)
+  status      String
+  date_time   DateTime
+  note        String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  property    property @relation(fields: [property_id], references: [id])
+  property_id String   @db.Char(21)
+  visitor     user     @relation(fields: [visitor_id], references: [id])
+  visitor_id  String   @db.Char(21)
 }
 
 model address {
-    id          String   @id @default(nanoid()) @db.Char(21)
-    zip_code    String
-    city        String
-    state       String
-    street      String
-    country     String
-    district    String?
-    complement  String?
-    location    location @relation(fields: [location_id], references: [id])
-    location_id String   @unique @db.Char(21)
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
-    property_id String   @unique @db.Char(21)
-    property    property @relation(fields: [property_id], references: [id])
+  id          String   @id @default(nanoid()) @db.Char(21)
+  zip_code    String
+  city        String
+  state       String
+  street      String
+  country     String
+  district    String?
+  complement  String?
+  location    location @relation(fields: [location_id], references: [id])
+  location_id String   @unique @db.Char(21)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  property_id String   @unique @db.Char(21)
+  property    property @relation(fields: [property_id], references: [id])
 }
 
 model location {
-    id         String   @id @default(nanoid()) @db.Char(21)
-    lat         Float
-    lng         Float
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    address    address?
+  id         String   @id @default(nanoid()) @db.Char(21)
+  lat        Float
+  lng        Float
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  address    address?
 }
 
 model property_type {
-    id          String     @id @default(nanoid()) @db.Char(21)
-    key         String     @unique
-    name        String
-    description String?
-    created_at  DateTime   @default(now())
-    updated_at  DateTime   @updatedAt
-    properties  property[]
+  id          String     @id @default(nanoid()) @db.Char(21)
+  key         String     @unique
+  name        String
+  description String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  properties  property[]
 }
 
 model property_relationship {
-    id          String     @id @default(nanoid()) @db.Char(21)
-    key         String     @unique
-    name        String
-    description String?
-    created_at  DateTime   @default(now())
-    updated_at  DateTime   @updatedAt
-    properties  property[]
+  id          String     @id @default(nanoid()) @db.Char(21)
+  key         String     @unique
+  name        String
+  description String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  properties  property[]
 }
 
 model privacy_type {
-    id          String     @id @default(nanoid()) @db.Char(21)
-    key         String     @unique
-    name        String
-    description String?
-    created_at  DateTime   @default(now())
-    updated_at  DateTime   @updatedAt
-    properties  property[]
+  id          String     @id @default(nanoid()) @db.Char(21)
+  key         String     @unique
+  name        String
+  description String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  properties  property[]
 }
 
 model floor_plan {
-    id         String                   @id @default(nanoid()) @db.Char(21)
-    key        String                   @unique
-    name       String
-    unit       String?
-    created_at DateTime                 @default(now())
-    updated_at DateTime                 @updatedAt
-    properties properties_floor_plans[]
+  id         String                   @id @default(nanoid()) @db.Char(21)
+  key        String                   @unique
+  name       String
+  unit       String?
+  created_at DateTime                 @default(now())
+  updated_at DateTime                 @updatedAt
+  properties properties_floor_plans[]
 }
 
 model properties_floor_plans {
-    floor_plan_key String
-    floor_plan     floor_plan @relation(fields: [floor_plan_key], references: [key])
-    property_id    String     @db.Char(21)
-    property       property   @relation(fields: [property_id], references: [id])
-    value          Int
-    created_at     DateTime   @default(now())
-    updated_at     DateTime   @updatedAt
+  floor_plan_key String
+  floor_plan     floor_plan @relation(fields: [floor_plan_key], references: [key])
+  property_id    String     @db.Char(21)
+  property       property   @relation(fields: [property_id], references: [id])
+  value          Int
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
 
-    @@id([property_id, floor_plan_key])
+  @@id([property_id, floor_plan_key])
 }
 
 model property_detail {
-    id          String                        @id @default(nanoid()) @db.Char(21)
-    key         String                        @unique
-    name        String
-    description String?
-    created_at  DateTime                      @default(now())
-    updated_at  DateTime                      @updatedAt
-    properties  properties_property_details[]
+  id          String                        @id @default(nanoid()) @db.Char(21)
+  key         String                        @unique
+  name        String
+  description String?
+  created_at  DateTime                      @default(now())
+  updated_at  DateTime                      @updatedAt
+  properties  properties_property_details[]
 }
 
 model properties_property_details {
-    property_id         String          @db.Char(21)
-    property            property        @relation(fields: [property_id], references: [id])
-    property_detail_key String
-    property_detail     property_detail @relation(fields: [property_detail_key], references: [key])
-    available           Boolean
-    created_at          DateTime        @default(now())
-    updated_at          DateTime        @updatedAt
+  property_id         String          @db.Char(21)
+  property            property        @relation(fields: [property_id], references: [id])
+  property_detail_key String
+  property_detail     property_detail @relation(fields: [property_detail_key], references: [key])
+  available           Boolean
+  created_at          DateTime        @default(now())
+  updated_at          DateTime        @updatedAt
 
-    @@id([property_id, property_detail_key])
+  @@id([property_id, property_detail_key])
 }
 
 model condominium_detail {
-    id          String                           @id @default(nanoid()) @db.Char(21)
-    key         String                           @unique
-    name        String
-    description String?
-    created_at  DateTime                         @default(now())
-    updated_at  DateTime                         @updatedAt
-    properties  properties_condominium_details[]
+  id          String                           @id @default(nanoid()) @db.Char(21)
+  key         String                           @unique
+  name        String
+  description String?
+  created_at  DateTime                         @default(now())
+  updated_at  DateTime                         @updatedAt
+  properties  properties_condominium_details[]
 }
 
 model properties_condominium_details {
-    property_id            String             @db.Char(21)
-    property               property           @relation(fields: [property_id], references: [id])
-    condominium_detail_key String
-    condominium_detail     condominium_detail @relation(fields: [condominium_detail_key], references: [key])
-    available              Boolean
-    created_at             DateTime           @default(now())
-    updated_at             DateTime           @updatedAt
+  property_id            String             @db.Char(21)
+  property               property           @relation(fields: [property_id], references: [id])
+  condominium_detail_key String
+  condominium_detail     condominium_detail @relation(fields: [condominium_detail_key], references: [key])
+  available              Boolean
+  created_at             DateTime           @default(now())
+  updated_at             DateTime           @updatedAt
 
-    @@id([property_id, condominium_detail_key])
+  @@id([property_id, condominium_detail_key])
 }
 
 model rule {
-    id          String             @id @default(nanoid()) @db.Char(21)
-    key         String             @unique
-    name        String
-    description String?
-    created_at  DateTime           @default(now())
-    updated_at  DateTime           @updatedAt
-    properties  properties_rules[]
+  id          String             @id @default(nanoid()) @db.Char(21)
+  key         String             @unique
+  name        String
+  description String?
+  created_at  DateTime           @default(now())
+  updated_at  DateTime           @updatedAt
+  properties  properties_rules[]
 }
 
 model properties_rules {
-    property_id String   @db.Char(21)
-    properties  property @relation(fields: [property_id], references: [id])
-    rule_key    String
-    rule        rule     @relation(fields: [rule_key], references: [key])
-    allowed     Boolean
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+  property_id String   @db.Char(21)
+  properties  property @relation(fields: [property_id], references: [id])
+  rule_key    String
+  rule        rule     @relation(fields: [rule_key], references: [key])
+  allowed     Boolean
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-    @@id([property_id, rule_key])
+  @@id([property_id, rule_key])
 }
 
 model charge {
-    id          String               @id @default(nanoid()) @db.Char(21)
-    key         String               @unique
-    name        String
-    description String?
-    created_at  DateTime             @default(now())
-    updated_at  DateTime             @updatedAt
-    properties  properties_charges[]
+  id          String               @id @default(nanoid()) @db.Char(21)
+  key         String               @unique
+  name        String
+  description String?
+  created_at  DateTime             @default(now())
+  updated_at  DateTime             @updatedAt
+  properties  properties_charges[]
 }
 
 model properties_charges {
-    property_id String   @db.Char(21)
-    properties  property @relation(fields: [property_id], references: [id])
-    charge_key  String
-    charge      charge   @relation(fields: [charge_key], references: [key])
-    amount      Int
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+  property_id String   @db.Char(21)
+  properties  property @relation(fields: [property_id], references: [id])
+  charge_key  String
+  charge      charge   @relation(fields: [charge_key], references: [key])
+  amount      Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-    @@id([property_id, charge_key])
+  @@id([property_id, charge_key])
 }
 
 model file {
-    id          String             @id @default(nanoid()) @db.Char(21)
-    url         String
-    filename    String
-    type        String
-    subtype     String
-    created_at  DateTime           @default(now())
-    updated_at  DateTime           @updatedAt
-    properties  properties_files[]
+  id         String             @id @default(nanoid()) @db.Char(21)
+  url        String
+  filename   String
+  type       String
+  subtype    String
+  created_at DateTime           @default(now())
+  updated_at DateTime           @updatedAt
+  properties properties_files[]
 }
 
 model properties_files {
-    property_id String   @db.Char(21)
-    property    property @relation(fields: [property_id], references: [id])
-    file_id     String
-    file        file     @relation(fields: [file_id], references: [id])
-    position    Int?
-    description String?
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+  property_id String   @db.Char(21)
+  property    property @relation(fields: [property_id], references: [id])
+  file_id     String
+  file        file     @relation(fields: [file_id], references: [id])
+  position    Int?
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-    @@id([property_id, file_id])
+  @@id([property_id, file_id])
 }

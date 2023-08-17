@@ -16,12 +16,12 @@
     "#auth/*": "./src/auth/*/index.js",
     "#apollo/*": "./src/apollo/*/index.js",
     "#user/*": "./src/user/*/index.js",
-    "#file/*": "./src/file/*/index.js"
+    "#schedule/*": "./src/schedule/*/index.js"
   },
   "exports": {
     "./shared": "./src/shared/index.js",
     "./user": "./src/user/index.js",
-    "./file": "./src/file/index.js",
+    "./schedule": "./src/schedule/index.js",
     "./property": "./src/property/index.js",
     "./adm": "./src/adm/index.js",
     "./apollo": "./src/apollo/index.js",

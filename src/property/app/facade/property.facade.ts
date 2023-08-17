@@ -8,7 +8,6 @@ import {
   UpdatePropertyOutput,
   PropertyOutput
 } from "../dto";
-import { PropertyCreatedSendConfirmationHandler } from "../handlers";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
@@ -38,9 +37,6 @@ export class PropertyFacade {
   async createProperty(
     input: CreatePropertyInput
   ): Promise<CreatePropertyOutput> {
-    this._createProperty.broker.register(
-      new PropertyCreatedSendConfirmationHandler()
-    );
     return this._createProperty.execute(input);
   }
 
