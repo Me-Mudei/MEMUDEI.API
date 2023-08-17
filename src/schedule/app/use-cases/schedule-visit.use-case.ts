@@ -39,7 +39,7 @@ export class ScheduleVisitUseCase
       visitor
     });
     await this.scheduleRepository.insert(schedule);
-    this.broker.publish(new ScheduleCreated(schedule));
+    await this.broker.publish(new ScheduleCreated(schedule));
     return ScheduleVisitOutputMapper.toOutput(schedule);
   }
 }
