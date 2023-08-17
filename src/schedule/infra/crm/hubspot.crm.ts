@@ -1,7 +1,9 @@
 import { Client } from "@hubspot/api-client";
 import { configEnv } from "#shared/infra";
 
-export class HubspotCrm {
+import { Crm } from "./crm.interface";
+
+export class HubspotCrm implements Crm {
   private client: Client;
 
   constructor() {
@@ -10,23 +12,43 @@ export class HubspotCrm {
     });
   }
 
-  createUser = async (email: string, firstName: string, lastName: string) => {};
+  async createUser(user: any) {
+    const userCreated = await this.client.crm.contacts.basicApi.create({
+      properties: {
+        firstname: user.name,
+        email: user.email,
+        phone: user.phone
+      },
+      associations: []
+    });
+    return { id: userCreated.id };
+  }
 
-  createProperty = async (
-    name: string,
-    label: string,
-    description: string
-  ) => {};
+  async deleteUser(id: string) {
+    await this.client.crm.contacts.basicApi.archive(id);
+  }
 
-  createSchedule = async (
-    name: string,
-    label: string,
-    description: string
-  ) => {};
+  async createProperty(property: any) {
+    const propertyCreated = await this.client.crm.deals.basicApi.create({
+      properties: {
+        nome: property.name,
+        link: property.link
+      },
+      associations: [
+        {
+          to: {
+            id: property.ownerId
+          },
+          types: [
+            {
+              associationTypeId: 0,
+              associationCategory: "USER_DEFINED"
+            }
+          ]
+        }
+      ]
+    });
 
-  validateSchedule = async (
-    name: string,
-    label: string,
-    description: string
-  ) => {};
+    return { id: propertyCreated.id };
+  }
 }
