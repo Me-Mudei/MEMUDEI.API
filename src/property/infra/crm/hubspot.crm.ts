@@ -27,16 +27,6 @@ export class HubspotCRM implements CRM {
     });
   }
 
-  private async searchProperty(filters: Array<Filter>) {
-    return this.client.crm.deals.searchApi.doSearch({
-      filterGroups: [{ filters }],
-      after: 0,
-      limit: 5,
-      sorts: ["-createdate"],
-      properties: ["id"]
-    });
-  }
-
   private async searchUser(filters: Array<Filter>) {
     return this.client.crm.contacts.searchApi.doSearch({
       filterGroups: [{ filters }],
@@ -48,12 +38,6 @@ export class HubspotCRM implements CRM {
   }
 
   async createProperty(property: Property) {
-    const properties = await this.searchProperty([
-      { propertyName: "property_id", operator: "EQ", value: property.id }
-    ]);
-    if (properties.total > 0) {
-      throw new Error("Property already exists on Hubspot");
-    }
     const users = await this.searchUser([
       { propertyName: "user_id", operator: "EQ", value: property.user_id.value }
     ]);

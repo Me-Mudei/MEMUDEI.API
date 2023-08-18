@@ -1,7 +1,7 @@
 import { Broker, Connection } from "#shared/infra";
 
 import { UserFacade } from "../../app/facade";
-import { UserCreatedSendConfirmationHandler } from "../../app/handlers";
+import { UserCreatedSendToCrmHandler } from "../../app/handlers";
 import {
   CreateUserUseCase,
   FindFirstUserUseCase,
@@ -18,7 +18,7 @@ export class UserFacadeFactory {
     const broker = new Broker();
     const authService = new Auth0Auth();
 
-    broker.register(new UserCreatedSendConfirmationHandler());
+    broker.register(new UserCreatedSendToCrmHandler());
     const createUserUseCase = new CreateUserUseCase(
       userRepository,
       authService,
