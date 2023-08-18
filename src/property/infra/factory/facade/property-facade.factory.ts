@@ -1,3 +1,4 @@
+import { PropertyCreatedSendToCRMHandler } from "#property/app";
 import { Broker } from "#shared/infra";
 
 import { PropertyFacade } from "../../../app/facade";
@@ -13,7 +14,7 @@ export class PropertyFacadeFactory {
   static create() {
     const repositoryFactory = new PrismaRepositoryFactory();
     const broker = new Broker();
-
+    broker.register(new PropertyCreatedSendToCRMHandler());
     const createPropertyUseCase = new CreatePropertyUseCase(
       repositoryFactory,
       broker

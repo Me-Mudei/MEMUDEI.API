@@ -5,5 +5,5 @@ import { User } from "../entities";
 export class UserCreated implements DomainEvent {
   name = "UserCreated";
 
-  constructor(readonly user: User) {}
+  constructor(readonly payload: User) {}
 }
