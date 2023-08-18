@@ -49,6 +49,10 @@ export class Address extends Entity<AddressProps> {
     }
   }
 
+  public formatted(): string {
+    return `${this.street}, ${this.district}, ${this.city} - ${this.state}, ${this.zip_code}`;
+  }
+
   public get zip_code(): string {
     return this._zip_code;
   }

@@ -5,5 +5,5 @@ import { Property } from "../entities";
 export class PropertyCreated implements DomainEvent {
   name = "PropertyCreated";
 
-  constructor(readonly property: Property) {}
+  constructor(readonly payload: Property) {}
 }
