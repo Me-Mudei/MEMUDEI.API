@@ -15,6 +15,7 @@ export const CreatePropertyInput = inputObjectType({
     t.nonNull.string("property_type");
     t.nonNull.string("property_relationship");
     t.nonNull.string("privacy_type");
+    t.nullable.string("owner_id");
     t.nonNull.list.nonNull.field("floor_plans", {
       type: "create_property_floor_plan_input"
     });
@@ -125,9 +126,10 @@ export class CreatePropertyInputMapper {
     property: any;
     user_id: string;
   }): Promise<CoreCreatePropertyInput> {
+    const { owner_id, ...property } = input.property;
     return {
-      ...input.property,
-      user_id: input.user_id,
+      ...property,
+      user_id: owner_id ?? input.user_id,
       status: input.property.status as CorePropertyStatus
     };
   }
