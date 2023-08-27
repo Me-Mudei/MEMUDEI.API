@@ -1,7 +1,7 @@
 import { Broker } from "#shared/infra";
 import { Auth, UserInMemoryRepository } from "#user/infra/";
 
-import { UserCreatedSendConfirmationHandler } from "../../../handlers";
+import { UserCreatedSendToCrmHandler } from "../../../handlers";
 import { CreateUserUseCase } from "../../create-user.use-case";
 
 describe("CreateUserUseCase Unit Tests", () => {
@@ -16,7 +16,7 @@ describe("CreateUserUseCase Unit Tests", () => {
     authService = {
       signup: jest.fn()
     };
-    broker.register(new UserCreatedSendConfirmationHandler());
+    broker.register(new UserCreatedSendToCrmHandler());
     useCase = new CreateUserUseCase(repository, authService, broker);
   });
 
