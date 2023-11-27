@@ -17,7 +17,7 @@ jobs:
 
       - uses: noliran/branch-based-secrets@v1
         with:
-          secrets: LOG_LEVEL,DATABASE_URL,AUTH_VENDOR,AUTH_AUDIENCE,AUTH_ISSUER,AUTH_DOMAIN,AUTH_CLIENT_ID,CLOUD_VENDOR,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,COULD_ENDPOINT,STORAGE_VENDOR,CRM_VENDOR,CRM_ACCESS_TOKEN
+          secrets: LOG_LEVEL,DATABASE_URL,AUTH_VENDOR,AUTH_AUDIENCE,AUTH_ISSUER,AUTH_DOMAIN,AUTH_CLIENT_ID,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,COULD_ENDPOINT,CRM_VENDOR,CRM_ACCESS_TOKEN
 
       - name: Install dependencies
         run: npm i
@@ -40,18 +40,11 @@ jobs:
           args: deploy --stage dev --region ${{ secrets[env.AWS_REGION_NAME] }}
         env:
           LOG_LEVEL: ${{ secrets[env.LOG_LEVEL_NAME] }}
-          DATABASE_VENDOR: POSTGRES
           DATABASE_URL: ${{ secrets[env.DATABASE_URL_NAME] }}
           AUTH_VENDOR: ${{ secrets[env.AUTH_VENDOR_NAME] }}
           AUTH_AUDIENCE: ${{ secrets[env.AUTH_AUDIENCE_NAME] }}
           AUTH_ISSUER: ${{ secrets[env.AUTH_ISSUER_NAME] }}
           AUTH_DOMAIN: ${{ secrets[env.AUTH_DOMAIN_NAME] }}
           AUTH_CLIENT_ID: ${{ secrets[env.AUTH_CLIENT_ID_NAME] }}
-          CLOUD_VENDOR: ${{ secrets[env.CLOUD_VENDOR_NAME] }}
-          CLOUD_ACCESS_KEY_ID: ${{ secrets[env.AWS_ACCESS_KEY_ID_NAME] }}
-          CLOUD_SECRET_ACCESS_KEY: ${{ secrets[env.AWS_SECRET_ACCESS_KEY_NAME] }}
-          CLOUD_REGION: ${{ secrets[env.AWS_REGION_NAME] }}
-          CLOUD_ENDPOINT: ${{ secrets[env.COULD_ENDPOINT_NAME] }}
-          STORAGE_VENDOR: ${{ secrets[env.STORAGE_VENDOR_NAME] }}
           CRM_VENDOR: ${{ secrets[env.CRM_VENDOR_NAME] }}
           CRM_ACCESS_TOKEN: ${{ secrets[env.CRM_ACCESS_TOKEN_NAME] }}
