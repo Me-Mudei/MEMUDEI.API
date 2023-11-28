@@ -1,11 +1,10 @@
 import { ClassValidatorFields } from "#shared/domain";
 import {
   IsDate,
-  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from "class-validator";
 
 import { PropertyProps, PropertyStatus } from "../entities/property.entity";
@@ -21,9 +20,9 @@ export class PropertyRules {
   @IsNotEmpty()
   description: string;
 
-  @IsEnum(PropertyStatus)
   @IsOptional()
-  status: string;
+  //@IsEnum(PropertyStatus)
+  status?: PropertyStatus;
 
   @IsDate()
   @IsOptional()
