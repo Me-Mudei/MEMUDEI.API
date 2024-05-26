@@ -36,9 +36,8 @@ export class SearchCondominiumDetailUseCase
   ): Promise<PaginationOutputDto<CondominiumDetailOutput>> {
     this.logger.info({ message: "Start SearchCondominiumDetail Use Case" });
     const params = new CondominiumDetailSearchParams(input);
-    const condominiumDetail = await this.condominiumDetailRepository.search(
-      params
-    );
+    const condominiumDetail =
+      await this.condominiumDetailRepository.search(params);
     const items = condominiumDetail.items.map((condominiumDetail) =>
       CondominiumDetailOutputMapper.toOutput(condominiumDetail)
     );

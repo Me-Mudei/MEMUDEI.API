@@ -4,13 +4,14 @@ import { AuthFacadeFactory } from "#auth/infra";
 import { PropertyFacade } from "#property/app";
 import {
   PropertyFacadeFactory,
-  PropertyInMemoryFacadeFactory
+  PropertyInMemoryFacadeFactory,
 } from "#property/infra";
 import { ScheduleFacade } from "#schedule/app";
 import {
   ScheduleFacadeFactory,
-  ScheduleInMemoryFacadeFactory
+  ScheduleInMemoryFacadeFactory,
 } from "#schedule/infra";
+import { CacheManager } from "#shared/infra";
 import { UserFacade } from "#user/app";
 import { UserFacadeFactory, UserInMemoryFacadeFactory } from "#user/infra";
 
@@ -23,6 +24,7 @@ export interface ContextInput {
 }
 
 export interface ContextInterface {
+  cacheService: CacheManager;
   admService: AdmFacade;
   userService: UserFacade;
   propertyService: PropertyFacade;
@@ -33,10 +35,11 @@ export interface ContextInterface {
     permissions: string[];
   };
   getContext(req: ContextInput): Promise<Context>;
-  getTestContext(): Context;
+  getTestContext(): Promise<Context>;
 }
 
 export class Context implements ContextInterface {
+  cacheService: CacheManager;
   admService: AdmFacade;
   userService: UserFacade;
   propertyService: PropertyFacade;
@@ -47,6 +50,7 @@ export class Context implements ContextInterface {
     permissions: string[];
   };
   async getContext(req: ContextInput) {
+    this.cacheService = await CacheManager.create();
     this.admService = {} as any;
     this.authService = AuthFacadeFactory.create();
     this.userService = UserFacadeFactory.create();
@@ -55,18 +59,15 @@ export class Context implements ContextInterface {
 
     const token = req.headers.authorization ?? req.headers.Authorization;
     if (token) {
-      try {
-        const { permissions, user_id } = await this.authService.authenticate({
-          token
-        });
-        this.user = { permissions, id: user_id };
-      } catch (error) {
-        console.log("error", error);
-      }
+      const { permissions, user_id } = await this.authService.authenticate({
+        token,
+      });
+      this.user = { permissions, id: user_id };
     }
     return this;
   }
-  getTestContext() {
+  async getTestContext() {
+    this.cacheService = await CacheManager.create();
     this.admService = {} as any;
     this.authService = AuthFacadeFactory.create();
     this.userService = UserInMemoryFacadeFactory.create();
@@ -74,7 +75,7 @@ export class Context implements ContextInterface {
     this.scheduleService = ScheduleInMemoryFacadeFactory.create();
     this.user = {
       id: "l5lgcQKhDqoDIOQYPBMj2",
-      permissions: ["all"]
+      permissions: ["all"],
     };
     return this;
   }

@@ -1,4 +1,3 @@
-version: '3'
 services:
   memudei-db:
     container_name: memudei-db

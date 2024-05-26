@@ -1,36 +1,30 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "import-helpers",
-    "eslint-plugin-prettier",
-    "unused-imports"
-  ],
   "parserOptions": {
     "project": ["tsconfig.json"],
     "sourceType": "module"
   },
+  "plugins": [
+    "@typescript-eslint/eslint-plugin",
+    "eslint-plugin-prettier",
+    "import-helpers",
+    "prettier"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "root": true,
   "env": {
     "node": true,
     "jest": true
   },
+  "ignorePatterns": [".eslintrc.json"],
   "rules": {
-    //"@typescript-eslint/interface-name-prefix": "off",
-    //"@typescript-eslint/explicit-function-return-type": "off",
-    //"@typescript-eslint/explicit-module-boundary-types": "off",
-    //"@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/ban-types": [
       "error",
       {
@@ -60,7 +54,9 @@
         "useTabs": false,
         "bracketSameLine": false,
         "singleQuote": false,
-        "trailingComma": "none"
+        "trailingComma": "all",
+        "endOfLine": "auto",
+        "printWidth": 80
       }
     ],
     "@typescript-eslint/no-unnecessary-type-constraint": "off"
