@@ -1,5 +1,9 @@
 import { AssociationTypes, Client } from "@hubspot/api-client";
-import { Filter } from "@hubspot/api-client/lib/codegen/crm/companies";
+import {
+  Filter,
+  FilterOperatorEnum,
+} from "@hubspot/api-client/lib/codegen/crm/companies";
+import { AssociationSpecAssociationCategoryEnum } from "@hubspot/api-client/lib/codegen/crm/deals";
 import { Property } from "#property/domain";
 import { configEnv } from "#shared/infra";
 
@@ -15,7 +19,7 @@ export enum Stage {
   PHOTOS_AND_FORMS_APPROVED = "closedwon",
   PUBLISHED = "closedlost",
   DOUBLE_CHECK_AD = "6074140",
-  ASSIGNED_TO_FARMER = "6074141"
+  ASSIGNED_TO_FARMER = "6074141",
 }
 
 export class HubspotCRM implements CRM {
@@ -23,23 +27,27 @@ export class HubspotCRM implements CRM {
 
   constructor() {
     this.client = new Client({
-      accessToken: configEnv.crm.accessToken
+      accessToken: configEnv.crm.accessToken,
     });
   }
 
   private async searchUser(filters: Array<Filter>) {
     return this.client.crm.contacts.searchApi.doSearch({
       filterGroups: [{ filters }],
-      after: 0,
+      after: "0",
       limit: 5,
       sorts: ["-createdate"],
-      properties: ["id"]
+      properties: ["id"],
     });
   }
 
   async createProperty(property: Property) {
     const users = await this.searchUser([
-      { propertyName: "user_id", operator: "EQ", value: property.user_id.value }
+      {
+        propertyName: "user_id",
+        operator: FilterOperatorEnum.Eq,
+        value: property.user_id.value,
+      },
     ]);
     if (users.total === 0) {
       throw new Error("User not found on Hubspot");
@@ -56,21 +64,22 @@ export class HubspotCRM implements CRM {
           .toString(),
         endereco_completo: property.address.formatted(),
         cidade: property.address.city,
-        hs_priority: "low"
+        hs_priority: "low",
       },
       associations: [
         {
           types: [
             {
-              associationCategory: "HUBSPOT_DEFINED",
-              associationTypeId: AssociationTypes.dealToContact
-            }
+              associationCategory:
+                AssociationSpecAssociationCategoryEnum.HubspotDefined,
+              associationTypeId: AssociationTypes.dealToContact,
+            },
           ],
           to: {
-            id: owner.id
-          }
-        }
-      ]
+            id: owner.id,
+          },
+        },
+      ],
     });
   }
 

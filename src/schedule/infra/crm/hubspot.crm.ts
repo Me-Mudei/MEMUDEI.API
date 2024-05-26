@@ -1,4 +1,6 @@
 import { AssociationTypes, Client } from "@hubspot/api-client";
+import { FilterOperatorEnum } from "@hubspot/api-client/lib/codegen/crm/deals";
+import { AssociationSpecAssociationCategoryEnum } from "@hubspot/api-client/lib/codegen/crm/tickets";
 import { Schedule, User } from "#schedule/domain";
 import { configEnv } from "#shared/infra";
 
@@ -9,7 +11,7 @@ export class HubspotCRM implements CRM {
 
   constructor() {
     this.client = new Client({
-      accessToken: configEnv.crm.accessToken
+      accessToken: configEnv.crm.accessToken,
     });
   }
 
@@ -18,9 +20,9 @@ export class HubspotCRM implements CRM {
       properties: {
         firstname: visitor.name,
         email: visitor.email,
-        phone: visitor.phone
+        phone: visitor.phone,
       },
-      associations: []
+      associations: [],
     });
     return { id: visitorCreated.id };
   }
@@ -33,16 +35,16 @@ export class HubspotCRM implements CRM {
           filters: [
             {
               propertyName: "property_id",
-              operator: "EQ",
-              value: schedule.property_id
-            }
-          ]
-        }
+              operator: FilterOperatorEnum.Eq,
+              value: schedule.property_id,
+            },
+          ],
+        },
       ],
-      after: 0,
+      after: "0",
       limit: 5,
       sorts: ["-createdate"],
-      properties: ["id"]
+      properties: ["id"],
     });
     if (properties.total === 0) {
       throw new Error("Property not found on Hubspot");
@@ -53,16 +55,16 @@ export class HubspotCRM implements CRM {
           filters: [
             {
               propertyName: "email",
-              operator: "EQ",
-              value: schedule.visitor.email
-            }
-          ]
-        }
+              operator: FilterOperatorEnum.Eq,
+              value: schedule.visitor.email,
+            },
+          ],
+        },
       ],
-      after: 0,
+      after: "0",
       limit: 5,
       sorts: ["-createdate"],
-      properties: ["id"]
+      properties: ["id"],
     });
     if (users.total > 0) {
       visitor = users.results[0];
@@ -74,32 +76,34 @@ export class HubspotCRM implements CRM {
         subject: "Agendamento de visita",
         content: schedule.date_time.toISOString(),
         hs_ticket_priority: "MEDIUM",
-        hs_pipeline_stage: "1"
+        hs_pipeline_stage: "1",
       },
       associations: [
         {
           types: [
             {
-              associationCategory: "HUBSPOT_DEFINED",
-              associationTypeId: AssociationTypes.ticketToContact
-            }
+              associationCategory:
+                AssociationSpecAssociationCategoryEnum.HubspotDefined,
+              associationTypeId: AssociationTypes.ticketToContact,
+            },
           ],
           to: {
-            id: visitor.id
-          }
+            id: visitor.id,
+          },
         },
         {
           types: [
             {
-              associationCategory: "HUBSPOT_DEFINED",
-              associationTypeId: AssociationTypes.ticketToDeal
-            }
+              associationCategory:
+                AssociationSpecAssociationCategoryEnum.HubspotDefined,
+              associationTypeId: AssociationTypes.ticketToDeal,
+            },
           ],
           to: {
-            id: properties.results[0].id
-          }
-        }
-      ]
+            id: properties.results[0].id,
+          },
+        },
+      ],
     });
   }
 
