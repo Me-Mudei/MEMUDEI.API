@@ -1,9 +1,6 @@
-import { Context } from "./apollo/context";
-import NexusSchema from "./apollo/schema";
-import ApolloLambdaServer from "./apollo/server/apollo-lambda.server";
+// import { server } from './apollo';
+import { server } from './nest';
 
-const schema = NexusSchema.makeSchema();
-const context = new Context();
-const server = new ApolloLambdaServer(schema, context);
+// server.listen(4000);
 
-export const handler = server.listen();
+export const handler = server.handler();

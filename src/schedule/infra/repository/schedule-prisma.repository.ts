@@ -1,16 +1,16 @@
-import { NotFoundError, UniqueEntityId } from "#shared/domain";
-import { PrismaClient, Prisma } from "#shared/infra";
+import { NotFoundError, UniqueEntityId } from '#shared/domain';
+import { PrismaClient, Prisma } from '#shared/infra';
 
 import {
   Schedule,
   ScheduleRepository,
   ScheduleSearchParams,
   ScheduleSearchResult,
-  User
-} from "../../domain";
+  User,
+} from '../../domain';
 
 export class SchedulePrismaRepository implements ScheduleRepository {
-  sortableFields: string[] = ["createdAt"];
+  sortableFields: string[] = ['createdAt'];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Schedule): Promise<void> {
@@ -23,25 +23,26 @@ export class SchedulePrismaRepository implements ScheduleRepository {
         visitor: {
           connectOrCreate: {
             where: {
-              email: entity.visitor.email
+              email: entity.visitor.email,
             },
             create: {
               id: entity.visitor.id,
               name: entity.visitor.name,
               email: entity.visitor.email,
               phone: entity.visitor.phone,
-              type: "lead"
-            }
-          }
+              type: 'lead',
+              external_id: entity.visitor.id,
+            },
+          },
         },
         property: {
           connect: {
-            id: entity.property_id
-          }
+            id: entity.property_id,
+          },
         },
         created_at: entity.created_at,
-        updated_at: entity.updated_at
-      }
+        updated_at: entity.updated_at,
+      },
     });
   }
 
@@ -49,7 +50,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
     const schedule = await this.prisma.schedule
       .findFirstOrThrow({
         where: { id: id.toString() },
-        include: this.includes()
+        include: this.includes(),
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -60,7 +61,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
 
   async findAll(): Promise<Schedule[]> {
     const schedules = await this.prisma.schedule.findMany({
-      include: this.includes()
+      include: this.includes(),
     });
     return schedules.map((schedule) => this.toEntity(schedule));
   }
@@ -70,14 +71,14 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       where: { id: entity.id },
       data: {
         date_time: entity.date_time,
-        status: entity.status
-      }
+        status: entity.status,
+      },
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
     await this.prisma.schedule.delete({
-      where: { id: id.toString() }
+      where: { id: id.toString() },
     });
   }
 
@@ -91,9 +92,9 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: "asc" })
+          : { created_at: 'asc' }),
       },
-      include: this.includes()
+      include: this.includes(),
     });
     return new ScheduleSearchResult({
       items: schedules.map((schedule) => this.toEntity(schedule)),
@@ -102,13 +103,13 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       total: schedules.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir
+      sort_dir: props.sort_dir,
     });
   }
 
   private includes(): Prisma.scheduleInclude {
     return {
-      visitor: true
+      visitor: true,
     };
   }
 
@@ -119,7 +120,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       email: entity.visitor.email,
       phone: entity.visitor.phone,
       created_at: entity.visitor.created_at,
-      updated_at: entity.visitor.updated_at
+      updated_at: entity.visitor.updated_at,
     });
     return new Schedule({
       id: new UniqueEntityId(entity.id),
@@ -129,7 +130,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       note: entity.note,
       visitor,
       created_at: entity.created_at,
-      updated_at: entity.updated_at
+      updated_at: entity.updated_at,
     });
   }
 }

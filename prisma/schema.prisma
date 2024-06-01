@@ -9,8 +9,8 @@ generator prisma_client {
 }
 
 model user {
-  id          String     @id @default(nanoid()) @db.Char(21)
-  external_id String?    @unique
+  id          String     @id @default(nanoid())
+  external_id String     @unique
   email       String     @unique
   name        String
   phone       String?
@@ -24,18 +24,18 @@ model user {
 }
 
 model property {
-  id                       String                           @id @default(nanoid()) @db.Char(21)
+  id                       String                           @id @default(nanoid())
   title                    String
   description              String
   status                   String
   user                     user                             @relation(fields: [user_id], references: [id])
-  user_id                  String                           @db.Char(21)
+  user_id                  String
   property_type            property_type                    @relation(fields: [property_type_id], references: [id])
-  property_type_id         String                           @db.Char(21)
+  property_type_id         String
   property_relationship    property_relationship            @relation(fields: [property_relationship_id], references: [id])
-  property_relationship_id String                           @db.Char(21)
+  property_relationship_id String
   privacy_type             privacy_type                     @relation(fields: [privacy_type_id], references: [id])
-  privacy_type_id          String                           @db.Char(21)
+  privacy_type_id          String
   created_at               DateTime                         @default(now())
   updated_at               DateTime                         @updatedAt
   address                  address?
@@ -49,20 +49,20 @@ model property {
 }
 
 model schedule {
-  id          String   @id @default(nanoid()) @db.Char(21)
+  id          String   @id @default(nanoid())
   status      String
   date_time   DateTime
   note        String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   property    property @relation(fields: [property_id], references: [id])
-  property_id String   @db.Char(21)
+  property_id String
   visitor     user     @relation(fields: [visitor_id], references: [id])
-  visitor_id  String   @db.Char(21)
+  visitor_id  String
 }
 
 model address {
-  id          String   @id @default(nanoid()) @db.Char(21)
+  id          String   @id @default(nanoid())
   zip_code    String
   city        String
   state       String
@@ -71,15 +71,15 @@ model address {
   district    String?
   complement  String?
   location    location @relation(fields: [location_id], references: [id])
-  location_id String   @unique @db.Char(21)
+  location_id String   @unique
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  property_id String   @unique @db.Char(21)
+  property_id String   @unique
   property    property @relation(fields: [property_id], references: [id])
 }
 
 model location {
-  id         String   @id @default(nanoid()) @db.Char(21)
+  id         String   @id @default(nanoid())
   lat        Float
   lng        Float
   created_at DateTime @default(now())
@@ -88,7 +88,7 @@ model location {
 }
 
 model property_type {
-  id          String     @id @default(nanoid()) @db.Char(21)
+  id          String     @id @default(nanoid())
   key         String     @unique
   name        String
   description String?
@@ -98,7 +98,7 @@ model property_type {
 }
 
 model property_relationship {
-  id          String     @id @default(nanoid()) @db.Char(21)
+  id          String     @id @default(nanoid())
   key         String     @unique
   name        String
   description String?
@@ -108,7 +108,7 @@ model property_relationship {
 }
 
 model privacy_type {
-  id          String     @id @default(nanoid()) @db.Char(21)
+  id          String     @id @default(nanoid())
   key         String     @unique
   name        String
   description String?
@@ -118,7 +118,7 @@ model privacy_type {
 }
 
 model floor_plan {
-  id         String                   @id @default(nanoid()) @db.Char(21)
+  id         String                   @id @default(nanoid())
   key        String                   @unique
   name       String
   unit       String?
@@ -130,7 +130,7 @@ model floor_plan {
 model properties_floor_plans {
   floor_plan_key String
   floor_plan     floor_plan @relation(fields: [floor_plan_key], references: [key])
-  property_id    String     @db.Char(21)
+  property_id    String
   property       property   @relation(fields: [property_id], references: [id])
   value          Int
   created_at     DateTime   @default(now())
@@ -140,7 +140,7 @@ model properties_floor_plans {
 }
 
 model property_detail {
-  id          String                        @id @default(nanoid()) @db.Char(21)
+  id          String                        @id @default(nanoid())
   key         String                        @unique
   name        String
   description String?
@@ -150,7 +150,7 @@ model property_detail {
 }
 
 model properties_property_details {
-  property_id         String          @db.Char(21)
+  property_id         String
   property            property        @relation(fields: [property_id], references: [id])
   property_detail_key String
   property_detail     property_detail @relation(fields: [property_detail_key], references: [key])
@@ -162,7 +162,7 @@ model properties_property_details {
 }
 
 model condominium_detail {
-  id          String                           @id @default(nanoid()) @db.Char(21)
+  id          String                           @id @default(nanoid())
   key         String                           @unique
   name        String
   description String?
@@ -172,7 +172,7 @@ model condominium_detail {
 }
 
 model properties_condominium_details {
-  property_id            String             @db.Char(21)
+  property_id            String
   property               property           @relation(fields: [property_id], references: [id])
   condominium_detail_key String
   condominium_detail     condominium_detail @relation(fields: [condominium_detail_key], references: [key])
@@ -184,7 +184,7 @@ model properties_condominium_details {
 }
 
 model rule {
-  id          String             @id @default(nanoid()) @db.Char(21)
+  id          String             @id @default(nanoid())
   key         String             @unique
   name        String
   description String?
@@ -194,7 +194,7 @@ model rule {
 }
 
 model properties_rules {
-  property_id String   @db.Char(21)
+  property_id String
   properties  property @relation(fields: [property_id], references: [id])
   rule_key    String
   rule        rule     @relation(fields: [rule_key], references: [key])
@@ -206,7 +206,7 @@ model properties_rules {
 }
 
 model charge {
-  id          String               @id @default(nanoid()) @db.Char(21)
+  id          String               @id @default(nanoid())
   key         String               @unique
   name        String
   description String?
@@ -216,7 +216,7 @@ model charge {
 }
 
 model properties_charges {
-  property_id String   @db.Char(21)
+  property_id String
   properties  property @relation(fields: [property_id], references: [id])
   charge_key  String
   charge      charge   @relation(fields: [charge_key], references: [key])
@@ -228,18 +228,19 @@ model properties_charges {
 }
 
 model file {
-  id         String             @id @default(nanoid()) @db.Char(21)
-  url        String
-  filename   String
-  type       String
-  subtype    String
-  created_at DateTime           @default(now())
-  updated_at DateTime           @updatedAt
-  properties properties_files[]
+  id          String             @id @default(nanoid())
+  external_id String?
+  url         String
+  filename    String
+  type        String
+  subtype     String
+  created_at  DateTime           @default(now())
+  updated_at  DateTime           @updatedAt
+  properties  properties_files[]
 }
 
 model properties_files {
-  property_id String   @db.Char(21)
+  property_id String
   property    property @relation(fields: [property_id], references: [id])
   file_id     String
   file        file     @relation(fields: [file_id], references: [id])

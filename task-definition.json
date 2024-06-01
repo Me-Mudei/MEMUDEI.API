@@ -1,0 +1,222 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "arn:aws:iam::708006063510:role/STAGE-execution-role",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": [],
+      "environmentFiles": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": [],
+        "options": {
+          "awslogs-group": "/ecs/STAGE-task-definition",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": [],
+      "portMappings": [
+        {
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "command": [],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [],
+      "resourceRequirements": null,
+      "ulimits": [],
+      "dnsServers": [],
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "name": "CACHE_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:CACHE_VENDOR::"
+        },
+        {
+          "name": "PRISMA_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:PRISMA_VENDOR::"
+        },
+        {
+          "name": "MONGOOSE_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:MONGOOSE_VENDOR::"
+        },
+        {
+          "name": "MAIL_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:MAIL_VENDOR::"
+        },
+        {
+          "name": "SMS_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:SMS_VENDOR::"
+        },
+        {
+          "name": "LOGGER_VENDOR",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:LOGGER_VENDOR::"
+        },
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:DATABASE_URL::"
+        },
+        {
+          "name": "SENTRY_DSN",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:SENTRY_DSN::"
+        },
+        {
+          "name": "SLACK_ENDPOINT",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:SLACK_ENDPOINT::"
+        },
+        {
+          "name": "JWT_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:JWT_SECRET::"
+        },
+        {
+          "name": "RIZA_MEDIA_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:RIZA_MEDIA_URL::"
+        },
+        {
+          "name": "REDIS_HOST",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:REDIS_HOST::"
+        },
+        {
+          "name": "REDIS_PORT",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:REDIS_PORT::"
+        },
+        {
+          "name": "REDIS_NAME",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:REDIS_NAME::"
+        },
+        {
+          "name": "MONGO_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:MONGO_URL::"
+        },
+        {
+          "name": "RIZA_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:RIZA_URL::"
+        },
+        {
+          "name": "SENDGRID_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:SENDGRID_API_KEY::"
+        },
+        {
+          "name": "STORAGE_ACCESS_KEY_ID",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:STORAGE_ACCESS_KEY_ID::"
+        },
+        {
+          "name": "STORAGE_SECRET_ACCESS_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:STORAGE_SECRET_ACCESS_KEY::"
+        },
+        {
+          "name": "STORAGE_REGION",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:STORAGE_REGION::"
+        },
+        {
+          "name": "STORAGE_BUCKET_NAME",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:708006063510:secret:STAGE:STORAGE_BUCKET_NAME::"
+        }
+      ],
+      "dockerSecurityOptions": [],
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "708006063510.dkr.ecr.us-east-1.amazonaws.com/STAGE:latest",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": [],
+      "hostname": null,
+      "extraHosts": [],
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": {},
+      "systemControls": [],
+      "privileged": null,
+      "name": "STAGE"
+    }
+  ],
+  "placementConstraints": [],
+  "taskRoleArn": "arn:aws:iam::708006063510:role/STAGE-task-role",
+  "compatibilities": [
+    "EC2",
+    "FARGATE"
+  ],
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:708006063510:task-definition/STAGE-task-definition:5",
+  "family": "STAGE-task-definition",
+  "requiresAttributes": [
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.task-eni"
+    }
+  ],
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "runtimePlatform": null,
+  "cpu": "CPU",
+  "memory": "MEMORY",
+  "revision": 5,
+  "status": "ACTIVE",
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": []
+}
