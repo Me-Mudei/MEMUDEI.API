@@ -8,7 +8,7 @@ import {
   CreatePropertyPropertyDetailInput,
   CreatePropertyRuleInput,
 } from './create-property.input';
-import { PropertyStatus } from '#property/domain';
+import { PropertyStatus } from './property.enum';
 
 @InputType()
 export class UpdateAddressLocationInput {

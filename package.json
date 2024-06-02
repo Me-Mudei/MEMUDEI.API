@@ -28,7 +28,7 @@
     "./auth": "./src/auth/index.js"
   },
   "scripts": {
-    "build": "tsc -b ./tsconfig.json",
+    "build": "nest build",
     "dev": "yarn build && npx sls offline --stage local",
     "dev:nest": "nest start --watch",
     "start:prod": "node dist/src/main.js",

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { SortDirection } from '#nest/shared/enums/sort-direction.enum';
-import { PropertyStatus } from '#property/domain';
+import { PropertyStatus } from './property.enum';
 
 @InputType()
 export class PropertyFilterInput {
