@@ -9,6 +9,7 @@ import { FileModule } from './modules/file/file.module';
 import { HealthModule } from './modules/health/health.module';
 import { UserModule } from './modules/user/user.module';
 import { BucketModule } from './libs/bucket/bucket.module';
+import { PropertyModule } from './modules/property/property.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BucketModule } from './libs/bucket/bucket.module';
     UserModule,
     BucketModule,
     FileModule,
+    PropertyModule,
   ],
 })
 export class AppModule {}
