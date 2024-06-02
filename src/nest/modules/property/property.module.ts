@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PropertyResolver } from './property.resolver';
 import { SearchPropertiesResolver } from './search-properties.resolver';
 import { PropertyFacade } from '#property/app';
-import { PropertyFacadeFactory } from '../../../property/infra/factory/facade/property-facade.factory';
+import { PropertyFacadeFactory } from '#property/infra';
 
 @Module({
   providers: [

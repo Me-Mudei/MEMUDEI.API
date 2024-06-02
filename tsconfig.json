@@ -39,7 +39,6 @@
     "noFallthroughCasesInSwitch": false,
     // "allowJs": true,
     "paths": {
-      "#apollo/*": ["./src/apollo/*"],
       "#nest/*": ["./src/nest/*"],
       "#shared/*": ["./src/shared/*"],
       "#user/*": ["./src/user/*"],
@@ -48,7 +47,6 @@
       "#auth/*": ["./src/auth/*"],
       "#schedule/*": ["./src/schedule/*"],
     },
-    "typeRoots": ["./src/apollo/generated", "./node_modules/@types"],
     "preserveConstEnums": true,
     // "sourceMap": true,
     "moduleResolution": "node",

@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserOutput } from '../../user/dto/user.output';
-import { PropertyStatus } from './property.enum';
+import { UserOutput } from '#nest/modules/user/dto/user.output';
+import { PropertyStatus } from '#property/domain';
 
 @ObjectType()
 export class LocationOutput {

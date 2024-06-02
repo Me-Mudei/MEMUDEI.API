@@ -10,8 +10,7 @@
     "doc": "docs"
   },
   "imports": {
-    "#apollo/*": "./src/apollo/*/index.js",
-    "#next/*": "./src/next/*/index.js",
+    "#nest/*": "./src/nest/*/index.js",
     "#shared/*": "./src/shared/*/index.js",
     "#property/*": "./src/property/*/index.js",
     "#adm/*": "./src/adm/*/index.js",
@@ -20,7 +19,6 @@
     "#schedule/*": "./src/schedule/*/index.js"
   },
   "exports": {
-    "./apollo": "./src/apollo/index.js",
     "./nest": "./src/nest/index.js",
     "./shared": "./src/shared/index.js",
     "./user": "./src/user/index.js",

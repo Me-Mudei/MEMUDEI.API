@@ -1,7 +1,6 @@
 import { CreatePropertyInput as CoreCreatePropertyInput } from '#property/app';
-import { PropertyStatus as CorePropertyStatus } from '#property/domain';
+import { PropertyStatus } from '#property/domain';
 import { Field, InputType } from '@nestjs/graphql';
-import { PropertyStatus } from './property.enum';
 
 @InputType()
 export class CreateAddressLocationInput {
@@ -148,11 +147,10 @@ export class CreatePropertyInputMapper {
     input: CreatePropertyInput,
     user_id: string,
   ): CoreCreatePropertyInput {
-    const { owner_id, status, ...property } = input;
+    const { owner_id, ...property } = input;
     return {
       ...property,
       user_id: owner_id ?? user_id,
-      status: CorePropertyStatus[status],
     };
   }
 }

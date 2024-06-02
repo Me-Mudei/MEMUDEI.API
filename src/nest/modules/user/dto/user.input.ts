@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { SortDirection } from '../../../libs/shared/enums/sort-direction.enum';
+import { SortDirection } from '#nest/shared/enums/sort-direction.enum';
 
 @InputType()
 export class CreateUserInput {

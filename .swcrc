@@ -6,8 +6,8 @@
     },
     "baseUrl": "./src",
     "paths": {
+      "#nest/*": ["./nest/*"],
       "#adm/*": ["./adm/*"],
-      "#apollo/*": ["./apollo/*"],
       "#auth/*": ["./auth/*"],
       "#property/*": ["./property/*"],
       "#shared/*": ["./shared/*"],

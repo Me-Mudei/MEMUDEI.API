@@ -1,5 +1,5 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { PropertyFacade } from '../../../property/app/facade/property.facade';
+import { PropertyFacade } from '#property/app';
 import { PropertiesPaginationOutput } from './dto/paginate-property.output';
 import { PropertySearchInput } from './dto/search-properties.input';
 

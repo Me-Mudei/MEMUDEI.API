@@ -1,18 +1,15 @@
 import { Handler } from 'aws-lambda';
-import Server from '../../shared/infra/server/server.interface';
 import { NestFactory } from '@nestjs/core';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import serverlessExpress from '@codegenie/serverless-express';
 
 import { AppModule } from '../app.module';
-import { ValidationPipe } from '../libs/pipe/validation-pipe';
+import { ValidationPipe } from '#nest/shared/pipe/validation-pipe';
 
-export default class ApolloServer implements Server {
+export default class ApolloServer {
   handle: Handler;
 
   async server() {
     const app = await NestFactory.create(AppModule);
-    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     app.useGlobalPipes(new ValidationPipe());
     return app;
   }

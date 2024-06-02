@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { PropertyFacade } from '../../../property/app/facade/property.facade';
+import { PropertyFacade } from '#property/app';
 import { PropertyOutput } from './dto/property.output';
 import { GetPropertyInput } from './dto/get-property.input';
 import {
