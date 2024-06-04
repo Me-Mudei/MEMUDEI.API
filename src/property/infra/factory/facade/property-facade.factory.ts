@@ -1,14 +1,14 @@
-import { PropertyCreatedSendToCRMHandler } from "#property/app";
-import { Broker } from "#shared/infra";
+import { PropertyCreatedSendToCRMHandler } from '#property/app';
+import { Broker } from '#shared/infra';
 
-import { PropertyFacade } from "../../../app/facade";
+import { PropertyFacade } from '../../../app/facade';
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
-  SearchPropertyUseCase
-} from "../../../app/use-cases";
-import { PrismaRepositoryFactory } from "../repository";
+  SearchPropertiesUseCase,
+} from '../../../app/use-cases';
+import { PrismaRepositoryFactory } from '../repository';
 
 export class PropertyFacadeFactory {
   static create() {
@@ -17,26 +17,26 @@ export class PropertyFacadeFactory {
     broker.register(new PropertyCreatedSendToCRMHandler());
     const createPropertyUseCase = new CreatePropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     const updatePropertyUseCase = new UpdatePropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     const getPropertyUseCase = new GetPropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
-    const searchPropertyUseCase = new SearchPropertyUseCase(
+    const searchPropertiesUseCase = new SearchPropertiesUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
 
     return new PropertyFacade({
       createProperty: createPropertyUseCase,
       updateProperty: updatePropertyUseCase,
       getProperty: getPropertyUseCase,
-      searchProperty: searchPropertyUseCase
+      searchProperties: searchPropertiesUseCase,
     });
   }
 }

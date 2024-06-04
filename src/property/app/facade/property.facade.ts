@@ -1,47 +1,47 @@
-import { PropertyFilter } from "#property/domain";
-import { SearchInputDto, PaginationOutputDto } from "#shared/app/";
+import { PropertyFilter } from '#property/domain';
+import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
 
 import {
   CreatePropertyInput,
   UpdatePropertyInput,
   CreatePropertyOutput,
   UpdatePropertyOutput,
-  PropertyOutput
-} from "../dto";
+  PropertyOutput,
+} from '../dto';
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
-  SearchPropertyUseCase
-} from "../use-cases";
+  SearchPropertiesUseCase,
+} from '../use-cases';
 
 export interface PropertyFacadeProps {
   createProperty: CreatePropertyUseCase;
   updateProperty: UpdatePropertyUseCase;
   getProperty: GetPropertyUseCase;
-  searchProperty: SearchPropertyUseCase;
+  searchProperties: SearchPropertiesUseCase;
 }
 
 export class PropertyFacade {
   private _createProperty: CreatePropertyUseCase;
   private _updateProperty: UpdatePropertyUseCase;
   private _getProperty: GetPropertyUseCase;
-  private _searchProperty: SearchPropertyUseCase;
+  private _searchProperties: SearchPropertiesUseCase;
 
   constructor(readonly props: PropertyFacadeProps) {
     this._createProperty = props.createProperty;
     this._updateProperty = props.updateProperty;
     this._getProperty = props.getProperty;
-    this._searchProperty = props.searchProperty;
+    this._searchProperties = props.searchProperties;
   }
   async createProperty(
-    input: CreatePropertyInput
+    input: CreatePropertyInput,
   ): Promise<CreatePropertyOutput> {
     return this._createProperty.execute(input);
   }
 
   async updateProperty(
-    input: UpdatePropertyInput
+    input: UpdatePropertyInput,
   ): Promise<UpdatePropertyOutput> {
     return this._updateProperty.execute(input);
   }
@@ -50,9 +50,9 @@ export class PropertyFacade {
     return this._getProperty.execute(input);
   }
 
-  async searchProperty(
-    input: SearchInputDto<PropertyFilter>
+  async searchProperties(
+    input: SearchInputDto<PropertyFilter>,
   ): Promise<PaginationOutputDto<PropertyOutput>> {
-    return this._searchProperty.execute(input);
+    return this._searchProperties.execute(input);
   }
 }

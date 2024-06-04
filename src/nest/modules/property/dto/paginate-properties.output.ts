@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { PropertyOutput } from './property.output';
 
 @ObjectType()
-export class PropertiesPaginationOutput {
+export class PaginatePropertiesOutput {
   @Field(() => [PropertyOutput])
   items: PropertyOutput[];
 

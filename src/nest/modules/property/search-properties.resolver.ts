@@ -1,14 +1,14 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
 import { PropertyFacade } from '#property/app';
-import { PropertiesPaginationOutput } from './dto/paginate-property.output';
-import { PropertySearchInput } from './dto/search-properties.input';
+import { Args, Query, Resolver } from '@nestjs/graphql';
+import { SearchPropertiesInput } from './dto/search-properties.input';
+import { PaginatePropertiesOutput } from './dto/paginate-properties.output';
 
-@Resolver(() => PropertiesPaginationOutput)
+@Resolver(() => PaginatePropertiesOutput)
 export class SearchPropertiesResolver {
-  constructor(private readonly propertyFacada: PropertyFacade) {}
+  constructor(private readonly propertyFacade: PropertyFacade) {}
 
-  @Query(() => PropertiesPaginationOutput)
-  searchProperties(@Args('input') input: PropertySearchInput) {
-    return this.propertyFacada.searchProperty(input);
+  @Query(() => PaginatePropertiesOutput)
+  searchProperties(@Args('input') input: SearchPropertiesInput) {
+    return this.propertyFacade.searchProperties(input);
   }
 }

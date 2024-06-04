@@ -3,7 +3,7 @@ import { SortDirection } from '#nest/shared/enums/sort-direction.enum';
 import { PropertyStatus } from './property.enum';
 
 @InputType()
-export class PropertyFilterInput {
+export class FilterPropertiesInput {
   @Field(() => String, { nullable: true })
   id: string;
 
@@ -51,7 +51,7 @@ export class PropertyFilterInput {
 }
 
 @InputType()
-export class PropertySearchInput {
+export class SearchPropertiesInput {
   @Field(() => Number, { nullable: true })
   page: number;
 
@@ -64,6 +64,6 @@ export class PropertySearchInput {
   @Field(() => SortDirection, { nullable: true })
   sort_dir: SortDirection;
 
-  @Field(() => PropertyFilterInput, { nullable: true })
-  filter: PropertyFilterInput;
+  @Field(() => FilterPropertiesInput, { nullable: true })
+  filter: FilterPropertiesInput;
 }

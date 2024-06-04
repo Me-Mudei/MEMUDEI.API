@@ -126,18 +126,25 @@ export class CreatePropertyInput {
 
   @Field(() => String, { nullable: true })
   owner_id: string;
+
   @Field(() => CreatePropertyAddressInput)
   address: CreatePropertyAddressInput;
+
   @Field(() => [CreatePropertyFloorPlanInput])
   floor_plans: CreatePropertyFloorPlanInput[];
+
   @Field(() => [CreatePropertyPropertyDetailInput])
   property_details: CreatePropertyPropertyDetailInput[];
+
   @Field(() => [CreatePropertyCondominiumDetailInput])
   condominium_details: CreatePropertyCondominiumDetailInput[];
+
   @Field(() => [CreatePropertyRuleInput])
   rules: CreatePropertyRuleInput[];
+
   @Field(() => [CreatePropertyChargeInput])
   charges: CreatePropertyChargeInput[];
+
   @Field(() => [CreatePropertyPhotoInput], { nullable: true })
   photos: CreatePropertyPhotoInput[];
 }

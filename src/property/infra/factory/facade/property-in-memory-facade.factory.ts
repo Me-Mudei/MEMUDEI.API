@@ -1,13 +1,13 @@
-import { Broker } from "#shared/infra";
+import { Broker } from '#shared/infra';
 
-import { PropertyFacade } from "../../../app/facade";
+import { PropertyFacade } from '../../../app/facade';
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
-  SearchPropertyUseCase
-} from "../../../app/use-cases";
-import { InMemoryRepositoryFactory } from "../repository";
+  SearchPropertiesUseCase,
+} from '../../../app/use-cases';
+import { InMemoryRepositoryFactory } from '../repository';
 
 export class PropertyInMemoryFacadeFactory {
   static create() {
@@ -16,26 +16,26 @@ export class PropertyInMemoryFacadeFactory {
 
     const createPropertyUseCase = new CreatePropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     const updatePropertyUseCase = new UpdatePropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     const getPropertyUseCase = new GetPropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
-    const searchPropertyUseCase = new SearchPropertyUseCase(
+    const searchPropertiesUseCase = new SearchPropertiesUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
 
     return new PropertyFacade({
       createProperty: createPropertyUseCase,
       updateProperty: updatePropertyUseCase,
       getProperty: getPropertyUseCase,
-      searchProperty: searchPropertyUseCase
+      searchProperties: searchPropertiesUseCase,
     });
   }
 }

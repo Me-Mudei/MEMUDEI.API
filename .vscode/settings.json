@@ -6,10 +6,10 @@
   "editor.formatOnSaveMode": "file", // required to format on save
   "editor.tabSize": 2,
   "[typescript]": {
-    "editor.tabSize": 2,
+    "editor.tabSize": 2
   },
   "[typescriptreact]": {
-    "editor.tabSize": 2,
+    "editor.tabSize": 2
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"

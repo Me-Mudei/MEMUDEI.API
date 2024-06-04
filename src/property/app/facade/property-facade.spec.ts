@@ -1,17 +1,17 @@
-import { Broker } from "#shared/infra";
+import { Broker } from '#shared/infra';
 
-import { PropertyFakeBuilder, RepositoryFactory } from "../../domain";
-import { InMemoryRepositoryFactory } from "../../infra";
+import { PropertyFakeBuilder, RepositoryFactory } from '../../domain';
+import { InMemoryRepositoryFactory } from '../../infra';
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
-  SearchPropertyUseCase
-} from "../use-cases";
+  SearchPropertiesUseCase,
+} from '../use-cases';
 
-import { PropertyFacade } from "./property.facade";
+import { PropertyFacade } from './property.facade';
 
-describe("PropertyFacade Unit tests", () => {
+describe('PropertyFacade Unit tests', () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -23,23 +23,23 @@ describe("PropertyFacade Unit tests", () => {
     useCase = new CreatePropertyUseCase(repositoryFactory, broker);
     const mockUpdateUseCase = new UpdatePropertyUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     const mockGetUseCase = new GetPropertyUseCase(repositoryFactory, broker);
-    const mockSearchUseCase = new SearchPropertyUseCase(
+    const mockSearchUseCase = new SearchPropertiesUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
     facade = new PropertyFacade({
       createProperty: useCase,
       updateProperty: mockUpdateUseCase,
       getProperty: mockGetUseCase,
-      searchProperty: mockSearchUseCase
+      searchProperties: mockSearchUseCase,
     } as any);
   });
-  it("should create a property facade", async () => {
-    const spyFacadeCreate = jest.spyOn(facade, "createProperty");
-    const spyUseCaseExecute = jest.spyOn(useCase, "execute");
+  it('should create a property facade', async () => {
+    const spyFacadeCreate = jest.spyOn(facade, 'createProperty');
+    const spyUseCaseExecute = jest.spyOn(useCase, 'execute');
 
     const createPropertyProps = PropertyFakeBuilder.aProperty();
     await facade.createProperty(createPropertyProps);
