@@ -1,37 +1,18 @@
-import { Broker } from "#shared/infra";
+import { Connection } from "#shared/infra";
 
 import { UserFacade } from "../../app/facade";
-import { UserCreatedSendToCrmHandler } from "../../app/handlers";
-import {
-  CreateUserUseCase,
-  FindFirstUserUseCase,
-  SearchUsersUseCase,
-  ValidateUserUseCase
-} from "../../app/use-cases";
-import { Auth0Auth } from "../auth";
-import { UserInMemoryRepository } from "../repository";
+import { SearchUsersUseCase, FindFirstUserUseCase } from "../../app/use-cases";
 
 export class UserInMemoryFacadeFactory {
   static create() {
-    const userRepository = new UserInMemoryRepository();
-    const broker = new Broker();
-    const authService = new Auth0Auth();
+    const prisma = Connection.getInstance("prismock");
 
-    broker.register(new UserCreatedSendToCrmHandler());
-    const createUserUseCase = new CreateUserUseCase(
-      userRepository,
-      authService,
-      broker
-    );
-    const findFirstUserUseCase = new FindFirstUserUseCase(userRepository);
-    const searchUserUseCase = new SearchUsersUseCase(userRepository);
-    const validateUserUseCase = new ValidateUserUseCase(userRepository);
+    const searchUseCase = new SearchUsersUseCase(prisma);
+    const findFirstUseCase = new FindFirstUserUseCase(prisma);
 
     return new UserFacade({
-      createUseCase: createUserUseCase,
-      findFirstUseCase: findFirstUserUseCase,
-      searchUseCase: searchUserUseCase,
-      validateUseCase: validateUserUseCase
+      searchUseCase,
+      findFirstUseCase,
     });
   }
 }

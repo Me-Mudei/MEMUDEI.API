@@ -1,13 +1,12 @@
-import { PropertyFacade } from '#property/app';
-import { Module } from '@nestjs/common';
-import { PropertyResolver } from './property.resolver';
-import { SearchPropertiesResolver } from './search-properties.resolver';
-import { PropertyFacadeFactory } from '#property/infra';
+import { Module } from "@nestjs/common";
+import { PropertyFacade } from "#property/app";
+import { PropertyFacadeFactory } from "#property/infra";
+
+import { PropertyResolver } from "./property.resolver";
 
 @Module({
   providers: [
     PropertyResolver,
-    SearchPropertiesResolver,
     {
       provide: PropertyFacade,
       useFactory: () => PropertyFacadeFactory.create(),

@@ -1,19 +1,28 @@
-import { AuthenticateUserUseCase, AuthFacade } from "../../app";
-import { AuthGateway } from "../auth-gateway";
-import { UserInMemoryRepository } from "../repository";
+import { Connection } from "#shared/infra";
+
+import {
+  AuthFacade,
+  SignUpUseCase,
+  SignInUseCase,
+  ValidateUseCase,
+} from "../../app";
+import { CredentialsAuthProvider } from "../auth-provider";
+import { BcryptCrypto } from "../crypto";
 
 export class AuthInMemoryFacadeFactory {
   static create() {
-    const userRepository = new UserInMemoryRepository();
-    const authGateway = new AuthGateway();
+    const prisma = Connection.getInstance("prismock");
+    const crypto = new BcryptCrypto();
+    const credentialsProvider = new CredentialsAuthProvider(prisma, crypto);
 
-    const authenticateUserUseCase = new AuthenticateUserUseCase(
-      authGateway,
-      userRepository
-    );
+    const signUpUseCase = new SignUpUseCase(prisma, [credentialsProvider]);
+    const signInUseCase = new SignInUseCase([credentialsProvider]);
+    const validateUseCase = new ValidateUseCase(prisma);
 
     return new AuthFacade({
-      authenticateUser: authenticateUserUseCase
+      signUpUseCase,
+      signInUseCase,
+      validateUseCase,
     });
   }
 }

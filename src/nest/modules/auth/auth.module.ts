@@ -1,19 +1,16 @@
-import { Module, forwardRef } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { AuthFacade } from "#auth/app";
+import { AuthFacadeFactory } from "#auth/infra";
 import { EnvironmentVariables } from "#nest/modules/config/env.type";
-import { UserModule } from "#nest/modules/user/user.module";
-import { CryptoModule } from "#nest/shared/crypto/crypto.module";
 
 import { AuthResolver } from "./auth.resolver";
-import { AuthService } from "./auth.service";
-import { JwtStrategy } from "./jwt.strategy";
+import { AuthStrategy } from "./auth.strategy";
 
 @Module({
   imports: [
-    forwardRef(() => UserModule),
-    CryptoModule,
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -25,6 +22,13 @@ import { JwtStrategy } from "./jwt.strategy";
       }),
     }),
   ],
-  providers: [AuthResolver, AuthService, JwtStrategy],
+  providers: [
+    AuthResolver,
+    AuthStrategy,
+    {
+      provide: AuthFacade,
+      useFactory: () => AuthFacadeFactory.create(),
+    },
+  ],
 })
 export class AuthModule {}

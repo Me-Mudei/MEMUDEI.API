@@ -1,6 +1,9 @@
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { JwtService } from "@nestjs/jwt";
+import { AuthFacade } from "#auth/app";
+import { UserOutput } from "#user/app";
+import dayjs from "dayjs";
 
-import { AuthService } from "./auth.service";
 import { AuthOutput } from "./dto/auth.output";
 import { RefreshTokenInput } from "./dto/refresh-token.input";
 import { SignInInput } from "./dto/sign-in.input";
@@ -9,23 +12,57 @@ import { Public } from "./public.decorator";
 
 @Resolver(() => AuthOutput)
 export class AuthResolver {
-  constructor(private service: AuthService) {}
+  constructor(
+    private authFacade: AuthFacade,
+    private jwtService: JwtService,
+  ) {}
 
   @Public()
   @Mutation(() => AuthOutput)
   async signUp(@Args("input") input: SignUpInput) {
-    return this.service.signUp(input);
+    const user = await this.authFacade.signUp(input);
+    return this.output(user);
   }
 
   @Public()
   @Mutation(() => AuthOutput)
   async signIn(@Args("input") input: SignInInput) {
-    return this.service.signIn(input);
+    const user = await this.authFacade.signIn(input);
+    return this.output(user);
   }
 
   @Public()
   @Mutation(() => AuthOutput)
   async refreshToken(@Args("input") input: RefreshTokenInput) {
-    return this.service.refreshToken(input);
+    const payload = await this.jwtService.verifyAsync(input.refreshToken);
+    const user = await this.authFacade.validate(payload);
+    return this.output(user);
+  }
+
+  private async output(user: UserOutput): Promise<AuthOutput> {
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        iat: dayjs().valueOf(),
+        name: user.name,
+      },
+      {
+        expiresIn: "1d",
+      },
+    );
+    const refreshToken = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        iat: dayjs().valueOf(),
+      },
+      {
+        expiresIn: "30d",
+      },
+    );
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

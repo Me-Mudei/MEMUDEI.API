@@ -1,9 +1,7 @@
 import { registerEnumType } from "@nestjs/graphql";
+import { AuthProvider } from "#auth/domain";
+export { AuthProvider };
 
-export enum AuthenticationProvider {
-  GOOGLE = "GOOGLE",
-}
-
-registerEnumType(AuthenticationProvider, {
+registerEnumType(AuthProvider, {
   name: "AuthenticationProvider",
 });

@@ -1,22 +1,30 @@
 import { Connection } from "#shared/infra";
 
-import { AuthenticateUserUseCase, AuthFacade } from "../../app";
-import { AuthGateway } from "../auth-gateway";
-import { UserPrismaRepository } from "../repository";
+import {
+  AuthFacade,
+  SignUpUseCase,
+  SignInUseCase,
+  ValidateUseCase,
+} from "../../app";
+// import { GoogleAuthProvider } from "../auth-provider";
+import { CredentialsAuthProvider } from "../auth-provider";
+import { BcryptCrypto } from "../crypto";
 
 export class AuthFacadeFactory {
   static create() {
     const prisma = Connection.getInstance();
-    const userRepository = new UserPrismaRepository(prisma);
-    const authGateway = new AuthGateway();
+    const crypto = new BcryptCrypto();
+    // const googleProvider = new GoogleAuthProvider(prisma);
+    const credentialsProvider = new CredentialsAuthProvider(prisma, crypto);
 
-    const authenticateUserUseCase = new AuthenticateUserUseCase(
-      authGateway,
-      userRepository
-    );
+    const signUpUseCase = new SignUpUseCase(prisma, [credentialsProvider]);
+    const signInUseCase = new SignInUseCase([credentialsProvider]);
+    const validateUseCase = new ValidateUseCase(prisma);
 
     return new AuthFacade({
-      authenticateUser: authenticateUserUseCase
+      signUpUseCase,
+      signInUseCase,
+      validateUseCase,
     });
   }
 }

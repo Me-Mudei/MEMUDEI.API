@@ -1,10 +1,11 @@
 import { Field, InputType } from "@nestjs/graphql";
+import { SignInInput as AuthSignInInput } from "#auth/app";
 import { MutuallyExclusive } from "#nest/shared/validators/mutually-exclusive.validate";
 import { RequiredIf } from "#nest/shared/validators/required-if.validate";
 import { IsEmail, IsOptional } from "class-validator";
 
 @InputType()
-export class SignInInput {
+export class SignInInput implements AuthSignInInput {
   @MutuallyExclusive(["googleToken"], { nullable: true })
   @RequiredIf(["password"])
   @IsOptional()

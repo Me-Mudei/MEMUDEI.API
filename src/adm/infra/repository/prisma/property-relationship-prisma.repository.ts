@@ -5,7 +5,7 @@ import {
   PropertyRelationship,
   PropertyRelationshipRepository,
   PropertyRelationshipSearchParams,
-  PropertyRelationshipSearchResult
+  PropertyRelationshipSearchResult,
 } from "../../../domain";
 
 export class PropertyRelationshipPrismaRepository
@@ -15,22 +15,22 @@ export class PropertyRelationshipPrismaRepository
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: PropertyRelationship): Promise<void> {
-    await this.prisma.property_relationship.create({
+    await this.prisma.propertyRelationship.create({
       data: {
         id: entity.id,
         key: entity.key,
         name: entity.name,
         description: entity.description,
         created_at: entity.created_at,
-        updated_at: entity.updated_at
-      }
+        updated_at: entity.updated_at,
+      },
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<PropertyRelationship> {
-    const propertyRelationship = await this.prisma.property_relationship
+    const propertyRelationship = await this.prisma.propertyRelationship
       .findFirstOrThrow({
-        where: { id: id.toString() }
+        where: { id: id.toString() },
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -40,72 +40,72 @@ export class PropertyRelationshipPrismaRepository
   }
 
   async findManyById(
-    ids: (string | UniqueEntityId)[]
+    ids: (string | UniqueEntityId)[],
   ): Promise<PropertyRelationship[]> {
     const propertyRelationships =
-      await this.prisma.property_relationship.findMany({
+      await this.prisma.propertyRelationship.findMany({
         where: {
           id: {
-            in: ids.map((id) => id.toString())
-          }
-        }
+            in: ids.map((id) => id.toString()),
+          },
+        },
       });
     return propertyRelationships.map((propertyRelationship) =>
-      this.toEntity(propertyRelationship)
+      this.toEntity(propertyRelationship),
     );
   }
 
   async findAll(): Promise<PropertyRelationship[]> {
     const propertyRelationships =
-      await this.prisma.property_relationship.findMany();
+      await this.prisma.propertyRelationship.findMany();
     return propertyRelationships.map((propertyRelationship) =>
-      this.toEntity(propertyRelationship)
+      this.toEntity(propertyRelationship),
     );
   }
 
   async update(entity: PropertyRelationship): Promise<void> {
-    await this.prisma.property_relationship.update({
+    await this.prisma.propertyRelationship.update({
       where: { id: entity.id },
       data: {
         key: entity.key,
         name: entity.name,
-        description: entity.description
-      }
+        description: entity.description,
+      },
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
-    await this.prisma.property_relationship.delete({
-      where: { id: id.toString() }
+    await this.prisma.propertyRelationship.delete({
+      where: { id: id.toString() },
     });
   }
 
   async search(
-    props: PropertyRelationshipSearchParams
+    props: PropertyRelationshipSearchParams,
   ): Promise<PropertyRelationshipSearchResult> {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
 
     const propertyRelationships =
-      await this.prisma.property_relationship.findMany({
+      await this.prisma.propertyRelationship.findMany({
         take: limit,
         skip: offset,
         orderBy: {
           ...(props.sort && this.sortableFields.includes(props.sort)
             ? { [props.sort]: props.sort_dir }
-            : { created_at: "asc" })
-        }
+            : { created_at: "asc" }),
+        },
       });
     return new PropertyRelationshipSearchResult({
       items: propertyRelationships.map((propertyRelationship) =>
-        this.toEntity(propertyRelationship)
+        this.toEntity(propertyRelationship),
       ),
       current_page: props.page,
       per_page: props.per_page,
       total: propertyRelationships.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir
+      sort_dir: props.sort_dir,
     });
   }
 
@@ -116,7 +116,7 @@ export class PropertyRelationshipPrismaRepository
       name: entity.name,
       description: entity.description,
       created_at: entity.created_at,
-      updated_at: entity.updated_at
+      updated_at: entity.updated_at,
     });
   }
 }

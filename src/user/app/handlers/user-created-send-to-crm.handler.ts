@@ -1,7 +1,7 @@
 import { WinstonLogger } from "#shared/infra";
 import { HubspotCRM } from "#user/infra";
 
-import { UserCreated } from "../../domain/events";
+import { UserCreated } from "../../domain";
 
 export class UserCreatedSendToCrmHandler {
   name = "UserCreated";
@@ -18,7 +18,7 @@ export class UserCreatedSendToCrmHandler {
         message: error.message,
         err_code: "CRM_ERROR",
         imp: "User wasn't created in CRM",
-        err_category: "CRM"
+        err_category: "CRM",
       });
     }
   }

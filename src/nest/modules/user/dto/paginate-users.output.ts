@@ -1,5 +1,6 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserOutput } from './user.output';
+import { Field, Int, ObjectType } from "@nestjs/graphql";
+
+import { UserOutput } from "./user.output";
 
 @ObjectType()
 export class PaginateUsersOutput {

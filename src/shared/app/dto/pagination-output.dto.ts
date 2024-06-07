@@ -11,14 +11,14 @@ export type PaginationOutputDto<Item = any> = {
 export class PaginationOutputMapper {
   static toOutput<Item = any, Filter = any>(
     items: Item[],
-    result: SearchResult<any, Filter>
+    result: SearchResult<any, Filter>,
   ): PaginationOutputDto<Item> {
     return {
       items,
       total: result.total,
       current_page: result.current_page,
       last_page: result.last_page,
-      per_page: result.per_page
+      per_page: result.per_page,
     };
   }
 }

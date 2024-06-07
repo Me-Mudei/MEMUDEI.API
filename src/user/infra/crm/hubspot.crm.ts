@@ -9,7 +9,7 @@ export class HubspotCRM implements CRM {
 
   constructor() {
     this.client = new Client({
-      accessToken: configEnv.crm.accessToken
+      accessToken: configEnv.crm.accessToken,
     });
   }
 
@@ -18,9 +18,9 @@ export class HubspotCRM implements CRM {
       properties: {
         user_id: user.id,
         firstname: user.name,
-        email: user.email
+        email: user.email,
       },
-      associations: []
+      associations: [],
     });
   }
 

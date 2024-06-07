@@ -12,7 +12,7 @@ describe("Hubspot CRM", () => {
   it("should user a visit", async () => {
     const user = new User({
       name: "John Doe",
-      email: "jhon.doe@mail.com"
+      email: "jhon.doe@mail.com",
     });
     await expect(() => crm.createUser(user)).rejects.toThrow();
   });

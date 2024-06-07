@@ -1,13 +1,15 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { UserOutput } from './dto/user.output';
-import { CreateUserInput } from './dto/user.input';
-import { UserFacade } from '#user/app';
+import { Args, Query, Resolver } from "@nestjs/graphql";
+import { UserFacade } from "#user/app";
 
-@Resolver(() => UserOutput)
+import { PaginateUsersOutput } from "./dto/paginate-users.output";
+import { SearchUsersInput } from "./dto/search-users.input";
+
+@Resolver()
 export class UserResolver {
   constructor(private readonly userFacade: UserFacade) {}
-  @Mutation(() => UserOutput)
-  createUser(@Args('input') input: CreateUserInput) {
-    return this.userFacade.createUser(input);
+
+  @Query(() => PaginateUsersOutput)
+  searchUsers(@Args("input") input: SearchUsersInput) {
+    return this.userFacade.searchUsers(input);
   }
 }

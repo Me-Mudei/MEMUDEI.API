@@ -1,30 +1,30 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 async function main() {
-  await prisma.privacy_type.createMany({
+  await prisma.privacyType.createMany({
     data: [
       { key: "entire_property", name: "Imóvel inteiro" },
       { key: "shared_room", name: "Quarto compartilhado" },
-      { key: "private_room", name: "Quarto privado" }
-    ]
+      { key: "private_room", name: "Quarto privado" },
+    ],
   });
 
-  await prisma.property_type.createMany({
+  await prisma.propertyType.createMany({
     data: [
       { key: "apartment", name: "Apartamento" },
       { key: "kitnet", name: "Kitnet" },
       { key: "republic", name: "República" },
       { key: "house", name: "Casa" },
-      { key: "pension", name: "Pensionato" }
-    ]
+      { key: "pension", name: "Pensionato" },
+    ],
   });
 
-  await prisma.property_relationship.createMany({
+  await prisma.propertyRelationship.createMany({
     data: [
       { key: "owner", name: "Propietário" },
       { key: "adm", name: "Administrador/Terceiro" },
-      { key: "broker", name: "Corretor" }
-    ]
+      { key: "broker", name: "Corretor" },
+    ],
   });
 
   await prisma.rule.createMany({
@@ -37,11 +37,11 @@ async function main() {
       { key: "children", name: "Proibido crianças" },
       { key: "alcohol", name: "Proibido bebidas alcoólicas" },
       { key: "drugs", name: "Proibido drogas" },
-      { key: "noise", name: "Proibido barulho" }
-    ]
+      { key: "noise", name: "Proibido barulho" },
+    ],
   });
 
-  await prisma.property_detail.createMany({
+  await prisma.propertyDetail.createMany({
     data: [
       { key: "sofa", name: "Sofá" },
       { key: "table", name: "Mesa" },
@@ -62,11 +62,11 @@ async function main() {
       { key: "services_area", name: "Área de serviços" },
       { key: "garden", name: "Jardin" },
       { key: "yard", name: "Quintal" },
-      { key: "balcony", name: "Varanda" }
-    ]
+      { key: "balcony", name: "Varanda" },
+    ],
   });
 
-  await prisma.condominium_detail.createMany({
+  await prisma.condominiumDetail.createMany({
     data: [
       { key: "elevator", name: "Elevador" },
       { key: "reception", name: "Portaria 24h" },
@@ -81,18 +81,18 @@ async function main() {
       { key: "sauna", name: "Sauna" },
       { key: "laundry", name: "Lavanderia no prédio" },
       { key: "green_areas", name: "Área verde" },
-      { key: "games_room", name: "Salão de jogos" }
-    ]
+      { key: "games_room", name: "Salão de jogos" },
+    ],
   });
 
-  await prisma.floor_plan.createMany({
+  await prisma.floorPlan.createMany({
     data: [
       { key: "footage", unit: "m²", name: "Metragem" },
       { key: "bedrooms", unit: "quartos", name: "Quartos" },
       { key: "suites", unit: "suites", name: "Suítes" },
       { key: "bathrooms", unit: "banheiros", name: "Banheiros" },
-      { key: "garage", unit: "vagas", name: "Vagas de garagem" }
-    ]
+      { key: "garage", unit: "vagas", name: "Vagas de garagem" },
+    ],
   });
 
   await prisma.charge.createMany({
@@ -109,8 +109,8 @@ async function main() {
       { key: "cleaning", name: "Limpeza" },
       { key: "security", name: "Segurança" },
       { key: "parking", name: "Estacionamento" },
-      { key: "others", name: "Outros" }
-    ]
+      { key: "others", name: "Outros" },
+    ],
   });
 }
 

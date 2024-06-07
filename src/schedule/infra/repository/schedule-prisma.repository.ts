@@ -1,5 +1,5 @@
-import { NotFoundError, UniqueEntityId } from '#shared/domain';
-import { PrismaClient, Prisma } from '#shared/infra';
+import { NotFoundError, UniqueEntityId } from "#shared/domain";
+import { PrismaClient, Prisma, AuthProvider } from "#shared/infra";
 
 import {
   Schedule,
@@ -7,10 +7,10 @@ import {
   ScheduleSearchParams,
   ScheduleSearchResult,
   User,
-} from '../../domain';
+} from "../../domain";
 
 export class SchedulePrismaRepository implements ScheduleRepository {
-  sortableFields: string[] = ['createdAt'];
+  sortableFields: string[] = ["createdAt"];
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: Schedule): Promise<void> {
@@ -29,8 +29,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
               id: entity.visitor.id,
               name: entity.visitor.name,
               email: entity.visitor.email,
-              phone: entity.visitor.phone,
-              type: 'lead',
+              provider: AuthProvider.CREDENTIALS,
               external_id: entity.visitor.id,
             },
           },
@@ -92,7 +91,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: 'asc' }),
+          : { created_at: "asc" }),
       },
       include: this.includes(),
     });
@@ -107,7 +106,7 @@ export class SchedulePrismaRepository implements ScheduleRepository {
     });
   }
 
-  private includes(): Prisma.scheduleInclude {
+  private includes(): Prisma.ScheduleInclude {
     return {
       visitor: true,
     };

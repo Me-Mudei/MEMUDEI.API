@@ -1,12 +1,12 @@
-import { ApolloServerPluginInlineTrace } from '@apollo/server/plugin/inlineTrace';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { DynamicModule, Module } from '@nestjs/common';
+import { ApolloServerPluginInlineTrace } from "@apollo/server/plugin/inlineTrace";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { DynamicModule, Module } from "@nestjs/common";
 import {
   GqlModuleOptions,
   GraphQLDriver,
   GraphQLModule as NestGraphQLModule,
-} from '@nestjs/graphql';
+} from "@nestjs/graphql";
 
 @Module({})
 export class GraphqlModule extends NestGraphQLModule {

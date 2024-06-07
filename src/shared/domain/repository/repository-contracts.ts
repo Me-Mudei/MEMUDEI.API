@@ -34,6 +34,26 @@ export class SearchParams<Filter> {
     this.filter = props.filter;
   }
 
+  toPrismaPagination<
+    T extends {
+      take?: number;
+      skip?: number;
+      orderBy?: any;
+      where?: any;
+    },
+  >() {
+    return {
+      take: this._per_page,
+      skip: (this._page - 1) * this._per_page,
+      orderBy: {
+        ...(this._sort
+          ? { [this._sort]: this._sort_dir }
+          : { created_at: "asc" }),
+      },
+      where: this._filter,
+    } as T;
+  }
+
   get page() {
     return this._page;
   }
@@ -140,7 +160,7 @@ export class SearchResult<E extends Entity = Entity, Filter = any> {
       last_page: this.last_page,
       sort: this.sort,
       sort_dir: this.sort_dir,
-      filter: this.filter
+      filter: this.filter,
     };
   }
 }
@@ -149,7 +169,7 @@ export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
   SearchInput = SearchParams<Filter>,
-  SearchOutput = SearchResult<E, Filter>
+  SearchOutput = SearchResult<E, Filter>,
 > extends RepositoryInterface<E> {
   sortableFields: string[];
   search(props: SearchInput): Promise<SearchOutput>;

@@ -1,4 +1,6 @@
 // created from 'create-ts-index'
 
-export * from "./authenticate-user-input.dto";
-export * from "./authenticate-user-output.dto";
+export * from "./sign-in.input";
+export * from "./sign-up.input";
+export * from "./validate.input";
+export * from "./auth-user.output";

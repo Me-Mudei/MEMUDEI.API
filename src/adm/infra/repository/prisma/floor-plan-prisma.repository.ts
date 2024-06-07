@@ -5,7 +5,7 @@ import {
   FloorPlan,
   FloorPlanRepository,
   FloorPlanSearchParams,
-  FloorPlanSearchResult
+  FloorPlanSearchResult,
 } from "../../../domain";
 
 export class FloorPlanPrismaRepository implements FloorPlanRepository {
@@ -13,22 +13,22 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
   constructor(readonly prisma: PrismaClient) {}
 
   async insert(entity: FloorPlan): Promise<void> {
-    await this.prisma.floor_plan.create({
+    await this.prisma.floorPlan.create({
       data: {
         id: entity.id,
         key: entity.key,
         name: entity.name,
         unit: entity.unit,
         created_at: entity.created_at,
-        updated_at: entity.updated_at
-      }
+        updated_at: entity.updated_at,
+      },
     });
   }
 
   async findById(id: string | UniqueEntityId): Promise<FloorPlan> {
-    const floorPlan = await this.prisma.floor_plan
+    const floorPlan = await this.prisma.floorPlan
       .findFirstOrThrow({
-        where: { id: id.toString() }
+        where: { id: id.toString() },
       })
       .catch((_err) => {
         throw new NotFoundError(`Entity Not Found using ID ${id}`);
@@ -38,37 +38,37 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
   }
 
   async findManyById(ids: (string | UniqueEntityId)[]): Promise<FloorPlan[]> {
-    const floorPlan = await this.prisma.floor_plan.findMany({
+    const floorPlan = await this.prisma.floorPlan.findMany({
       where: {
         id: {
-          in: ids.map((id) => id.toString())
-        }
-      }
+          in: ids.map((id) => id.toString()),
+        },
+      },
     });
     return floorPlan.map((condominiumDetail) =>
-      this.toEntity(condominiumDetail)
+      this.toEntity(condominiumDetail),
     );
   }
 
   async findAll(): Promise<FloorPlan[]> {
-    const floorPlans = await this.prisma.floor_plan.findMany();
+    const floorPlans = await this.prisma.floorPlan.findMany();
     return floorPlans.map((floorPlan) => this.toEntity(floorPlan));
   }
 
   async update(entity: FloorPlan): Promise<void> {
-    await this.prisma.floor_plan.update({
+    await this.prisma.floorPlan.update({
       where: { id: entity.id },
       data: {
         key: entity.key,
         name: entity.name,
-        unit: entity.unit
-      }
+        unit: entity.unit,
+      },
     });
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
-    await this.prisma.floor_plan.delete({
-      where: { id: id.toString() }
+    await this.prisma.floorPlan.delete({
+      where: { id: id.toString() },
     });
   }
 
@@ -76,14 +76,14 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
     const offset = (props.page - 1) * props.per_page;
     const limit = props.per_page;
 
-    const floorPlans = await this.prisma.floor_plan.findMany({
+    const floorPlans = await this.prisma.floorPlan.findMany({
       take: limit,
       skip: offset,
       orderBy: {
         ...(props.sort && this.sortableFields.includes(props.sort)
           ? { [props.sort]: props.sort_dir }
-          : { created_at: "asc" })
-      }
+          : { created_at: "asc" }),
+      },
     });
     return new FloorPlanSearchResult({
       items: floorPlans.map((floorPlan) => this.toEntity(floorPlan)),
@@ -92,7 +92,7 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
       total: floorPlans.length,
       filter: props.filter,
       sort: props.sort,
-      sort_dir: props.sort_dir
+      sort_dir: props.sort_dir,
     });
   }
 
@@ -103,7 +103,7 @@ export class FloorPlanPrismaRepository implements FloorPlanRepository {
       name: entity.name,
       unit: entity.unit,
       created_at: entity.created_at,
-      updated_at: entity.updated_at
+      updated_at: entity.updated_at,
     });
   }
 }

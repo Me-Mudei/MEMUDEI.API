@@ -1,10 +1,10 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from "@nestjs/graphql";
 
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = "asc" | "desc";
 
 export const SortDirection = {
-  ASC: 'asc',
-  DESC: 'desc',
+  ASC: "asc",
+  DESC: "desc",
 };
 
-registerEnumType(SortDirection, { name: 'SortDirection' });
+registerEnumType(SortDirection, { name: "SortDirection" });
