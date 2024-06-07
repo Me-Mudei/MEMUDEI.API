@@ -8,7 +8,7 @@ describe("InMemoryFacadeFactory unit tests", () => {
       req_id: "123",
       req_path: "path",
       req_method: "method",
-      req_ua: "ua"
+      req_ua: "ua",
     });
     expect(facade).toBeInstanceOf(AdmFacade);
     expect(facade).toHaveProperty("getPropertyType");

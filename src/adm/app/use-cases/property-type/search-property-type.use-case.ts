@@ -2,14 +2,14 @@ import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
-  PaginationOutputMapper
+  PaginationOutputMapper,
 } from "#shared/app";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
 
 import { RepositoryFactory } from "../../../domain/factory";
 import {
   PropertyTypeRepository,
-  PropertyTypeSearchParams
+  PropertyTypeSearchParams,
 } from "../../../domain/repository";
 import { PropertyTypeOutput, PropertyTypeOutputMapper } from "../../dto";
 
@@ -20,7 +20,7 @@ export class SearchPropertyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyTypeRepository =
@@ -28,13 +28,13 @@ export class SearchPropertyTypeUseCase
   }
 
   async execute(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyTypeOutput>> {
     this.logger.info({ message: "Start SearchPropertyType Use Case" });
     const params = new PropertyTypeSearchParams(input);
     const propertyType = await this.propertyTypeRepository.search(params);
     const items = propertyType.items.map((propertyType) =>
-      PropertyTypeOutputMapper.toOutput(propertyType)
+      PropertyTypeOutputMapper.toOutput(propertyType),
     );
 
     return PaginationOutputMapper.toOutput(items, propertyType);

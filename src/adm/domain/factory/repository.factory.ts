@@ -6,7 +6,7 @@ import {
   CondominiumDetailRepository,
   RuleRepository,
   FloorPlanRepository,
-  ChargeRepository
+  ChargeRepository,
 } from "../repository";
 
 export interface RepositoryFactory {

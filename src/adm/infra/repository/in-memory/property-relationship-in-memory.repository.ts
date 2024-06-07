@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { PropertyRelationship } from "../../../domain/entities";
 import {
   PropertyRelationshipRepository,
-  PropertyRelationshipFilter
+  PropertyRelationshipFilter,
 } from "../../../domain/repository";
 
 export class PropertyRelationshipInMemoryRepository
@@ -15,7 +15,7 @@ export class PropertyRelationshipInMemoryRepository
 
   protected async applyFilter(
     items: PropertyRelationship[],
-    filter: PropertyRelationshipFilter
+    filter: PropertyRelationshipFilter,
   ): Promise<PropertyRelationship[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class PropertyRelationshipInMemoryRepository
   protected async applySort(
     items: PropertyRelationship[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<PropertyRelationship[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

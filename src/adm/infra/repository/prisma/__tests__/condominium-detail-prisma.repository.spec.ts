@@ -11,10 +11,10 @@ describe("CondominiumDetailRepository Unit tests", () => {
   });
   it("should find by many ids a condominium detail", async () => {
     const condominiumDetailRepository = new CondominiumDetailPrismaRepository(
-      prisma
+      prisma,
     );
     const condominiumDetails = await condominiumDetailRepository.findManyById([
-      new UniqueEntityId("p9bw4jiqH7Weh84d19Dk1")
+      new UniqueEntityId("p9bw4jiqH7Weh84d19Dk1"),
     ]);
     expect(condominiumDetails.length).toBe(1);
   });

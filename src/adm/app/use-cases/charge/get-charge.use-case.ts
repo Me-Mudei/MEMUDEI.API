@@ -10,7 +10,7 @@ export class GetChargeUseCase implements UseCase<{ id: string }, ChargeOutput> {
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.chargeRepository = repositoryFactory.createChargeRepository();

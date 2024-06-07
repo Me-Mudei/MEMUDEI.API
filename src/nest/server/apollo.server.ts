@@ -1,9 +1,9 @@
-import { Handler } from 'aws-lambda';
-import { NestFactory } from '@nestjs/core';
-import serverlessExpress from '@codegenie/serverless-express';
+import { Handler } from "aws-lambda";
+import { NestFactory } from "@nestjs/core";
+import serverlessExpress from "@codegenie/serverless-express";
 
-import { AppModule } from '../app.module';
-import { ValidationPipe } from '#nest/shared/pipe/validation-pipe';
+import { AppModule } from "../app.module";
+import { ValidationPipe } from "#nest/shared/pipe/validation-pipe";
 
 export default class ApolloServer {
   handle: Handler;

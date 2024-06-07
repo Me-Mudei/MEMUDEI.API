@@ -1,13 +1,13 @@
-import { Broker } from '#shared/infra';
+import { Broker } from "#shared/infra";
 
-import { PropertyFacade } from '../../../app/facade';
+import { PropertyFacade } from "../../../app/facade";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertiesUseCase,
-} from '../../../app/use-cases';
-import { InMemoryRepositoryFactory } from '../repository';
+} from "../../../app/use-cases";
+import { InMemoryRepositoryFactory } from "../repository";
 
 export class PropertyInMemoryFacadeFactory {
   static create() {

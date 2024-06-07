@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { FloorPlan } from "../../../domain/entities";
 import {
   FloorPlanRepository,
-  FloorPlanFilter
+  FloorPlanFilter,
 } from "../../../domain/repository";
 
 export class FloorPlanInMemoryRepository
@@ -15,7 +15,7 @@ export class FloorPlanInMemoryRepository
 
   protected async applyFilter(
     items: FloorPlan[],
-    filter: FloorPlanFilter
+    filter: FloorPlanFilter,
   ): Promise<FloorPlan[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class FloorPlanInMemoryRepository
   protected async applySort(
     items: FloorPlan[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<FloorPlan[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

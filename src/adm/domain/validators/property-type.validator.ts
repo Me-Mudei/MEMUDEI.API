@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from "class-validator";
 
 import { PropertyTypeProps } from "../entities/property-type.entity";

@@ -12,7 +12,7 @@ describe("PropertyDetailRepository Unit tests", () => {
   it("should find by many ids a property detail", async () => {
     const propertyDetailRepository = new PropertyDetailPrismaRepository(prisma);
     const propertyDetails = await propertyDetailRepository.findManyById([
-      new UniqueEntityId("PIpRG6rRuZFNIEtBsYdyT")
+      new UniqueEntityId("PIpRG6rRuZFNIEtBsYdyT"),
     ]);
     expect(propertyDetails.length).toBe(1);
   });

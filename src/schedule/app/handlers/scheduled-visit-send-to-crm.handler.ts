@@ -18,7 +18,7 @@ export class ScheduledVisitSendToCRMHandler {
         message: error.message,
         err_code: "CRM_ERROR",
         imp: "Scheduling wasn't created in CRM",
-        err_category: "CRM"
+        err_category: "CRM",
       });
     }
   }

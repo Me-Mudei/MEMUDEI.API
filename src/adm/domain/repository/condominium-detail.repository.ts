@@ -1,7 +1,7 @@
 import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
-  SearchResult as DefaultSearchResult
+  SearchResult as DefaultSearchResult,
 } from "#shared/domain";
 
 import { CondominiumDetail } from "../entities";

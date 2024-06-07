@@ -7,7 +7,7 @@ import { PropertyDetailRepository } from "../../../domain/repository";
 import {
   CreatePropertyDetailInput,
   PropertyDetailOutput,
-  PropertyDetailOutputMapper
+  PropertyDetailOutputMapper,
 } from "../../dto";
 
 export class CreatePropertyDetailUseCase
@@ -17,7 +17,7 @@ export class CreatePropertyDetailUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyDetailRepository =
@@ -25,13 +25,13 @@ export class CreatePropertyDetailUseCase
   }
 
   async execute(
-    input: CreatePropertyDetailInput
+    input: CreatePropertyDetailInput,
   ): Promise<PropertyDetailOutput> {
     this.logger.info({ message: "Start CreatePropertyDetail Use Case" });
     const propertyDetail = new PropertyDetail({
       key: input.key,
       name: input.name,
-      description: input.description
+      description: input.description,
     });
     await this.propertyDetailRepository.insert(propertyDetail);
     return PropertyDetailOutputMapper.toOutput(propertyDetail);

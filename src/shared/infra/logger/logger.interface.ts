@@ -35,7 +35,7 @@ export const logLevels = {
   debug: 3,
   error: 2,
   process: 1,
-  critical: 0
+  critical: 0,
 };
 
 export const logColors = {
@@ -44,7 +44,7 @@ export const logColors = {
   debug: "blue",
   error: "red",
   process: "magenta",
-  critical: "bgRed"
+  critical: "bgRed",
 };
 export interface LoggerInterface {
   critical(input: ErrorInput): void;

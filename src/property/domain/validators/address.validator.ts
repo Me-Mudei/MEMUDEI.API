@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from "class-validator";
 
 import { AddressProps } from "../entities/address.entity";
@@ -62,7 +62,7 @@ export class AddressRules {
     district,
     complement,
     created_at,
-    updated_at
+    updated_at,
   }: AddressProps) {
     Object.assign(this, {
       zip_code,
@@ -73,7 +73,7 @@ export class AddressRules {
       district,
       complement,
       created_at,
-      updated_at
+      updated_at,
     });
   }
 }

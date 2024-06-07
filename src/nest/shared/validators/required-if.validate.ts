@@ -3,7 +3,7 @@ import {
   ValidationArguments,
   ValidationOptions,
   registerDecorator,
-} from 'class-validator';
+} from "class-validator";
 
 export const RequiredIf = (
   fields: string[],
@@ -11,14 +11,14 @@ export const RequiredIf = (
 ): PropertyDecorator => {
   return (object: object, propertyName: string) => {
     registerDecorator({
-      name: 'requiredIf',
+      name: "requiredIf",
       target: object.constructor,
       propertyName: propertyName,
       constraints: [fields],
       options: {
         message:
           validationOptions?.message ??
-          `${propertyName} is required if ${fields.join(', ')}`,
+          `${propertyName} is required if ${fields.join(", ")}`,
         ...validationOptions,
       },
       validator: {

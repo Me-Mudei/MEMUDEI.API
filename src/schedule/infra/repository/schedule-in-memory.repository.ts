@@ -12,7 +12,7 @@ export class ScheduleInMemoryRepository
 
   protected async applyFilter(
     items: Schedule[],
-    filter: ScheduleFilter
+    filter: ScheduleFilter,
   ): Promise<Schedule[]> {
     if (!filter) {
       return items;
@@ -26,7 +26,7 @@ export class ScheduleInMemoryRepository
   protected async applySort(
     items: Schedule[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<Schedule[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

@@ -3,7 +3,7 @@ import {
   ValidationArguments,
   ValidationOptions,
   registerDecorator,
-} from 'class-validator';
+} from "class-validator";
 
 export const RequiredIfValue = (
   field: string,
@@ -12,7 +12,7 @@ export const RequiredIfValue = (
 ): PropertyDecorator => {
   return (object: object, propertyName: string) => {
     registerDecorator({
-      name: 'requiredIfValue',
+      name: "requiredIfValue",
       target: object.constructor,
       propertyName: propertyName,
       constraints: [field, value],
@@ -20,7 +20,7 @@ export const RequiredIfValue = (
         message:
           validationOptions?.message ??
           `${propertyName} is required if ${field} is ${
-            typeof value === 'object' ? JSON.stringify(value) : value
+            typeof value === "object" ? JSON.stringify(value) : value
           }`,
         ...validationOptions,
       },

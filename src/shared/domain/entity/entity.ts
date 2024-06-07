@@ -54,7 +54,7 @@ export abstract class Entity<Props extends DefaultProps = any> {
       id: this.id,
       created_at: this.created_at,
       updated_at: this.updated_at,
-      ...args
+      ...args,
     } as unknown as Required<
       { id: string; created_at: Date; updated_at: Date } & Omit<Props, "id">
     >;

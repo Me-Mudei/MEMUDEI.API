@@ -4,7 +4,7 @@ import {
   IsDate,
   IsNotEmpty,
   IsOptional,
-  IsString
+  IsString,
 } from "class-validator";
 
 import { CondominiumDetailProps } from "../entities/condominium-detail.entity";

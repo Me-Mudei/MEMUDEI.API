@@ -2,14 +2,14 @@ import {
   ArgumentMetadata,
   BadRequestException,
   ValidationPipe as NestValidationPipe,
-} from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+} from "@nestjs/common";
+import { plainToInstance } from "class-transformer";
 
 export class ValidationPipe extends NestValidationPipe {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async resolvePromises(value: any) {
     for (const key in value) {
-      if (key && typeof value[key]?.then === 'function') {
+      if (key && typeof value[key]?.then === "function") {
         value[key] = await value[key];
       }
     }

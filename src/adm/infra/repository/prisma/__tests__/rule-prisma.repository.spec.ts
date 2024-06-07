@@ -12,7 +12,7 @@ describe("RuleRepository Unit tests", () => {
   it("should find by many ids a rule", async () => {
     const ruleRepository = new RulePrismaRepository(prisma);
     const rules = await ruleRepository.findManyById([
-      new UniqueEntityId("MgxO159FtDCCYQYULEhBy")
+      new UniqueEntityId("MgxO159FtDCCYQYULEhBy"),
     ]);
     expect(rules.length).toBe(1);
   });

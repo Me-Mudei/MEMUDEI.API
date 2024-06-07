@@ -2,7 +2,7 @@ import { UpdatePropertyInput } from "#property/app";
 import {
   SearchableRepositoryInterface,
   SearchParams,
-  SearchResult
+  SearchResult,
 } from "#shared/domain";
 
 import { Property } from "../entities";

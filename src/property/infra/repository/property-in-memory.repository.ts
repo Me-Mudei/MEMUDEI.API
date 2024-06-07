@@ -11,7 +11,7 @@ import {
   Property,
   PropertyDetail,
   PropertyStatus,
-  Rule
+  Rule,
 } from "../../domain/entities";
 import { PropertyRepository, PropertyFilter } from "../../domain/repository";
 
@@ -51,8 +51,8 @@ export class PropertyInMemoryRepository
       complement: input.address?.complement ?? property.address.complement,
       location: new Location({
         lat: input.address?.location?.lat ?? property.address.location.lat,
-        lng: input.address?.location?.lng ?? property.address.location.lng
-      })
+        lng: input.address?.location?.lng ?? property.address.location.lng,
+      }),
     });
     const cleanFloorPlans = (floorPlan) =>
       !input.floor_plan?.remove?.includes(floorPlan.key);
@@ -61,15 +61,15 @@ export class PropertyInMemoryRepository
       .map((floorPlan) => {
         return new FloorPlan({
           ...property.floor_plans.find((fp) => fp.key === floorPlan.key),
-          ...floorPlan
+          ...floorPlan,
         });
       })
       .concat(
         input.floor_plan?.insert.filter(cleanFloorPlans).map((floorPlan) => {
           return new FloorPlan({
-            ...floorPlan
+            ...floorPlan,
           });
-        })
+        }),
       )
       .concat(property.floor_plans.filter(cleanFloorPlans));
 
@@ -81,9 +81,9 @@ export class PropertyInMemoryRepository
       .map((propertyDetail) => {
         return new PropertyDetail({
           ...property.property_details.find(
-            (pd) => pd.key === propertyDetail.key
+            (pd) => pd.key === propertyDetail.key,
           ),
-          ...propertyDetail
+          ...propertyDetail,
         });
       })
       .concat(
@@ -91,9 +91,9 @@ export class PropertyInMemoryRepository
           .filter(cleanPropertyDetails)
           .map((propertyDetails) => {
             return new PropertyDetail({
-              ...propertyDetails
+              ...propertyDetails,
             });
-          })
+          }),
       )
       .concat(property.property_details.filter(cleanPropertyDetails));
 
@@ -105,9 +105,9 @@ export class PropertyInMemoryRepository
       .map((condominiumDetail) => {
         return new CondominiumDetail({
           ...property.condominium_details.find(
-            (cd) => cd.key === condominiumDetail.key
+            (cd) => cd.key === condominiumDetail.key,
           ),
-          ...condominiumDetail
+          ...condominiumDetail,
         });
       })
       .concat(
@@ -115,9 +115,9 @@ export class PropertyInMemoryRepository
           .filter(cleanCondominiumDetails)
           .map((condominiumDetails) => {
             return new CondominiumDetail({
-              ...condominiumDetails
+              ...condominiumDetails,
             });
-          })
+          }),
       )
       .concat(property.condominium_details.filter(cleanCondominiumDetails));
 
@@ -127,15 +127,15 @@ export class PropertyInMemoryRepository
       .map((rule) => {
         return new Rule({
           ...property.rules.find((r) => r.key === rule.key),
-          ...rule
+          ...rule,
         });
       })
       .concat(
         input.rules?.insert.filter(cleanRules).map((rules) => {
           return new Rule({
-            ...rules
+            ...rules,
           });
-        })
+        }),
       )
       .concat(property.rules.filter(cleanRules));
 
@@ -146,15 +146,15 @@ export class PropertyInMemoryRepository
       .map((charge) => {
         return new Charge({
           ...property.charges.find((c) => c.key === charge.key),
-          ...charge
+          ...charge,
         });
       })
       .concat(
         input.charges?.insert.filter(cleanCharges).map((charges) => {
           return new Charge({
-            ...charges
+            ...charges,
           });
-        })
+        }),
       )
       .concat(property.charges.filter(cleanCharges));
 
@@ -164,22 +164,22 @@ export class PropertyInMemoryRepository
       .map((photo) => {
         return new Photo({
           ...property.photos.find((c) => c.id === photo.id),
-          ...photo
+          ...photo,
         });
       })
       .concat(
         input.photos?.insert.filter(cleanPhotos).map((photos) => {
           return new Photo({
-            ...photos
+            ...photos,
           });
-        })
+        }),
       )
       .concat(property.charges.filter(cleanPhotos));
   }
 
   protected async applyFilter(
     items: Property[],
-    filter: PropertyFilter
+    filter: PropertyFilter,
   ): Promise<Property[]> {
     if (!filter || Object.keys(filter).length === 0) {
       return items;
@@ -196,14 +196,14 @@ export class PropertyInMemoryRepository
             items,
             filter[`min_${field}`],
             filter[`max_${field}`],
-            filter.value_type
+            filter.value_type,
           );
           continue;
         }
         items = this[`${field}_filter`](
           items,
           filter[`min_${field}`],
-          filter[`max_${field}`]
+          filter[`max_${field}`],
         );
         continue;
       }
@@ -274,7 +274,7 @@ export class PropertyInMemoryRepository
     items: Property[],
     min: number,
     max: number,
-    key?: string
+    key?: string,
   ): Property[] {
     return items.filter((item) => {
       const chargeFiltered = key
@@ -298,11 +298,11 @@ export class PropertyInMemoryRepository
     items: Property[],
     key: string,
     min: number,
-    max?: number
+    max?: number,
   ): Property[] {
     return items.filter((item) => {
       const floorPlan = item.floor_plans.find(
-        (floorPlan) => floorPlan.key === key
+        (floorPlan) => floorPlan.key === key,
       );
 
       if (!!floorPlan && floorPlan.value >= min) {
@@ -329,7 +329,7 @@ export class PropertyInMemoryRepository
   protected async applySort(
     items: Property[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<Property[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

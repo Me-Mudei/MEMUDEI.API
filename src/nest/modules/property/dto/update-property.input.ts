@@ -1,5 +1,5 @@
-import { UpdatePropertyInput as CoreUpdatePropertyInput } from '#property/app';
-import { Field, InputType } from '@nestjs/graphql';
+import { UpdatePropertyInput as CoreUpdatePropertyInput } from "#property/app";
+import { Field, InputType } from "@nestjs/graphql";
 import {
   CreatePropertyChargeInput,
   CreatePropertyCondominiumDetailInput,
@@ -7,8 +7,8 @@ import {
   CreatePropertyPhotoInput,
   CreatePropertyPropertyDetailInput,
   CreatePropertyRuleInput,
-} from './create-property.input';
-import { PropertyStatus } from './property.enum';
+} from "./create-property.input";
+import { PropertyStatus } from "./property.enum";
 
 @InputType()
 export class UpdateAddressLocationInput {

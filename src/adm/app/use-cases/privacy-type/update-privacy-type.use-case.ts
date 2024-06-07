@@ -7,7 +7,7 @@ import { PrivacyTypeRepository } from "../../../domain/repository";
 import {
   UpdatePrivacyTypeInput,
   PrivacyTypeOutput,
-  PrivacyTypeOutputMapper
+  PrivacyTypeOutputMapper,
 } from "../../dto";
 
 export class UpdatePrivacyTypeUseCase
@@ -17,7 +17,7 @@ export class UpdatePrivacyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.privacyTypeRepository =
@@ -29,7 +29,7 @@ export class UpdatePrivacyTypeUseCase
     const privacyType = new PrivacyType({
       key: input.key,
       name: input.name,
-      description: input.description
+      description: input.description,
     });
     await this.privacyTypeRepository.update(privacyType);
     return PrivacyTypeOutputMapper.toOutput(privacyType);

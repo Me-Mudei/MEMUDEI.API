@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { PropertyType } from "../../../domain/entities";
 import {
   PropertyTypeRepository,
-  PropertyTypeFilter
+  PropertyTypeFilter,
 } from "../../../domain/repository";
 
 export class PropertyTypeInMemoryRepository
@@ -15,7 +15,7 @@ export class PropertyTypeInMemoryRepository
 
   protected async applyFilter(
     items: PropertyType[],
-    filter: PropertyTypeFilter
+    filter: PropertyTypeFilter,
   ): Promise<PropertyType[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class PropertyTypeInMemoryRepository
   protected async applySort(
     items: PropertyType[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<PropertyType[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

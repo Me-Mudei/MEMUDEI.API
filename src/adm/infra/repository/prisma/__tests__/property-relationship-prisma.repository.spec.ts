@@ -13,7 +13,7 @@ describe("PropertyRelationshipRepository Unit tests", () => {
     const propertyRelationshipRepository =
       new PropertyRelationshipPrismaRepository(prisma);
     const propertyRelationship = await propertyRelationshipRepository.findById(
-      new UniqueEntityId("PlbanfKdJxilsSyTzEaKS")
+      new UniqueEntityId("PlbanfKdJxilsSyTzEaKS"),
     );
     expect(propertyRelationship).toBeDefined();
   });

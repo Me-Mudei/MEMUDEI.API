@@ -14,14 +14,14 @@ describe("Hubspot CRM", () => {
     const visitor = new User({
       name: "John Doe",
       email: "jhon.doe@mail.com",
-      phone: "99999999999"
+      phone: "99999999999",
     });
     const schedule = new Schedule({
       date_time: new Date(),
       note: "test de visita",
       property_id: new UniqueEntityId(),
       visitor,
-      status: ScheduleStatus.PENDING
+      status: ScheduleStatus.PENDING,
     });
 
     await expect(() => crm.createSchedule(schedule)).resolves.not.toThrow();

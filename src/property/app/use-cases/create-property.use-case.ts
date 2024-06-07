@@ -12,14 +12,14 @@ import {
   PropertyDetail,
   Rule,
   Location,
-  Photo
+  Photo,
 } from "../../domain/entities";
 import { RepositoryFactory } from "../../domain/factory";
 import { PropertyRepository } from "../../domain/repository";
 import {
   CreatePropertyInput,
   CreatePropertyOutput,
-  CreatePropertyOutputMapper
+  CreatePropertyOutputMapper,
 } from "../dto";
 
 export class CreatePropertyUseCase
@@ -29,7 +29,7 @@ export class CreatePropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();
@@ -39,7 +39,7 @@ export class CreatePropertyUseCase
     this.logger.info({ message: "Start Property Use Case" });
     const location = new Location({
       lat: input.address.location.lat,
-      lng: input.address.location.lng
+      lng: input.address.location.lng,
     });
     const address = new Address({
       zip_code: input.address.zip_code,
@@ -49,38 +49,38 @@ export class CreatePropertyUseCase
       country: input.address.country,
       location,
       district: input.address.district,
-      complement: input.address.complement
+      complement: input.address.complement,
     });
     const property_details = input.property_details.map((propertyDetail) => {
       return new PropertyDetail({
         key: propertyDetail.key,
-        available: propertyDetail.available
+        available: propertyDetail.available,
       });
     });
     const condominium_details = input.condominium_details.map(
       (condominiumDetail) => {
         return new CondominiumDetail({
           key: condominiumDetail.key,
-          available: condominiumDetail.available
+          available: condominiumDetail.available,
         });
-      }
+      },
     );
     const floor_plans = input.floor_plans.map((floorPlan) => {
       return new FloorPlan({
         key: floorPlan.key,
-        value: floorPlan.value
+        value: floorPlan.value,
       });
     });
     const charges = input.charges.map((charge) => {
       return new Charge({
         key: charge.key,
-        amount: charge.amount
+        amount: charge.amount,
       });
     });
     const rules = input.rules.map((rule) => {
       return new Rule({
         key: rule.key,
-        allowed: rule.allowed
+        allowed: rule.allowed,
       });
     });
 
@@ -91,7 +91,7 @@ export class CreatePropertyUseCase
         position: photo.position,
         type: photo.type,
         subtype: photo.subtype,
-        description: photo.description
+        description: photo.description,
       });
     });
 
@@ -109,7 +109,7 @@ export class CreatePropertyUseCase
       rules,
       charges,
       photos,
-      user_id: new UniqueEntityId(input.user_id)
+      user_id: new UniqueEntityId(input.user_id),
     });
 
     await this.propertyRepository.insert(property);

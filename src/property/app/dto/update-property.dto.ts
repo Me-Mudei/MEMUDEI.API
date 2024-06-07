@@ -6,7 +6,7 @@ import {
   FloorPlanInput,
   PhotoInput,
   PropertyDetailInput,
-  RuleInput
+  RuleInput,
 } from "./create-property.dto";
 
 export type UpdatePropertyInput = {

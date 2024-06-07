@@ -6,7 +6,7 @@ import { PropertyRepository } from "../../domain/repository";
 import {
   UpdatePropertyInput,
   UpdatePropertyOutput,
-  UpdatePropertyOutputMapper
+  UpdatePropertyOutputMapper,
 } from "../dto";
 
 export class UpdatePropertyUseCase
@@ -16,7 +16,7 @@ export class UpdatePropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();

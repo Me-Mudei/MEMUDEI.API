@@ -29,7 +29,7 @@ describe("ValueObject Unit Tests", () => {
       { received: ["test", "test2"], expected: "test,test2" },
       {
         received: { prop1: "value1" },
-        expected: JSON.stringify({ prop1: "value1" })
+        expected: JSON.stringify({ prop1: "value1" }),
       },
       { received: () => "function", expected: "()=>'function'" },
       {
@@ -37,8 +37,8 @@ describe("ValueObject Unit Tests", () => {
           return "function";
         },
         expected:
-          "function() {\n                    return 'function';\n                }"
-      }
+          "function() {\n                    return 'function';\n                }",
+      },
     ];
 
     arrange.forEach((value) => {

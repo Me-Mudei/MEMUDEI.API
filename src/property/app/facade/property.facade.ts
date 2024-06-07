@@ -1,5 +1,5 @@
-import { PropertyFilter } from '#property/domain';
-import { SearchInputDto, PaginationOutputDto } from '#shared/app/';
+import { PropertyFilter } from "#property/domain";
+import { SearchInputDto, PaginationOutputDto } from "#shared/app/";
 
 import {
   CreatePropertyInput,
@@ -7,13 +7,13 @@ import {
   CreatePropertyOutput,
   UpdatePropertyOutput,
   PropertyOutput,
-} from '../dto';
+} from "../dto";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertiesUseCase,
-} from '../use-cases';
+} from "../use-cases";
 
 export interface PropertyFacadeProps {
   createProperty: CreatePropertyUseCase;

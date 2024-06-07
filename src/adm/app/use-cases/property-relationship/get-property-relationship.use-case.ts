@@ -5,7 +5,7 @@ import { RepositoryFactory } from "../../../domain/factory";
 import { PropertyRelationshipRepository } from "../../../domain/repository";
 import {
   PropertyRelationshipOutput,
-  PropertyRelationshipOutputMapper
+  PropertyRelationshipOutputMapper,
 } from "../../dto";
 
 export class GetPropertyRelationshipUseCase
@@ -15,7 +15,7 @@ export class GetPropertyRelationshipUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRelationshipRepository =

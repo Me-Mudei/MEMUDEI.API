@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from "class-validator";
 
 import { CondominiumDetailProps } from "../entities/condominium-detail.entity";

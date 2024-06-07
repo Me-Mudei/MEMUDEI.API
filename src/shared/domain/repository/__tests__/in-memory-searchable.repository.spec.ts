@@ -19,7 +19,7 @@ class StubInMemorySearchableRepository extends InMemorySearchableRepository<Stub
 
   protected async applyFilter(
     items: StubEntity[],
-    filter: string | null
+    filter: string | null,
   ): Promise<StubEntity[]> {
     if (!filter) {
       return items;
@@ -51,7 +51,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
       const items = [
         new StubEntity({ name: "test", price: 5 }),
         new StubEntity({ name: "TEST", price: 5 }),
-        new StubEntity({ name: "fake", price: 0 })
+        new StubEntity({ name: "fake", price: 0 }),
       ];
 
       const spyFilterMethod = jest.spyOn(items, "filter" as any);
@@ -74,7 +74,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
     it("should no sort items", async () => {
       const items = [
         new StubEntity({ name: "b", price: 5 }),
-        new StubEntity({ name: "a", price: 5 })
+        new StubEntity({ name: "a", price: 5 }),
       ];
 
       let itemsSorted = await repository["applySort"](items, null, null);
@@ -88,7 +88,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
       const items = [
         new StubEntity({ name: "b", price: 5 }),
         new StubEntity({ name: "a", price: 5 }),
-        new StubEntity({ name: "c", price: 5 })
+        new StubEntity({ name: "c", price: 5 }),
       ];
 
       let itemsSorted = await repository["applySort"](items, "name", "asc");
@@ -106,7 +106,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
         new StubEntity({ name: "b", price: 5 }),
         new StubEntity({ name: "c", price: 5 }),
         new StubEntity({ name: "d", price: 5 }),
-        new StubEntity({ name: "e", price: 5 })
+        new StubEntity({ name: "e", price: 5 }),
       ];
 
       let itemsPaginated = await repository["applyPaginate"](items, 1, 2);
@@ -138,8 +138,8 @@ describe("InMemorySearchableRepository Unit Tests", () => {
           per_page: 15,
           sort: null,
           sort_dir: null,
-          filter: null
-        })
+          filter: null,
+        }),
       );
     });
 
@@ -148,12 +148,12 @@ describe("InMemorySearchableRepository Unit Tests", () => {
         new StubEntity({ name: "test", price: 5 }),
         new StubEntity({ name: "a", price: 5 }),
         new StubEntity({ name: "TEST", price: 5 }),
-        new StubEntity({ name: "TeSt", price: 5 })
+        new StubEntity({ name: "TeSt", price: 5 }),
       ];
       repository.items = items;
 
       let result = await repository.search(
-        new SearchParams({ page: 1, per_page: 2, filter: "TEST" })
+        new SearchParams({ page: 1, per_page: 2, filter: "TEST" }),
       );
       expect(result).toStrictEqual(
         new SearchResult({
@@ -163,12 +163,12 @@ describe("InMemorySearchableRepository Unit Tests", () => {
           per_page: 2,
           sort: null,
           sort_dir: null,
-          filter: "TEST"
-        })
+          filter: "TEST",
+        }),
       );
 
       result = await repository.search(
-        new SearchParams({ page: 2, per_page: 2, filter: "TEST" })
+        new SearchParams({ page: 2, per_page: 2, filter: "TEST" }),
       );
       expect(result).toStrictEqual(
         new SearchResult({
@@ -178,8 +178,8 @@ describe("InMemorySearchableRepository Unit Tests", () => {
           per_page: 2,
           sort: null,
           sort_dir: null,
-          filter: "TEST"
-        })
+          filter: "TEST",
+        }),
       );
     });
 
@@ -189,7 +189,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
         new StubEntity({ name: "a", price: 5 }),
         new StubEntity({ name: "d", price: 5 }),
         new StubEntity({ name: "e", price: 5 }),
-        new StubEntity({ name: "c", price: 5 })
+        new StubEntity({ name: "c", price: 5 }),
       ];
       repository.items = items;
 
@@ -203,8 +203,8 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "asc",
-            filter: null
-          })
+            filter: null,
+          }),
         },
         {
           params: new SearchParams({ page: 2, per_page: 2, sort: "name" }),
@@ -215,15 +215,15 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "asc",
-            filter: null
-          })
+            filter: null,
+          }),
         },
         {
           params: new SearchParams({
             page: 1,
             per_page: 2,
             sort: "name",
-            sort_dir: "desc"
+            sort_dir: "desc",
           }),
           result: new SearchResult({
             items: [items[3], items[2]],
@@ -232,15 +232,15 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "desc",
-            filter: null
-          })
+            filter: null,
+          }),
         },
         {
           params: new SearchParams({
             page: 2,
             per_page: 2,
             sort: "name",
-            sort_dir: "desc"
+            sort_dir: "desc",
           }),
           result: new SearchResult({
             items: [items[4], items[0]],
@@ -249,9 +249,9 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "desc",
-            filter: null
-          })
-        }
+            filter: null,
+          }),
+        },
       ];
 
       for (const i of arrange) {
@@ -266,7 +266,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
         new StubEntity({ name: "a", price: 5 }),
         new StubEntity({ name: "TEST", price: 5 }),
         new StubEntity({ name: "e", price: 5 }),
-        new StubEntity({ name: "TeSt", price: 5 })
+        new StubEntity({ name: "TeSt", price: 5 }),
       ];
       repository.items = items;
 
@@ -276,7 +276,7 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             page: 1,
             per_page: 2,
             sort: "name",
-            filter: "TEST"
+            filter: "TEST",
           }),
           result: new SearchResult({
             items: [items[2], items[4]],
@@ -285,15 +285,15 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "asc",
-            filter: "TEST"
-          })
+            filter: "TEST",
+          }),
         },
         {
           params: new SearchParams({
             page: 2,
             per_page: 2,
             sort: "name",
-            filter: "TEST"
+            filter: "TEST",
           }),
           result: new SearchResult({
             items: [items[0]],
@@ -302,9 +302,9 @@ describe("InMemorySearchableRepository Unit Tests", () => {
             per_page: 2,
             sort: "name",
             sort_dir: "asc",
-            filter: "TEST"
-          })
-        }
+            filter: "TEST",
+          }),
+        },
       ];
 
       for (const i of arrange) {

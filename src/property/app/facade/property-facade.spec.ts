@@ -1,17 +1,17 @@
-import { Broker } from '#shared/infra';
+import { Broker } from "#shared/infra";
 
-import { PropertyFakeBuilder, RepositoryFactory } from '../../domain';
-import { InMemoryRepositoryFactory } from '../../infra';
+import { PropertyFakeBuilder, RepositoryFactory } from "../../domain";
+import { InMemoryRepositoryFactory } from "../../infra";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertiesUseCase,
-} from '../use-cases';
+} from "../use-cases";
 
-import { PropertyFacade } from './property.facade';
+import { PropertyFacade } from "./property.facade";
 
-describe('PropertyFacade Unit tests', () => {
+describe("PropertyFacade Unit tests", () => {
   let useCase: CreatePropertyUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -37,9 +37,9 @@ describe('PropertyFacade Unit tests', () => {
       searchProperties: mockSearchUseCase,
     } as any);
   });
-  it('should create a property facade', async () => {
-    const spyFacadeCreate = jest.spyOn(facade, 'createProperty');
-    const spyUseCaseExecute = jest.spyOn(useCase, 'execute');
+  it("should create a property facade", async () => {
+    const spyFacadeCreate = jest.spyOn(facade, "createProperty");
+    const spyUseCaseExecute = jest.spyOn(useCase, "execute");
 
     const createPropertyProps = PropertyFakeBuilder.aProperty();
     await facade.createProperty(createPropertyProps);

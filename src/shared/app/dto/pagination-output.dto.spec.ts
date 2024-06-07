@@ -11,7 +11,7 @@ describe("PaginationOutputMapper Unit Tests", () => {
       per_page: 1,
       sort: "name",
       sort_dir: "desc",
-      filter: "fake"
+      filter: "fake",
     });
     const output = PaginationOutputMapper.toOutput(result.items, result);
     expect(output).toStrictEqual({
@@ -19,7 +19,7 @@ describe("PaginationOutputMapper Unit Tests", () => {
       total: 1,
       current_page: 1,
       last_page: 1,
-      per_page: 1
+      per_page: 1,
     });
   });
 });

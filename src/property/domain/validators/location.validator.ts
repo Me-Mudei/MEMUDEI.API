@@ -17,7 +17,7 @@ export class LocationRules {
       lat,
       lng,
       created_at,
-      updated_at
+      updated_at,
     });
   }
 }

@@ -1,5 +1,5 @@
 import PropertyValidatorFactory, {
-  PropertyValidator
+  PropertyValidator,
 } from "../property.validator";
 describe("PropertyValidator Tests", () => {
   let validator: PropertyValidator;
@@ -11,34 +11,34 @@ describe("PropertyValidator Tests", () => {
       title: [
         "title should not be empty",
         "title must be a string",
-        "title must be shorter than or equal to 50 characters"
-      ]
+        "title must be shorter than or equal to 50 characters",
+      ],
     });
 
     expect({ validator, data: { title: null } }).containsErrorMessages({
       title: [
         "title should not be empty",
         "title must be a string",
-        "title must be shorter than or equal to 50 characters"
-      ]
+        "title must be shorter than or equal to 50 characters",
+      ],
     });
 
     expect({ validator, data: { title: "" } }).containsErrorMessages({
-      title: ["title should not be empty"]
+      title: ["title should not be empty"],
     });
 
     expect({ validator, data: { title: 5 as any } }).containsErrorMessages({
       title: [
         "title must be a string",
-        "title must be shorter than or equal to 50 characters"
-      ]
+        "title must be shorter than or equal to 50 characters",
+      ],
     });
 
     expect({
       validator,
-      data: { title: "t".repeat(51) }
+      data: { title: "t".repeat(51) },
     }).containsErrorMessages({
-      title: ["title must be shorter than or equal to 50 characters"]
+      title: ["title must be shorter than or equal to 50 characters"],
     });
   });
 
@@ -47,39 +47,39 @@ describe("PropertyValidator Tests", () => {
       description: [
         "description should not be empty",
         "description must be a string",
-        "description must be shorter than or equal to 500 characters"
-      ]
+        "description must be shorter than or equal to 500 characters",
+      ],
     });
 
     expect({ validator, data: { description: null } }).containsErrorMessages({
       description: [
         "description should not be empty",
         "description must be a string",
-        "description must be shorter than or equal to 500 characters"
-      ]
+        "description must be shorter than or equal to 500 characters",
+      ],
     });
 
     expect({ validator, data: { description: "" } }).containsErrorMessages({
-      description: ["description should not be empty"]
+      description: ["description should not be empty"],
     });
 
     expect({
       validator,
-      data: { description: 5 as any }
+      data: { description: 5 as any },
     }).containsErrorMessages({
       description: [
         "description must be a string",
-        "description must be shorter than or equal to 500 characters"
-      ]
+        "description must be shorter than or equal to 500 characters",
+      ],
     });
 
     expect({
       validator,
-      data: { description: "t".repeat(501) }
+      data: { description: "t".repeat(501) },
     }).containsErrorMessages({
       description: [
-        "description must be shorter than or equal to 500 characters"
-      ]
+        "description must be shorter than or equal to 500 characters",
+      ],
     });
   });
 

@@ -18,7 +18,7 @@ export class PropertyCreatedSendToCRMHandler {
         message: error.message,
         err_code: "CRM_ERROR",
         imp: "Property wasn't created in CRM",
-        err_category: "CRM"
+        err_category: "CRM",
       });
     }
   }

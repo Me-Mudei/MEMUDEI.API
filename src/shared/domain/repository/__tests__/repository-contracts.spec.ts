@@ -19,7 +19,7 @@ describe("Search Unit Tests", () => {
         { page: {}, expected: 1 },
 
         { page: 1, expected: 1 },
-        { page: 2, expected: 2 }
+        { page: 2, expected: 2 },
       ];
 
       arrange.forEach((i) => {
@@ -45,12 +45,12 @@ describe("Search Unit Tests", () => {
 
         { per_page: 1, expected: 1 },
         { per_page: 2, expected: 2 },
-        { per_page: 10, expected: 10 }
+        { per_page: 10, expected: 10 },
       ];
 
       arrange.forEach((i) => {
         expect(new SearchParams({ per_page: i.per_page as any }).per_page).toBe(
-          i.expected
+          i.expected,
         );
       });
     });
@@ -69,7 +69,7 @@ describe("Search Unit Tests", () => {
         { sort: true, expected: "true" },
         { sort: false, expected: "false" },
         { sort: {}, expected: "[object Object]" },
-        { sort: "field", expected: "field" }
+        { sort: "field", expected: "field" },
       ];
 
       arrange.forEach((i) => {
@@ -100,13 +100,13 @@ describe("Search Unit Tests", () => {
         { sort_dir: "asc", expected: "asc" },
         { sort_dir: "ASC", expected: "asc" },
         { sort_dir: "desc", expected: "desc" },
-        { sort_dir: "DESC", expected: "desc" }
+        { sort_dir: "DESC", expected: "desc" },
       ];
 
       arrange.forEach((i) => {
         expect(
           new SearchParams({ sort: "field", sort_dir: i.sort_dir as any })
-            .sort_dir
+            .sort_dir,
         ).toBe(i.expected);
       });
     });
@@ -127,12 +127,12 @@ describe("Search Unit Tests", () => {
         { filter: false, expected: false },
         { filter: {}, expected: {} },
         { filter: { test: "test" }, expected: { test: "test" } },
-        { filter: "field", expected: "field" }
+        { filter: "field", expected: "field" },
       ];
 
       arrange.forEach((i) => {
         expect(
-          new SearchParams({ filter: i.filter as any }).filter
+          new SearchParams({ filter: i.filter as any }).filter,
         ).toStrictEqual(i.expected);
       });
     });
@@ -147,7 +147,7 @@ describe("Search Unit Tests", () => {
         per_page: 2,
         sort: null,
         sort_dir: null,
-        filter: null
+        filter: null,
       });
 
       expect(result.toJSON()).toStrictEqual({
@@ -158,7 +158,7 @@ describe("Search Unit Tests", () => {
         last_page: 2,
         sort: null,
         sort_dir: null,
-        filter: null
+        filter: null,
       });
 
       result = new SearchResult({
@@ -168,7 +168,7 @@ describe("Search Unit Tests", () => {
         per_page: 2,
         sort: "name",
         sort_dir: "asc",
-        filter: "test"
+        filter: "test",
       });
 
       expect(result.toJSON()).toStrictEqual({
@@ -179,7 +179,7 @@ describe("Search Unit Tests", () => {
         last_page: 2,
         sort: "name",
         sort_dir: "asc",
-        filter: "test"
+        filter: "test",
       });
     });
 
@@ -191,7 +191,7 @@ describe("Search Unit Tests", () => {
         per_page: 15,
         sort: "name",
         sort_dir: "asc",
-        filter: "test"
+        filter: "test",
       });
 
       expect(result.last_page).toBe(1);
@@ -205,7 +205,7 @@ describe("Search Unit Tests", () => {
         per_page: 20,
         sort: "name",
         sort_dir: "asc",
-        filter: "test"
+        filter: "test",
       });
 
       expect(result.last_page).toBe(6);

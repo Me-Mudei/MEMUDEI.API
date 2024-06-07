@@ -11,7 +11,7 @@ export class CreateRuleUseCase implements UseCase<CreateRuleInput, RuleOutput> {
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
@@ -22,7 +22,7 @@ export class CreateRuleUseCase implements UseCase<CreateRuleInput, RuleOutput> {
     const rule = new Rule({
       key: input.key,
       name: input.name,
-      description: input.description
+      description: input.description,
     });
     await this.ruleRepository.insert(rule);
     return RuleOutputMapper.toOutput(rule);

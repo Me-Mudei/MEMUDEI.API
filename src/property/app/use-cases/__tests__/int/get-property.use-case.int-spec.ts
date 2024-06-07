@@ -18,7 +18,7 @@ describe("GetPropertyUseCase Unit Tests", () => {
 
   it("should throws error when entity not found", async () => {
     await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID fake id`)
+      new NotFoundError(`Entity Not Found using ID fake id`),
     );
   });
 

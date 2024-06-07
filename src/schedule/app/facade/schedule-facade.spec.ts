@@ -17,14 +17,14 @@ describe("ScheduleFacade Unit tests", () => {
     broker = new Broker();
     scheduleVisit = new ScheduleVisitUseCase(repositoryFactory, broker);
     facade = new ScheduleFacade({
-      scheduleVisit
+      scheduleVisit,
     });
   });
   it("should create a schedule facade", async () => {
     const spyFacadeCreate = jest.spyOn(facade, "scheduleVisit");
     const spyUseCaseExecute = jest.spyOn(scheduleVisit, "execute");
     const scheduleVisitProps = {
-      date: new Date()
+      date: new Date(),
     };
     await facade.scheduleVisit(scheduleVisitProps as any);
     expect(spyFacadeCreate).toHaveBeenCalledTimes(1);

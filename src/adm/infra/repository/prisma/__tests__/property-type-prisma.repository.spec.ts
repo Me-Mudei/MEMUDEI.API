@@ -12,7 +12,7 @@ describe("PropertyTypeRepository Unit tests", () => {
   it("should find by id a property type", async () => {
     const propertyTypeRepository = new PropertyTypePrismaRepository(prisma);
     const propertyType = await propertyTypeRepository.findById(
-      new UniqueEntityId("cboem1-PrEcw8tj_6P9Fg")
+      new UniqueEntityId("cboem1-PrEcw8tj_6P9Fg"),
     );
     expect(propertyType).toBeDefined();
   });

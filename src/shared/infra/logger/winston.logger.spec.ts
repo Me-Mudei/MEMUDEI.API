@@ -12,8 +12,8 @@ describe("WinstonLogger Unit Tests", () => {
         req_id: "test",
         req_path: "test",
         req_method: "test",
-        req_ua: "test"
-      }
+        req_ua: "test",
+      },
     };
     logger = new WinstonLogger(winstonProps);
   });
@@ -24,8 +24,8 @@ describe("WinstonLogger Unit Tests", () => {
         req_id: "test",
         req_path: "test",
         req_method: "test",
-        req_ua: "test"
-      }
+        req_ua: "test",
+      },
     };
     expect(logger.svc).toStrictEqual(loggerProps.svc);
     expect(logger.req_id).toStrictEqual(loggerProps.req.req_id);
@@ -39,20 +39,20 @@ describe("WinstonLogger Unit Tests", () => {
     logger.info(infoLoggerProps);
 
     expect(logger.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:39:12)`
+      `(${__dirname}/winston.logger.spec.ts:39:12)`,
     );
     expect(logger.message).toStrictEqual(infoLoggerProps.message);
     const warnLoggerProps = { message: "warn log" };
     logger.warn(warnLoggerProps);
     expect(logger.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:46:12)`
+      `(${__dirname}/winston.logger.spec.ts:46:12)`,
     );
     expect(logger.message).toStrictEqual(warnLoggerProps.message);
 
     const debugLoggerProps = { message: "debug log" };
     logger.debug(debugLoggerProps);
     expect(logger.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:53:12)`
+      `(${__dirname}/winston.logger.spec.ts:53:12)`,
     );
     expect(logger.message).toStrictEqual(debugLoggerProps.message);
 
@@ -60,11 +60,11 @@ describe("WinstonLogger Unit Tests", () => {
       message: "error log",
       imp: "create a error log",
       err_code: "ERROR_LOG",
-      err_category: "ERROR"
+      err_category: "ERROR",
     };
     logger.error(errorLoggerProps);
     expect(logger.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:65:12)`
+      `(${__dirname}/winston.logger.spec.ts:65:12)`,
     );
     expect(logger.message).toStrictEqual(errorLoggerProps.message);
 
@@ -72,11 +72,11 @@ describe("WinstonLogger Unit Tests", () => {
       message: "critical log",
       imp: "create a critical log",
       err_code: "ERROR_LOG",
-      err_category: "ERROR"
+      err_category: "ERROR",
     };
     logger.critical(criticalLoggerProps);
     expect(logger.caller).toStrictEqual(
-      `(${__dirname}/winston.logger.spec.ts:77:12)`
+      `(${__dirname}/winston.logger.spec.ts:77:12)`,
     );
     expect(logger.message).toStrictEqual(criticalLoggerProps.message);
   });

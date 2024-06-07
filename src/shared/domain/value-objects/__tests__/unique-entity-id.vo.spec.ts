@@ -17,7 +17,7 @@ describe("UniqueEntityId Unit Tests", () => {
   it("should throw error when nanoid is invalid", () => {
     //const validateSpy = spyValidateMethod();
     expect(() => new UniqueEntityId("fake id")).toThrow(
-      new InvalidNanoidError()
+      new InvalidNanoidError(),
     );
     expect(validateSpy).toHaveBeenCalled();
   });

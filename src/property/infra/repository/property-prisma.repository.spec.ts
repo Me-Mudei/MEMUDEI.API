@@ -11,7 +11,7 @@ import {
   FloorPlan,
   CondominiumDetail,
   PropertyDetail,
-  Rule
+  Rule,
 } from "#property/domain";
 import { UniqueEntityId } from "#shared/domain";
 import { PrismaClient, Connection } from "#shared/infra";
@@ -77,7 +77,7 @@ describe("PropertyPrismaRepository", () => {
       .withStatus(PropertyStatus.PUBLISHED)
       .withTitle("title")
       .withUserId(new UniqueEntityId("Gi8ZH-IvC7YVQM-7PU_GO"))
-      .build()
+      .build(),
   ];
 
   beforeEach(() => {
@@ -88,7 +88,7 @@ describe("PropertyPrismaRepository", () => {
   it("insert a property", async () => {
     await repository.insert(properties[0]);
     const property = await prisma.property.findFirst({
-      where: { id: properties[0].id }
+      where: { id: properties[0].id },
     });
 
     expect(property).toBeTruthy();
@@ -115,68 +115,68 @@ describe("PropertyPrismaRepository", () => {
     expect(property?.property_type).toBe(properties[0].property_type);
     expect(property?.privacy_type).toBe(properties[0].privacy_type);
     expect(property?.property_relationship).toBe(
-      properties[0].property_relationship
+      properties[0].property_relationship,
     );
     expect(
       property?.property_details.map((detail) => ({
         key: detail.key,
-        name: detail.name
-      }))
+        name: detail.name,
+      })),
     ).toMatchObject(
       properties[0].property_details.map((detail) => ({
         key: detail.key,
-        name: expect.any(String)
-      }))
+        name: expect.any(String),
+      })),
     );
     expect(
       property?.condominium_details.map((detail) => ({
         key: detail.key,
-        name: detail.name
-      }))
+        name: detail.name,
+      })),
     ).toMatchObject(
       properties[0].condominium_details.map((detail) => ({
         key: detail.key,
-        name: expect.any(String)
-      }))
+        name: expect.any(String),
+      })),
     );
     expect(
       property?.rules.map((rule) => ({
         key: rule.key,
-        name: rule.name
-      }))
+        name: rule.name,
+      })),
     ).toMatchObject(
       properties[0].rules.map((rule) => ({
         key: rule.key,
-        name: expect.any(String)
-      }))
+        name: expect.any(String),
+      })),
     );
     expect(
       property?.charges.map((charge) => ({
         key: charge.key,
-        name: charge.name
-      }))
+        name: charge.name,
+      })),
     ).toMatchObject(
       properties[0].charges.map((charge) => ({
         key: charge.key,
-        name: expect.any(String)
-      }))
+        name: expect.any(String),
+      })),
     );
     expect(
       property?.floor_plans.map((floorPlan) => ({
         key: floorPlan.key,
-        name: floorPlan.name
-      }))
+        name: floorPlan.name,
+      })),
     ).toMatchObject(
       properties[0].floor_plans.map((floorPlan) => ({
         key: floorPlan.key,
-        name: expect.any(String)
-      }))
+        name: expect.any(String),
+      })),
     );
   });
 
   it("find all a property", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.findAll();
     expect(items).not.toHaveLength(0);
@@ -199,28 +199,28 @@ describe("PropertyPrismaRepository", () => {
       charge: {
         update: [{ key: property.charges[0].key, amount: 2000 }],
         insert: [new Charge({ key: "others", amount: 1000 })],
-        remove: [property.charges[1].key]
+        remove: [property.charges[1].key],
       },
       floor_plan: {
         update: [{ key: property.floor_plans[0].key, value: 40 }],
         insert: [new FloorPlan({ key: "suites", value: 4 })],
-        remove: [property.floor_plans[1].key]
+        remove: [property.floor_plans[1].key],
       },
       condominium_detail: {
         update: [{ key: property.condominium_details[0].key, available: true }],
         insert: [new CondominiumDetail({ key: "ramps", available: true })],
-        remove: [property.condominium_details[1].key]
+        remove: [property.condominium_details[1].key],
       },
       property_detail: {
         update: [{ key: property.property_details[0].key, available: true }],
         insert: [new PropertyDetail({ key: "gas", available: true })],
-        remove: [property.property_details[1].key]
+        remove: [property.property_details[1].key],
       },
       rule: {
         update: [{ key: property.rules[0].key, allowed: true }],
         insert: [new Rule({ key: "pets", allowed: true })],
-        remove: [property.rules[1].key]
-      }
+        remove: [property.rules[1].key],
+      },
     };
     await repository.update(newProperty);
     const updatedProperty = await repository.findById(newProperty.id);
@@ -233,102 +233,102 @@ describe("PropertyPrismaRepository", () => {
       expect.arrayContaining([
         expect.objectContaining({
           key: newProperty.charge.update[0].key,
-          amount: newProperty.charge.update[0].amount
+          amount: newProperty.charge.update[0].amount,
         }),
         expect.objectContaining({
           key: newProperty.charge.insert[0].key,
-          amount: newProperty.charge.insert[0].amount
-        })
-      ])
+          amount: newProperty.charge.insert[0].amount,
+        }),
+      ]),
     );
     expect(updatedProperty?.charges).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: newProperty.charge.remove[0]
-        })
-      ])
+          key: newProperty.charge.remove[0],
+        }),
+      ]),
     );
     expect(updatedProperty?.floor_plans).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: newProperty.floor_plan.update[0].key,
-          value: newProperty.floor_plan.update[0].value
+          value: newProperty.floor_plan.update[0].value,
         }),
         expect.objectContaining({
           key: newProperty.floor_plan.insert[0].key,
-          value: newProperty.floor_plan.insert[0].value
-        })
-      ])
+          value: newProperty.floor_plan.insert[0].value,
+        }),
+      ]),
     );
     expect(updatedProperty?.floor_plans).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: newProperty.floor_plan.remove[0]
-        })
-      ])
+          key: newProperty.floor_plan.remove[0],
+        }),
+      ]),
     );
     expect(updatedProperty?.condominium_details).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: newProperty.condominium_detail.update[0].key,
-          available: newProperty.condominium_detail.update[0].available
+          available: newProperty.condominium_detail.update[0].available,
         }),
         expect.objectContaining({
           key: newProperty.condominium_detail.insert[0].key,
-          available: newProperty.condominium_detail.insert[0].available
-        })
-      ])
+          available: newProperty.condominium_detail.insert[0].available,
+        }),
+      ]),
     );
     expect(updatedProperty?.condominium_details).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: newProperty.condominium_detail.remove[0]
-        })
-      ])
+          key: newProperty.condominium_detail.remove[0],
+        }),
+      ]),
     );
     expect(updatedProperty?.property_details).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: newProperty.property_detail.update[0].key,
-          available: newProperty.property_detail.update[0].available
+          available: newProperty.property_detail.update[0].available,
         }),
         expect.objectContaining({
           key: newProperty.property_detail.insert[0].key,
-          available: newProperty.property_detail.insert[0].available
-        })
-      ])
+          available: newProperty.property_detail.insert[0].available,
+        }),
+      ]),
     );
     expect(updatedProperty?.property_details).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: newProperty.property_detail.remove[0]
-        })
-      ])
+          key: newProperty.property_detail.remove[0],
+        }),
+      ]),
     );
     expect(updatedProperty?.rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: newProperty.rule.update[0].key,
-          allowed: newProperty.rule.update[0].allowed
+          allowed: newProperty.rule.update[0].allowed,
         }),
         expect.objectContaining({
           key: newProperty.rule.insert[0].key,
-          allowed: newProperty.rule.insert[0].allowed
-        })
-      ])
+          allowed: newProperty.rule.insert[0].allowed,
+        }),
+      ]),
     );
     expect(updatedProperty?.rules).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          key: newProperty.rule.remove[0]
-        })
-      ])
+          key: newProperty.rule.remove[0],
+        }),
+      ]),
     );
   });
 
   it("filter is null", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(new PropertySearchParams({}));
     expect(items).toMatchObject({
@@ -337,7 +337,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: null
+      filter: null,
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -345,10 +345,10 @@ describe("PropertyPrismaRepository", () => {
 
   it("query filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
-      new PropertySearchParams({ filter: { query: "title" } })
+      new PropertySearchParams({ filter: { query: "title" } }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -356,7 +356,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { query: "title" }
+      filter: { query: "title" },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -364,10 +364,10 @@ describe("PropertyPrismaRepository", () => {
 
   it("id filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
-      new PropertySearchParams({ filter: { id: properties[0].id } })
+      new PropertySearchParams({ filter: { id: properties[0].id } }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -375,7 +375,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { id: properties[0].id }
+      filter: { id: properties[0].id },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -385,8 +385,8 @@ describe("PropertyPrismaRepository", () => {
     await repository.insert(properties[0]);
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { status: PropertyStatus.PUBLISHED }
-      })
+        filter: { status: PropertyStatus.PUBLISHED },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -394,7 +394,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { status: PropertyStatus.PUBLISHED }
+      filter: { status: PropertyStatus.PUBLISHED },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -402,12 +402,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("property_type filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { property_type: properties[0].property_type }
-      })
+        filter: { property_type: properties[0].property_type },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -415,7 +415,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { property_type: properties[0].property_type }
+      filter: { property_type: properties[0].property_type },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -423,12 +423,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("privacy_type filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { privacy_type: properties[0].privacy_type }
-      })
+        filter: { privacy_type: properties[0].privacy_type },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -436,7 +436,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { privacy_type: properties[0].privacy_type }
+      filter: { privacy_type: properties[0].privacy_type },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -444,12 +444,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("property_details filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { property_details: [cupboards.key] }
-      })
+        filter: { property_details: [cupboards.key] },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -457,7 +457,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { property_details: [cupboards.key] }
+      filter: { property_details: [cupboards.key] },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -465,12 +465,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("condominium_details filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { condominium_details: [elevator.key] }
-      })
+        filter: { condominium_details: [elevator.key] },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -478,7 +478,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { condominium_details: [elevator.key] }
+      filter: { condominium_details: [elevator.key] },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -486,12 +486,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("rules filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { rules: [smoking.key] }
-      })
+        filter: { rules: [smoking.key] },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -499,7 +499,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { rules: [smoking.key] }
+      filter: { rules: [smoking.key] },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -507,12 +507,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("value filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { min_value: 1000, max_value: 1500, value_type: "all" }
-      })
+        filter: { min_value: 1000, max_value: 1500, value_type: "all" },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -520,7 +520,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { min_value: 1000, max_value: 1500, value_type: "all" }
+      filter: { min_value: 1000, max_value: 1500, value_type: "all" },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -528,12 +528,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("footage filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { min_footage: 30, max_footage: 50 }
-      })
+        filter: { min_footage: 30, max_footage: 50 },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -541,7 +541,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { min_footage: 30, max_footage: 50 }
+      filter: { min_footage: 30, max_footage: 50 },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -549,12 +549,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("qtd_bedrooms filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { qtd_bedrooms: 2 }
-      })
+        filter: { qtd_bedrooms: 2 },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -562,7 +562,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { qtd_bedrooms: 2 }
+      filter: { qtd_bedrooms: 2 },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -570,12 +570,12 @@ describe("PropertyPrismaRepository", () => {
 
   it("qtd_bathrooms filter", async () => {
     await Promise.all(
-      properties.map((property) => repository.insert(property))
+      properties.map((property) => repository.insert(property)),
     );
     const items = await repository.search(
       new PropertySearchParams({
-        filter: { qtd_bathrooms: 2 }
-      })
+        filter: { qtd_bathrooms: 2 },
+      }),
     );
     expect(items).toMatchObject({
       total: 1,
@@ -583,7 +583,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: { qtd_bathrooms: 2 }
+      filter: { qtd_bathrooms: 2 },
     });
     expect(items.items).toHaveLength(1);
     expect(items.items[0].id).toBe(properties[0].id);
@@ -641,13 +641,13 @@ describe("PropertyPrismaRepository", () => {
         .withTitle("title")
         .withCreatedAt(new Date("2020-01-01"))
         .withUserId(new UniqueEntityId("Gi8ZH-IvC7YVQM-7PU_GO"))
-        .build()
+        .build(),
     ];
     await Promise.all(items.map((property) => repository.insert(property)));
     const data = await repository.search(
       new PropertySearchParams({
-        sort: null
-      })
+        sort: null,
+      }),
     );
     expect(data).toMatchObject({
       total: 2,
@@ -655,7 +655,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "created_at",
       sort_dir: "asc",
-      filter: {}
+      filter: {},
     });
     expect(data.items).toHaveLength(2);
     expect(data.items[0].id).toBe(items[1].id);
@@ -676,13 +676,13 @@ describe("PropertyPrismaRepository", () => {
         .withTitle("a")
         .withUserId(new UniqueEntityId("Gi8ZH-IvC7YVQM-7PU_GO"))
         .build(),
-      properties[0]
+      properties[0],
     ];
     await Promise.all(items.map((property) => repository.insert(property)));
     const data = await repository.search(
       new PropertySearchParams({
-        sort: "title"
-      })
+        sort: "title",
+      }),
     );
     expect(data).toMatchObject({
       total: 2,
@@ -690,7 +690,7 @@ describe("PropertyPrismaRepository", () => {
       per_page: 15,
       sort: "title",
       sort_dir: "asc",
-      filter: {}
+      filter: {},
     });
     expect(data.items).toHaveLength(2);
     expect(data.items[0].id).toBe(items[1].id);

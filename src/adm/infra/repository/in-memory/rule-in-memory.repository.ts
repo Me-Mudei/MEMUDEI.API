@@ -12,7 +12,7 @@ export class RuleInMemoryRepository
 
   protected async applyFilter(
     items: Rule[],
-    filter: RuleFilter
+    filter: RuleFilter,
   ): Promise<Rule[]> {
     if (!filter) {
       return items;
@@ -26,7 +26,7 @@ export class RuleInMemoryRepository
   protected async applySort(
     items: Rule[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<Rule[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

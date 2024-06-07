@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { PropertyDetail } from "../../../domain/entities";
 import {
   PropertyDetailRepository,
-  PropertyDetailFilter
+  PropertyDetailFilter,
 } from "../../../domain/repository";
 
 export class PropertyDetailInMemoryRepository
@@ -15,7 +15,7 @@ export class PropertyDetailInMemoryRepository
 
   protected async applyFilter(
     items: PropertyDetail[],
-    filter: PropertyDetailFilter
+    filter: PropertyDetailFilter,
   ): Promise<PropertyDetail[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class PropertyDetailInMemoryRepository
   protected async applySort(
     items: PropertyDetail[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<PropertyDetail[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

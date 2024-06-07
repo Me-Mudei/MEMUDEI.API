@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
 } from "class-validator";
 
 import { ChargeProps } from "../entities/charge.entity";

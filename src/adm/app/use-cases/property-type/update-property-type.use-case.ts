@@ -7,7 +7,7 @@ import { PropertyTypeRepository } from "../../../domain/repository";
 import {
   UpdatePropertyTypeInput,
   PropertyTypeOutput,
-  PropertyTypeOutputMapper
+  PropertyTypeOutputMapper,
 } from "../../dto";
 
 export class UpdatePropertyTypeUseCase
@@ -17,7 +17,7 @@ export class UpdatePropertyTypeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyTypeRepository =
@@ -29,7 +29,7 @@ export class UpdatePropertyTypeUseCase
     const propertyType = new PropertyType({
       key: input.key,
       name: input.name,
-      description: input.description
+      description: input.description,
     });
     await this.propertyTypeRepository.update(propertyType);
     return PropertyTypeOutputMapper.toOutput(propertyType);

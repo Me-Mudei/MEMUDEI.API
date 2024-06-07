@@ -28,7 +28,7 @@ expect.extend({
 
       return assertContainsErrorsMessages(validator.errors, received);
     }
-  }
+  },
 });
 
 function isValid() {
@@ -37,7 +37,7 @@ function isValid() {
 
 function assertContainsErrorsMessages(
   expected: FieldsErrors,
-  received: FieldsErrors
+  received: FieldsErrors,
 ) {
   const isMatch = expect.objectContaining(received).asymmetricMatch(expected);
 
@@ -47,7 +47,7 @@ function assertContainsErrorsMessages(
         pass: false,
         message: () =>
           `The validation errors not contains ${JSON.stringify(
-            received
-          )}. Current: ${JSON.stringify(expected)}`
+            received,
+          )}. Current: ${JSON.stringify(expected)}`,
       };
 }

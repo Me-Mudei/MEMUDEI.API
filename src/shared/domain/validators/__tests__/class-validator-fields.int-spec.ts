@@ -33,12 +33,12 @@ describe("{ ClassValidatorFields }Integration Tests", () => {
       name: [
         "name should not be empty",
         "name must be a string",
-        "name must be shorter than or equal to 255 characters"
+        "name must be shorter than or equal to 255 characters",
       ],
       price: [
         "price should not be empty",
-        "price must be a number conforming to the specified constraints"
-      ]
+        "price must be a number conforming to the specified constraints",
+      ],
     });
   });
 
@@ -49,8 +49,8 @@ describe("{ ClassValidatorFields }Integration Tests", () => {
     expect(validator.validatedData).toStrictEqual(
       new StubRules({
         name: "some value",
-        price: 5
-      })
+        price: 5,
+      }),
     );
   });
 });

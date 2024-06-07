@@ -9,7 +9,7 @@ import {
   SearchableRepositoryInterface,
   SearchParams,
   SearchResult,
-  SortDirection
+  SortDirection,
 } from "./repository-contracts";
 
 export abstract class InMemoryRepository<E extends Entity>
@@ -59,7 +59,7 @@ export abstract class InMemoryRepository<E extends Entity>
 
 export abstract class InMemorySearchableRepository<
     E extends Entity,
-    Filter = any
+    Filter = any,
   >
   extends InMemoryRepository<E>
   implements SearchableRepositoryInterface<E, Filter>
@@ -71,12 +71,12 @@ export abstract class InMemorySearchableRepository<
     const itemsSorted = await this.applySort(
       itemsFiltered,
       props.sort,
-      props.sort_dir
+      props.sort_dir,
     );
     const itemsPaginated = await this.applyPaginate(
       itemsSorted,
       props.page,
-      props.per_page
+      props.per_page,
     );
     return new SearchResult({
       items: itemsPaginated,
@@ -85,7 +85,7 @@ export abstract class InMemorySearchableRepository<
       per_page: props.per_page,
       sort: props.sort,
       sort_dir: props.sort_dir,
-      filter: props.filter
+      filter: props.filter,
     });
   }
 
@@ -94,25 +94,25 @@ export abstract class InMemorySearchableRepository<
     const itemsSorted = await this.applySort(
       itemsFiltered,
       props.sort,
-      props.sort_dir
+      props.sort_dir,
     );
     const itemsPaginated = await this.applyPaginate(
       itemsSorted,
       props.page,
-      props.per_page
+      props.per_page,
     );
     return itemsPaginated[0] || null;
   }
 
   protected abstract applyFilter(
     items: E[],
-    filter: Filter | null
+    filter: Filter | null,
   ): Promise<E[]>;
 
   protected async applySort(
     items: E[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<E[]> {
     if (!sort || !this.sortableFields.includes(sort)) {
       return items;
@@ -134,7 +134,7 @@ export abstract class InMemorySearchableRepository<
   protected async applyPaginate(
     items: E[],
     page: SearchParams<PropertyFilter>["page"],
-    per_page: SearchParams<PropertyFilter>["per_page"]
+    per_page: SearchParams<PropertyFilter>["per_page"],
   ): Promise<E[]> {
     const start = (page - 1) * per_page; // 1 * 15 = 15
     const limit = start + per_page; // 15 + 15 = 30

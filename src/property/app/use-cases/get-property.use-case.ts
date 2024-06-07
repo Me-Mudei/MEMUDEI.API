@@ -12,7 +12,7 @@ export class GetPropertyUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRepository = repositoryFactory.createPropertyRepository();

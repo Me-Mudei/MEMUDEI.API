@@ -1,5 +1,5 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { PropertyOutput } from './property.output';
+import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { PropertyOutput } from "./property.output";
 
 @ObjectType()
 export class PaginatePropertiesOutput {

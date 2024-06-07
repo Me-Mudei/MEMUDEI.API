@@ -7,7 +7,7 @@ import {
   PropertyDetail,
   CondominiumDetail,
   Rule,
-  Charge
+  Charge,
 } from "../";
 import { Property, PropertyStatus } from "../property.entity";
 
@@ -17,7 +17,7 @@ import {
   PropertyDetailFakeBuilder,
   CondominiumDetailFakeBuilder,
   RuleFakeBuilder,
-  ChargeFakeBuilder
+  ChargeFakeBuilder,
 } from "./";
 
 type PropOrFactory<T> = T | ((index: number) => T);
@@ -145,13 +145,13 @@ export class PropertyFakeBuilder<TBuild = any> {
       (_, index) =>
         new Property({
           ...(this._id && {
-            id: this.callFactory(this._id, index)
+            id: this.callFactory(this._id, index),
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index)
+            created_at: this.callFactory(this._created_at, index),
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index)
+            updated_at: this.callFactory(this._updated_at, index),
           }),
           title: this.callFactory(this._title, index),
           description: this.callFactory(this._description, index),
@@ -160,19 +160,19 @@ export class PropertyFakeBuilder<TBuild = any> {
           property_type: this.callFactory(this._property_type, index),
           property_relationship: this.callFactory(
             this._property_relationship,
-            index
+            index,
           ),
           privacy_type: this.callFactory(this._privacy_type, index),
           floor_plans: this.callFactory(this._floor_plans, index),
           property_details: this.callFactory(this._property_details, index),
           condominium_details: this.callFactory(
             this._condominium_details,
-            index
+            index,
           ),
           rules: this.callFactory(this._rules, index),
           charges: this.callFactory(this._charges, index),
-          user_id: this.callFactory(this._user_id, index)
-        })
+          user_id: this.callFactory(this._user_id, index),
+        }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
@@ -230,7 +230,7 @@ export class PropertyFakeBuilder<TBuild = any> {
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(
-        `Property ${prop} not have a factory, use 'with' methods`
+        `Property ${prop} not have a factory, use 'with' methods`,
       );
     }
     return this.callFactory(this[privateProp], 0);

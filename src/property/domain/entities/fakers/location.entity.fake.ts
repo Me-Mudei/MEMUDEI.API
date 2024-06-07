@@ -58,17 +58,17 @@ export class LocationFakeBuilder<TBuild = any> {
       (_, index) =>
         new Location({
           ...(this._id && {
-            id: this.callFactory(this._id, index)
+            id: this.callFactory(this._id, index),
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index)
+            created_at: this.callFactory(this._created_at, index),
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index)
+            updated_at: this.callFactory(this._updated_at, index),
           }),
           lat: this.callFactory(this._lat, index),
-          lng: this.callFactory(this._lng, index)
-        })
+          lng: this.callFactory(this._lng, index),
+        }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
@@ -98,7 +98,7 @@ export class LocationFakeBuilder<TBuild = any> {
     const privateProp = `_${prop}`;
     if (!this[privateProp] && optional.includes(prop)) {
       throw new Error(
-        `Location ${prop} not have a factory, use 'with' methods`
+        `Location ${prop} not have a factory, use 'with' methods`,
       );
     }
     return this.callFactory(this[privateProp], 0);

@@ -1,10 +1,10 @@
-import { RepositoryFactory } from '#property/domain';
-import { PrismaRepositoryFactory } from '#property/infra';
-import { Broker } from '#shared/infra';
+import { RepositoryFactory } from "#property/domain";
+import { PrismaRepositoryFactory } from "#property/infra";
+import { Broker } from "#shared/infra";
 
-import { SearchPropertiesUseCase } from '../../search-properties.use-case';
+import { SearchPropertiesUseCase } from "../../search-properties.use-case";
 
-describe('SearchPropertiesUseCase Unit Tests', () => {
+describe("SearchPropertiesUseCase Unit Tests", () => {
   let useCase: SearchPropertiesUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -15,7 +15,7 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
     useCase = new SearchPropertiesUseCase(repositoryFactory, broker);
   });
 
-  it('should search a property', async () => {
+  it("should search a property", async () => {
     const output = await useCase.execute({});
     expect(output).toMatchObject({
       total: 15,

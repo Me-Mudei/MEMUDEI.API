@@ -13,7 +13,7 @@ export class CreateChargeUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.chargeRepository = repositoryFactory.createChargeRepository();
@@ -24,7 +24,7 @@ export class CreateChargeUseCase
     const charge = new Charge({
       key: input.key,
       name: input.name,
-      description: input.description
+      description: input.description,
     });
     await this.chargeRepository.insert(charge);
     return ChargeOutputMapper.toOutput(charge);

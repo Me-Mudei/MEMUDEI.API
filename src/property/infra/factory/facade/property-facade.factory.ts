@@ -1,14 +1,14 @@
-import { PropertyCreatedSendToCRMHandler } from '#property/app';
-import { Broker } from '#shared/infra';
+import { PropertyCreatedSendToCRMHandler } from "#property/app";
+import { Broker } from "#shared/infra";
 
-import { PropertyFacade } from '../../../app/facade';
+import { PropertyFacade } from "../../../app/facade";
 import {
   CreatePropertyUseCase,
   UpdatePropertyUseCase,
   GetPropertyUseCase,
   SearchPropertiesUseCase,
-} from '../../../app/use-cases';
-import { PrismaRepositoryFactory } from '../repository';
+} from "../../../app/use-cases";
+import { PrismaRepositoryFactory } from "../repository";
 
 export class PropertyFacadeFactory {
   static create() {

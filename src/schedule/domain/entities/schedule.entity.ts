@@ -9,7 +9,7 @@ export enum ScheduleStatus {
   CONFIRMED = "confirmed",
   REJECTED = "rejected",
   CANCELLED = "cancelled",
-  FINISHED = "finished"
+  FINISHED = "finished",
 }
 
 export type ScheduleProps = {

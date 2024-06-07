@@ -9,7 +9,7 @@ export class DeleteRuleUseCase implements UseCase<{ id: string }, void> {
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();

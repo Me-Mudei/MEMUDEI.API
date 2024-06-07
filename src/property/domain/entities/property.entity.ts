@@ -16,7 +16,7 @@ export enum PropertyStatus {
   PUBLISHED = "published",
   REJECTED = "rejected",
   UNPUBLISHED = "unpublished",
-  DEACTIVATED = "deactivated"
+  DEACTIVATED = "deactivated",
 }
 
 export type PropertyProps = {

@@ -2,18 +2,18 @@ import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
-  PaginationOutputMapper
+  PaginationOutputMapper,
 } from "#shared/app";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
 
 import { RepositoryFactory } from "../../../domain/factory";
 import {
   PropertyRelationshipRepository,
-  PropertyRelationshipSearchParams
+  PropertyRelationshipSearchParams,
 } from "../../../domain/repository";
 import {
   PropertyRelationshipOutput,
-  PropertyRelationshipOutputMapper
+  PropertyRelationshipOutputMapper,
 } from "../../dto";
 
 export class SearchPropertyRelationshipUseCase
@@ -24,7 +24,7 @@ export class SearchPropertyRelationshipUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.propertyRelationshipRepository =
@@ -32,14 +32,14 @@ export class SearchPropertyRelationshipUseCase
   }
 
   async execute(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyRelationshipOutput>> {
     this.logger.info({ message: "Start SearchPropertyRelationship Use Case" });
     const params = new PropertyRelationshipSearchParams(input);
     const propertyRelationship =
       await this.propertyRelationshipRepository.search(params);
     const items = propertyRelationship.items.map((propertyRelationship) =>
-      PropertyRelationshipOutputMapper.toOutput(propertyRelationship)
+      PropertyRelationshipOutputMapper.toOutput(propertyRelationship),
     );
 
     return PaginationOutputMapper.toOutput(items, propertyRelationship);

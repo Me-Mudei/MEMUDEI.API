@@ -1,7 +1,7 @@
 import {
   RepositoryFactory,
   PropertyStatus,
-  PropertyFakeBuilder
+  PropertyFakeBuilder,
 } from "#property/domain";
 import { PrismaRepositoryFactory } from "#property/infra";
 import { Broker } from "#shared/infra";
@@ -22,7 +22,7 @@ describe("CreatePropertyUseCase Unit Tests", () => {
   it("should create a property", async () => {
     const spyRepositoryInsert = jest.spyOn(
       useCase.propertyRepository,
-      "insert"
+      "insert",
     );
 
     const createPropertyProps = PropertyFakeBuilder.aProperty();

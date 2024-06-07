@@ -9,7 +9,7 @@ import {
   CondominiumDetailPrismaRepository,
   RulePrismaRepository,
   ChargePrismaRepository,
-  FloorPlanPrismaRepository
+  FloorPlanPrismaRepository,
 } from "../../repository";
 
 export class PrismaRepositoryFactory implements RepositoryFactory {

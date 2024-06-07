@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ValidationArguments, registerDecorator } from 'class-validator';
+import { ValidationArguments, registerDecorator } from "class-validator";
 
 type MutuallyExclusiveOptions = {
   nullable?: boolean;
@@ -10,13 +10,13 @@ export const MutuallyExclusive = (
 ) => {
   return (object: object, propertyName: string) => {
     registerDecorator({
-      name: 'mutuallyExclusive',
+      name: "mutuallyExclusive",
       target: object.constructor,
       propertyName: propertyName,
       constraints: [fields],
       options: {
         message: `${propertyName} is mutually exclusive with ${fields.join(
-          ', ',
+          ", ",
         )}`,
       },
       validator: {

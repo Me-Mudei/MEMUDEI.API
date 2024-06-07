@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { CondominiumDetail } from "../../../domain/entities";
 import {
   CondominiumDetailRepository,
-  CondominiumDetailFilter
+  CondominiumDetailFilter,
 } from "../../../domain/repository";
 
 export class CondominiumDetailInMemoryRepository
@@ -15,7 +15,7 @@ export class CondominiumDetailInMemoryRepository
 
   protected async applyFilter(
     items: CondominiumDetail[],
-    filter: CondominiumDetailFilter
+    filter: CondominiumDetailFilter,
   ): Promise<CondominiumDetail[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class CondominiumDetailInMemoryRepository
   protected async applySort(
     items: CondominiumDetail[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<CondominiumDetail[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

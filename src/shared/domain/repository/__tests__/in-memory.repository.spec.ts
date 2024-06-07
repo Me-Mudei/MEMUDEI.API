@@ -26,13 +26,13 @@ describe("InMemoryRepository Unit Tests", () => {
 
   it("should throws error when entity not found", () => {
     expect(repository.findById("fake id")).rejects.toThrow(
-      new NotFoundError("Entity Not Found using ID fake id")
+      new NotFoundError("Entity Not Found using ID fake id"),
     );
 
     expect(
-      repository.findById(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM"))
+      repository.findById(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM")),
     ).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`)
+      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`),
     );
   });
 
@@ -59,7 +59,7 @@ describe("InMemoryRepository Unit Tests", () => {
   it("should throws error on update when entity not found", () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     expect(repository.update(entity)).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID ${entity.id}`)
+      new NotFoundError(`Entity Not Found using ID ${entity.id}`),
     );
   });
 
@@ -70,7 +70,7 @@ describe("InMemoryRepository Unit Tests", () => {
     const entityUpdated = new StubEntity({
       name: "updated",
       price: 1,
-      id: new UniqueEntityId(entity.id)
+      id: new UniqueEntityId(entity.id),
     });
     await repository.update(entityUpdated);
     expect(entityUpdated.toJSON()).toStrictEqual(repository.items[0].toJSON());
@@ -78,13 +78,13 @@ describe("InMemoryRepository Unit Tests", () => {
 
   it("should throws error on delete when entity not found", () => {
     expect(repository.delete("fake id")).rejects.toThrow(
-      new NotFoundError("Entity Not Found using ID fake id")
+      new NotFoundError("Entity Not Found using ID fake id"),
     );
 
     expect(
-      repository.delete(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM"))
+      repository.delete(new UniqueEntityId("eftOYF0ie93F_yVhkOBcM")),
     ).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`)
+      new NotFoundError(`Entity Not Found using ID eftOYF0ie93F_yVhkOBcM`),
     );
   });
 

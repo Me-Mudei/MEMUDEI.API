@@ -8,7 +8,7 @@ import { ScheduleRepository } from "../../domain/repository";
 import {
   ScheduleVisitInput,
   ScheduleVisitOutput,
-  ScheduleVisitOutputMapper
+  ScheduleVisitOutputMapper,
 } from "../dto";
 
 export class ScheduleVisitUseCase
@@ -18,7 +18,7 @@ export class ScheduleVisitUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.scheduleRepository = repositoryFactory.createScheduleRepository();
@@ -29,14 +29,14 @@ export class ScheduleVisitUseCase
     const visitor = new User({
       name: input.visitor.name,
       email: input.visitor.email,
-      phone: input.visitor.phone
+      phone: input.visitor.phone,
     });
     const schedule = new Schedule({
       property_id: new UniqueEntityId(input.property_id),
       date_time: new Date(input.date_time),
       status: input.status,
       note: input.note,
-      visitor
+      visitor,
     });
     await this.scheduleRepository.insert(schedule);
     await this.broker.publish(new ScheduleCreated(schedule));

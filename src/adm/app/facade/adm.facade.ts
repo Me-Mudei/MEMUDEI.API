@@ -24,7 +24,7 @@ import {
   ChargeOutput,
   CreateFloorPlanInput,
   UpdateFloorPlanInput,
-  FloorPlanOutput
+  FloorPlanOutput,
 } from "../dto";
 import {
   GetPropertyTypeUseCase,
@@ -66,7 +66,7 @@ import {
   SearchFloorPlanUseCase,
   CreateFloorPlanUseCase,
   UpdateFloorPlanUseCase,
-  DeleteFloorPlanUseCase
+  DeleteFloorPlanUseCase,
 } from "../use-cases";
 
 export interface AdmFacadeProps {
@@ -207,17 +207,17 @@ export class AdmFacade {
     return this._getPropertyType.execute(input);
   }
   async searchPropertyType(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyTypeOutput>> {
     return this._searchPropertyType.execute(input);
   }
   async createPropertyType(
-    input: CreatePropertyTypeInput
+    input: CreatePropertyTypeInput,
   ): Promise<PropertyTypeOutput> {
     return this._createPropertyType.execute(input);
   }
   async updatePropertyType(
-    input: UpdatePropertyTypeInput
+    input: UpdatePropertyTypeInput,
   ): Promise<PropertyTypeOutput> {
     return this._updatePropertyType.execute(input);
   }
@@ -230,17 +230,17 @@ export class AdmFacade {
     return this._getPropertyRelationship.execute(input);
   }
   async searchPropertyRelationship(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyRelationshipOutput>> {
     return this._searchPropertyRelationship.execute(input);
   }
   async createPropertyRelationship(
-    input: CreatePropertyRelationshipInput
+    input: CreatePropertyRelationshipInput,
   ): Promise<PropertyRelationshipOutput> {
     return this._createPropertyRelationship.execute(input);
   }
   async updatePropertyRelationship(
-    input: UpdatePropertyRelationshipInput
+    input: UpdatePropertyRelationshipInput,
   ): Promise<PropertyRelationshipOutput> {
     return this._updatePropertyRelationship.execute(input);
   }
@@ -251,17 +251,17 @@ export class AdmFacade {
     return this._getPrivacyType.execute(input);
   }
   async searchPrivacyType(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PrivacyTypeOutput>> {
     return this._searchPrivacyType.execute(input);
   }
   async createPrivacyType(
-    input: CreatePrivacyTypeInput
+    input: CreatePrivacyTypeInput,
   ): Promise<PrivacyTypeOutput> {
     return this._createPrivacyType.execute(input);
   }
   async updatePrivacyType(
-    input: UpdatePrivacyTypeInput
+    input: UpdatePrivacyTypeInput,
   ): Promise<PrivacyTypeOutput> {
     return this._updatePrivacyType.execute(input);
   }
@@ -274,17 +274,17 @@ export class AdmFacade {
     return this._getPropertyDetail.execute(input);
   }
   async searchPropertyDetail(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<PropertyDetailOutput>> {
     return this._searchPropertyDetail.execute(input);
   }
   async createPropertyDetail(
-    input: CreatePropertyDetailInput
+    input: CreatePropertyDetailInput,
   ): Promise<PropertyDetailOutput> {
     return this._createPropertyDetail.execute(input);
   }
   async updatePropertyDetail(
-    input: UpdatePropertyDetailInput
+    input: UpdatePropertyDetailInput,
   ): Promise<PropertyDetailOutput> {
     return this._updatePropertyDetail.execute(input);
   }
@@ -297,17 +297,17 @@ export class AdmFacade {
     return this._getCondominiumDetail.execute(input);
   }
   async searchCondominiumDetail(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<CondominiumDetailOutput>> {
     return this._searchCondominiumDetail.execute(input);
   }
   async createCondominiumDetail(
-    input: CreateCondominiumDetailInput
+    input: CreateCondominiumDetailInput,
   ): Promise<CondominiumDetailOutput> {
     return this._createCondominiumDetail.execute(input);
   }
   async updateCondominiumDetail(
-    input: UpdateCondominiumDetailInput
+    input: UpdateCondominiumDetailInput,
   ): Promise<CondominiumDetailOutput> {
     return this._updateCondominiumDetail.execute(input);
   }
@@ -318,7 +318,7 @@ export class AdmFacade {
     return this._getRule.execute(input);
   }
   async searchRule(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<RuleOutput>> {
     return this._searchRule.execute(input);
   }
@@ -335,7 +335,7 @@ export class AdmFacade {
     return this._getCharge.execute(input);
   }
   async searchCharge(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<ChargeOutput>> {
     return this._searchCharge.execute(input);
   }
@@ -352,7 +352,7 @@ export class AdmFacade {
     return this._getFloorPlan.execute(input);
   }
   async searchFloorPlan(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<FloorPlanOutput>> {
     return this._searchFloorPlan.execute(input);
   }

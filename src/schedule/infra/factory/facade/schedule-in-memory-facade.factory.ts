@@ -11,11 +11,11 @@ export class ScheduleInMemoryFacadeFactory {
 
     const scheduleVisitUseCase = new ScheduleVisitUseCase(
       repositoryFactory,
-      broker
+      broker,
     );
 
     return new ScheduleFacade({
-      scheduleVisit: scheduleVisitUseCase
+      scheduleVisit: scheduleVisitUseCase,
     });
   }
 }

@@ -12,7 +12,7 @@ describe("PrivacyTypeRepository Unit tests", () => {
   it("should find by id a privacy type", async () => {
     const privacyTypeRepository = new PrivacyTypePrismaRepository(prisma);
     const privacyType = await privacyTypeRepository.findById(
-      new UniqueEntityId("ELhZHy9eDfTYAPY-b6PD3")
+      new UniqueEntityId("ELhZHy9eDfTYAPY-b6PD3"),
     );
     expect(privacyType).toBeDefined();
   });

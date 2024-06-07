@@ -1,16 +1,16 @@
-import { PropertyOutputMapper } from '#property/app/dto';
+import { PropertyOutputMapper } from "#property/app/dto";
 import {
   PropertyFakeBuilder,
   PropertyFilter,
   RepositoryFactory,
-} from '#property/domain';
-import { InMemoryRepositoryFactory } from '#property/infra';
-import { SearchInputDto } from '#shared/app';
-import { Broker } from '#shared/infra';
+} from "#property/domain";
+import { InMemoryRepositoryFactory } from "#property/infra";
+import { SearchInputDto } from "#shared/app";
+import { Broker } from "#shared/infra";
 
-import { SearchPropertiesUseCase } from '../../search-properties.use-case';
+import { SearchPropertiesUseCase } from "../../search-properties.use-case";
 
-describe('SearchPropertiesUseCase Unit Tests', () => {
+describe("SearchPropertiesUseCase Unit Tests", () => {
   let useCase: SearchPropertiesUseCase;
   let repositoryFactory: RepositoryFactory;
   let broker: Broker;
@@ -21,9 +21,9 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
     useCase = new SearchPropertiesUseCase(repositoryFactory, broker);
   });
 
-  it('should search properties without params', async () => {
+  it("should search properties without params", async () => {
     const items = PropertyFakeBuilder.theProperties(10).build();
-    useCase['propertyRepository']['items'] = items;
+    useCase["propertyRepository"]["items"] = items;
     const response = await useCase.execute({});
     expect(response.total).toBe(items.length);
     expect(response.items).toStrictEqual(
@@ -34,18 +34,18 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
     expect(response.per_page).toBe(15);
   });
 
-  it('should search properties with filter params', async () => {
+  it("should search properties with filter params", async () => {
     const faker = PropertyFakeBuilder.aProperty();
     const items = [
-      faker.withTitle('test').withDescription('test').build(),
-      faker.withTitle('fake').withDescription('test').build(),
-      faker.withTitle('TEST').withDescription('fake').build(),
-      faker.withTitle('fake').withDescription('fake').build(),
+      faker.withTitle("test").withDescription("test").build(),
+      faker.withTitle("fake").withDescription("test").build(),
+      faker.withTitle("TEST").withDescription("fake").build(),
+      faker.withTitle("fake").withDescription("fake").build(),
     ];
-    useCase['propertyRepository']['items'] = items;
+    useCase["propertyRepository"]["items"] = items;
     const input = {
       filter: {
-        query: 'test',
+        query: "test",
       },
     };
     const response = await useCase.execute(input);
@@ -54,10 +54,10 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
       items
         .filter(
           (property) =>
-            property.title.includes('test') ||
-            property.title.includes('TEST') ||
-            property.description.includes('test') ||
-            property.description.includes('TEST'),
+            property.title.includes("test") ||
+            property.title.includes("TEST") ||
+            property.description.includes("test") ||
+            property.description.includes("TEST"),
         )
         .map((property) => PropertyOutputMapper.toOutput(property)),
     );
@@ -66,18 +66,18 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
     expect(response.per_page).toBe(15);
   });
 
-  it('should search properties with sort params', async () => {
+  it("should search properties with sort params", async () => {
     const faker = PropertyFakeBuilder.aProperty();
     const items = [
-      faker.withTitle('a').build(),
-      faker.withTitle('c').build(),
-      faker.withTitle('b').build(),
-      faker.withTitle('d').build(),
+      faker.withTitle("a").build(),
+      faker.withTitle("c").build(),
+      faker.withTitle("b").build(),
+      faker.withTitle("d").build(),
     ];
-    useCase['propertyRepository']['items'] = items;
+    useCase["propertyRepository"]["items"] = items;
     let input: SearchInputDto<PropertyFilter> = {
-      sort: 'title',
-      sort_dir: 'asc',
+      sort: "title",
+      sort_dir: "asc",
     };
     let response = await useCase.execute(input);
     expect(response.total).toBe(items.length);
@@ -91,8 +91,8 @@ describe('SearchPropertiesUseCase Unit Tests', () => {
     expect(response.per_page).toBe(15);
 
     input = {
-      sort: 'title',
-      sort_dir: 'desc',
+      sort: "title",
+      sort_dir: "desc",
     };
     response = await useCase.execute(input);
     expect(response.items).toStrictEqual(

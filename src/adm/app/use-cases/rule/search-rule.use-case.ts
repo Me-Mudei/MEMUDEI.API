@@ -2,7 +2,7 @@ import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
-  PaginationOutputMapper
+  PaginationOutputMapper,
 } from "#shared/app";
 import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
 
@@ -17,14 +17,14 @@ export class SearchRuleUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.ruleRepository = repositoryFactory.createRuleRepository();
   }
 
   async execute(
-    input: SearchInputDto
+    input: SearchInputDto,
   ): Promise<PaginationOutputDto<RuleOutput>> {
     this.logger.info({ message: "Start SearchRule Use Case" });
     const params = new RuleSearchParams(input);

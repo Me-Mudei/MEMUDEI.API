@@ -4,7 +4,7 @@ import { SortDirection } from "#shared/domain";
 import { PrivacyType } from "../../../domain/entities";
 import {
   PrivacyTypeRepository,
-  PrivacyTypeFilter
+  PrivacyTypeFilter,
 } from "../../../domain/repository";
 
 export class PrivacyTypeInMemoryRepository
@@ -15,7 +15,7 @@ export class PrivacyTypeInMemoryRepository
 
   protected async applyFilter(
     items: PrivacyType[],
-    filter: PrivacyTypeFilter
+    filter: PrivacyTypeFilter,
   ): Promise<PrivacyType[]> {
     if (!filter) {
       return items;
@@ -29,7 +29,7 @@ export class PrivacyTypeInMemoryRepository
   protected async applySort(
     items: PrivacyType[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<PrivacyType[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")

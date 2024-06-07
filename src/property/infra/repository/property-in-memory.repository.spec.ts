@@ -6,7 +6,7 @@ import {
   PropertyDetailFakeBuilder,
   PropertyFakeBuilder,
   PropertyStatus,
-  RuleFakeBuilder
+  RuleFakeBuilder,
 } from "#property/domain";
 import { UniqueEntityId } from "#shared/domain";
 
@@ -41,34 +41,34 @@ describe("PropertyInMemoryRepository", () => {
         update: [
           {
             key: item.charges[0].key,
-            amount: 2000
-          }
+            amount: 2000,
+          },
         ],
         insert: [
           new Charge({
             key: "test",
-            amount: 1000
-          })
-        ]
-      }
+            amount: 1000,
+          }),
+        ],
+      },
     };
     await repository.update(itemUpdated);
     itemFound = await repository.findById(item.id);
     expect(itemFound).toMatchObject({
       id: itemUpdated.id,
-      title: itemUpdated.title
+      title: itemUpdated.title,
     });
     expect(itemFound.charges).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           key: itemUpdated.charge.update[0].key,
-          amount: itemUpdated.charge.update[0].amount
+          amount: itemUpdated.charge.update[0].amount,
         }),
         expect.objectContaining({
           key: itemUpdated.charge.insert[0].key,
-          amount: itemUpdated.charge.insert[0].amount
-        })
-      ])
+          amount: itemUpdated.charge.insert[0].amount,
+        }),
+      ]),
     );
   });
 
@@ -90,7 +90,7 @@ describe("PropertyInMemoryRepository", () => {
       faker.withTitle("test").withDescription("test").build(),
       faker.withTitle("fake").withDescription("test").build(),
       faker.withTitle("TEST").withDescription("fake").build(),
-      faker.withTitle("fake").withDescription("fake").build()
+      faker.withTitle("fake").withDescription("fake").build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -107,7 +107,7 @@ describe("PropertyInMemoryRepository", () => {
       faker.withId(finderId).build(),
       faker.withId(new UniqueEntityId()).build(),
       faker.withId(new UniqueEntityId()).build(),
-      faker.withId(new UniqueEntityId()).build()
+      faker.withId(new UniqueEntityId()).build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -122,7 +122,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withStatus(PropertyStatus.PENDING).build(),
       faker.withStatus(PropertyStatus.PUBLISHED).build(),
-      faker.withStatus(PropertyStatus.PUBLISHED).build()
+      faker.withStatus(PropertyStatus.PUBLISHED).build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -137,7 +137,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withPropertyTypeKey(key).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -152,7 +152,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withPrivacyTypeKey(key).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -171,7 +171,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withPropertyDetails(propertyDetails).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -191,12 +191,12 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withCondominiumDetails(condominiumDetails).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
     const itemsFiltered = repository["condominium_details_filter"](items, [
-      key
+      key,
     ]);
     expect(itemsFiltered).toStrictEqual([items[0]]);
     expect(spyFilterMethod).toHaveBeenCalledTimes(1);
@@ -212,7 +212,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withRules(rules).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -228,13 +228,13 @@ describe("PropertyInMemoryRepository", () => {
     const charges = [
       ChargeFakeBuilder.aCharge().withKey("test").withAmount(1000).build(),
       ChargeFakeBuilder.aCharge().withKey("test").withAmount(300).build(),
-      ChargeFakeBuilder.aCharge().withKey("test").withAmount(100).build()
+      ChargeFakeBuilder.aCharge().withKey("test").withAmount(100).build(),
     ];
 
     const items = [
       faker.withCharges(charges).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -254,7 +254,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withFloorPlans([floorPlan]).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -273,7 +273,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withFloorPlans([floorPlan]).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -292,7 +292,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withFloorPlans([floorPlan]).build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const spyFilterMethod = jest.spyOn(items, "filter");
@@ -357,7 +357,7 @@ describe("PropertyInMemoryRepository", () => {
         .withTitle("title")
         .build(),
       PropertyFakeBuilder.aProperty().build(),
-      PropertyFakeBuilder.aProperty().build()
+      PropertyFakeBuilder.aProperty().build(),
     ];
 
     const query = "title";
@@ -376,7 +376,7 @@ describe("PropertyInMemoryRepository", () => {
       condominium_details: ["pool"],
       rules: ["smoking"],
       property_details: ["cupboards"],
-      property_type: propertyTypeKey
+      property_type: propertyTypeKey,
     });
     expect(itemsFiltered).toStrictEqual([items[0]]);
     expect(itemsFiltered).toHaveLength(1);
@@ -389,7 +389,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withCreatedAt(created_at).build(),
       faker.withCreatedAt(new Date(created_at.getTime() + 100)).build(),
-      faker.withCreatedAt(new Date(created_at.getTime() + 200)).build()
+      faker.withCreatedAt(new Date(created_at.getTime() + 200)).build(),
     ];
 
     const itemsSorted = await repository["applySort"](items, null, null);
@@ -401,7 +401,7 @@ describe("PropertyInMemoryRepository", () => {
     const items = [
       faker.withTitle("a").build(),
       faker.withTitle("b").build(),
-      faker.withTitle("c").build()
+      faker.withTitle("c").build(),
     ];
 
     let itemsSorted = await repository["applySort"](items, "title", "asc");

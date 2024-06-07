@@ -12,7 +12,7 @@ export class GetFloorPlanUseCase
   private logger: LoggerInterface;
   constructor(
     readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker
+    readonly broker: Broker,
   ) {
     this.logger = WinstonLogger.getInstance();
     this.floorPlanRepository = repositoryFactory.createFloorPlanRepository();

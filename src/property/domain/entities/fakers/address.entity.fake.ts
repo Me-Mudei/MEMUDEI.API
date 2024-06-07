@@ -101,13 +101,13 @@ export class AddressFakeBuilder<TBuild = any> {
       (_, index) =>
         new Address({
           ...(this._id && {
-            id: this.callFactory(this._id, index)
+            id: this.callFactory(this._id, index),
           }),
           ...(this._created_at && {
-            created_at: this.callFactory(this._created_at, index)
+            created_at: this.callFactory(this._created_at, index),
           }),
           ...(this._updated_at && {
-            updated_at: this.callFactory(this._updated_at, index)
+            updated_at: this.callFactory(this._updated_at, index),
           }),
           zip_code: this.callFactory(this._zip_code, index),
           complement: this.callFactory(this._complement, index),
@@ -116,8 +116,8 @@ export class AddressFakeBuilder<TBuild = any> {
           street: this.callFactory(this._street, index),
           country: this.callFactory(this._country, index),
           location: this.callFactory(this._location, index),
-          district: this.callFactory(this._district, index)
-        })
+          district: this.callFactory(this._district, index),
+        }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }

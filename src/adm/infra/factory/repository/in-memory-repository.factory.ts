@@ -7,7 +7,7 @@ import {
   PropertyTypeInMemoryRepository,
   RuleInMemoryRepository,
   ChargeInMemoryRepository,
-  FloorPlanInMemoryRepository
+  FloorPlanInMemoryRepository,
 } from "../../repository";
 
 export class InMemoryRepositoryFactory implements RepositoryFactory {

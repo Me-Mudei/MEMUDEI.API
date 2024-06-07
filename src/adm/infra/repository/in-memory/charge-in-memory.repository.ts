@@ -12,7 +12,7 @@ export class ChargeInMemoryRepository
 
   protected async applyFilter(
     items: Charge[],
-    filter: ChargeFilter
+    filter: ChargeFilter,
   ): Promise<Charge[]> {
     if (!filter) {
       return items;
@@ -26,7 +26,7 @@ export class ChargeInMemoryRepository
   protected async applySort(
     items: Charge[],
     sort: string | null,
-    sort_dir: SortDirection | null
+    sort_dir: SortDirection | null,
   ): Promise<Charge[]> {
     return !sort
       ? super.applySort(items, "created_at", "desc")
