@@ -19,11 +19,10 @@ export class SignUpUseCase implements UseCase<SignUpInput, AuthUserOutput> {
     const authUser = await this.getAuthUser(input);
     const user = await this.prisma.user.create({
       data: {
-        name: authUser.name,
+        provider: authUser.provider,
         email: authUser.email,
         password: authUser.password,
         external_id: authUser.external_id,
-        provider: authUser.provider,
       },
     });
     return AuthUserOutputMapper.toOutput(user);

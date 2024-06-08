@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { JwtService } from "@nestjs/jwt";
 import { AuthFacade } from "#auth/app";
-import { UserOutput } from "#user/app";
+import { AuthUserOutput } from "#auth/app";
 import dayjs from "dayjs";
 
 import { AuthOutput } from "./dto/auth.output";
@@ -39,12 +39,11 @@ export class AuthResolver {
     return this.output(user);
   }
 
-  private async output(user: UserOutput): Promise<AuthOutput> {
+  private async output(user: AuthUserOutput): Promise<AuthOutput> {
     const accessToken = await this.jwtService.signAsync(
       {
         sub: user.id,
         iat: dayjs().valueOf(),
-        name: user.name,
       },
       {
         expiresIn: "1d",

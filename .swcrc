@@ -7,13 +7,10 @@
     "baseUrl": "./src",
     "paths": {
       "#nest/*": ["./nest/*"],
-      "#adm/*": ["./adm/*"],
       "#auth/*": ["./auth/*"],
       "#property/*": ["./property/*"],
-      "#shared/*": ["./shared/*"],
-      "#user/*": ["./user/*"],
-      "#schedule/*": ["./schedule/*"],
-      "#organization/*": ["./organization/*"]
+      "#organization/*": ["./organization/*"],
+      "#shared/*": ["./shared/*"]
     }
   }
 }

@@ -1,23 +1,26 @@
-import { AuthProvider } from "#auth/infra";
 import { UseCase } from "#shared/app";
-import { LoggerInterface, WinstonLogger } from "#shared/infra";
+import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 
 import { AuthProvider as EnumAuthProvider } from "../../domain";
+import { AuthProvider } from "../../infra";
 import { AuthUserOutput, AuthUserOutputMapper, SignInInput } from "../dto";
 
 export class SignInUseCase implements UseCase<SignInInput, AuthUserOutput> {
   private logger: LoggerInterface;
-  constructor(readonly authProviders: AuthProvider[]) {
+  constructor(
+    readonly prisma: PrismaClient,
+    readonly authProviders: AuthProvider[],
+  ) {
     this.logger = WinstonLogger.getInstance();
   }
 
   async execute(input: SignInInput): Promise<AuthUserOutput> {
     this.logger.info({ message: "Start SignIn Use Case" });
-    const user = await this.getAuthrUser(input);
+    const user = await this.getAuthUser(input);
     return AuthUserOutputMapper.toOutput(user);
   }
 
-  private async getAuthrUser(input: SignInInput) {
+  private async getAuthUser(input: SignInInput) {
     const providers = {
       google: this.authProviders.find(
         (provider) => provider.provider === EnumAuthProvider.GOOGLE,
@@ -30,14 +33,45 @@ export class SignInUseCase implements UseCase<SignInInput, AuthUserOutput> {
       if (!providers.google) {
         throw new Error("Google provider not found");
       }
-      return providers.google.validate({ token: input.google_token });
+      const provider_user = await providers.google.findUser({
+        token: input.google_token,
+      });
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: provider_user.email,
+          external_id: provider_user.id,
+        },
+      });
+      const isValid = await providers.google.validate({
+        user: {
+          provider: user.provider,
+          external_id: user.external_id,
+          email: user.email,
+        },
+        provider_user,
+      });
+      if (!isValid) {
+        throw new Error("Invalid credentials");
+      }
+      return user;
     }
     if (!providers.credentials) {
       throw new Error("Credentials provider not found");
     }
-    return providers.credentials.validate({
-      email: input.email,
-      password: input.password,
+    const user = await this.prisma.user.findUnique({
+      where: { email: input.email },
     });
+    const isValid = await providers.credentials.validate({
+      user: {
+        provider: user.provider,
+        email: user.email,
+        password: user.password,
+      },
+      provider_user: { email: input.email, password: input.password },
+    });
+    if (!isValid) {
+      throw new Error("Invalid credentials");
+    }
+    return user;
   }
 }

@@ -1,18 +1,17 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { UpdatePropertyInput as CoreUpdatePropertyInput } from "#property/app";
-
+import { Field, InputType, OmitType } from "@nestjs/graphql";
 import {
-  CreatePropertyChargeInput,
-  CreatePropertyCondominiumDetailInput,
-  CreatePropertyFloorPlanInput,
-  CreatePropertyPhotoInput,
-  CreatePropertyPropertyDetailInput,
-  CreatePropertyRuleInput,
-} from "./create-property.input";
-import { PropertyStatus } from "./property.enum";
+  UpdatePropertyInput as CoreUpdatePropertyInput,
+  AddressUpdateInput,
+  LocationUpdateInput,
+  DetailUpdateInput,
+  FileUpdateInput,
+} from "#property/app";
+
+import { CreateDetailInput, CreateFileInput } from "./create-property.input";
+import { PropertyStatus, PropertyType } from "./property.enum";
 
 @InputType()
-export class UpdateAddressLocationInput {
+export class UpdateLocationInput implements LocationUpdateInput {
   @Field(() => Number, { nullable: true })
   lat?: number;
 
@@ -21,7 +20,7 @@ export class UpdateAddressLocationInput {
 }
 
 @InputType()
-export class UpdatePropertyAddressInput {
+export class UpdateAddressInput implements AddressUpdateInput {
   @Field(() => String, { nullable: true })
   zip_code?: string;
 
@@ -37,8 +36,8 @@ export class UpdatePropertyAddressInput {
   @Field(() => String, { nullable: true })
   country?: string;
 
-  @Field(() => UpdateAddressLocationInput, { nullable: true })
-  location?: UpdateAddressLocationInput;
+  @Field(() => UpdateLocationInput, { nullable: true })
+  location?: UpdateLocationInput;
 
   @Field(() => String, { nullable: true })
   district?: string;
@@ -48,79 +47,48 @@ export class UpdatePropertyAddressInput {
 }
 
 @InputType()
-export class UpdatePropertyFloorPlanInput {
+export class UpdateFieldDetailInput extends OmitType(CreateDetailInput, [
+  "type",
+]) {}
+
+@InputType()
+export class UpdateDetailInput implements DetailUpdateInput {
   @Field(() => [String], { nullable: true })
   remove?: string[];
 
-  @Field(() => [CreatePropertyFloorPlanInput], { nullable: true })
-  update?: CreatePropertyFloorPlanInput[];
+  @Field(() => [UpdateFieldDetailInput], { nullable: true })
+  update?: UpdateFieldDetailInput[];
 
-  @Field(() => [CreatePropertyFloorPlanInput], { nullable: true })
-  insert?: CreatePropertyFloorPlanInput[];
+  @Field(() => [CreateDetailInput], { nullable: true })
+  insert?: CreateDetailInput[];
 }
 
 @InputType()
-export class UpdatePropertyPropertyDetailInput {
+export class UpdateFieldFileInput extends OmitType(CreateFileInput, [
+  "external_id",
+  "url",
+  "filename",
+  "type",
+  "subtype",
+]) {
+  @Field(() => String)
+  id: string;
+}
+
+@InputType()
+export class UpdateFileInput implements FileUpdateInput {
   @Field(() => [String], { nullable: true })
   remove?: string[];
 
-  @Field(() => [CreatePropertyPropertyDetailInput], { nullable: true })
-  update?: CreatePropertyPropertyDetailInput[];
+  @Field(() => [UpdateFieldFileInput], { nullable: true })
+  update?: Array<UpdateFieldFileInput>;
 
-  @Field(() => [CreatePropertyPropertyDetailInput], { nullable: true })
-  insert?: CreatePropertyPropertyDetailInput[];
+  @Field(() => [CreateFileInput], { nullable: true })
+  insert?: CreateFileInput[];
 }
 
 @InputType()
-export class UpdatePropertyCondominiumDetailInput {
-  @Field(() => [String], { nullable: true })
-  remove?: string[];
-
-  @Field(() => [CreatePropertyCondominiumDetailInput], { nullable: true })
-  update?: CreatePropertyCondominiumDetailInput[];
-
-  @Field(() => [CreatePropertyCondominiumDetailInput], { nullable: true })
-  insert?: CreatePropertyCondominiumDetailInput[];
-}
-
-@InputType()
-export class UpdatePropertyRuleInput {
-  @Field(() => [String], { nullable: true })
-  remove?: string[];
-
-  @Field(() => [CreatePropertyRuleInput], { nullable: true })
-  update?: CreatePropertyRuleInput[];
-
-  @Field(() => [CreatePropertyRuleInput], { nullable: true })
-  insert?: CreatePropertyRuleInput[];
-}
-
-@InputType()
-export class UpdatePropertyChargeInput {
-  @Field(() => [String], { nullable: true })
-  remove?: string[];
-
-  @Field(() => [CreatePropertyChargeInput], { nullable: true })
-  update?: CreatePropertyChargeInput[];
-
-  @Field(() => [CreatePropertyChargeInput], { nullable: true })
-  insert?: CreatePropertyChargeInput[];
-}
-
-@InputType()
-export class UpdatePropertyPhotoInput {
-  @Field(() => [String], { nullable: true })
-  remove?: string[];
-
-  @Field(() => [CreatePropertyPhotoInput], { nullable: true })
-  update?: CreatePropertyPhotoInput[];
-
-  @Field(() => [CreatePropertyPhotoInput], { nullable: true })
-  insert?: CreatePropertyPhotoInput[];
-}
-
-@InputType()
-export class UpdatePropertyInput {
+export class UpdatePropertyInput implements CoreUpdatePropertyInput {
   @Field(() => String)
   id: string;
 
@@ -133,8 +101,8 @@ export class UpdatePropertyInput {
   @Field(() => PropertyStatus, { nullable: true })
   status?: PropertyStatus;
 
-  @Field(() => String, { nullable: true })
-  property_type?: string;
+  @Field(() => PropertyType, { nullable: true })
+  property_type?: PropertyType;
 
   @Field(() => String, { nullable: true })
   property_relationship?: string;
@@ -142,26 +110,14 @@ export class UpdatePropertyInput {
   @Field(() => String, { nullable: true })
   privacy_type?: string;
 
-  @Field(() => UpdatePropertyAddressInput, { nullable: true })
-  address?: UpdatePropertyAddressInput;
+  @Field(() => UpdateAddressInput, { nullable: true })
+  address?: UpdateAddressInput;
 
-  @Field(() => UpdatePropertyFloorPlanInput, { nullable: true })
-  floor_plan?: UpdatePropertyFloorPlanInput;
+  @Field(() => UpdateDetailInput, { nullable: true })
+  property_detail?: UpdateDetailInput;
 
-  @Field(() => UpdatePropertyPropertyDetailInput, { nullable: true })
-  property_detail?: UpdatePropertyPropertyDetailInput;
-
-  @Field(() => UpdatePropertyCondominiumDetailInput, { nullable: true })
-  condominium_detail?: UpdatePropertyCondominiumDetailInput;
-
-  @Field(() => UpdatePropertyRuleInput, { nullable: true })
-  rule?: UpdatePropertyRuleInput;
-
-  @Field(() => UpdatePropertyPhotoInput, { nullable: true })
-  photo?: UpdatePropertyPhotoInput;
-
-  @Field(() => UpdatePropertyChargeInput, { nullable: true })
-  charge?: UpdatePropertyChargeInput;
+  @Field(() => UpdateFileInput, { nullable: true })
+  media?: UpdateFileInput;
 }
 
 export class UpdatePropertyInputMapper {

@@ -7,7 +7,11 @@ import {
   MaxLength,
 } from "class-validator";
 
-import { PropertyProps, PropertyStatus } from "../entities/property.entity";
+import {
+  PropertyProps,
+  PropertyStatus,
+  PropertyType,
+} from "../entities/property.entity";
 
 export class PropertyRules {
   @MaxLength(200)
@@ -19,6 +23,10 @@ export class PropertyRules {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsNotEmpty()
+  //@IsEnum(PropertyType)
+  property_type: PropertyType;
 
   @IsOptional()
   //@IsEnum(PropertyStatus)

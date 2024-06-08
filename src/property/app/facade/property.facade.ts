@@ -4,8 +4,6 @@ import { SearchInputDto, PaginationOutputDto } from "#shared/app/";
 import {
   CreatePropertyInput,
   UpdatePropertyInput,
-  CreatePropertyOutput,
-  UpdatePropertyOutput,
   PropertyOutput,
 } from "../dto";
 import {
@@ -34,15 +32,11 @@ export class PropertyFacade {
     this._getProperty = props.getProperty;
     this._searchProperties = props.searchProperties;
   }
-  async createProperty(
-    input: CreatePropertyInput,
-  ): Promise<CreatePropertyOutput> {
+  async createProperty(input: CreatePropertyInput): Promise<PropertyOutput> {
     return this._createProperty.execute(input);
   }
 
-  async updateProperty(
-    input: UpdatePropertyInput,
-  ): Promise<UpdatePropertyOutput> {
+  async updateProperty(input: UpdatePropertyInput): Promise<PropertyOutput> {
     return this._updateProperty.execute(input);
   }
 

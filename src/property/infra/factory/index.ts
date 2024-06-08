@@ -1,4 +1,4 @@
 // created from 'create-ts-index'
 
-export * from "./facade";
-export * from "./repository";
+export * from "./property-facade.factory";
+export * from "./property-in-memory-facade.factory";

@@ -1,16 +1,22 @@
+import { Property, PropertyStatus, PropertyType } from "#property/domain";
 import {
   UseCase,
   SearchInputDto,
   PaginationOutputDto,
   PaginationOutputMapper,
 } from "#shared/app";
-import { Broker, LoggerInterface, WinstonLogger } from "#shared/infra";
+import { UniqueEntityId } from "#shared/domain";
+import {
+  LoggerInterface,
+  Prisma,
+  PrismaClient,
+  WinstonLogger,
+} from "#shared/infra";
 
-import { RepositoryFactory } from "../../domain/factory";
 import {
   PropertyFilter,
-  PropertyRepository,
   PropertySearchParams,
+  PropertySearchResult,
 } from "../../domain/repository";
 import { PropertyOutput, PropertyOutputMapper } from "../dto";
 
@@ -21,14 +27,9 @@ export class SearchPropertiesUseCase
       PaginationOutputDto<PropertyOutput>
     >
 {
-  propertyRepository: PropertyRepository;
   private logger: LoggerInterface;
-  constructor(
-    readonly repositoryFactory: RepositoryFactory,
-    readonly broker: Broker,
-  ) {
+  constructor(readonly prisma: PrismaClient) {
     this.logger = WinstonLogger.getInstance();
-    this.propertyRepository = repositoryFactory.createPropertyRepository();
   }
 
   async execute(
@@ -36,7 +37,29 @@ export class SearchPropertiesUseCase
   ): Promise<PaginationOutputDto<PropertyOutput>> {
     this.logger.info({ message: "Start Search Property Use Case" });
     const params = new PropertySearchParams(input);
-    const result = await this.propertyRepository.search(params);
+    const properties = await this.prisma.property.findMany(
+      params.toPrismaPagination<Prisma.PropertyFindManyArgs>(),
+    );
+    const result = new PropertySearchResult({
+      items: properties.map(
+        (property) =>
+          new Property({
+            id: new UniqueEntityId(property.id),
+            title: property.title,
+            description: property.description,
+            status: PropertyStatus[property.status],
+            property_type: PropertyType[property.property_type],
+            created_at: property.created_at,
+            updated_at: property.updated_at,
+          }),
+      ),
+      current_page: input.page,
+      per_page: input.per_page,
+      total: properties.length,
+      filter: input.filter,
+      sort: input.sort,
+      sort_dir: input.sort_dir,
+    });
     const items = result.items.map((property) =>
       PropertyOutputMapper.toOutput(property),
     );

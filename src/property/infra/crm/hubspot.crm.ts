@@ -4,8 +4,8 @@ import {
   FilterOperatorEnum,
 } from "@hubspot/api-client/lib/codegen/crm/companies";
 import { AssociationSpecAssociationCategoryEnum } from "@hubspot/api-client/lib/codegen/crm/deals";
-import { Property } from "#property/domain";
-import { configEnv } from "#shared/infra";
+import { DetailType, Property } from "#property/domain";
+import { PrismaClient, configEnv } from "#shared/infra";
 
 import { CRM } from "./crm.interface";
 
@@ -25,7 +25,7 @@ export enum Stage {
 export class HubspotCRM implements CRM {
   private client: Client;
 
-  constructor() {
+  constructor(readonly prisma: PrismaClient) {
     this.client = new Client({
       accessToken: configEnv.crm.accessToken,
     });
@@ -42,11 +42,25 @@ export class HubspotCRM implements CRM {
   }
 
   async createProperty(property: Property) {
+    const foundProperty = await this.prisma.property.findFirst({
+      where: { id: property.id },
+      select: {
+        created_by_id: true,
+        details: {
+          select: {
+            type: true,
+            value: true,
+          },
+        },
+        address: true,
+      },
+    });
+    const formattedAddress = `${foundProperty.address.street}, ${foundProperty.address.district}, ${foundProperty.address.city} - ${foundProperty.address.state}, ${foundProperty.address.zip_code}`;
     const users = await this.searchUser([
       {
         propertyName: "user_id",
         operator: FilterOperatorEnum.Eq,
-        value: property.user_id.value,
+        value: foundProperty.created_by_id,
       },
     ]);
     if (users.total === 0) {
@@ -59,11 +73,12 @@ export class HubspotCRM implements CRM {
         dealname: property.title,
         description: property.description,
         dealstage: Stage.PUBLISHED,
-        amount: property.charges
-          .reduce((acc, charge) => acc + charge.amount, 0)
+        amount: foundProperty.details
+          .filter((detail) => detail.type === DetailType.CHARGE)
+          .reduce((acc, charge) => acc + charge.value, 0)
           .toString(),
-        endereco_completo: property.address.formatted(),
-        cidade: property.address.city,
+        endereco_completo: formattedAddress,
+        cidade: foundProperty.address.city,
         hs_priority: "low",
       },
       associations: [

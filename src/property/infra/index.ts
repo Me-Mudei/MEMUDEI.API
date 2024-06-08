@@ -2,4 +2,3 @@
 
 export * from "./crm";
 export * from "./factory";
-export * from "./repository";

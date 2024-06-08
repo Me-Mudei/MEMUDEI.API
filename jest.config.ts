@@ -1,6 +1,6 @@
 export default {
   clearMocks: true,
-  coverageProvider: 'v8',
+  coverageProvider: "v8",
   coverageThreshold: {
     global: {
       statements: 80,
@@ -9,28 +9,28 @@ export default {
       lines: 80,
     },
   },
-  moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: '.',
-  testRegex: '.*\\..*spec\\.ts$',
+  moduleFileExtensions: ["js", "json", "ts"],
+  rootDir: ".",
+  testRegex: ".*\\..*spec\\.ts$",
   transform: {
-    '^.+\\.ts?$': ['@swc/jest'],
+    "^.+\\.ts?$": ["@swc/jest"],
   },
-  collectCoverageFrom: ['**/*.(t|j)s'],
-  coverageDirectory: './coverage',
-  testEnvironment: 'node',
+  collectCoverageFrom: ["**/*.(t|j)s"],
+  coverageDirectory: "./coverage",
+  testEnvironment: "node",
   moduleNameMapper: {
-    '^src/(.*)$': '<rootDir>/src/$1',
+    "^src/(.*)$": "<rootDir>/src/$1",
   },
   modulePathIgnorePatterns: [
-    '/dist/',
-    '/coverage/',
-    '/prisma/',
-    '/*.config.ts',
-    '/.eslintrc.js',
+    "/dist/",
+    "/coverage/",
+    "/prisma/",
+    "/*.config.ts",
+    "/.eslintrc.js",
   ],
   testTimeout: 30000,
   setupFilesAfterEnv: [
-    './src/shared/domain/tests/validations.ts',
-    './src/shared/domain/tests/jest.ts',
+    "./src/shared/domain/tests/validations.ts",
+    "./src/shared/domain/tests/jest.ts",
   ],
 };

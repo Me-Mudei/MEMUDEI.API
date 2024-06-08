@@ -1,24 +1,7 @@
 import { UniqueEntityId } from "#shared/domain";
 import { Chance } from "chance";
 
-import {
-  Address,
-  FloorPlan,
-  PropertyDetail,
-  CondominiumDetail,
-  Rule,
-  Charge,
-} from "../";
-import { Property, PropertyStatus } from "../property.entity";
-
-import {
-  AddressFakeBuilder,
-  FloorPlanFakeBuilder,
-  PropertyDetailFakeBuilder,
-  CondominiumDetailFakeBuilder,
-  RuleFakeBuilder,
-  ChargeFakeBuilder,
-} from "./";
+import { Property, PropertyStatus, PropertyType } from "../property.entity";
 
 type PropOrFactory<T> = T | ((index: number) => T);
 
@@ -31,26 +14,8 @@ export class PropertyFakeBuilder<TBuild = any> {
     this.chance.sentence({ words: 10 });
   private _status: PropOrFactory<PropertyStatus | null> = (_index) =>
     PropertyStatus.PENDING;
-  private _property_type: PropOrFactory<string> = (_index) =>
-    this.chance.word({ length: 5 });
-  private _property_relationship: PropOrFactory<string> = (_index) =>
-    this.chance.word({ length: 5 });
-  private _privacy_type: PropOrFactory<string> = (_index) =>
-    this.chance.word({ length: 5 });
-  private _address: PropOrFactory<Address> = (_index) =>
-    AddressFakeBuilder.aAddress().build();
-  private _floor_plans: PropOrFactory<FloorPlan[]> = (_index) =>
-    FloorPlanFakeBuilder.theFloorPlans(3).build();
-  private _property_details: PropOrFactory<PropertyDetail[]> = (_index) =>
-    PropertyDetailFakeBuilder.thePropertyDetails(3).build();
-  private _condominium_details: PropOrFactory<CondominiumDetail[]> = (_index) =>
-    CondominiumDetailFakeBuilder.theCondominiumDetails(3).build();
-  private _rules: PropOrFactory<Rule[]> = (_index) =>
-    RuleFakeBuilder.theRules(3).build();
-  private _charges: PropOrFactory<Charge[]> = (_index) =>
-    ChargeFakeBuilder.theCharges(3).build();
-  private _user_id: PropOrFactory<UniqueEntityId> = (_index) =>
-    new UniqueEntityId();
+  private _property_type: PropOrFactory<PropertyType> = (_index) =>
+    PropertyType.APARTMENT;
 
   private countObjs: number;
 
@@ -99,44 +64,8 @@ export class PropertyFakeBuilder<TBuild = any> {
     return this;
   }
 
-  withAddress(valueOrFactory: PropOrFactory<Address>) {
-    this._address = valueOrFactory;
-    return this;
-  }
-  withPropertyTypeKey(valueOrFactory: PropOrFactory<string>) {
+  withPropertyType(valueOrFactory: PropOrFactory<PropertyType>) {
     this._property_type = valueOrFactory;
-    return this;
-  }
-  withPropertyRelationshipKey(valueOrFactory: PropOrFactory<string>) {
-    this._property_relationship = valueOrFactory;
-    return this;
-  }
-  withPrivacyTypeKey(valueOrFactory: PropOrFactory<string>) {
-    this._privacy_type = valueOrFactory;
-    return this;
-  }
-  withFloorPlans(valueOrFactory: PropOrFactory<FloorPlan[]>) {
-    this._floor_plans = valueOrFactory;
-    return this;
-  }
-  withPropertyDetails(valueOrFactory: PropOrFactory<PropertyDetail[]>) {
-    this._property_details = valueOrFactory;
-    return this;
-  }
-  withCondominiumDetails(valueOrFactory: PropOrFactory<CondominiumDetail[]>) {
-    this._condominium_details = valueOrFactory;
-    return this;
-  }
-  withRules(valueOrFactory: PropOrFactory<Rule[]>) {
-    this._rules = valueOrFactory;
-    return this;
-  }
-  withCharges(valueOrFactory: PropOrFactory<Charge[]>) {
-    this._charges = valueOrFactory;
-    return this;
-  }
-  withUserId(valueOrFactory: PropOrFactory<UniqueEntityId>) {
-    this._user_id = valueOrFactory;
     return this;
   }
 
@@ -156,22 +85,7 @@ export class PropertyFakeBuilder<TBuild = any> {
           title: this.callFactory(this._title, index),
           description: this.callFactory(this._description, index),
           status: this.callFactory(this._status, index),
-          address: this.callFactory(this._address, index),
           property_type: this.callFactory(this._property_type, index),
-          property_relationship: this.callFactory(
-            this._property_relationship,
-            index,
-          ),
-          privacy_type: this.callFactory(this._privacy_type, index),
-          floor_plans: this.callFactory(this._floor_plans, index),
-          property_details: this.callFactory(this._property_details, index),
-          condominium_details: this.callFactory(
-            this._condominium_details,
-            index,
-          ),
-          rules: this.callFactory(this._rules, index),
-          charges: this.callFactory(this._charges, index),
-          user_id: this.callFactory(this._user_id, index),
         }),
     );
     return this.countObjs === 1 ? (categories[0] as any) : categories;
@@ -193,36 +107,8 @@ export class PropertyFakeBuilder<TBuild = any> {
   get description() {
     return this.getValue("description");
   }
-
-  get address() {
-    return this.getValue("address");
-  }
   get property_type() {
     return this.getValue("property_type");
-  }
-  get property_relationship() {
-    return this.getValue("property_relationship");
-  }
-  get privacy_type() {
-    return this.getValue("privacy_type");
-  }
-  get floor_plans() {
-    return this.getValue("floor_plans");
-  }
-  get property_details() {
-    return this.getValue("property_details");
-  }
-  get condominium_details() {
-    return this.getValue("condominium_details");
-  }
-  get rules() {
-    return this.getValue("rules");
-  }
-  get charges() {
-    return this.getValue("charges");
-  }
-  get user_id() {
-    return this.getValue("user_id");
   }
 
   private getValue(prop) {

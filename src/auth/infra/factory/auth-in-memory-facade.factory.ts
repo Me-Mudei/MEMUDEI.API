@@ -13,10 +13,10 @@ export class AuthInMemoryFacadeFactory {
   static create() {
     const prisma = Connection.getInstance("prismock");
     const crypto = new BcryptCrypto();
-    const credentialsProvider = new CredentialsAuthProvider(prisma, crypto);
+    const credentialsProvider = new CredentialsAuthProvider(crypto);
 
     const signUpUseCase = new SignUpUseCase(prisma, [credentialsProvider]);
-    const signInUseCase = new SignInUseCase([credentialsProvider]);
+    const signInUseCase = new SignInUseCase(prisma, [credentialsProvider]);
     const validateUseCase = new ValidateUseCase(prisma);
 
     return new AuthFacade({

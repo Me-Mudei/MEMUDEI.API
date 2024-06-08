@@ -2,58 +2,38 @@ import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
 
 import PropertyValidatorFactory from "../validators/property.validator";
 
-import { Address } from "./address.entity";
-import { Charge } from "./charge.entity";
-import { CondominiumDetail } from "./condominium-detail.entity";
-import { FloorPlan } from "./floor-plan.entity";
-import { Photo } from "./photo.entity";
-import { PropertyDetail } from "./property-detail.entity";
-import { Rule } from "./rule.entity";
-
 export enum PropertyStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
-  PUBLISHED = "published",
-  REJECTED = "rejected",
-  UNPUBLISHED = "unpublished",
-  DEACTIVATED = "deactivated",
+  PENDING = "PENDING",
+  IN_PROGRESS = "IN_PROGRESS",
+  PUBLISHED = "PUBLISHED",
+  REJECTED = "REJECTED",
+  UNPUBLISHED = "UNPUBLISHED",
+  DEACTIVATED = "DEACTIVATED",
+}
+
+export enum PropertyType {
+  HOUSE = "house",
+  APARTMENT = "apartment",
+  COMMERCIAL = "commercial",
+  RURAL = "rural",
+  OTHER = "other",
 }
 
 export type PropertyProps = {
   id?: UniqueEntityId;
-  created_at?: Date;
-  updated_at?: Date;
-  status?: PropertyStatus;
   title: string;
   description: string;
-  address: Address;
-  property_type: string;
-  property_relationship: string;
-  privacy_type: string;
-  floor_plans: FloorPlan[];
-  property_details: PropertyDetail[];
-  condominium_details: CondominiumDetail[];
-  rules: Rule[];
-  photos?: Photo[];
-  charges: Charge[];
-  user_id: UniqueEntityId;
+  property_type: PropertyType;
+  status?: PropertyStatus;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export class Property extends Entity<PropertyProps> {
   private _title: string;
   private _description: string;
   private _status: PropertyStatus;
-  private _address: Address;
-  private _property_type: string;
-  private _property_relationship: string;
-  private _privacy_type: string;
-  private _floor_plans: FloorPlan[];
-  private _property_details: PropertyDetail[];
-  private _condominium_details: CondominiumDetail[];
-  private _rules: Rule[];
-  private _photos?: Photo[];
-  private _charges: Charge[];
-  private _user_id: UniqueEntityId;
+  private _property_type: PropertyType;
   private _disabled_at?: Date;
   private _deleted_at?: Date;
 
@@ -63,17 +43,7 @@ export class Property extends Entity<PropertyProps> {
     this._title = props.title;
     this._description = props.description;
     this._status = props.status || PropertyStatus.PENDING;
-    this._address = props.address;
     this._property_type = props.property_type;
-    this._property_relationship = props.property_relationship;
-    this._privacy_type = props.privacy_type;
-    this._floor_plans = props.floor_plans;
-    this._property_details = props.property_details;
-    this._condominium_details = props.condominium_details;
-    this._rules = props.rules;
-    this._photos = props.photos;
-    this._charges = props.charges;
-    this._user_id = props.user_id;
   }
 
   static validate(props: PropertyProps) {
@@ -114,70 +84,10 @@ export class Property extends Entity<PropertyProps> {
   set deleted_at(deleted_at) {
     this._deleted_at = deleted_at;
   }
-  get address() {
-    return this._address;
-  }
-  set address(address) {
-    this._address = address;
-  }
   get property_type() {
     return this._property_type;
   }
   set property_type(property_type) {
     this._property_type = property_type;
-  }
-  get property_relationship() {
-    return this._property_relationship;
-  }
-  set property_relationship(property_relationship) {
-    this._property_relationship = property_relationship;
-  }
-  get privacy_type() {
-    return this._privacy_type;
-  }
-  set privacy_type(privacy_type) {
-    this._privacy_type = privacy_type;
-  }
-  get floor_plans() {
-    return this._floor_plans;
-  }
-  set floor_plans(floor_plans) {
-    this._floor_plans = floor_plans;
-  }
-  get property_details() {
-    return this._property_details;
-  }
-  set property_details(property_details) {
-    this._property_details = property_details;
-  }
-  get condominium_details() {
-    return this._condominium_details;
-  }
-  set condominium_details(condominium_details) {
-    this._condominium_details = condominium_details;
-  }
-  get rules() {
-    return this._rules;
-  }
-  set rules(rules) {
-    this._rules = rules;
-  }
-  get photos() {
-    return this._photos;
-  }
-  set photos(photos) {
-    this._photos = photos;
-  }
-  get charges() {
-    return this._charges;
-  }
-  set charges(charges) {
-    this._charges = charges;
-  }
-  get user_id() {
-    return this._user_id;
-  }
-  set user_id(user_id) {
-    this._user_id = user_id;
   }
 }

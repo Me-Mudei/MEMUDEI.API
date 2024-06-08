@@ -15,10 +15,10 @@ export class AuthFacadeFactory {
     const prisma = Connection.getInstance();
     const crypto = new BcryptCrypto();
     // const googleProvider = new GoogleAuthProvider(prisma);
-    const credentialsProvider = new CredentialsAuthProvider(prisma, crypto);
+    const credentialsProvider = new CredentialsAuthProvider(crypto);
 
     const signUpUseCase = new SignUpUseCase(prisma, [credentialsProvider]);
-    const signInUseCase = new SignInUseCase([credentialsProvider]);
+    const signInUseCase = new SignInUseCase(prisma, [credentialsProvider]);
     const validateUseCase = new ValidateUseCase(prisma);
 
     return new AuthFacade({

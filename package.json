@@ -11,22 +11,16 @@
   },
   "imports": {
     "#nest/*": "./src/nest/*/index.js",
-    "#shared/*": "./src/shared/*/index.js",
-    "#property/*": "./src/property/*/index.js",
-    "#adm/*": "./src/adm/*/index.js",
     "#auth/*": "./src/auth/*/index.js",
-    "#user/*": "./src/user/*/index.js",
-    "#schedule/*": "./src/schedule/*/index.js",
-    "#organization/*": "./src/organization/*/index.js"
+    "#property/*": "./src/property/*/index.js",
+    "#organization/*": "./src/organization/*/index.js",
+    "#shared/*": "./src/shared/*/index.js"
   },
   "exports": {
     "./nest": "./src/nest/index.js",
     "./auth": "./src/auth/index.js",
-    "./adm": "./src/adm/index.js",
-    "./user": "./src/user/index.js",
     "./property": "./src/property/index.js",
     "./organization": "./src/organization/index.js",
-    "./schedule": "./src/schedule/index.js",
     "./shared": "./src/shared/index.js"
   },
   "scripts": {
@@ -35,7 +29,7 @@
     "dev:nest": "nest start --watch",
     "start:prod": "node dist/src/main.js",
     "generate": "yarn nexus:generate && yarn prisma:generate",
-    "generate:resource": "sh ./generate-resource.sh",
+    "create:resource": "sh ./generate-resource.sh",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "tsc": "tsc --noEmit",

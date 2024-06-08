@@ -2,7 +2,7 @@ import { Field, InputType } from "@nestjs/graphql";
 import { SignUpInput as AuthSignUpInput } from "#auth/app";
 import { MutuallyExclusive } from "#nest/shared/validators/mutually-exclusive.validate";
 import { RequiredIf } from "#nest/shared/validators/required-if.validate";
-import { IsDate, IsEmail, IsOptional } from "class-validator";
+import { IsEmail, IsOptional } from "class-validator";
 
 @InputType()
 export class SignUpInput implements AuthSignUpInput {

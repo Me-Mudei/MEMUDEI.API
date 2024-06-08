@@ -18,9 +18,15 @@ export class CreateOrganizationUseCase
   async execute(input: CreateOrganizationInput): Promise<OrganizationOutput> {
     this.logger.info({ message: "Create Organization Use Case" });
     const organization = await this.prisma.organization.create({ data: {} });
+    const merchant = await this.prisma.merchant.create({
+      data: {
+        company_name: "Default",
+        organization: { connect: { id: organization.id } },
+      },
+    });
     await this.prisma.member.create({
       data: {
-        organization: { connect: { id: organization.id } },
+        merchant: { connect: { id: merchant.id } },
         user: { connect: { id: input.user_id } },
         org_role: { connect: { name: "OWNER" } },
       },

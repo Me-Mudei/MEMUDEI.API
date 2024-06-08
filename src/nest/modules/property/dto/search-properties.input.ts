@@ -13,42 +13,6 @@ export class FilterPropertiesInput {
 
   @Field(() => PropertyStatus, { nullable: true })
   status: PropertyStatus;
-
-  @Field(() => String, { nullable: true })
-  property_type: string;
-
-  @Field(() => String, { nullable: true })
-  privacy_type: string;
-
-  @Field(() => [String], { nullable: true })
-  property_details: string[];
-
-  @Field(() => [String], { nullable: true })
-  condominium_details: string[];
-
-  @Field(() => [String], { nullable: true })
-  rules: string[];
-
-  @Field(() => String, { nullable: true })
-  value_type: string;
-
-  @Field(() => Number, { nullable: true })
-  min_value: number;
-
-  @Field(() => Number, { nullable: true })
-  max_value: number;
-
-  @Field(() => Number, { nullable: true })
-  min_footage: number;
-
-  @Field(() => Number, { nullable: true })
-  max_footage: number;
-
-  @Field(() => Number, { nullable: true })
-  qtd_bedrooms: number;
-
-  @Field(() => Number, { nullable: true })
-  qtd_bathrooms: number;
 }
 
 @InputType()

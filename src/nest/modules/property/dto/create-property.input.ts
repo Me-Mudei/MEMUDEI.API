@@ -1,10 +1,16 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { CreatePropertyInput as CoreCreatePropertyInput } from "#property/app";
+import {
+  CreatePropertyInput as CoreCreatePropertyInput,
+  DetailInput,
+  FileInput,
+  AddressInput,
+  LocationInput,
+} from "#property/app";
 
-import { PropertyStatus } from "./property.enum";
+import { PropertyStatus, PropertyType, DetailType } from "./property.enum";
 
 @InputType()
-export class CreateAddressLocationInput {
+export class CreateLocationInput implements LocationInput {
   @Field(() => Number)
   lat: number;
 
@@ -13,7 +19,7 @@ export class CreateAddressLocationInput {
 }
 
 @InputType()
-export class CreatePropertyAddressInput {
+export class CreateAddressInput implements AddressInput {
   @Field(() => String)
   zip_code: string;
 
@@ -29,8 +35,8 @@ export class CreatePropertyAddressInput {
   @Field(() => String)
   country: string;
 
-  @Field(() => CreateAddressLocationInput)
-  location: CreateAddressLocationInput;
+  @Field(() => CreateLocationInput)
+  location: CreateLocationInput;
 
   @Field(() => String, { nullable: true })
   district: string;
@@ -40,52 +46,28 @@ export class CreatePropertyAddressInput {
 }
 
 @InputType()
-export class CreatePropertyFloorPlanInput {
+export class CreateDetailInput implements DetailInput {
+  @Field(() => DetailType)
+  type: DetailType;
+
   @Field(() => String)
   key: string;
 
-  @Field(() => Number)
-  value: number;
+  @Field(() => Boolean, { nullable: true })
+  available?: boolean;
+
+  @Field(() => Number, { nullable: true })
+  value?: number;
+
+  @Field(() => String, { nullable: true })
+  unit?: string;
 }
 
 @InputType()
-export class CreatePropertyPropertyDetailInput {
+export class CreateFileInput implements FileInput {
   @Field(() => String)
-  key: string;
+  external_id: string;
 
-  @Field(() => Boolean)
-  available: boolean;
-}
-
-@InputType()
-export class CreatePropertyCondominiumDetailInput {
-  @Field(() => String)
-  key: string;
-
-  @Field(() => Boolean)
-  available: boolean;
-}
-
-@InputType()
-export class CreatePropertyRuleInput {
-  @Field(() => String)
-  key: string;
-
-  @Field(() => Boolean)
-  allowed: boolean;
-}
-
-@InputType()
-export class CreatePropertyChargeInput {
-  @Field(() => String)
-  key: string;
-
-  @Field(() => Number)
-  amount: number;
-}
-
-@InputType()
-export class CreatePropertyPhotoInput {
   @Field(() => String)
   url: string;
 
@@ -102,11 +84,13 @@ export class CreatePropertyPhotoInput {
   position: number;
 
   @Field(() => String, { nullable: true })
-  description: string;
+  description?: string;
 }
 
 @InputType()
-export class CreatePropertyInput {
+export class CreatePropertyInput
+  implements Omit<CoreCreatePropertyInput, "created_by_id" | "merchant_id">
+{
   @Field(() => String)
   title: string;
 
@@ -116,38 +100,17 @@ export class CreatePropertyInput {
   @Field(() => PropertyStatus, { nullable: true })
   status: PropertyStatus;
 
-  @Field(() => String)
-  property_type: string;
+  @Field(() => PropertyType)
+  property_type: PropertyType;
 
-  @Field(() => String)
-  property_relationship: string;
+  @Field(() => CreateAddressInput)
+  address: CreateAddressInput;
 
-  @Field(() => String)
-  privacy_type: string;
+  @Field(() => [CreateDetailInput])
+  details: CreateDetailInput[];
 
-  @Field(() => String, { nullable: true })
-  owner_id: string;
-
-  @Field(() => CreatePropertyAddressInput)
-  address: CreatePropertyAddressInput;
-
-  @Field(() => [CreatePropertyFloorPlanInput])
-  floor_plans: CreatePropertyFloorPlanInput[];
-
-  @Field(() => [CreatePropertyPropertyDetailInput])
-  property_details: CreatePropertyPropertyDetailInput[];
-
-  @Field(() => [CreatePropertyCondominiumDetailInput])
-  condominium_details: CreatePropertyCondominiumDetailInput[];
-
-  @Field(() => [CreatePropertyRuleInput])
-  rules: CreatePropertyRuleInput[];
-
-  @Field(() => [CreatePropertyChargeInput])
-  charges: CreatePropertyChargeInput[];
-
-  @Field(() => [CreatePropertyPhotoInput], { nullable: true })
-  photos: CreatePropertyPhotoInput[];
+  @Field(() => [CreateFileInput], { nullable: true })
+  media: CreateFileInput[];
 }
 
 export class CreatePropertyInputMapper {
@@ -155,10 +118,10 @@ export class CreatePropertyInputMapper {
     input: CreatePropertyInput,
     user_id: string,
   ): CoreCreatePropertyInput {
-    const { owner_id, ...property } = input;
     return {
-      ...property,
-      user_id: owner_id ?? user_id,
+      ...input,
+      created_by_id: user_id,
+      merchant_id: user_id,
     };
   }
 }
