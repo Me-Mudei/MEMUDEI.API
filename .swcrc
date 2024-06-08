@@ -12,7 +12,8 @@
       "#property/*": ["./property/*"],
       "#shared/*": ["./shared/*"],
       "#user/*": ["./user/*"],
-      "#schedule/*": ["./schedule/*"]
+      "#schedule/*": ["./schedule/*"],
+      "#organization/*": ["./organization/*"]
     }
   }
 }

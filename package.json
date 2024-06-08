@@ -16,16 +16,18 @@
     "#adm/*": "./src/adm/*/index.js",
     "#auth/*": "./src/auth/*/index.js",
     "#user/*": "./src/user/*/index.js",
-    "#schedule/*": "./src/schedule/*/index.js"
+    "#schedule/*": "./src/schedule/*/index.js",
+    "#organization/*": "./src/organization/*/index.js"
   },
   "exports": {
     "./nest": "./src/nest/index.js",
-    "./shared": "./src/shared/index.js",
-    "./user": "./src/user/index.js",
-    "./schedule": "./src/schedule/index.js",
-    "./property": "./src/property/index.js",
+    "./auth": "./src/auth/index.js",
     "./adm": "./src/adm/index.js",
-    "./auth": "./src/auth/index.js"
+    "./user": "./src/user/index.js",
+    "./property": "./src/property/index.js",
+    "./organization": "./src/organization/index.js",
+    "./schedule": "./src/schedule/index.js",
+    "./shared": "./src/shared/index.js"
   },
   "scripts": {
     "build": "nest build",

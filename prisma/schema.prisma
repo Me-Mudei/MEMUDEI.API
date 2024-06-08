@@ -27,18 +27,18 @@ model GlobalRole {
 }
 
 model Member {
-  id             String     @id @default(dbgenerated("nanoid()"))
-  org_account_id String
-  org_account    OrgAccount @relation(fields: [org_account_id], references: [id])
-  org_role_id    String
-  org_role       OrgRole    @relation(fields: [org_role_id], references: [id])
-  user_id        String
-  user           User       @relation(fields: [user_id], references: [id])
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
+  id              String       @id @default(dbgenerated("nanoid()"))
+  organization_id String
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  org_role_id     String
+  org_role        OrgRole      @relation(fields: [org_role_id], references: [id])
+  user_id         String
+  user            User         @relation(fields: [user_id], references: [id])
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
 }
 
-model OrgAccount {
+model Organization {
   id         String       @id @default(dbgenerated("nanoid()"))
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
@@ -47,13 +47,13 @@ model OrgAccount {
 }
 
 model Invitation {
-  token          String     @unique
-  email          String
-  org_account_id String
-  org_account    OrgAccount @relation(fields: [org_account_id], references: [id])
-  expires_at     DateTime
+  token           String       @unique
+  email           String
+  organization_id String
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  expires_at      DateTime
 
-  @@id([email, org_account_id])
+  @@id([email, organization_id])
 }
 
 enum AuthProvider {

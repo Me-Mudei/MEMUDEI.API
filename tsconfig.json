@@ -46,6 +46,7 @@
       "#adm/*": ["./src/adm/*"],
       "#auth/*": ["./src/auth/*"],
       "#schedule/*": ["./src/schedule/*"],
+      "#organization/*": ["./src/organization/*"],
     },
     "preserveConstEnums": true,
     // "sourceMap": true,
