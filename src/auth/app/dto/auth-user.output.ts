@@ -2,8 +2,6 @@ export type AuthUserOutput = {
   id: string;
   name: string;
   email: string;
-  provider?: string;
-  password?: string;
   created_at: Date;
   updated_at: Date;
 };

@@ -8,7 +8,25 @@ generator prisma_client {
   binaryTargets = ["darwin-arm64", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
 }
 
-model Membership {
+model OrgRole {
+  id          String   @id @default(dbgenerated("nanoid()"))
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  member      Member[]
+}
+
+model GlobalRole {
+  id          String   @id @default(dbgenerated("nanoid()"))
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  user        User[]
+}
+
+model Member {
   id             String     @id @default(dbgenerated("nanoid()"))
   org_account_id String
   org_account    OrgAccount @relation(fields: [org_account_id], references: [id])
@@ -24,35 +42,23 @@ model OrgAccount {
   id         String       @id @default(dbgenerated("nanoid()"))
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
-  membership Membership[]
+  members    Member[]
+  Invitation Invitation[]
 }
 
-model OrgRole {
-  id          String       @id @default(dbgenerated("nanoid()"))
-  name        String       @unique
-  description String?
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
-  membership  Membership[]
-}
+model Invitation {
+  token          String     @unique
+  email          String
+  org_account_id String
+  org_account    OrgAccount @relation(fields: [org_account_id], references: [id])
+  expires_at     DateTime
 
-model GlobalRole {
-  id          String   @id @default(dbgenerated("nanoid()"))
-  name        String   @unique
-  description String?
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  user        User[]
+  @@id([email, org_account_id])
 }
 
 enum AuthProvider {
   GOOGLE
   CREDENTIALS
-}
-
-enum UserType {
-  DEAL
-  CLIENT
 }
 
 model User {
@@ -62,7 +68,6 @@ model User {
   email          String       @unique
   password       String?
   external_id    String?      @unique
-  type           UserType     @default(DEAL)
   global_role_id String?
   global_role    GlobalRole?  @relation(fields: [global_role_id], references: [id])
   disabled_at    DateTime?
@@ -71,7 +76,7 @@ model User {
   updated_at     DateTime     @updatedAt
   properties     Property[]
   schedule       Schedule[]
-  membership     Membership[]
+  members        Member[]
 }
 
 model Property {

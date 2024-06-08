@@ -1,8 +1,7 @@
 import { UseCase } from "#shared/app";
-import { UniqueEntityId } from "#shared/domain";
 import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 
-import { AuthProvider as EnumAuthProvider, User } from "../../domain";
+import { AuthProvider as EnumAuthProvider } from "../../domain";
 import { AuthProvider } from "../../infra";
 import { SignUpInput, AuthUserOutput, AuthUserOutputMapper } from "../dto";
 
@@ -17,27 +16,20 @@ export class SignUpUseCase implements UseCase<SignUpInput, AuthUserOutput> {
 
   async execute(input: SignUpInput): Promise<AuthUserOutput> {
     this.logger.info({ message: "Start User Use Case" });
-    const providerUser = await this.getProviderUser(input);
-    const createdUser = await this.prisma.user.create({
+    const authUser = await this.getAuthUser(input);
+    const user = await this.prisma.user.create({
       data: {
-        name: providerUser.name,
-        email: providerUser.email,
-        password: providerUser.password,
-        external_id: providerUser.external_id,
-        provider: providerUser.provider,
+        name: authUser.name,
+        email: authUser.email,
+        password: authUser.password,
+        external_id: authUser.external_id,
+        provider: authUser.provider,
       },
-    });
-    const user = new User({
-      id: new UniqueEntityId(createdUser.id),
-      name: createdUser.name,
-      email: createdUser.email,
-      external_id: createdUser.external_id,
-      provider: createdUser.provider,
     });
     return AuthUserOutputMapper.toOutput(user);
   }
 
-  private async getProviderUser(input: SignUpInput) {
+  private async getAuthUser(input: SignUpInput) {
     const providers = {
       google: this.authProviders.find(
         (provider) => provider.provider === EnumAuthProvider.GOOGLE,

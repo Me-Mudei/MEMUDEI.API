@@ -13,11 +13,11 @@ export class SignInUseCase implements UseCase<SignInInput, AuthUserOutput> {
 
   async execute(input: SignInInput): Promise<AuthUserOutput> {
     this.logger.info({ message: "Start SignIn Use Case" });
-    const user = await this.getProviderUser(input);
+    const user = await this.getAuthrUser(input);
     return AuthUserOutputMapper.toOutput(user);
   }
 
-  private async getProviderUser(input: SignInInput) {
+  private async getAuthrUser(input: SignInInput) {
     const providers = {
       google: this.authProviders.find(
         (provider) => provider.provider === EnumAuthProvider.GOOGLE,

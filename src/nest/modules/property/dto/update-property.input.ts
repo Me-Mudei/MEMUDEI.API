@@ -1,5 +1,6 @@
-import { UpdatePropertyInput as CoreUpdatePropertyInput } from "#property/app";
 import { Field, InputType } from "@nestjs/graphql";
+import { UpdatePropertyInput as CoreUpdatePropertyInput } from "#property/app";
+
 import {
   CreatePropertyChargeInput,
   CreatePropertyCondominiumDetailInput,

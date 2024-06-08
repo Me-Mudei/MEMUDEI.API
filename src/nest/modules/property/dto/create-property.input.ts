@@ -1,6 +1,7 @@
-import { CreatePropertyInput as CoreCreatePropertyInput } from "#property/app";
-import { PropertyStatus } from "./property.enum";
 import { Field, InputType } from "@nestjs/graphql";
+import { CreatePropertyInput as CoreCreatePropertyInput } from "#property/app";
+
+import { PropertyStatus } from "./property.enum";
 
 @InputType()
 export class CreateAddressLocationInput {
