@@ -33,8 +33,16 @@ export class PropertyResolver {
 
   @Public()
   @Query(() => PaginatePropertiesOutput)
-  searchProperties(@Args("input") input: SearchPropertiesInput) {
-    return this.propertyFacade.searchProperties(input);
+  searchProperties(
+    @Args("input", { nullable: true, defaultValue: {} })
+    input?: SearchPropertiesInput,
+    @Merchant() merchant_id?: string,
+  ) {
+    const filter = { ...input.filter, merchant_id };
+    return this.propertyFacade.searchProperties({
+      ...input,
+      filter,
+    });
   }
 
   @GlobalRoles(GlobalRole.ADMIN)

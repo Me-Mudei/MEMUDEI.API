@@ -41,7 +41,7 @@ export class SearchParams<Filter> {
       orderBy?: any;
       where?: any;
     },
-  >() {
+  >(applyFilters: (filter?: Filter) => any) {
     return {
       take: this._per_page,
       skip: (this._page - 1) * this._per_page,
@@ -50,7 +50,7 @@ export class SearchParams<Filter> {
           ? { [this._sort]: this._sort_dir }
           : { created_at: "asc" }),
       },
-      where: this._filter,
+      where: applyFilters(this._filter),
     } as T;
   }
 

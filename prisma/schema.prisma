@@ -9,7 +9,7 @@ generator prisma_client {
 }
 
 model OrgRole {
-  id          String   @id @default(dbgenerated("nanoid()"))
+  id          String   @id @default(nanoid())
   name        String   @unique
   description String?
   created_at  DateTime @default(now())
@@ -18,7 +18,7 @@ model OrgRole {
 }
 
 model GlobalRole {
-  id          String   @id @default(dbgenerated("nanoid()"))
+  id          String   @id @default(nanoid())
   name        String   @unique
   description String?
   created_at  DateTime @default(now())
@@ -38,15 +38,12 @@ model Member {
 }
 
 model Merchant {
-  id              String       @id @default(dbgenerated("nanoid()"))
+  id              String       @id @default(nanoid())
   company_name    String
-  parent_id       String?
-  parent          Merchant?    @relation("submerchants", fields: [parent_id], references: [id])
-  organization_id String       @unique @db.Char(21)
+  organization_id String       @unique
   organization    Organization @relation(fields: [organization_id], references: [id])
   created_at      DateTime     @default(now())
   updated_at      DateTime     @updatedAt
-  submerchants    Merchant[]   @relation("submerchants")
   customers       Customer[]
   members         Member[]
   invitations     Invitation[]
@@ -54,7 +51,7 @@ model Merchant {
 }
 
 model Organization {
-  id         String     @id @default(dbgenerated("nanoid()"))
+  id         String     @id @default(nanoid())
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   merchants  Merchant[]
@@ -76,7 +73,7 @@ model User {
   provider       String
   external_id    String?     @unique
   password       String?
-  person_id      String?     @unique @db.Char(21)
+  person_id      String?     @unique
   person         Person?     @relation(fields: [person_id], references: [id])
   global_role_id String?
   global_role    GlobalRole? @relation(fields: [global_role_id], references: [id])
@@ -87,13 +84,13 @@ model User {
 }
 
 model Person {
-  id           String     @id @default(dbgenerated("nanoid()")) @db.Char(21)
+  id           String     @id @default(nanoid())
   first_name   String
   last_name    String
   email        String
   phone_number String?
   birth_date   DateTime?
-  address_id   String?    @unique @db.Char(21)
+  address_id   String?    @unique
   address      Address?   @relation(fields: [address_id], references: [id])
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
@@ -129,7 +126,7 @@ model Location {
 }
 
 model Document {
-  id            String   @id @default(dbgenerated("nanoid()")) @db.Char(21)
+  id            String   @id @default(nanoid())
   gov_id_type   String
   gov_id_number String
   gov_country   String
@@ -142,7 +139,7 @@ model Document {
 model Customer {
   merchant_id String
   merchant    Merchant @relation(fields: [merchant_id], references: [id])
-  person_id   String   @db.Char(21)
+  person_id   String
   person      Person   @relation(fields: [person_id], references: [id])
 
   @@id([merchant_id, person_id])

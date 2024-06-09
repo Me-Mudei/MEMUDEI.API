@@ -11,10 +11,8 @@ export class CredentialsAuthProvider implements AuthProvider {
       email: input.email,
       provider: EnumAuthProvider.CREDENTIALS,
     });
-    if (input.password) {
-      const hash = await this.crypto.hash(input.password);
-      user.password = hash;
-    }
+    const hash = await this.crypto.hash(input.password);
+    user.password = hash;
     return user;
   }
 

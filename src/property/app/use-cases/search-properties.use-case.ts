@@ -38,7 +38,9 @@ export class SearchPropertiesUseCase
     this.logger.info({ message: "Start Search Property Use Case" });
     const params = new PropertySearchParams(input);
     const properties = await this.prisma.property.findMany(
-      params.toPrismaPagination<Prisma.PropertyFindManyArgs>(),
+      params.toPrismaPagination<Prisma.PropertyFindManyArgs>(
+        params.applyFilter,
+      ),
     );
     const result = new PropertySearchResult({
       items: properties.map(
@@ -53,12 +55,12 @@ export class SearchPropertiesUseCase
             updated_at: property.updated_at,
           }),
       ),
-      current_page: input.page,
-      per_page: input.per_page,
+      current_page: params.page,
+      per_page: params.per_page,
       total: properties.length,
-      filter: input.filter,
-      sort: input.sort,
-      sort_dir: input.sort_dir,
+      filter: params.filter,
+      sort: params.sort,
+      sort_dir: params.sort_dir,
     });
     const items = result.items.map((property) =>
       PropertyOutputMapper.toOutput(property),

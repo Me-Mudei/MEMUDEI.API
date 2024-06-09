@@ -1,3 +1,4 @@
+import { OrgRole } from "#organization/domain";
 import { UseCase } from "#shared/app";
 import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 
@@ -23,6 +24,23 @@ export class SignUpUseCase implements UseCase<SignUpInput, AuthUserOutput> {
         email: authUser.email,
         password: authUser.password,
         external_id: authUser.external_id,
+        members: {
+          create: {
+            org_role: {
+              connect: {
+                name: OrgRole.OWNER,
+              },
+            },
+            merchant: {
+              create: {
+                company_name: "Personal",
+                organization: {
+                  create: {},
+                },
+              },
+            },
+          },
+        },
       },
     });
     return AuthUserOutputMapper.toOutput(user);
@@ -47,7 +65,6 @@ export class SignUpUseCase implements UseCase<SignUpInput, AuthUserOutput> {
       throw new Error("Credentials provider not found");
     }
     return providers.credentials.authenticate({
-      name: input.name,
       email: input.email,
       password: input.password,
     });

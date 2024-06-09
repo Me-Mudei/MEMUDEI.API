@@ -19,13 +19,7 @@ export class SignUpInput implements AuthSignUpInput {
   @Field(() => String, { nullable: true })
   password?: string;
 
-  @MutuallyExclusive(["google_token"], { nullable: true })
-  @RequiredIf(["email", "password"])
-  @IsOptional()
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @MutuallyExclusive(["email", "password", "name"], { nullable: true })
+  @MutuallyExclusive(["email", "password"], { nullable: true })
   @IsOptional()
   @Field(() => String, { nullable: true })
   google_token?: string;
