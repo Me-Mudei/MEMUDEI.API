@@ -1,14 +1,13 @@
-import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { GlobalRole } from "#auth/domain";
 import { OrgRole } from "#organization/domain";
 import { PropertyFacade } from "#property/app";
 
-import { Merchant } from "../auth/merchant.decorator";
-import { MerchantGuard } from "../auth/merchant.guard";
+import { GlobalRoles } from "../auth/global-roles.decorator";
 import { Public } from "../auth/public.decorator";
 import { User } from "../auth/user.decorator";
+import { Merchant } from "../organization/merchant.decorator";
 import { OrgRoles } from "../organization/org-roles.decorator";
-import { OrgRolesGuard } from "../organization/org-roles.guard";
 
 import {
   CreatePropertyInput,
@@ -32,36 +31,31 @@ export class PropertyResolver {
     return this.propertyFacade.getProperty({ id: input.id });
   }
 
-  @Query(() => PaginatePropertiesOutput)
   @Public()
+  @Query(() => PaginatePropertiesOutput)
   searchProperties(@Args("input") input: SearchPropertiesInput) {
-    return {
-      total: 0,
-      per_page: 0,
-      last_page: 0,
-      current_page: 0,
-      items: [],
-    };
+    return this.propertyFacade.searchProperties(input);
   }
 
-  @Mutation(() => Boolean)
-  @OrgRoles(OrgRole.MANAGER)
+  @GlobalRoles(GlobalRole.ADMIN)
+  @OrgRoles(OrgRole.OWNER, OrgRole.MANAGER)
+  @Mutation(() => PropertyOutput)
   async createProperty(
     @Args("input") input: CreatePropertyInput,
     @User() user_id: string,
     @Merchant() merchant_id: string,
   ) {
-    await this.propertyFacade.createProperty(
+    return this.propertyFacade.createProperty(
       CreatePropertyInputMapper.toInput(input, user_id, merchant_id),
     );
-    return true;
   }
 
-  @Mutation(() => Boolean)
+  @GlobalRoles(GlobalRole.ADMIN)
+  @OrgRoles(OrgRole.OWNER, OrgRole.MANAGER)
+  @Mutation(() => PropertyOutput)
   async updateProperty(@Args("input") input: UpdatePropertyInput) {
-    await this.propertyFacade.updateProperty(
+    return this.propertyFacade.updateProperty(
       UpdatePropertyInputMapper.toInput(input),
     );
-    return true;
   }
 }

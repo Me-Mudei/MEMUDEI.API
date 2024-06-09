@@ -1,6 +1,5 @@
 import { SetMetadata } from "@nestjs/common";
-
-import { GlobalRole } from "./dto/global-role.enum";
+import { GlobalRole } from "#auth/domain";
 
 export const GLOBAL_ROLES_KEY = "global_roles";
 export const GlobalRoles = (...roles: GlobalRole[]) =>

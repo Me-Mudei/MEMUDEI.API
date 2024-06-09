@@ -30,5 +30,6 @@ import { AuthStrategy } from "./auth.strategy";
       useFactory: () => AuthFacadeFactory.create(),
     },
   ],
+  exports: [AuthFacade],
 })
 export class AuthModule {}

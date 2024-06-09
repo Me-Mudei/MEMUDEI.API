@@ -5,6 +5,7 @@ import {
   SignUpUseCase,
   SignInUseCase,
   ValidateUseCase,
+  AuthorizeUseCase,
 } from "../../app";
 // import { GoogleAuthProvider } from "../auth-provider";
 import { CredentialsAuthProvider } from "../auth-provider";
@@ -17,11 +18,13 @@ export class AuthFacadeFactory {
     // const googleProvider = new GoogleAuthProvider(prisma);
     const credentialsProvider = new CredentialsAuthProvider(crypto);
 
+    const authorizeUseCase = new AuthorizeUseCase(prisma);
     const signUpUseCase = new SignUpUseCase(prisma, [credentialsProvider]);
     const signInUseCase = new SignInUseCase(prisma, [credentialsProvider]);
     const validateUseCase = new ValidateUseCase(prisma);
 
     return new AuthFacade({
+      authorizeUseCase,
       signUpUseCase,
       signInUseCase,
       validateUseCase,
