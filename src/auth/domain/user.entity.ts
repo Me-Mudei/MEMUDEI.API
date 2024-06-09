@@ -5,6 +5,10 @@ export enum AuthProvider {
   CREDENTIALS = "credentials",
 }
 
+export enum GlobalRole {
+  ADMIN = "admin",
+}
+
 export type UserProps = {
   id?: UniqueEntityId;
   email: string;

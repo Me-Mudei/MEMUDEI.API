@@ -1,4 +1,12 @@
 import { Entity, UniqueEntityId } from "#shared/domain";
+
+export enum OrgRole {
+  OWNER = "owner",
+  MANAGER = "manager",
+  MEMBER = "member",
+  GUEST = "guest",
+}
+
 export type OrganizationProps = {
   id?: UniqueEntityId;
   example: string;

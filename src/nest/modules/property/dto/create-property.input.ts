@@ -117,11 +117,12 @@ export class CreatePropertyInputMapper {
   static toInput(
     input: CreatePropertyInput,
     user_id: string,
+    merchant_id: string,
   ): CoreCreatePropertyInput {
     return {
       ...input,
       created_by_id: user_id,
-      merchant_id: user_id,
+      merchant_id,
     };
   }
 }

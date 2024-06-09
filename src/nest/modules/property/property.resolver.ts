@@ -1,7 +1,14 @@
+import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { OrgRole } from "#organization/domain";
 import { PropertyFacade } from "#property/app";
 
+import { Merchant } from "../auth/merchant.decorator";
+import { MerchantGuard } from "../auth/merchant.guard";
 import { Public } from "../auth/public.decorator";
+import { User } from "../auth/user.decorator";
+import { OrgRoles } from "../organization/org-roles.decorator";
+import { OrgRolesGuard } from "../organization/org-roles.guard";
 
 import {
   CreatePropertyInput,
@@ -25,16 +32,27 @@ export class PropertyResolver {
     return this.propertyFacade.getProperty({ id: input.id });
   }
 
-  @Public()
   @Query(() => PaginatePropertiesOutput)
+  @Public()
   searchProperties(@Args("input") input: SearchPropertiesInput) {
-    return this.propertyFacade.searchProperties(input);
+    return {
+      total: 0,
+      per_page: 0,
+      last_page: 0,
+      current_page: 0,
+      items: [],
+    };
   }
 
   @Mutation(() => Boolean)
-  async createProperty(@Args("input") input: CreatePropertyInput) {
+  @OrgRoles(OrgRole.MANAGER)
+  async createProperty(
+    @Args("input") input: CreatePropertyInput,
+    @User() user_id: string,
+    @Merchant() merchant_id: string,
+  ) {
     await this.propertyFacade.createProperty(
-      CreatePropertyInputMapper.toInput(input, "user_id"),
+      CreatePropertyInputMapper.toInput(input, user_id, merchant_id),
     );
     return true;
   }

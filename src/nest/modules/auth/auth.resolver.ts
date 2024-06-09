@@ -42,8 +42,9 @@ export class AuthResolver {
   private async output(user: AuthUserOutput): Promise<AuthOutput> {
     const accessToken = await this.jwtService.signAsync(
       {
-        sub: user.id,
         iat: dayjs().valueOf(),
+        sub: user.id,
+        user,
       },
       {
         expiresIn: "1d",
@@ -62,6 +63,7 @@ export class AuthResolver {
     return {
       accessToken,
       refreshToken,
+      user,
     };
   }
 }
