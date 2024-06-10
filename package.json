@@ -13,6 +13,7 @@
     "#nest/*": "./src/nest/*/index.js",
     "#auth/*": "./src/auth/*/index.js",
     "#property/*": "./src/property/*/index.js",
+    "#merchant/*": "./src/merchant/*/index.js",
     "#organization/*": "./src/organization/*/index.js",
     "#shared/*": "./src/shared/*/index.js"
   },
@@ -20,16 +21,17 @@
     "./nest": "./src/nest/index.js",
     "./auth": "./src/auth/index.js",
     "./property": "./src/property/index.js",
+    "./merchant": "./src/merchant/index.js",
     "./organization": "./src/organization/index.js",
     "./shared": "./src/shared/index.js"
   },
   "scripts": {
-    "build": "nest build",
+    "build": "tsc -b ./tsconfig.json",
     "dev": "yarn build && npx sls offline --stage local",
     "dev:nest": "nest start --watch",
     "start:prod": "node dist/src/main.js",
     "generate": "yarn nexus:generate && yarn prisma:generate",
-    "create:resource": "sh ./generate-resource.sh",
+    "create:resource": "sh ./create-resource.sh",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "tsc": "tsc --noEmit",

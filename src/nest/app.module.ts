@@ -7,6 +7,7 @@ import { RolesGuard } from "./modules/auth/roles.guard";
 import { ConfigModule } from "./modules/config/config.module";
 import { GraphqlModule } from "./modules/graphql/graphql.module";
 import { PropertyModule } from "./modules/property/property.module";
+import { MerchantModule } from './modules/merchant/merchant.module';
 
 @Module({
   providers: [
@@ -24,6 +25,7 @@ import { PropertyModule } from "./modules/property/property.module";
     GraphqlModule.forRoot(),
     AuthModule,
     PropertyModule,
+    MerchantModule,
   ],
 })
 export class AppModule {}
