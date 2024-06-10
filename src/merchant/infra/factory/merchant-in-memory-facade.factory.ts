@@ -1,17 +1,25 @@
 import { Connection } from "#shared/infra";
 
-import { MerchantFacade, CreateMerchantUseCase, GetMerchantUseCase, UpdateMerchantUseCase } from "../../app";
+import {
+  MerchantFacade,
+  CreateMerchantUseCase,
+  GetMerchantUseCase,
+  UpdateMerchantUseCase,
+  RemoveMerchantUseCase,
+} from "../../app";
 
 export class MerchantInMemoryFacadeFactory {
   static create() {
     const prisma = Connection.getInstance("prismock");
     const createUseCase = new CreateMerchantUseCase(prisma);
-    const updateUseCase = new UpdateMerchantUseCase(prisma);
     const getUseCase = new GetMerchantUseCase(prisma);
+    const updateUseCase = new UpdateMerchantUseCase(prisma);
+    const removeUseCase = new RemoveMerchantUseCase(prisma);
     return new MerchantFacade({
       createUseCase,
-      updateUseCase,
       getUseCase,
+      updateUseCase,
+      removeUseCase,
     });
   }
 }

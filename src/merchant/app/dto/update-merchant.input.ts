@@ -1,4 +1,4 @@
 export interface UpdateMerchantInput {
   id: string;
-  example?: string;
+  company_name?: string;
 }

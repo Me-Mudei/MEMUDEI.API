@@ -1,3 +1,4 @@
 export interface CreateMerchantInput {
-  example: string;
+  organization_id: string;
+  company_name: string;
 }

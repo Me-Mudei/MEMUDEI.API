@@ -7,7 +7,7 @@ export class MerchantOutput implements CoreMerchantOutput {
   id: string;
 
   @Field(() => String)
-  example: string;
+  company_name: string;
 
   @Field(() => Date)
   created_at: Date;

@@ -1,11 +1,11 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { CreateMerchantInput as CoreCreateMerchantInput } from "#merchant/app";
+import { UpdateMerchantInput as CoreUpdateMerchantInput } from "#merchant/app";
 
 @InputType()
-export class UpdateMerchantInput implements CoreCreateMerchantInput {
+export class UpdateMerchantInput implements CoreUpdateMerchantInput {
   @Field(() => String)
   id: string;
 
   @Field(() => String, { nullable: true })
-  example: string;
+  company_name: string;
 }
