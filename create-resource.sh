@@ -1,11 +1,7 @@
 #!/bin/sh
-FILE_NAME=$(echo $1 | sed 's/\(.\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
-CLASS_NAME=$(echo $1 | sed -r 's/(.)([A-Z])/\1\2/g')
-VAR_NAME=$2
-
-echo $FILE_NAME
-echo $CLASS_NAME
-echo $VAR_NAME
+CLASS_NAME=$1 # ClassName
+FILE_NAME=$(echo $1 | awk '{print tolower(substr($0,1,1)) substr($0,2)}' | awk '{gsub(/[A-Z]/,"-"tolower($1))}1') # Convert to kebab-case
+VAR_NAME=$(echo $1 | awk '{print tolower(substr($0,1,1)) substr($0,2)}') # Convert to camelCase
 
 mkdir -p ./src/${FILE_NAME[j]}/app/dto
 mkdir -p ./src/${FILE_NAME[j]}/app/facade
@@ -326,3 +322,17 @@ export class Update${CLASS_NAME[j]}UseCase
   }
 }
 EOF
+
+echo "Resource ${CLASS_NAME[j]} created successfully"
+CREATE="\033[0;32mCREATE\033[0m"
+echo "$CREATE src/${FILE_NAME[j]}/app/dto/${FILE_NAME[j]}.output.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/dto/create-${FILE_NAME[j]}.input.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/dto/update-${FILE_NAME[j]}.input.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/dto/get-${FILE_NAME[j]}.input.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/facade/${FILE_NAME[j]}.facade.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/use-cases/create-${FILE_NAME[j]}.use-case.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/use-cases/get-${FILE_NAME[j]}.use-case.ts"
+echo "$CREATE src/${FILE_NAME[j]}/app/use-cases/update-${FILE_NAME[j]}.use-case.ts"
+echo "$CREATE src/${FILE_NAME[j]}/domain/${FILE_NAME[j]}.entity.ts"
+echo "$CREATE src/${FILE_NAME[j]}/infra/factory/${FILE_NAME[j]}-facade.factory.ts"
+echo "$CREATE src/${FILE_NAME[j]}/infra/factory/${FILE_NAME[j]}-in-memory-facade.factory.ts"
