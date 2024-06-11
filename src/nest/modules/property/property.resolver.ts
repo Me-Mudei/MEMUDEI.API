@@ -1,6 +1,18 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 import { GlobalRole } from "#auth/domain";
-import { PropertyFacade } from "#property/app";
+import {
+  PropertyFacade,
+  PropertyDetailFacade,
+  PropertyMediaFacade,
+  PropertyAddressFacade,
+} from "#property/app";
 
 import { GlobalRoles } from "../auth/global-roles.decorator";
 import { Public } from "../auth/public.decorator";
@@ -15,7 +27,12 @@ import {
 } from "./dto/create-property.input";
 import { GetPropertyInput } from "./dto/get-property.input";
 import { PaginatePropertiesOutput } from "./dto/paginate-properties.output";
-import { PropertyOutput } from "./dto/property.output";
+import {
+  PropertyOutput,
+  DetailOutput,
+  FileOutput,
+  AddressOutput,
+} from "./dto/property.output";
 import { SearchPropertiesInput } from "./dto/search-properties.input";
 import {
   UpdatePropertyInput,
@@ -24,7 +41,33 @@ import {
 
 @Resolver()
 export class PropertyResolver {
-  constructor(private readonly propertyFacade: PropertyFacade) {}
+  constructor(
+    private readonly propertyFacade: PropertyFacade,
+    private readonly propertyDetailFacade: PropertyDetailFacade,
+    private readonly propertyMediaFacade: PropertyMediaFacade,
+    private readonly propertyAddressFacade: PropertyAddressFacade,
+  ) {}
+
+  @ResolveField(() => [DetailOutput], { nullable: true })
+  async details(@Parent() property: PropertyOutput) {
+    return this.propertyDetailFacade.getPropertyDetails({
+      property_id: property.id,
+    });
+  }
+
+  @ResolveField(() => [FileOutput], { nullable: true })
+  async media(@Parent() property: PropertyOutput) {
+    return this.propertyMediaFacade.getPropertyMedia({
+      property_id: property.id,
+    });
+  }
+
+  @ResolveField(() => AddressOutput)
+  async address(@Parent() property: PropertyOutput) {
+    return this.propertyAddressFacade.getPropertyAddress({
+      property_id: property.id,
+    });
+  }
 
   @Query(() => PropertyOutput)
   getProperty(@Args("input") input: GetPropertyInput) {
@@ -36,13 +79,8 @@ export class PropertyResolver {
   searchProperties(
     @Args("input", { nullable: true, defaultValue: {} })
     input?: SearchPropertiesInput,
-    @Merchant() merchant_id?: string,
   ) {
-    const filter = { ...input.filter, merchant_id };
-    return this.propertyFacade.searchProperties({
-      ...input,
-      filter,
-    });
+    return this.propertyFacade.searchProperties(input);
   }
 
   @GlobalRoles(GlobalRole.ADMIN)

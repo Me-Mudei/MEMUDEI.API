@@ -1,6 +1,6 @@
 export enum OrgRole {
-  OWNER = "owner",
-  MANAGER = "manager",
-  MEMBER = "member",
-  GUEST = "guest",
+  OWNER = "OWNER",
+  MANAGER = "MANAGER",
+  MEMBER = "MEMBER",
+  GUEST = "GUEST",
 }

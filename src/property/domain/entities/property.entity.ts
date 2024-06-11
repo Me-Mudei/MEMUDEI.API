@@ -12,11 +12,11 @@ export enum PropertyStatus {
 }
 
 export enum PropertyType {
-  HOUSE = "house",
-  APARTMENT = "apartment",
-  COMMERCIAL = "commercial",
-  RURAL = "rural",
-  OTHER = "other",
+  HOUSE = "HOUSE",
+  APARTMENT = "APARTMENT",
+  COMMERCIAL = "COMMERCIAL",
+  RURAL = "RURAL",
+  OTHER = "OTHER",
 }
 
 export type PropertyProps = {

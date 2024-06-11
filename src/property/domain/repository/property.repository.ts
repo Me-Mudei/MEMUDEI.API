@@ -1,13 +1,19 @@
 import { SearchParams, SearchResult } from "#shared/domain";
 import { Prisma } from "#shared/infra";
 
-import { DetailType, Property } from "../entities";
+import {
+  DetailType,
+  Property,
+  PropertyStatus,
+  PropertyType,
+} from "../entities";
 
 export interface PropertyFilter {
   id?: string;
+  merchant_id?: string;
   query?: string;
-  status?: string;
-  property_type?: string;
+  status?: PropertyStatus;
+  property_type?: PropertyType;
   property_details?: string[];
   condominium_details?: string[];
   rules?: string[];
@@ -29,6 +35,9 @@ export class PropertySearchParams extends SearchParams<PropertyFilter> {
     const detailSomeAnd: Prisma.DetailWhereInput[] = [];
     if (filter.id) {
       where.id = filter.id;
+    }
+    if (filter.merchant_id) {
+      where.merchant_id = filter.merchant_id;
     }
     if (filter.query) {
       where.OR = [

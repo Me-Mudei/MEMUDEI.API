@@ -11,6 +11,11 @@ export interface RepositoryInterface<E extends Entity> {
 
 export type SortDirection = "asc" | "desc";
 
+export const SortDirection = {
+  ASC: "asc",
+  DESC: "desc",
+};
+
 export type SearchProps<Filter> = {
   page?: number;
   per_page?: number;

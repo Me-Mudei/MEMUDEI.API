@@ -3,17 +3,17 @@ import { Entity, EntityValidationError, UniqueEntityId } from "#shared/domain";
 import DetailValidatorFactory from "../validators/detail.validator";
 
 export enum DetailType {
-  CONDOMINIUM = "condominium",
-  FLOOR_PLAN = "floor_plan",
-  PROPERTY = "property",
-  CHARGE = "charge",
-  RULE = "rule",
+  CONDOMINIUM = "CONDOMINIUM",
+  FLOOR_PLAN = "FLOOR_PLAN",
+  PROPERTY = "PROPERTY",
+  CHARGE = "CHARGE",
+  RULE = "RULE",
 }
 
 export type DetailProps = {
   id?: UniqueEntityId;
   key: string;
-  type: string;
+  type: DetailType;
   available?: boolean;
   value?: number;
   unit?: string;
@@ -23,7 +23,7 @@ export type DetailProps = {
 
 export class Detail extends Entity<DetailProps> {
   private _key: string;
-  private _type: string;
+  private _type: DetailType;
   private _available?: boolean;
   private _value?: number;
   private _unit?: string;
@@ -46,23 +46,23 @@ export class Detail extends Entity<DetailProps> {
     }
   }
 
-  public get key(): string {
+  public get key() {
     return this._key;
   }
 
-  public get type(): string {
+  public get type() {
     return this._type;
   }
 
-  public get available(): boolean {
+  public get available() {
     return this._available ?? false;
   }
 
-  public get value(): number | undefined {
+  public get value() {
     return this._value;
   }
 
-  public get unit(): string | undefined {
+  public get unit() {
     return this._unit;
   }
 }

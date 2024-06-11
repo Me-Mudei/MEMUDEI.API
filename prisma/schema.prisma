@@ -112,8 +112,8 @@ model Address {
   location_id String    @unique
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
-  Person      Person?
-  Property    Property?
+  person      Person?
+  property    Property?
 }
 
 model Location {

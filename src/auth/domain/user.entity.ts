@@ -1,12 +1,12 @@
 import { Entity, UniqueEntityId } from "#shared/domain";
 
 export enum AuthProvider {
-  GOOGLE = "google",
-  CREDENTIALS = "credentials",
+  GOOGLE = "GOOGLE",
+  CREDENTIALS = "CREDENTIALS",
 }
 
 export enum GlobalRole {
-  ADMIN = "admin",
+  ADMIN = "ADMIN",
 }
 
 export type UserProps = {
