@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GlobalRole } from "#auth/domain";
-import { OrgRole } from "#organization/domain";
 import { PropertyFacade } from "#property/app";
 
 import { GlobalRoles } from "../auth/global-roles.decorator";
 import { Public } from "../auth/public.decorator";
 import { User } from "../auth/user.decorator";
 import { Merchant } from "../organization/merchant.decorator";
+import { OrgRole } from "../organization/org-role.enum";
 import { OrgRoles } from "../organization/org-roles.decorator";
 
 import {

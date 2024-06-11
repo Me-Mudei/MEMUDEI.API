@@ -1,4 +1,4 @@
-import { OrgRole } from "#organization/domain";
+import { OrgRole } from "#nest/modules/organization/org-role.enum";
 import { UseCase } from "#shared/app";
 import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 

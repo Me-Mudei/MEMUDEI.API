@@ -9,8 +9,6 @@
       "#nest/*": ["./nest/*"],
       "#auth/*": ["./auth/*"],
       "#property/*": ["./property/*"],
-      "#organization/*": ["./organization/*"],
-      "#merchant/*": ["./merchant/*"],
       "#shared/*": ["./shared/*"]
     }
   }

@@ -42,8 +42,6 @@
       "#nest/*": ["./src/nest/*"],
       "#auth/*": ["./src/auth/*"],
       "#property/*": ["./src/property/*"],
-      "#merchant/*": ["./src/merchant/*"],
-      "#organization/*": ["./src/organization/*"],
       "#shared/*": ["./src/shared/*"],
     },
     "preserveConstEnums": true,
