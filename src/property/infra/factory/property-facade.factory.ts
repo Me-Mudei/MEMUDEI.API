@@ -1,4 +1,9 @@
-import { PropertyCreatedSendToCRMHandler } from "#property/app";
+import {
+  GetPropertyAddressUseCase,
+  GetPropertyDetailsUseCase,
+  GetPropertyMediaUseCase,
+  PropertyCreatedSendToCRMHandler,
+} from "#property/app";
 import { Broker, Connection } from "#shared/infra";
 
 import {
@@ -20,12 +25,18 @@ export class PropertyFacadeFactory {
     const updateProperty = new UpdatePropertyUseCase(prisma);
     const getProperty = new GetPropertyUseCase(prisma);
     const searchProperties = new SearchPropertiesUseCase(prisma);
+    const getPropertyDetails = new GetPropertyDetailsUseCase(prisma);
+    const getPropertyMedia = new GetPropertyMediaUseCase(prisma);
+    const getPropertyAddress = new GetPropertyAddressUseCase(prisma);
 
     return new PropertyFacade({
       createProperty,
       updateProperty,
       getProperty,
       searchProperties,
+      getPropertyDetails,
+      getPropertyMedia,
+      getPropertyAddress,
     });
   }
 }

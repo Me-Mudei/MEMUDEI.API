@@ -7,12 +7,7 @@ import {
   Resolver,
 } from "@nestjs/graphql";
 import { GlobalRole } from "#auth/domain";
-import {
-  PropertyFacade,
-  PropertyDetailFacade,
-  PropertyMediaFacade,
-  PropertyAddressFacade,
-} from "#property/app";
+import { PropertyFacade } from "#property/app";
 
 import { GlobalRoles } from "../auth/global-roles.decorator";
 import { Public } from "../auth/public.decorator";
@@ -41,30 +36,25 @@ import {
 
 @Resolver()
 export class PropertyResolver {
-  constructor(
-    private readonly propertyFacade: PropertyFacade,
-    private readonly propertyDetailFacade: PropertyDetailFacade,
-    private readonly propertyMediaFacade: PropertyMediaFacade,
-    private readonly propertyAddressFacade: PropertyAddressFacade,
-  ) {}
+  constructor(private readonly propertyFacade: PropertyFacade) {}
 
   @ResolveField(() => [DetailOutput], { nullable: true })
   async details(@Parent() property: PropertyOutput) {
-    return this.propertyDetailFacade.getPropertyDetails({
+    return this.propertyFacade.getPropertyDetails({
       property_id: property.id,
     });
   }
 
   @ResolveField(() => [FileOutput], { nullable: true })
   async media(@Parent() property: PropertyOutput) {
-    return this.propertyMediaFacade.getPropertyMedia({
+    return this.propertyFacade.getPropertyMedia({
       property_id: property.id,
     });
   }
 
   @ResolveField(() => AddressOutput)
   async address(@Parent() property: PropertyOutput) {
-    return this.propertyAddressFacade.getPropertyAddress({
+    return this.propertyFacade.getPropertyAddress({
       property_id: property.id,
     });
   }

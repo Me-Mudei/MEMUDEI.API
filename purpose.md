@@ -37,3 +37,20 @@ Gestão de imóveis para locação que oferece suporte com diversas integraçõe
 - [x] Integração com sistemas de CRM
 - [ ] Ferramentas de análise de desempenho
 - [ ] Integração com sistemas de pagamento para comissões
+
+### Criação de documentos
+- [ ] Um documento pode ser criado a partir de um template ou de forma livre (fazendo upload de um arquivo com o conteúdo já preenchido)
+  1. Preencher os dados dos signatários.
+    1.1. O documento é enviado para para assinatura.
+      - Cria um Signatary com o type [LESSEE, LESSOR, WITNESS] e o status [PENDING, APPROVED, REJECTED]
+      - Cria uma Person para cada signatário
+      - Cria um Document gerando um link para assinatura
+  2. Notifica os signatários com formulario para preencher os campos.
+    - Cria um token para cada signatário e envia um email com o link para preencher os campos
+    2.1. Caso seja aprovado, verifica se todos os signatários preencheram os campos.
+      2.1.1. Se sim, o documento é enviado para para assinatura.
+      2.1.2. Se não, aguardar o preenchimento dos campos.
+    2.2. Caso seja rejeitado
+      2.2.1. Voltar para o passo 1.2 com uma justificativa.
+      2.2.2. Cancelar o documento e notificar os envolvidos com a justificativa.
+  3. Em caso de template, etapa para preencher os campos do documento.
