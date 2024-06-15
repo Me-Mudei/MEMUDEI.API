@@ -9,7 +9,7 @@ export interface CreatePropertyInput {
   address: AddressInput;
   property_type: PropertyType;
   details: DetailInput[];
-  media?: FileInput[];
+  media?: MediaInput[];
 }
 
 export interface AddressInput {
@@ -42,6 +42,9 @@ export interface FileInput {
   filename: string;
   type: string;
   subtype: string;
+}
+export interface MediaInput {
+  file: FileInput;
   position: number;
   description?: string;
 }

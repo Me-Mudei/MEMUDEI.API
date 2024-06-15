@@ -3,7 +3,7 @@ import { PropertyStatus, PropertyType } from "../../domain";
 import {
   AddressInput,
   DetailInput,
-  FileInput,
+  MediaInput,
   LocationInput,
 } from "./create-property.input";
 
@@ -15,7 +15,7 @@ export interface UpdatePropertyInput {
   property_type?: PropertyType;
   address?: AddressUpdateInput;
   details?: DetailUpdateInput;
-  media?: FileUpdateInput;
+  media?: MediaUpdateInput;
 }
 
 export interface LocationUpdateInput extends Partial<LocationInput> {}
@@ -30,15 +30,8 @@ export interface DetailUpdateInput {
   update?: Omit<DetailInput, "type">[];
   insert?: DetailInput[];
 }
-
-export interface FileUpdateInput {
+export interface MediaUpdateInput {
   remove?: string[];
-  update?: Array<
-    Partial<
-      Omit<FileInput, "external_id" | "url" | "filename" | "type" | "subtype">
-    > & {
-      id: string;
-    }
-  >;
-  insert?: FileInput[];
+  update?: Array<Partial<Omit<MediaInput, "file">> & { file_id: string }>;
+  insert?: MediaInput[];
 }

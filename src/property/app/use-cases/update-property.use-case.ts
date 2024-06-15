@@ -19,6 +19,27 @@ export class UpdatePropertyUseCase
 
   async execute(input: UpdatePropertyInput): Promise<PropertyOutput> {
     this.logger.info({ message: "Start Property Use Case" });
+    let media = [];
+    if (input.media.insert && input.media.insert.length > 0) {
+      media = await Promise.all(
+        input.media.insert.map(async (media) => {
+          const file = await this.prisma.file.create({
+            data: {
+              external_id: media.file.external_id,
+              url: media.file.url,
+              filename: media.file.filename,
+              type: media.file.type,
+              subtype: media.file.subtype,
+            },
+          });
+          return {
+            file_id: file.id,
+            position: media.position,
+            description: media.description,
+          };
+        }),
+      );
+    }
     const updatedProperty = await this.prisma.property.update({
       where: { id: input.id },
       data: {
@@ -60,19 +81,11 @@ export class UpdatePropertyUseCase
         },
         media: {
           deleteMany: input.media?.remove && {
-            id: { in: input.media.remove },
+            file_id: { in: input.media.remove },
+            property_id: input.id,
           },
           createMany: input.media?.insert && {
-            data: input.media.insert.map((file) => ({
-              url: file.url,
-              external_id: file.external_id,
-              filename: file.filename,
-              type: file.type,
-              subtype: file.subtype,
-              position: file.position,
-              description: file.description,
-              property_id: input.id,
-            })),
+            data: media,
             skipDuplicates: true,
           },
         },
@@ -96,14 +109,17 @@ export class UpdatePropertyUseCase
       }
     }
     if (input.media?.update) {
-      for (const file of input.media.update) {
-        await this.prisma.file.update({
+      for (const media of input.media.update) {
+        await this.prisma.propertyMedia.update({
           where: {
-            id: file.id,
+            file_id_property_id: {
+              file_id: media.file_id,
+              property_id: input.id,
+            },
           },
           data: {
-            position: file.position,
-            description: file.description,
+            position: media.position,
+            description: media.description,
           },
         });
       }

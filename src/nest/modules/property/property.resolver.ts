@@ -34,7 +34,7 @@ import {
   UpdatePropertyInputMapper,
 } from "./dto/update-property.input";
 
-@Resolver()
+@Resolver(() => PropertyOutput)
 export class PropertyResolver {
   constructor(private readonly propertyFacade: PropertyFacade) {}
 

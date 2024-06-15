@@ -4,10 +4,10 @@ import {
   AddressUpdateInput,
   LocationUpdateInput,
   DetailUpdateInput,
-  FileUpdateInput,
+  MediaUpdateInput,
 } from "#property/app";
 
-import { CreateDetailInput, CreateFileInput } from "./create-property.input";
+import { CreateDetailInput, CreateMediaInput } from "./create-property.input";
 import { PropertyStatus, PropertyType } from "./property.enum";
 
 @InputType()
@@ -64,27 +64,23 @@ export class UpdateDetailInput implements DetailUpdateInput {
 }
 
 @InputType()
-export class UpdateFieldFileInput extends OmitType(CreateFileInput, [
-  "external_id",
-  "url",
-  "filename",
-  "type",
-  "subtype",
+export class UpdateFieldMediaInput extends OmitType(CreateMediaInput, [
+  "file",
 ]) {
   @Field(() => String)
-  id: string;
+  file_id: string;
 }
 
 @InputType()
-export class UpdateFileInput implements FileUpdateInput {
+export class UpdateMediaInput implements MediaUpdateInput {
   @Field(() => [String], { nullable: true })
   remove?: string[];
 
-  @Field(() => [UpdateFieldFileInput], { nullable: true })
-  update?: Array<UpdateFieldFileInput>;
+  @Field(() => [UpdateFieldMediaInput], { nullable: true })
+  update?: Array<UpdateFieldMediaInput>;
 
-  @Field(() => [CreateFileInput], { nullable: true })
-  insert?: CreateFileInput[];
+  @Field(() => [CreateMediaInput], { nullable: true })
+  insert?: CreateMediaInput[];
 }
 
 @InputType()
@@ -116,8 +112,8 @@ export class UpdatePropertyInput implements CoreUpdatePropertyInput {
   @Field(() => UpdateDetailInput, { nullable: true })
   property_detail?: UpdateDetailInput;
 
-  @Field(() => UpdateFileInput, { nullable: true })
-  media?: UpdateFileInput;
+  @Field(() => UpdateMediaInput, { nullable: true })
+  media?: UpdateMediaInput;
 }
 
 export class UpdatePropertyInputMapper {

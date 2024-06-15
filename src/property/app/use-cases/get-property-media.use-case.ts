@@ -1,36 +1,37 @@
-import { File } from "#property/domain";
+import { Media, File } from "#property/domain";
 import { UseCase } from "#shared/app";
 import { UniqueEntityId } from "#shared/domain";
 import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 
-import { FileOutput, FileOutputMapper } from "../dto";
+import { MediaOutput, MediaOutputMapper } from "../dto";
 
 export class GetPropertyMediaUseCase
-  implements UseCase<{ property_id: string }, FileOutput[]>
+  implements UseCase<{ property_id: string }, MediaOutput[]>
 {
   private logger: LoggerInterface;
   constructor(readonly prisma: PrismaClient) {
     this.logger = WinstonLogger.getInstance();
   }
 
-  async execute(input: { property_id: string }): Promise<FileOutput[]> {
+  async execute(input: { property_id: string }): Promise<MediaOutput[]> {
     this.logger.info({ message: "Start Property Use Case" });
-    const foundFiles = await this.prisma.file.findMany({
+    const foundMedias = await this.prisma.propertyMedia.findMany({
       where: { property_id: input.property_id },
+      include: { file: true },
     });
-    const files = foundFiles.map((file) => {
-      return new File({
-        id: new UniqueEntityId(file.id),
-        filename: file.filename,
-        type: file.type,
-        subtype: file.subtype,
-        url: file.url,
-        position: file.position,
-        description: file.description,
-        created_at: file.created_at,
-        updated_at: file.updated_at,
+    const files = foundMedias.map((media) => {
+      return new Media({
+        file: new File({
+          id: new UniqueEntityId(media.file.id),
+          filename: media.file.filename,
+          type: media.file.type,
+          subtype: media.file.subtype,
+          url: media.file.url,
+        }),
+        position: media.position,
+        description: media.description,
       });
     });
-    return files.map(FileOutputMapper.toOutput);
+    return files.map(MediaOutputMapper.toOutput);
   }
 }

@@ -19,8 +19,8 @@ export class PropertyFacadeFactory {
   static create() {
     const prisma = Connection.getInstance();
     const broker = new Broker();
-    const crm = new HubspotCRM(prisma);
-    broker.register(new PropertyCreatedSendToCRMHandler(crm));
+    // const crm = new HubspotCRM(prisma);
+    // broker.register(new PropertyCreatedSendToCRMHandler(crm));
     const createProperty = new CreatePropertyUseCase(prisma, broker);
     const updateProperty = new UpdatePropertyUseCase(prisma);
     const getProperty = new GetPropertyUseCase(prisma);

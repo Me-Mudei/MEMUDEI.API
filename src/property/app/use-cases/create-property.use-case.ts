@@ -28,6 +28,27 @@ export class CreatePropertyUseCase
 
   async execute(input: CreatePropertyInput): Promise<PropertyOutput> {
     this.logger.info({ message: "Start Property Use Case" });
+    let media = [];
+    if (input.media && input.media.length > 0) {
+      media = await Promise.all(
+        input.media.map(async (media) => {
+          const file = await this.prisma.file.create({
+            data: {
+              external_id: media.file.external_id,
+              url: media.file.url,
+              filename: media.file.filename,
+              type: media.file.type,
+              subtype: media.file.subtype,
+            },
+          });
+          return {
+            file_id: file.id,
+            position: media.position,
+            description: media.description,
+          };
+        }),
+      );
+    }
     const createdProperty = await this.prisma.property.create({
       data: {
         title: input.title,
@@ -75,15 +96,7 @@ export class CreatePropertyUseCase
         },
         media: {
           createMany: {
-            data: input.media.map((file) => ({
-              external_id: file.external_id,
-              url: file.url,
-              filename: file.filename,
-              type: file.type,
-              subtype: file.subtype,
-              position: file.position,
-              description: file.description,
-            })),
+            data: media,
             skipDuplicates: true,
           },
         },

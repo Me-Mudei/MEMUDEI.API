@@ -11,7 +11,6 @@ export class AuthorizeUseCase implements UseCase<AuthorizeInput, boolean> {
 
   async execute(input: AuthorizeInput): Promise<boolean> {
     this.logger.info({ message: "Start User Use Case" });
-    console.log(input);
     const roles = [];
     if (input.global_roles.length > 0) {
       roles.push({

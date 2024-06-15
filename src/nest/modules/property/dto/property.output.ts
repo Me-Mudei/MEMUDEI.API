@@ -2,6 +2,7 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import {
   PropertyOutput as CorePropertyOutput,
   DetailOutput as CoreDetailOutput,
+  MediaOutput as CoreMediaOutput,
   FileOutput as CoreFileOutput,
   AddressLocationOutput as CoreAddressLocationOutput,
   AddressOutput as CoreAddressOutput,
@@ -76,18 +77,18 @@ export class FileOutput implements CoreFileOutput {
 
   @Field(() => String)
   url: string;
+}
+
+@ObjectType()
+export class MediaOutput implements CoreMediaOutput {
+  @Field(() => FileOutput)
+  file: FileOutput;
 
   @Field(() => Number)
   position: number;
 
   @Field(() => String, { nullable: true })
   description?: string;
-
-  @Field(() => Date)
-  created_at: Date;
-
-  @Field(() => Date)
-  updated_at: Date;
 }
 
 @ObjectType()

@@ -3,6 +3,7 @@ import {
   CreatePropertyInput as CoreCreatePropertyInput,
   DetailInput,
   FileInput,
+  MediaInput,
   AddressInput,
   LocationInput,
 } from "#property/app";
@@ -79,6 +80,11 @@ export class CreateFileInput implements FileInput {
 
   @Field(() => String)
   subtype: string;
+}
+@InputType()
+export class CreateMediaInput implements MediaInput {
+  @Field(() => CreateFileInput)
+  file: CreateFileInput;
 
   @Field(() => Number)
   position: number;
@@ -109,8 +115,8 @@ export class CreatePropertyInput
   @Field(() => [CreateDetailInput])
   details: CreateDetailInput[];
 
-  @Field(() => [CreateFileInput], { nullable: true })
-  media: CreateFileInput[];
+  @Field(() => [CreateMediaInput], { nullable: true })
+  media: CreateMediaInput[];
 }
 
 export class CreatePropertyInputMapper {

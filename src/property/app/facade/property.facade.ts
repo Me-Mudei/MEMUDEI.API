@@ -6,7 +6,7 @@ import {
   UpdatePropertyInput,
   PropertyOutput,
   AddressOutput,
-  FileOutput,
+  MediaOutput,
   DetailOutput,
 } from "../dto";
 import {
@@ -73,7 +73,7 @@ export class PropertyFacade {
 
   async getPropertyMedia(input: {
     property_id: string;
-  }): Promise<FileOutput[]> {
+  }): Promise<MediaOutput[]> {
     return this._getPropertyMedia.execute(input);
   }
 
