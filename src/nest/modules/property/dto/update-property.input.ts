@@ -100,17 +100,11 @@ export class UpdatePropertyInput implements CoreUpdatePropertyInput {
   @Field(() => PropertyType, { nullable: true })
   property_type?: PropertyType;
 
-  @Field(() => String, { nullable: true })
-  property_relationship?: string;
-
-  @Field(() => String, { nullable: true })
-  privacy_type?: string;
-
   @Field(() => UpdateAddressInput, { nullable: true })
   address?: UpdateAddressInput;
 
   @Field(() => UpdateDetailInput, { nullable: true })
-  property_detail?: UpdateDetailInput;
+  details?: UpdateDetailInput;
 
   @Field(() => UpdateMediaInput, { nullable: true })
   media?: UpdateMediaInput;

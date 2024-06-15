@@ -25,7 +25,7 @@ import { PaginatePropertiesOutput } from "./dto/paginate-properties.output";
 import {
   PropertyOutput,
   DetailOutput,
-  FileOutput,
+  MediaOutput,
   AddressOutput,
 } from "./dto/property.output";
 import { SearchPropertiesInput } from "./dto/search-properties.input";
@@ -45,7 +45,7 @@ export class PropertyResolver {
     });
   }
 
-  @ResolveField(() => [FileOutput], { nullable: true })
+  @ResolveField(() => [MediaOutput], { nullable: true })
   async media(@Parent() property: PropertyOutput) {
     return this.propertyFacade.getPropertyMedia({
       property_id: property.id,
