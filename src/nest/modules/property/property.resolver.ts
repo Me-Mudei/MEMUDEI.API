@@ -6,6 +6,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
+import { AuthUserOutput } from "#auth/app";
 import { GlobalRole } from "#auth/domain";
 import { PropertyFacade } from "#property/app";
 
@@ -59,6 +60,7 @@ export class PropertyResolver {
     });
   }
 
+  @Public()
   @Query(() => PropertyOutput)
   getProperty(@Args("input") input: GetPropertyInput) {
     return this.propertyFacade.getProperty({ id: input.id });
@@ -78,11 +80,11 @@ export class PropertyResolver {
   @Mutation(() => PropertyOutput)
   async createProperty(
     @Args("input") input: CreatePropertyInput,
-    @User() user_id: string,
+    @User() user: AuthUserOutput,
     @Merchant() merchant_id: string,
   ) {
     return this.propertyFacade.createProperty(
-      CreatePropertyInputMapper.toInput(input, user_id, merchant_id),
+      CreatePropertyInputMapper.toInput(input, user.id, merchant_id),
     );
   }
 

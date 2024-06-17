@@ -4,7 +4,7 @@ import FileValidatorFactory from "../validators/file.validator";
 
 export type FileProps = {
   id?: UniqueEntityId;
-  filename: string;
+  name: string;
   type: string;
   subtype: string;
   url: string;
@@ -13,7 +13,7 @@ export type FileProps = {
 };
 
 export class File extends Entity<FileProps> {
-  private _filename: string;
+  private _name: string;
   private _type: string;
   private _subtype: string;
   private _url: string;
@@ -21,7 +21,7 @@ export class File extends Entity<FileProps> {
   constructor(props: FileProps) {
     File.validate(props);
     super(props);
-    this._filename = props.filename;
+    this._name = props.name;
     this._type = props.type;
     this._subtype = props.subtype;
     this._url = props.url;
@@ -35,12 +35,12 @@ export class File extends Entity<FileProps> {
     }
   }
 
-  public get filename(): string {
-    return this._filename;
+  public get name(): string {
+    return this._name;
   }
 
-  public set filename(_filename: string) {
-    this._filename = _filename;
+  public set name(_name: string) {
+    this._name = _name;
   }
 
   public get type(): string {

@@ -40,8 +40,22 @@ export class PropertyRules {
   @IsOptional()
   updated_at: Date;
 
-  constructor({ title, description, created_at }: PropertyProps) {
-    Object.assign(this, { title, description, created_at });
+  constructor({
+    title,
+    description,
+    property_type,
+    status,
+    created_at,
+    updated_at,
+  }: PropertyProps) {
+    Object.assign(this, {
+      title,
+      description,
+      property_type,
+      status,
+      created_at,
+      updated_at,
+    });
   }
 }
 

@@ -270,7 +270,7 @@ model File {
   id            String          @id @default(nanoid())
   external_id   String          @unique
   url           String
-  filename      String
+  name          String
   type          String
   subtype       String
   created_at    DateTime        @default(now())

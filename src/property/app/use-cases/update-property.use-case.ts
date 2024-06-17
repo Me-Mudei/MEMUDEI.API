@@ -20,14 +20,14 @@ export class UpdatePropertyUseCase
   async execute(input: UpdatePropertyInput): Promise<PropertyOutput> {
     this.logger.info({ message: "Start Property Use Case" });
     let media = [];
-    if (input.media.insert && input.media.insert.length > 0) {
+    if (input.media?.insert && input.media.insert.length > 0) {
       media = await Promise.all(
         input.media.insert.map(async (media) => {
           const file = await this.prisma.file.create({
             data: {
               external_id: media.file.external_id,
               url: media.file.url,
-              filename: media.file.filename,
+              name: media.file.name,
               type: media.file.type,
               subtype: media.file.subtype,
             },

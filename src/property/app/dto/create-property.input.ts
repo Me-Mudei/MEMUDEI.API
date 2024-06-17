@@ -39,7 +39,7 @@ export interface DetailInput {
 export interface FileInput {
   external_id: string;
   url: string;
-  filename: string;
+  name: string;
   type: string;
   subtype: string;
 }

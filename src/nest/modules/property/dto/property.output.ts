@@ -67,7 +67,7 @@ export class FileOutput implements CoreFileOutput {
   id: string;
 
   @Field(() => String)
-  filename: string;
+  name: string;
 
   @Field(() => String)
   type: string;

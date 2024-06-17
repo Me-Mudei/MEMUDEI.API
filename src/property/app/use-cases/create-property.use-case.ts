@@ -36,7 +36,7 @@ export class CreatePropertyUseCase
             data: {
               external_id: media.file.external_id,
               url: media.file.url,
-              filename: media.file.filename,
+              name: media.file.name,
               type: media.file.type,
               subtype: media.file.subtype,
             },
@@ -62,7 +62,10 @@ export class CreatePropertyUseCase
         },
         created_by: {
           connect: {
-            id: input.created_by_id,
+            merchant_id_user_id: {
+              merchant_id: input.merchant_id,
+              user_id: input.created_by_id,
+            },
           },
         },
         address: {

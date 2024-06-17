@@ -23,7 +23,7 @@ export class GetPropertyMediaUseCase
       return new Media({
         file: new File({
           id: new UniqueEntityId(media.file.id),
-          filename: media.file.filename,
+          name: media.file.name,
           type: media.file.type,
           subtype: media.file.subtype,
           url: media.file.url,

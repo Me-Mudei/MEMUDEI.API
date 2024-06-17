@@ -73,7 +73,7 @@ export class CreateFileInput implements FileInput {
   url: string;
 
   @Field(() => String)
-  filename: string;
+  name: string;
 
   @Field(() => String)
   type: string;

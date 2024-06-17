@@ -2,7 +2,7 @@ import { Media } from "../../domain";
 
 export interface FileOutput {
   id: string;
-  filename: string;
+  name: string;
   type: string;
   subtype: string;
   url: string;
@@ -19,7 +19,7 @@ export class MediaOutputMapper {
     return {
       file: {
         id: media.file.id,
-        filename: media.file.filename,
+        name: media.file.name,
         type: media.file.type,
         subtype: media.file.subtype,
         url: media.file.url,
