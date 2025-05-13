@@ -10,6 +10,7 @@ export default class ApolloServer {
 
   async server() {
     const app = await NestFactory.create(AppModule);
+    app.enableCors();
     app.useGlobalPipes(new ValidationPipe());
     return app;
   }

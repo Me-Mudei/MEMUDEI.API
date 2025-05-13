@@ -20,6 +20,7 @@ export class CredentialsAuthProvider implements AuthProvider {
     if (input.user.provider !== EnumAuthProvider.CREDENTIALS) {
       throw new Error("Invalid provider");
     }
+    console.log(input.provider_user.password, input.user.password);
     return this.crypto.compare(
       input.provider_user.password,
       input.user.password,

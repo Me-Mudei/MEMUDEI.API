@@ -3,8 +3,8 @@ import { Reflector } from "@nestjs/core";
 import { GqlExecutionContext } from "@nestjs/graphql";
 import { AuthFacade } from "#auth/app";
 import { GlobalRole } from "#auth/domain";
+import { OrgRole } from "#merchant/domain";
 
-import { OrgRole } from "../organization/org-role.enum";
 import { ORG_ROLES_KEY } from "../organization/org-roles.decorator";
 
 import { GLOBAL_ROLES_KEY } from "./global-roles.decorator";

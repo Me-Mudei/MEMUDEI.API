@@ -1,4 +1,4 @@
-import { OrgRole } from "#nest/modules/organization/org-role.enum";
+import { OrgRole } from "#merchant/domain";
 import { UseCase } from "#shared/app";
 import { LoggerInterface, PrismaClient, WinstonLogger } from "#shared/infra";
 
@@ -24,20 +24,41 @@ export class SignUpUseCase implements UseCase<SignUpInput, AuthUserOutput> {
         email: authUser.email,
         password: authUser.password,
         external_id: authUser.external_id,
-        members: {
+        person: {
           create: {
-            org_role: {
-              connect: {
-                name: OrgRole.OWNER,
-              },
-            },
-            merchant: {
-              create: {
-                company_name: "Personal",
-                organization: {
-                  create: {},
-                },
-              },
+            email: authUser.email,
+          },
+        },
+      },
+      include: {
+        person: true,
+        global_role: {
+          select: { name: true },
+        },
+      },
+    });
+    await this.prisma.member.create({
+      data: {
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        person: {
+          connect: {
+            id: user.person.id,
+          },
+        },
+        org_role: {
+          connect: {
+            name: OrgRole.OWNER,
+          },
+        },
+        merchant: {
+          create: {
+            company_name: "Personal",
+            organization: {
+              create: {},
             },
           },
         },

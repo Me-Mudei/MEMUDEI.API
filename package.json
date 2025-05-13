@@ -13,12 +13,14 @@
     "#nest/*": "./src/nest/*/index.js",
     "#auth/*": "./src/auth/*/index.js",
     "#property/*": "./src/property/*/index.js",
+    "#merchant/*": "./src/merchant/*/index.js",
     "#shared/*": "./src/shared/*/index.js"
   },
   "exports": {
     "./nest": "./src/nest/index.js",
     "./auth": "./src/auth/index.js",
     "./property": "./src/property/index.js",
+    "./merchant": "./src/merchant/index.js",
     "./shared": "./src/shared/index.js"
   },
   "scripts": {

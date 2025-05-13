@@ -9,11 +9,12 @@ generator prisma_client {
 }
 
 model OrgRole {
-  id          String       @id @default(nanoid())
-  name        String       @unique
+  id          String   @id @default(nanoid())
+  name        String   @unique
   description String?
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
   member      Member[]
   invitations Invitation[]
 }
@@ -24,84 +25,135 @@ model GlobalRole {
   description String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  user        User[]
+
+  user User[]
+}
+
+model Plan {
+  id          String   @id @default(nanoid())
+  name        String   @unique
+  description String?
+  price       Float    @default(0.0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  features      PlanFeature[]
+  organizations Organization[]
+}
+
+model Feature {
+  id          String   @id @default(nanoid())
+  name        String   @unique
+  description String?
+  key         String   @unique
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  plans PlanFeature[]
+}
+
+model PlanFeature {
+  plan_id    String
+  feature_id String
+  enabled    Boolean @default(true)
+
+  plan    Plan    @relation(fields: [plan_id], references: [id], onDelete: Cascade)
+  feature Feature @relation(fields: [feature_id], references: [id], onDelete: Cascade)
+
+  @@id([plan_id, feature_id])
+}
+
+model Organization {
+  id         String   @id @default(nanoid())
+  plan_id    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  plan        Plan         @relation(fields: [plan_id], references: [id])
+  merchants   Merchant[]
+  members     Member[]
+  invitations Invitation[]
+}
+
+model Merchant {
+  id              String   @id @default(nanoid())
+  company_name    String
+  type            String
+  status          String   @default("active")
+  organization_id String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organization_id], references: [id])
+  members      Member[]
+  invitations  Invitation[]
+  properties   Property[]
+  leads        Lead[]
+  templates    Template[]
 }
 
 model Member {
-  id               String       @id @default(nanoid())
-  merchant_id      String
-  merchant         Merchant     @relation(fields: [merchant_id], references: [id])
-  org_role_id      String
+  id              String  @id @default(nanoid())
+  status          String  @default("pending")
+  organization_id String
+  org_role_id     String
+  merchant_id     String?
+  user_id         String?
+  person_id       String? @unique
+
   org_role         OrgRole      @relation(fields: [org_role_id], references: [id])
-  user_id          String?
+  organization     Organization @relation(fields: [organization_id], references: [id])
+  merchant         Merchant?    @relation(fields: [merchant_id], references: [id])
   user             User?        @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  person_id        String?      @unique
   person           Person?      @relation(fields: [person_id], references: [id])
   properties       Property[]
   send_invitations Invitation[]
 
-  @@unique([merchant_id, user_id])
-}
-
-model Merchant {
-  id              String       @id @default(nanoid())
-  company_name    String
-  organization_id String
-  organization    Organization @relation(fields: [organization_id], references: [id])
-  created_at      DateTime     @default(now())
-  updated_at      DateTime     @updatedAt
-  members         Member[]
-  invitations     Invitation[]
-  properties      Property[]
-  leads           Lead[]
-  templates       Template[]
-}
-
-model Organization {
-  id         String     @id @default(nanoid())
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  merchants  Merchant[]
+  @@unique([organization_id, user_id])
 }
 
 model Invitation {
-  email         String
-  merchant_id   String
-  merchant      Merchant @relation(fields: [merchant_id], references: [id])
-  org_role_id   String
-  org_role      OrgRole  @relation(fields: [org_role_id], references: [id])
-  token_id      String
-  token         Token    @relation(fields: [token_id], references: [token])
-  created_by_id String
-  created_by    Member   @relation(fields: [created_by_id], references: [id])
+  id              String  @id @default(nanoid())
+  email           String
+  merchant_id     String?
+  organization_id String
+  org_role_id     String
+  token_id        String
+  created_by_id   String
 
-  @@id([email, merchant_id])
+  merchant     Merchant?    @relation(fields: [merchant_id], references: [id])
+  organization Organization @relation(fields: [organization_id], references: [id])
+  org_role     OrgRole      @relation(fields: [org_role_id], references: [id])
+  token        Token        @relation(fields: [token_id], references: [token])
+  created_by   Member       @relation(fields: [created_by_id], references: [id])
 }
 
 model User {
-  id             String      @id @default(nanoid())
-  email          String      @unique
+  id             String   @id @default(nanoid())
+  email          String   @unique
   provider       String
-  external_id    String?     @unique
+  external_id    String?  @unique
   password       String?
   global_role_id String?
-  global_role    GlobalRole? @relation(fields: [global_role_id], references: [id])
-  created_at     DateTime    @default(now())
-  updated_at     DateTime    @updatedAt
-  members        Member[]
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  global_role GlobalRole? @relation(fields: [global_role_id], references: [id])
+  members     Member[]
 }
 
 model Person {
-  id           String        @id @default(nanoid())
+  id           String    @id @default(nanoid())
   email        String
   first_name   String?
   last_name    String?
   phone_number String?
   birth_date   DateTime?
-  address_id   String?       @unique
+  address_id   String?   @unique
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
   address      Address?      @relation(fields: [address_id], references: [id])
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
   gov_document GovDocument[]
   members      Member[]
   leads        Lead[]
@@ -109,7 +161,8 @@ model Person {
 }
 
 model Address {
-  id          String    @id @default(nanoid())
+  id          String   @id @default(nanoid())
+  location_id String   @unique
   zip_code    String
   city        String
   state       String
@@ -117,12 +170,12 @@ model Address {
   country     String
   district    String?
   complement  String?
-  location    Location  @relation(fields: [location_id], references: [id])
-  location_id String    @unique
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  person      Person?
-  property    Property?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  location Location  @relation(fields: [location_id], references: [id])
+  person   Person?
+  property Property?
 }
 
 model Location {
@@ -131,7 +184,8 @@ model Location {
   lng        Float
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  address    Address?
+
+  address Address?
 }
 
 model GovDocument {
@@ -140,37 +194,40 @@ model GovDocument {
   number     String
   country    String
   person_id  String?
-  person     Person?  @relation(fields: [person_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  person Person? @relation(fields: [person_id], references: [id])
 }
 
 model Lead {
   merchant_id String
-  merchant    Merchant @relation(fields: [merchant_id], references: [id])
   person_id   String
-  person      Person   @relation(fields: [person_id], references: [id])
+
+  merchant Merchant @relation(fields: [merchant_id], references: [id])
+  person   Person   @relation(fields: [person_id], references: [id])
 
   @@id([merchant_id, person_id])
 }
 
 model Property {
-  id            String          @id @default(nanoid())
+  id            String   @id @default(nanoid())
+  address_id    String   @unique
+  status        String   @default("pending")
   title         String
   description   String
-  status        String          @default("pending")
   property_type String
-  address_id    String          @unique
-  address       Address         @relation(fields: [address_id], references: [id])
   merchant_id   String
-  merchant      Merchant        @relation(fields: [merchant_id], references: [id])
   created_by_id String
-  created_by    Member          @relation(fields: [created_by_id], references: [id])
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
-  details       Detail[]
-  documents     Document[]
-  media         PropertyMedia[]
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  address    Address         @relation(fields: [address_id], references: [id])
+  merchant   Merchant        @relation(fields: [merchant_id], references: [id])
+  created_by Member          @relation(fields: [created_by_id], references: [id])
+  details    Detail[]
+  documents  Document[]
+  media      PropertyMedia[]
 }
 
 model Detail {
@@ -181,111 +238,120 @@ model Detail {
   value       Float?
   unit        String?
   property_id String
-  property    Property @relation(fields: [property_id], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+
+  property Property @relation(fields: [property_id], references: [id])
 
   @@unique([property_id, key])
 }
 
 model PropertyMedia {
   position    Int
-  description String?
   file_id     String
-  file        File     @relation(fields: [file_id], references: [id])
   property_id String
-  property    Property @relation(fields: [property_id], references: [id])
+  description String?
+
+  file     File     @relation(fields: [file_id], references: [id])
+  property Property @relation(fields: [property_id], references: [id])
 
   @@id([file_id, property_id])
 }
 
-model Signatory {
-  external_id String?  @unique
+model Document {
+  id          String    @id @default(nanoid())
   type        String
   status      String
+  property_id String
+  template_id String?
+  file_id     String?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  property    Property    @relation(fields: [property_id], references: [id])
+  template    Template?   @relation(fields: [template_id], references: [id])
+  file        File?       @relation(fields: [file_id], references: [id])
+  signatories Signatory[]
+}
+
+model Signatory {
+  external_id String?  @unique
   person_id   String
-  person      Person   @relation(fields: [person_id], references: [id])
   document_id String
-  document    Document @relation(fields: [document_id], references: [id])
+  role        String
+  status      String
   token_id    String?
-  token       Token?   @relation(fields: [token_id], references: [token], onDelete: SetNull, onUpdate: Cascade)
   metadata    Json?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
+  person   Person   @relation(fields: [person_id], references: [id])
+  document Document @relation(fields: [document_id], references: [id])
+  token    Token?   @relation(fields: [token_id], references: [token], onDelete: SetNull, onUpdate: Cascade)
+
   @@id([person_id, document_id])
 }
 
-model Document {
-  id          String      @id @default(nanoid())
+model Template {
+  id          String   @id @default(nanoid())
+  file_id     String
+  merchant_id String
   type        String
   status      String
-  property_id String
-  property    Property    @relation(fields: [property_id], references: [id])
-  template_id String?
-  template    Template?   @relation(fields: [template_id], references: [id])
-  file_id     String?
-  file        File?       @relation(fields: [file_id], references: [id])
-  metadata    Json?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  signatories Signatory[]
-}
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-model Template {
-  id           String       @id @default(nanoid())
-  type         String
-  status       String
-  merchant_id  String
   merchant     Merchant     @relation(fields: [merchant_id], references: [id])
-  file_id      String
   file         File         @relation(fields: [file_id], references: [id])
-  created_at   DateTime     @default(now())
-  updated_at   DateTime     @updatedAt
   field_groups FieldGroup[]
   Document     Document[]
 }
 
-model FieldGroup {
-  id          String   @id @default(nanoid())
-  key         String
-  label       String
-  required    Boolean
-  template_id String
-  template    Template @relation(fields: [template_id], references: [id])
-  fields      Field[]
-}
-
 model Field {
-  id             String     @id @default(nanoid())
+  id             String  @id @default(nanoid())
+  field_group_id String
   type           String
   key            String
   label          String
   required       Boolean
-  field_group_id String
-  field_group    FieldGroup @relation(fields: [field_group_id], references: [id])
+
+  field_group FieldGroup @relation(fields: [field_group_id], references: [id])
+}
+
+model FieldGroup {
+  id          String  @id @default(nanoid())
+  template_id String
+  key         String
+  label       String
+  required    Boolean
+
+  template Template @relation(fields: [template_id], references: [id])
+  fields   Field[]
 }
 
 model File {
-  id            String          @id @default(nanoid())
-  external_id   String          @unique
-  url           String
-  name          String
-  type          String
-  subtype       String
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  id          String   @id @default(nanoid())
+  external_id String   @unique
+  url         String
+  name        String
+  type        String
+  subtype     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
   property_file PropertyMedia[]
   document      Document[]
   template      Template[]
 }
 
 model Token {
-  token       String       @id
-  type        String
-  expires     DateTime
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
+  token      String   @id
+  type       String
+  expires    DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
   invitations Invitation[]
   signatories Signatory[]
 }

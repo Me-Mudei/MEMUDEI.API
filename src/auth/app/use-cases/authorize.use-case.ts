@@ -34,7 +34,7 @@ export class AuthorizeUseCase implements UseCase<AuthorizeInput, boolean> {
     const user = await this.prisma.user.findFirst({
       where: {
         id: input.user_id,
-        OR: roles,
+        OR: roles.length > 0 ? roles : undefined,
       },
     });
     return !!user;

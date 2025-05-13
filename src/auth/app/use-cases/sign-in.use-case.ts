@@ -41,6 +41,11 @@ export class SignInUseCase implements UseCase<SignInInput, AuthUserOutput> {
           email: provider_user.email,
           external_id: provider_user.id,
         },
+        include: {
+          global_role: {
+            select: { name: true },
+          },
+        },
       });
       const isValid = await providers.google.validate({
         user: {
@@ -60,6 +65,11 @@ export class SignInUseCase implements UseCase<SignInInput, AuthUserOutput> {
     }
     const user = await this.prisma.user.findUnique({
       where: { email: input.email },
+      include: {
+        global_role: {
+          select: { name: true },
+        },
+      },
     });
     const isValid = await providers.credentials.validate({
       user: {

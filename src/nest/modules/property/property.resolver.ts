@@ -8,13 +8,13 @@ import {
 } from "@nestjs/graphql";
 import { AuthUserOutput } from "#auth/app";
 import { GlobalRole } from "#auth/domain";
+import { OrgRole } from "#merchant/domain";
 import { PropertyFacade } from "#property/app";
 
 import { GlobalRoles } from "../auth/global-roles.decorator";
 import { Public } from "../auth/public.decorator";
 import { User } from "../auth/user.decorator";
-import { Merchant } from "../organization/merchant.decorator";
-import { OrgRole } from "../organization/org-role.enum";
+import { Merchant } from "../merchant/merchant.decorator";
 import { OrgRoles } from "../organization/org-roles.decorator";
 
 import {
